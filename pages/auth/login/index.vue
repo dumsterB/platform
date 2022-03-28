@@ -34,26 +34,13 @@
               >
             </p>
             <v-form ref="reg_form" class="mt-6" :lazy-validation="false">
-              <v-row>
-                <v-col :cols="6">
-                  <v-text-field
-                    v-model="name"
-                    :rules="validation.name"
-                    dense
-                    outlined
-                    :label="$t('first_name')"
-                  ></v-text-field>
-                </v-col>
-                <v-col :cols="6">
-                  <v-text-field
-                    v-model="surname"
-                    :rules="validation.surname"
-                    dense
-                    outlined
-                    :label="$t('surname')"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
+              <v-text-field
+                v-model="name"
+                :rules="validation.name"
+                dense
+                outlined
+                :label="$t('first_name')"
+              ></v-text-field>
               <v-text-field
                 v-model="email"
                 :rules="validation.email"
@@ -78,27 +65,14 @@
                 outlined
                 dense
               ></v-autocomplete>
-              <v-row>
-                <v-col :cols="6">
-                  <v-text-field
-                    v-model="date"
-                    :label="$t('date_of_birth')"
-                    outlined
-                    :rules="validation.birth"
-                    dense
-                    type="date"
-                  ></v-text-field>
-                </v-col>
-                <v-col :cols="6">
-                  <v-autocomplete
-                    v-model="selectGender"
-                    :items="['male', 'female']"
-                    :label="$t('gender')"
-                    outlined
-                    dense
-                  ></v-autocomplete>
-                </v-col>
-              </v-row>
+              <v-text-field
+                v-model="date"
+                :label="$t('date_of_birth')"
+                outlined
+                :rules="validation.birth"
+                dense
+                type="date"
+              ></v-text-field>
 
               <p v-if="error_message" style="color: red"></p>
 
@@ -178,6 +152,7 @@
                   tile
                   class="d-flex mt-2 mb-2 mx-auto"
                   color="green"
+                  :loading="reg_loader"
                   @click="reg_end"
                 >
                   {{ $t("to_continue") }}
@@ -233,6 +208,7 @@
                 width="200"
                 outlined
                 tile
+                :loading="log_loader"
                 class="d-flex mt-2 mb-2 mx-auto"
                 color="green"
                 type="submit"
@@ -276,11 +252,14 @@ export default {
         required: [(v) => !!v || this.$t("password_required")],
         password: [
           (v) => !!v || this.$t("password_required"),
-          (v) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(v) || this.$t("password_create_description"),
+          (v) =>
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(v) ||
+            this.$t("password_create_description"),
         ],
-        number: [(v) => (!!v && v.length == 12) || this.$t("invalid_phone_number")],
+        number: [
+          (v) => (!!v && v.length == 12) || this.$t("invalid_phone_number"),
+        ],
         name: [(v) => !!v || this.$t("enter_first_name")],
-        surname: [(v) => !!v || this.$t("enter_last_name")],
         birth_place: [(v) => !!v || this.$t("enter_place_birth")],
         birth: [(v) => !!v || this.$t("enter_day_birth")],
         email: [
@@ -319,18 +298,22 @@ export default {
       reg_log: false,
       steper: 0,
       error_message: null,
+      reg_loader: false,
+      log_loader: false,
       ident_passwords: [],
 
       // data validation
       validation: {
-        required: [
-          (v) => !!v || this.$t("password_required"),
-        ],
+        required: [(v) => !!v || this.$t("password_required")],
         password: [
           (v) => !!v || this.$t("password_required"),
-          (v) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(v) || this.$t("password_create_description"),
+          (v) =>
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(v) ||
+            this.$t("password_create_description"),
         ],
-        number: [(v) => (!!v && v.length == 12) || this.$t("invalid_phone_number")],
+        number: [
+          (v) => (!!v && v.length == 12) || this.$t("invalid_phone_number"),
+        ],
         name: [(v) => !!v || this.$t("enter_first_name")],
         surname: [(v) => !!v || this.$t("enter_last_name")],
         birth_place: [(v) => !!v || this.$t("enter_place_birth")],
@@ -348,7 +331,7 @@ export default {
       if (!this.$refs.auth_login_form.validate()) {
         return;
       }
-
+      this.log_loader = true;
       await this.$auth
         .loginWith("local", {
           data: {
@@ -356,13 +339,15 @@ export default {
             password: this.password,
           },
         })
-        .then(function (response) {
+        .then((response) => {
+          this.log_loader = false;
           // console.log(response);
         })
         .catch((er) => {
           console.log(er);
           this.is_notify = true;
           this.is_notify_message = this.$t("AuthorisationError");
+          this.log_loader = false;
         });
     },
     async reg_start() {
@@ -390,32 +375,33 @@ export default {
         this.ident_passwords = [this.$t("password_match")];
         return;
       }
-      let res = await this.$axios.post("api/auth/register", {
-        birthDate: this.date,
-        birthPlace: this.selectCountry,
-        firstName: this.name,
-        lastName: this.surname,
+      this.reg_loader = true;
+      let res = await this.$axios.post("api/registerPlatform", {
+        name: this.name,
         mail: this.email,
         password: this.password,
-        phone: this.phone_str,
-        phoneCode: this.phone_str,
+        domain: this.config.domain,
       });
       if (res.data.success) {
-        await this.$auth
-          .loginWith("local", {
-            data: {
-              username: this.email,
-              password: this.password,
-            },
-          })
-          .then(function (response) {
-            // console.log(response);
-          })
-          .catch((er) => {
-            console.log(er);
-            this.is_notify = true;
-            this.is_notify_message = this.$t("AuthorisationError");
-          });
+        setTimeout(async () => {
+          await this.$auth
+            .loginWith("local", {
+              data: {
+                mail: this.email,
+                password: this.password,
+              },
+            })
+            .then((response) => {
+              // console.log(response);
+              this.reg_loader = false;
+            })
+            .catch((er) => {
+              console.log(er);
+              this.is_notify = true;
+              this.is_notify_message = this.$t("AuthorisationError");
+              this.reg_loader = false;
+            }, 500);
+        });
       } else {
         this.error_message = res.data.message;
         this.is_notify = true;
