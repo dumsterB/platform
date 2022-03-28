@@ -141,6 +141,7 @@ export default {
       arb_data: [],
       as_filter: null,
       str_subscr: "",
+      curr_subscr: "",
     };
   },
   computed: {
@@ -251,20 +252,29 @@ export default {
       this.trades.forEach((wall, i) => {
         let p_arr = ["dest_currency", "source_currency"];
         for (let i = 0; i < 2; i++) {
-          let cr = wall[p_arr[i]].symbol;
-          if (wall.currency.currency_type.key == "CRYPTO") {
-            str += `"${me.base_p}_${cr}-USD@ticker_10s"`;
-            arr.push(`${me.base_p}_${cr}-USD@ticker_10s`);
-            if (i < this.wallets.length - 1) {
-              str += ",";
+          let curr = wall[p_arr[i]];
+          let cr = curr.symbol;
+          if (curr.currency_type.key == "CRYPTO") {
+            let st = `${me.base_p}_${cr}-USD@ticker_10s`;
+            let fnd = arr.find((el) => el == st);
+            if (!fnd) {
+              str += `"${st}"`;
+              arr.push(st);
+              if (i < this.trades.length - 1) {
+                str += ",";
+              }
             }
           } else {
-            let ex_t = wall.currency.exchange_type.key;
+            let ex_t = curr.exchange_type.key;
             if (cr != "USD") {
-              str += `"shares_${cr}.${ex_t}@kline_1d"`;
-              arr.push(`shares_${cr}.${ex_t}@kline_1d`);
-              if (i < this.wallets.length - 1) {
-                str += ",";
+              let st = `shares_${cr}.${ex_t}@kline_1d`;
+              let fnd = arr.find((el) => el == st);
+              if (!fnd) {
+                str += `"${st}"`;
+                arr.push(st);
+                if (i < this.trades.length - 1) {
+                  str += ",";
+                }
               }
             }
           }
@@ -276,41 +286,67 @@ export default {
       };
     },
     price_update(data) {
+      let me = this;
       let add_data = {
         price: data.close ? 1 / data.close : data.price,
         base: data.base ? data.base : data.share,
       };
-      let fnd = this.prices.find((el) => el && el.base == add_data.base);
+      let fnd = me.prices.find((el) => el && el.base == add_data.base);
       if (fnd) {
         fnd.price = add_data.price;
       } else {
-        this.prices.push(add_data);
+        me.prices.push(add_data);
+      }
+      if (add_data.base == me.curr_code) {
+        if (me.current.currency_type.key != "CRYPTO") {
+          if (me.ex_type == "FOREX") {
+            me.price = Math.round(10000000 / data.close) / 10000000;
+            let open = Math.round(10000000 / data.open) / 10000000;
+            me.change = me.price - open;
+            me.low = Math.round(10000000 / data.low) / 10000000;
+            me.high = Math.round(10000000 / data.high) / 10000000;
+          } else {
+            me.price = data.close;
+            me.change = data.close - data.open;
+            me.low = data.low;
+            me.high = data.high;
+          }
+        } else {
+          if (data.low) {
+            me.low = Math.round(1000 * data.low) / 1000;
+            me.high = Math.round(1000 * data.high) / 1000;
+          } else {
+            me.price = data.price;
+            me.change = data.change;
+          }
+        }
       }
     },
     spot_sockets() {
       let me = this;
       let socket = global.socket;
-      let obj = me.wallets_subscribe_definer();
+      let obj = me.trades_subscribe_definer();
       socket.send(`{
         "method": "unsubscribe",
         "data": [${me.str_subscr}]
       }`);
-      me.str_subscr = "";
+      me.str_subscr = obj.str;
       if (this.curr_crypto) {
         me.str_subscr += `"${me.base_p}_${me.curr_code}-USD@ticker_5s", `;
         obj.arr.push(`${me.base_p}_${me.curr_code}-USD@ticker_5s`);
-        me.str_subscr += `"${me.base_p}_${me.curr_code}-USD@kline_1d", `;
+        me.str_subscr += `"${me.base_p}_${me.curr_code}-USD@kline_1d"`;
         obj.arr.push(`${me.base_p}_${me.curr_code}-USD@kline_1d`);
       } else {
         me.ex_type = me.current.exchange_type.key;
-        me.str_subscr += `"shares_${me.curr_code}.${me.ex_type}@kline_1d", `;
+        me.str_subscr += `"shares_${me.curr_code}.${me.ex_type}@kline_1d"`;
         obj.arr.push(`shares_${me.curr_code}.${me.ex_type}@kline_1d`);
       }
-      me.str_subscr += obj.str;
       socket.send(`{
         "method": "subscribe",
         "data": [${me.str_subscr}]
       }`);
+
+      console.log("me.str_subscr", me.str_subscr);
 
       socket.onmessage = function (event) {
         if (event.data) {
@@ -323,51 +359,6 @@ export default {
               }
             }
           });
-          if (
-            json_d &&
-            json_d.method == `${me.base_p}_${me.curr_code}-USD@ticker_5s`
-          ) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            if (data && data[0] && data[0].price) {
-              me.price = data[0].price;
-              me.change = data[0].change;
-            } else {
-              me.price = 1;
-              me.change = 0;
-            }
-          }
-          if (
-            json_d &&
-            json_d.method == `shares_${me.curr_code}.${me.ex_type}@kline_1d`
-          ) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            if (data && data[0]) {
-              let dt = data[0];
-              if (Array.isArray(dt)) {
-                dt = dt[0];
-              }
-
-              if (me.ex_type == "FOREX") {
-                me.price = Math.round(10000000 / dt.close) / 10000000;
-                let open = Math.round(10000000 / dt.open) / 10000000;
-                me.change = me.price - open;
-                me.low = Math.round(10000000 / dt.low) / 10000000;
-                me.high = Math.round(10000000 / dt.high) / 10000000;
-              } else {
-                me.price = dt.close;
-                me.change = dt.close - dt.open;
-                me.low = dt.low;
-                me.high = dt.high;
-              }
-            } else {
-              me.price = 1;
-              me.change = 0;
-            }
-          }
-          if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            me.prices = data;
-          }
         }
       };
     },
@@ -376,11 +367,12 @@ export default {
       let socket = global.socket;
       socket.send(`{
         "method": "unsubscribe",
-        "data": ["binance_${me.curr_code}-USD@ticker_5s", "${me.base_p}_all@ticker_10s"]
+        "data": [${me.str_subscr}]
       }`);
+      me.str_subscr = `"all_${me.curr_code}-USD@ticker_5s"`;
       socket.send(`{
         "method": "subscribe",
-        "data": ["all_${me.curr_code}-USD@ticker_5s"]
+        "data": [${me.str_subscr}]
       }`);
 
       socket.onmessage = function (event) {
@@ -407,8 +399,7 @@ export default {
     let socket = global.socket;
     socket.send(`{
       "method": "unsubscribe",
-      "data": ["${this.base_p}_${this.curr_code}-USD@ticker_5s", "${this.base_p}_all@ticker_10s",
-      "all_${this.curr_code}-USD@ticker_5s"]
+      "data": [${this.str_subscr}]
     }`);
   },
 };
