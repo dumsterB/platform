@@ -352,7 +352,7 @@ export default {
       await this.$auth
         .loginWith("local", {
           data: {
-            username: this.email,
+            mail: this.email,
             password: this.password,
           },
         })

@@ -147,6 +147,9 @@ export default {
       currencies_full: "list",
       curr_by_id: "byId",
     }),
+    ...mapGetters("data/wallet", {
+      wallets: "list",
+    }),
     currencies() {
       let c_f = this.currencies_full;
       if (!this.curr_crypto) {

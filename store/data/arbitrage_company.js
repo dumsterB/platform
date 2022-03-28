@@ -1,7 +1,7 @@
 import { createCRUD } from "~/plugins/crud";
 
 const crudModule = createCRUD({
-  resource: "arbitrage_company",
+  resource: "platform/arbitrage_company",
 });
 
 const state = () => crudModule.state;

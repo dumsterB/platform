@@ -41,20 +41,19 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: "/api/auth/login",
+            url: "/api/loginPlatform",
             method: "post",
-            propertyName: "data.token",
+            propertyName: "token",
           },
-          logout: { url: "/api/auth/logout", method: "post" },
+          logout: { url: "/api/logout", method: "post" },
           user: {
-            url: "/api/user_platform/current",
+            url: "/api/platform/user_platform/current",
             method: "get",
             propertyName: "data",
           },
         },
-        token: {
-          property: "data.token",
-        },
+        tokenRequired: true,
+        tokenType: 'Bearer'
       },
     },
     redirect: {
