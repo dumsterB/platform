@@ -149,13 +149,11 @@ export default {
       currencies_full: "list",
       curr_by_id: "byId",
     }),
-<<<<<<< HEAD
     ...mapGetters("data/wallet", {
       wallets: "list",
-=======
+    }),
     ...mapGetters("data/trade", {
       trades: "list",
->>>>>>> master
     }),
     currencies() {
       let c_f = this.currencies_full;
