@@ -1,100 +1,100 @@
 <template>
   <div>
-      <v-row>
-        <v-col :cols="4">
-          <v-row>
-            <v-col :cols="7">
-              <v-row v-if="curr_crypto" class="mt-2 ml-4">
-                <v-col :lg="6">
-                  <v-btn
-                    small
-                    block
-                    :class="page_state == 0 ? 'green' : 'green--text'"
-                    @click="page_state = 0"
-                    >{{ $t('Spot') }}</v-btn
-                  >
-                </v-col>
-                <v-col :lg="6" class="pl-0">
-                  <v-btn
-                    small
-                    block
-                    :class="page_state == 1 ? 'green' : 'green--text'"
-                    @click="page_state = 1"
-                    >{{ $t('Arbitrage') }}</v-btn
-                  >
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col :cols="5">
-              <v-autocomplete
-                class="crypto-select ml-4 mt-4"
-                v-model="curr_id"
-                :items="currencies"
-                item-text="name"
-                item-value="id"
-                outlined
-                dense
-                hide-details
-                :label="$t('cryptocurrency')"
-              ></v-autocomplete>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col :cols="8">
-          <Indicators
-            v-if="page_state == 0"
-            :currency="curr_code"
-            :price="price"
-            :change="change"
-            :low="low"
-            :high="high"
-          ></Indicators>
-          <Platforms
-            v-else
-            :currency="curr_code"
-            :prices="arb_data"
-            @clicked="platform_changed"
-          ></Platforms>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col :lg="8" :md="12">
-          <v-row class="ml-4">
-            <v-col class="d-flex justify-center">
-              <TradeGraph
-                v-if="graph_key"
-                :width="graphWidth"
-                :height="graphHeight"
-                :key_g="graph_key"
-              ></TradeGraph>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <TableTrades v-if="page_state == 0" :prices="prices"></TableTrades>
-              <TableASession
-                v-else
-                :prices="prices"
-                :filter="as_filter"
-                title="table_position"
-              ></TableASession>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col :lg="4" :md="6">
-          <SpotCard
-            v-if="page_state == 0"
-            :currency="curr_code"
-            :price="price"
-          ></SpotCard>
-          <TableAC
-            v-else
-            :currency="curr_code ? curr_code : undefined"
-            :prices="arb_data"
-            :current="current"
-          ></TableAC>
-        </v-col>
-      </v-row>
+    <v-row>
+      <v-col :cols="4">
+        <v-row>
+          <v-col :cols="7">
+            <v-row v-if="curr_crypto" class="mt-2 ml-4">
+              <v-col :lg="6">
+                <v-btn
+                  small
+                  block
+                  :class="page_state == 0 ? 'green' : 'green--text'"
+                  @click="page_state = 0"
+                  >{{ $t("Spot") }}</v-btn
+                >
+              </v-col>
+              <v-col :lg="6" class="pl-0">
+                <v-btn
+                  small
+                  block
+                  :class="page_state == 1 ? 'green' : 'green--text'"
+                  @click="page_state = 1"
+                  >{{ $t("Arbitrage") }}</v-btn
+                >
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col :cols="5">
+            <v-autocomplete
+              class="crypto-select ml-4 mt-4"
+              v-model="curr_id"
+              :items="currencies"
+              item-text="name"
+              item-value="id"
+              outlined
+              dense
+              hide-details
+              :label="$t('cryptocurrency')"
+            ></v-autocomplete>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col :cols="8">
+        <Indicators
+          v-if="page_state == 0"
+          :currency="curr_code"
+          :price="price"
+          :change="change"
+          :low="low"
+          :high="high"
+        ></Indicators>
+        <Platforms
+          v-else
+          :currency="curr_code"
+          :prices="arb_data"
+          @clicked="platform_changed"
+        ></Platforms>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col :lg="8" :md="12">
+        <v-row class="ml-4">
+          <v-col class="d-flex justify-center">
+            <TradeGraph
+              v-if="graph_key"
+              :width="graphWidth"
+              :height="graphHeight"
+              :key_g="graph_key"
+            ></TradeGraph>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <TableTrades v-if="page_state == 0" :prices="prices"></TableTrades>
+            <TableASession
+              v-else
+              :prices="prices"
+              :filter="as_filter"
+              title="table_position"
+            ></TableASession>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col :lg="4" :md="6">
+        <SpotCard
+          v-if="page_state == 0"
+          :currency="curr_code"
+          :price="price"
+        ></SpotCard>
+        <TableAC
+          v-else
+          :currency="curr_code ? curr_code : undefined"
+          :prices="arb_data"
+          :current="current"
+        ></TableAC>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -140,6 +140,8 @@ export default {
       prices: [],
       arb_data: [],
       as_filter: null,
+      str_subscr: "",
+      curr_subscr: "",
     };
   },
   computed: {
@@ -147,8 +149,13 @@ export default {
       currencies_full: "list",
       curr_by_id: "byId",
     }),
+<<<<<<< HEAD
     ...mapGetters("data/wallet", {
       wallets: "list",
+=======
+    ...mapGetters("data/trade", {
+      trades: "list",
+>>>>>>> master
     }),
     currencies() {
       let c_f = this.currencies_full;
@@ -243,75 +250,120 @@ export default {
     platform_changed(platform) {
       this.selected_platform = platform;
     },
+    trades_subscribe_definer() {
+      let me = this;
+      let str = "";
+      let arr = [];
+      this.trades.forEach((wall, i) => {
+        let p_arr = ["dest_currency", "source_currency"];
+        for (let i = 0; i < 2; i++) {
+          let curr = wall[p_arr[i]];
+          let cr = curr.symbol;
+          if (curr.currency_type.key == "CRYPTO") {
+            let st = `${me.base_p}_${cr}-USD@ticker_10s`;
+            let fnd = arr.find((el) => el == st);
+            if (!fnd) {
+              str += `"${st}"`;
+              arr.push(st);
+              if (i < this.trades.length - 1) {
+                str += ",";
+              }
+            }
+          } else {
+            let ex_t = curr.exchange_type.key;
+            if (cr != "USD") {
+              let st = `shares_${cr}.${ex_t}@kline_1d`;
+              let fnd = arr.find((el) => el == st);
+              if (!fnd) {
+                str += `"${st}"`;
+                arr.push(st);
+                if (i < this.trades.length - 1) {
+                  str += ",";
+                }
+              }
+            }
+          }
+        }
+      });
+      return {
+        str: str,
+        arr: arr,
+      };
+    },
+    price_update(data) {
+      let me = this;
+      let add_data = {
+        price: data.close ? 1 / data.close : data.price,
+        base: data.base ? data.base : data.share,
+      };
+      let fnd = me.prices.find((el) => el && el.base == add_data.base);
+      if (fnd) {
+        fnd.price = add_data.price;
+      } else {
+        me.prices.push(add_data);
+      }
+      if (add_data.base == me.curr_code) {
+        if (me.current.currency_type.key != "CRYPTO") {
+          if (me.ex_type == "FOREX") {
+            me.price = Math.round(10000000 / data.close) / 10000000;
+            let open = Math.round(10000000 / data.open) / 10000000;
+            me.change = me.price - open;
+            me.low = Math.round(10000000 / data.low) / 10000000;
+            me.high = Math.round(10000000 / data.high) / 10000000;
+          } else {
+            me.price = data.close;
+            me.change = data.close - data.open;
+            me.low = data.low;
+            me.high = data.high;
+          }
+        } else {
+          if (data.low) {
+            me.low = Math.round(1000 * data.low) / 1000;
+            me.high = Math.round(1000 * data.high) / 1000;
+          } else {
+            me.price = data.price;
+            me.change = data.change;
+          }
+        }
+      }
+    },
     spot_sockets() {
       let me = this;
       let socket = global.socket;
+      let obj = me.trades_subscribe_definer();
+      socket.send(`{
+        "method": "unsubscribe",
+        "data": [${me.str_subscr}]
+      }`);
+      me.str_subscr = obj.str;
       if (this.curr_crypto) {
-        socket.send(`{
-          "method": "unsubscribe",
-          "data": ["all_${me.curr_code}-USD@ticker_5s"]
-        }`);
-        socket.send(`{
-          "method": "subscribe",
-          "data": ["${me.base_p}_${me.curr_code}-USD@ticker_5s", "${me.base_p}_all@ticker_10s"]
-        }`);
+        me.str_subscr += `"${me.base_p}_${me.curr_code}-USD@ticker_5s", `;
+        obj.arr.push(`${me.base_p}_${me.curr_code}-USD@ticker_5s`);
+        me.str_subscr += `"${me.base_p}_${me.curr_code}-USD@kline_1d"`;
+        obj.arr.push(`${me.base_p}_${me.curr_code}-USD@kline_1d`);
       } else {
         me.ex_type = me.current.exchange_type.key;
-        socket.send(`{
-          "method": "subscribe",
-          "data": ["shares_${me.curr_code}.${me.ex_type}@kline_1d"]
-        }`);
+        me.str_subscr += `"shares_${me.curr_code}.${me.ex_type}@kline_1d"`;
+        obj.arr.push(`shares_${me.curr_code}.${me.ex_type}@kline_1d`);
       }
+      socket.send(`{
+        "method": "subscribe",
+        "data": [${me.str_subscr}]
+      }`);
+
+      console.log("me.str_subscr", me.str_subscr);
 
       socket.onmessage = function (event) {
         if (event.data) {
           let json_d = JSON.parse(event.data);
-          if (
-            json_d &&
-            json_d.method == `${me.base_p}_${me.curr_code}-USD@ticker_5s`
-          ) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            if (data && data[0] && data[0].price) {
-              me.price = data[0].price;
-              me.change = data[0].change;
-            } else {
-              me.price = 1;
-              me.change = 0;
-            }
-          }
-          if (
-            json_d &&
-            json_d.method == `shares_${me.curr_code}.${me.ex_type}@kline_1d`
-          ) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            if (data && data[0]) {
-              let dt = data[0];
-              if (Array.isArray(dt)) {
-                dt = dt[0];
+          obj.arr.forEach((el) => {
+            if (json_d && json_d.method == el) {
+              let data = json_d.data ? json_d.data.data || [] : [];
+              if (data.length > 0) {
+                me.price_update(data[0]);
               }
-              
-              if (me.ex_type == "FOREX") {
-                me.price = Math.round(10000000 / dt.close) / 10000000;
-                let open = Math.round(10000000 / dt.open) / 10000000;
-                me.change = me.price - open;
-                me.low = Math.round(10000000 / dt.low) / 10000000;
-                me.high = Math.round(10000000 / dt.high) / 10000000;
-              } else {
-                me.price = dt.close;
-                me.change = dt.close - dt.open;
-                me.low = dt.low;
-                me.high = dt.high;
-              }
-              
-            } else {
-              me.price = 1;
-              me.change = 0;
             }
-          }
-          if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            me.prices = data;
-          }
+          });
         }
       };
     },
@@ -320,11 +372,12 @@ export default {
       let socket = global.socket;
       socket.send(`{
         "method": "unsubscribe",
-        "data": ["binance_${me.curr_code}-USD@ticker_5s", "${me.base_p}_all@ticker_10s"]
+        "data": [${me.str_subscr}]
       }`);
+      me.str_subscr = `"all_${me.curr_code}-USD@ticker_5s"`;
       socket.send(`{
         "method": "subscribe",
-        "data": ["all_${me.curr_code}-USD@ticker_5s"]
+        "data": [${me.str_subscr}]
       }`);
 
       socket.onmessage = function (event) {
@@ -351,8 +404,7 @@ export default {
     let socket = global.socket;
     socket.send(`{
       "method": "unsubscribe",
-      "data": ["${this.base_p}_${this.curr_code}-USD@ticker_5s", "${this.base_p}_all@ticker_10s",
-      "all_${this.curr_code}-USD@ticker_5s"]
+      "data": [${this.str_subscr}]
     }`);
   },
 };
