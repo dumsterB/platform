@@ -159,7 +159,7 @@ export default {
       user_data.selectCountry = this.selectCountry;
       console.log("user_data", user_data);
       let rs = await this.$axios.put(
-        `/api/user_platform/${user_data.id}`,
+        `/api/platform/user_platform/${user_data.id}`,
         user_data,
         {}
       );

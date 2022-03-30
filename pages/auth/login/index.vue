@@ -49,30 +49,30 @@
                 :label="$t('email')"
                 required
               ></v-text-field>
-              <v-text-field
+              <!-- <v-text-field
                 v-model="phone_number"
                 :rules="validation.number"
                 dense
                 outlined
                 type="number"
                 :label="$t('phone_number')"
-              ></v-text-field>
-              <v-autocomplete
+              ></v-text-field> -->
+              <!-- <v-autocomplete
                 v-model="selectCountry"
                 :items="countries"
                 :rules="validation.birth_place"
                 :label="$t('place_of_birth')"
                 outlined
                 dense
-              ></v-autocomplete>
-              <v-text-field
+              ></v-autocomplete> -->
+              <!-- <v-text-field
                 v-model="date"
                 :label="$t('date_of_birth')"
                 outlined
                 :rules="validation.birth"
                 dense
                 type="date"
-              ></v-text-field>
+              ></v-text-field> -->
 
               <p v-if="error_message" style="color: red"></p>
 

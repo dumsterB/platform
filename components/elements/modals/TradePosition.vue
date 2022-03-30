@@ -35,7 +35,6 @@
         <v-text-field
           :label="`${$t('total')}`"
           v-model="amount"
-          :rules="rules"
           outlined
           dense
           :suffix="tradeItem.symbol"
@@ -137,12 +136,14 @@ export default {
       wallet: "list",
     }),
     balance() {
-      if (this.userWallet.currency && this.wl.currency) {
-        if (this.action === "Sell") {
+      if (this.action === "Sell") {
+        if (this.userWallet.currency) {
           return (
             this.userWallet.balance + " " + this.userWallet.currency.symbol
           );
-        } else {
+        }
+      } else {
+        if (this.wl.currency) {
           return this.wl.balance + " " + this.wl.currency.symbol;
         }
       }
@@ -175,6 +176,7 @@ export default {
     }),
     ...mapActions("data/wallet", {
       fetchWallet: "fetchList",
+      wall_create: "create",
     }),
     validate_amount(act) {
       if (!this.amount) {
@@ -198,7 +200,7 @@ export default {
     },
     async save(act) {
       let load = "loading";
-      if (!act) {
+      if (!act || typeof act != "string") {
         act = this.action;
       } else {
         if (act == "Sell") {
@@ -255,8 +257,8 @@ export default {
     },
   },
   async created() {
-    await this.fetchAs();
     this.wl = this.wallet.find((el) => el.currency.symbol == "USD") || {};
+    await this.fetchAs();
   },
 };
 </script>

@@ -80,9 +80,7 @@
       <v-col>
         <TableASession
           :prices="prices_all"
-          :filter="{
-            status_id: 1,
-          }"
+          :filter="arb_ses_filter"
           @get_prices="update_subscr"
         ></TableASession>
       </v-col>
@@ -116,6 +114,9 @@ export default {
       need_curr: null,
       curr_company: true,
       base_p: this.$store.state.config.data.base_p,
+      arb_ses_filter: {
+        status_id: 1,
+      },
     };
   },
   watch: {

@@ -4,6 +4,9 @@
       :items="list"
       :headers="headers"
       :items-per-page="perpage"
+      :footer-props="{
+        'items-per-page-options': [5, 10, 20],
+      }"
       class="elevation-1 ma-4 ml-8"
     >
       <template v-slot:[`item.action`]="{ item }">

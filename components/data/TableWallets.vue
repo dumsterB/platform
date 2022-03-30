@@ -7,6 +7,9 @@
       sort-by="calories"
       class="elevation-1"
       @click:row="handleClick"
+      :footer-props="{
+        'items-per-page-options': [5, 10, 20, 50],
+      }"
     >
       <template v-slot:top>
         <v-toolbar flat>

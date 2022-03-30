@@ -1,13 +1,19 @@
 <template>
   <div>
     <v-data-table
-      :items="list"
+      :items="orders"
       :headers="headers"
-      :items-per-page="perpage"
+      :items-per-page="page_size_current"
       :search="search"
       sort-by="created_at"
       :sort-desc="true"
       class="elevation-1 ma-2 ml-8"
+      :loading="loading"
+      :server-items-length="totalLength"
+      @pagination="paging"
+      :footer-props="{
+        'items-per-page-options': [5, 10, 20, 50],
+      }"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -56,13 +62,19 @@ const model = "data/order";
 
 export default {
   props: {
+    page_size: {
+      type: Number,
+      default: 5,
+    },
     filter: null,
   },
   data() {
     return {
-      perpage: 5,
+      page_size_current: this.page_size,
       search: "",
-      list: [],
+      totalLength: -1,
+      config: this.f_definer(),
+      loading: false,
     };
   },
   computed: {
@@ -91,43 +103,46 @@ export default {
     },
   },
   watch: {
-    orders() {
-      this.resetList();
-    },
     filter() {
-      this.resetList();
+      this.config = this.f_definer();
+      this.rel();
     },
   },
   methods: {
     ...mapActions(model, {
       fetchList: "fetchList",
     }),
-    resetList() {
-      let list = [];
+    f_definer() {
+      let conf = null;
       if (this.filter) {
-        list = this.orders.filter((el) => {
-          for (let p in this.filter) {
-            let spl = p.split(".");
-            if (spl.length > 1) {
-              let v = el[spl[0]];
-              for (let i = 1; i < spl.length; i++) {
-                v = v[spl[i]];
-              }
-              if (this.filter[p] != v) {
-                return false;
-              }
-            } else {
-              if (this.filter[p] != el[p]) {
-                return false;
-              }
-            }
-          }
-          return true;
-        });
-      } else {
-        list = this.orders;
+        conf = {
+          params: {},
+        };
+        for (let i in this.filter) {
+          conf.params[i] = this.filter[i];
+        }
       }
-      this.list = list;
+      return conf;
+    },
+    async paging(val) {
+      console.log("paging", val);
+      this.page_size_current = val.itemsPerPage;
+      await this.rel(val);
+    },
+    async rel(v) {
+      let val = v;
+      if (!this.config || !this.config.params) {
+        this.config = { params: {} };
+      }
+      this.config.params.page = val ? val.page : 1;
+      this.config.params.per_page = this.page_size_current;
+      this.loading = true;
+      let res = await this.fetchList({ config: this.config });
+      let meta = res.meta;
+      this.totalLength = meta.total ? meta.total : res.data.length;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
     },
     diffColor(diff) {
       let nm = parseFloat(diff);
@@ -139,7 +154,7 @@ export default {
     },
   },
   async created() {
-    this.resetList();
+    await this.rel();
   },
 };
 </script>

@@ -71,7 +71,11 @@
         </v-row>
         <v-row>
           <v-col>
-            <TableTrades v-if="page_state == 0" :prices="prices"></TableTrades>
+            <TableTrades
+              v-if="trade_filter && page_state == 0"
+              :prices="prices"
+              :filter="trade_filter"
+            ></TableTrades>
             <TableASession
               v-else
               :prices="prices"
@@ -142,6 +146,7 @@ export default {
       as_filter: null,
       str_subscr: "",
       curr_subscr: "",
+      trade_filter: null,
     };
   },
   computed: {
@@ -191,12 +196,16 @@ export default {
   },
   watch: {
     curr_id() {
+      this.trade_filter = {
+        trade_status_id: "3",
+        dest_currency_id: this.curr_id,
+      }
       this.current = this.curr_by_id(this.curr_id) || {};
       this.curr_code = this.current.symbol;
     },
     curr_code() {
       this.as_filter = {
-        "wallet.currency.symbol": this.curr_code,
+        "wallet[currency_id]": this.curr_id,
       };
       if (this.curr_code && this.page_state == 0) {
         this.spot_sockets();
@@ -391,8 +400,6 @@ export default {
     },
   },
   async mounted() {
-    await this.fetchTrades();
-    this.fetchAS();
     window.addEventListener("resize", this.onResize);
   },
   beforeDestroy() {
