@@ -95,6 +95,7 @@
                 @click="validate"
                 elevation="0"
                 large
+                dark
                 :loading="loading"
               >
                 {{ $t("saveAccountSettings") }}

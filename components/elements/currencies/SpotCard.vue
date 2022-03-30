@@ -8,6 +8,8 @@
             block
             :class="!buy_sell ? 'green--text' : 'green'"
             :outlined="buy_sell"
+            dark
+            elevation="0"
             @click="buy_sell = true"
             >{{ $t("buy") }}</v-btn
           >
@@ -16,6 +18,7 @@
           <v-btn
             large
             block
+            elevation="0"
             :class="!buy_sell ? 'red' : 'red--text'"
             :outlined="!buy_sell"
             @click="buy_sell = false"
