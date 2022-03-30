@@ -72,6 +72,7 @@ export default {
               let curr = me.products.find((el) => el.symbol == dt.share);
               if (curr) {
                 let p_d = {
+                  currency_type: curr.currency_type,
                   name: curr.name,
                   id: curr.id,
                   symbol: curr.symbol,
@@ -80,7 +81,7 @@ export default {
                   low: dt.low,
                   high: dt.high,
                   change: dt.close - dt.open,
-                  change_perc: (dt.close - dt.open) / dt.open,
+                  change_perc: (dt.close - dt.open) * 100 / dt.open,
                 };
                 list.push(p_d);
               }

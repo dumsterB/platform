@@ -4,11 +4,14 @@
       :items="list"
       :headers="headers"
       :items-per-page="perpage"
+      :footer-props="{
+        'items-per-page-options': [5, 10, 20],
+      }"
       class="elevation-1 ma-4 ml-8"
     >
       <template v-slot:[`item.action`]="{ item }">
         <div class="d-flex justify-end">
-          <v-btn small @click="buy(item)" class="ml-3 green--text" outlined>
+          <v-btn small @click="buy(item)"  class="ml-3 green--text" outlined>
             {{ $t("buy") }}
           </v-btn>
           <v-btn small @click="sell(item)" class="ml-3 red--text" outlined>

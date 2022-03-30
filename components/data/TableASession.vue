@@ -3,11 +3,16 @@
     <v-data-table
       :items="list"
       :headers="headers"
-      :items-per-page="perpage"
+      :items-per-page="page_size_current"
       :search="search"
       sort-by="created_at"
       :sort-desc="true"
       class="elevation-1 ma-4 ml-8"
+      :server-items-length="totalLength"
+      @pagination="paging"
+      :footer-props="{
+        'items-per-page-options': [5, 10, 20, 50],
+      }"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -80,15 +85,22 @@ export default {
     },
     filter: null,
     title: "",
+    page_size: {
+      type: Number,
+      default: 5,
+    },
   },
   data() {
     return {
       dialog: false,
-      perpage: 5,
+      page_size_current: this.page_size,
       search: "",
       selectedItem: null,
       list: [],
       interv: null,
+      totalLength: -1,
+      config: this.f_definer(),
+      loading: false,
     };
   },
   computed: {
@@ -149,6 +161,18 @@ export default {
     ...mapActions(model, {
       fetchList: "fetchList",
     }),
+    f_definer() {
+      let conf = null;
+      if (this.filter) {
+        conf = {
+          params: {},
+        };
+        for (let i in this.filter) {
+          conf.params[i] = this.filter[i];
+        }
+      }
+      return conf;
+    },
     toggleModal(item) {
       this.$emit("get_prices", item.wallet.currency);
       this.selectedItem = item;
@@ -157,29 +181,7 @@ export default {
     resetList(prices) {
       let list = [];
       let as = [];
-      if (this.filter) {
-        as = this.arbitrage_sessions.filter((el) => {
-          for (let p in this.filter) {
-            let spl = p.split(".");
-            if (spl.length > 1) {
-              let v = el[spl[0]];
-              for (let i = 1; i < spl.length; i++) {
-                v = v[spl[i]];
-              }
-              if (this.filter[p] != v) {
-                return false;
-              }
-            } else {
-              if (this.filter[p] != el[p]) {
-                return false;
-              }
-            }
-          }
-          return true;
-        });
-      } else {
-        as = this.arbitrage_sessions;
-      }
+      as = this.arbitrage_sessions;
       as.forEach((element) => {
         let fnd = prices.find(
           (e) => e && e.base == element.wallet.currency.symbol
@@ -188,8 +190,14 @@ export default {
         if (fnd && fnd.price) {
           pr = fnd.price;
         }
-        element.current_cost = pr;
-        let diff = pr - element.start_exchange_rate;
+        let diff;
+        if (element.status.key == "CLOSED") {
+          element.current_cost = element.stop_exchange_rate;
+          diff = element.stop_exchange_rate - element.start_exchange_rate;
+        } else {
+          element.current_cost = pr;
+          diff = pr - element.start_exchange_rate;
+        }
         let diff_full = diff * element.amount;
         let diff_proc = (diff * 100) / element.start_exchange_rate;
         element.difference = diff_full.toFixed(3);
@@ -198,9 +206,30 @@ export default {
       });
       this.list = list;
     },
+    async paging(val) {
+      console.log("paging", val);
+      this.page_size_current = val.itemsPerPage;
+      await this.rel(val);
+    },
+
+    async rel(v) {
+      let val = v;
+      if (!this.config || !this.config.params) {
+        this.config = { params: {} };
+      }
+      this.config.params.page = val ? val.page : 1;
+      this.config.params.per_page = this.page_size_current;
+      this.loading = true;
+      let res = await this.fetchList({ config: this.config });
+      let meta = res.meta;
+      this.totalLength = meta.total ? meta.total : res.data.length;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    },
 
     async reload() {
-      await this.fetchList();
+      await this.rel();
       this.resetList(this.prices);
     },
 
@@ -219,7 +248,8 @@ export default {
       this.resetList(this.prices);
     },
     filter() {
-      this.resetList(this.prices);
+      this.config = this.f_definer();
+      this.rel();
     },
     arbitrage_sessions() {
       this.resetList(this.prices);

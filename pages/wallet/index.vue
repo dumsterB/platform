@@ -38,7 +38,11 @@
             @reload="init_tb"
           ></TableTransactions>
           <TableOrders v-if="is_history" :filter="order_filter"></TableOrders>
-          <TableTrades v-if="is_history" :prices="prices"></TableTrades>
+          <TableTrades
+            v-if="is_history"
+            :prices="prices"
+            :filter="trade_filter"
+          ></TableTrades>
         </div>
       </v-col>
     </v-row>
@@ -81,7 +85,10 @@ export default {
       is_spot_order: false,
       is_fiat_order: false,
       order_filter: null,
-      interv: null
+      trade_filter: {
+        trade_status_id: "3",
+      },
+      interv: null,
     };
   },
   computed: {
@@ -108,11 +115,11 @@ export default {
     check_tbls() {
       if (this.is_spot_order && !this.is_fiat_order) {
         this.order_filter = {
-          "dest_currency.currency_type.key": "CRYPTO",
+          "dest_currency[currency_type_id]": "1",
         };
       } else if (!this.is_spot_order && this.is_fiat_order) {
         this.order_filter = {
-          "dest_currency.currency_type.key": "FIAT",
+          "dest_currency[currency_type_id]": "2,3",
         };
       } else {
         this.order_filter = null;
@@ -212,10 +219,10 @@ export default {
     },
     price_update(data) {
       let add_data = {
-        price: data.close ?  1 / data.close : data.price,
+        price: data.close ? 1 / data.close : data.price,
         base: data.base ? data.base : data.share,
-      }
-      let fnd = this.prices.find(el => el && el.base == add_data.base);
+      };
+      let fnd = this.prices.find((el) => el && el.base == add_data.base);
       if (fnd) {
         fnd.price = add_data.price;
       } else {
@@ -269,11 +276,10 @@ export default {
   },
   async created() {
     await this.init();
-    this.fetchTrades();
-    this.fetchOrders();
+    this.prices = Object.assign([], this.prices);
     this.interv = setInterval(() => {
       this.prices = Object.assign([], this.prices);
-    }, 8000)
+    }, 8000);
   },
   destroyed() {
     let socket = global.socket;

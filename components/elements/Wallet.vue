@@ -215,6 +215,8 @@ export default {
             element.balance =
               parseFloat(element.balance) * parseFloat(fnd.price);
             this.total_sum += element.balance;
+          } else {
+            this.total_sum += element.balance;
           }
         });
         let fnd_btc = this.currency.find((el) => el.symbol == "BTC");

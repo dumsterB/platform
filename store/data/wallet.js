@@ -1,7 +1,7 @@
 import {createCRUD} from '~/plugins/crud';
 
 const crudModule = createCRUD({
-  resource: 'wallet',
+  resource: 'platform/wallet',
 });
 
 const state = () => crudModule.state;

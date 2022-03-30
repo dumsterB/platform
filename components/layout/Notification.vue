@@ -58,7 +58,9 @@ export default {
           vm.removeItem(vm.items[i].id);
         }
         return (vm.timeoutId = setTimeout(() => {
-          vm.removeItem(item.id);
+          if (item && item.id) {
+            vm.removeItem(item.id);
+          }
         }, vm.timeout));
       } else {
         this.item = null;

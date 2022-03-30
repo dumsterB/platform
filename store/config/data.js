@@ -1,5 +1,5 @@
 export const state = () => ({
-    preload_models: ["currency", "arbitrage_company", "wallet", "trade"],
+    preload_models: ["currency", "arbitrage_company", "wallet", "countries"],
     themes: ["Dark", "Light"],
     base_p: "gate",
     countries: [

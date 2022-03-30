@@ -3,11 +3,17 @@
     <v-data-table
       :items="list"
       :headers="headers"
-      :items-per-page="perpage"
+      :items-per-page="page_size_current"
       :search="search"
       sort-by="created_at"
+      :loading="loading"
       :sort-desc="true"
       class="elevation-1 ma-4 ml-8"
+      :server-items-length="totalLength"
+      @pagination="paging"
+      :footer-props="{
+        'items-per-page-options': [5, 10, 20, 50],
+      }"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -27,7 +33,7 @@
         </v-toolbar>
       </template>
       <template v-slot:[`item.dest_amount`]="{ item }">
-        <span>{{ `${item.dest_amount} ${item.dest_currency.symbol}` }}</span>
+        <span>{{ `${item.dest_amount ? item.dest_amount.toFixed(4) : ""} ${item.dest_currency.symbol}` }}</span>
       </template>
       <template v-slot:[`item.source_amount`]="{ item }">
         <span>{{
@@ -60,14 +66,22 @@ export default {
         return [];
       },
     },
+    filter: null,
+    page_size: {
+      type: Number,
+      default: 5,
+    },
   },
   data() {
     return {
-      perpage: 5,
+      page_size_current: this.page_size,
       search: "",
       list: [],
       interv: null,
       platform: "binance",
+      totalLength: -1,
+      config: this.f_definer(),
+      loading: false,
     };
   },
   computed: {
@@ -110,11 +124,40 @@ export default {
     ...mapActions(model, {
       fetchList: "fetchList",
     }),
+    f_definer() {
+      let conf = null;
+      if (this.filter) {
+        conf = {
+          params: {},
+        };
+        for (let i in this.filter) {
+          conf.params[i] = this.filter[i];
+        }
+      }
+      return conf;
+    },
+    async paging(val) {
+      console.log("paging", val);
+      this.page_size_current = val.itemsPerPage;
+      await this.rel(val);
+    },
+    async rel(v) {
+      let val = v;
+      if (!this.config || !this.config.params) {
+        this.config = { params: {} };
+      }
+      this.config.params.page = val ? val.page : 1;
+      this.config.params.per_page = this.page_size_current;
+      this.loading = true;
+      let res = await this.fetchList({ config: this.config });
+      let meta = res.meta;
+      this.totalLength = meta.total ? meta.total : res.data.length;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    },
     resetList(prices) {
-      let trades = this.trades.filter((el) => {
-        return el.trade_status_id == 3;
-      });
-      this.list = trades.map((el) => {
+      this.list = this.trades.map((el) => {
         let fnd_b = prices.find((e) => e && e.base == el.dest_currency.symbol);
         let pr_b = 1;
         if (fnd_b && fnd_b.price) pr_b = fnd_b.price;
@@ -132,6 +175,9 @@ export default {
         return el;
       });
     },
+    reload() {
+      this.resetList(this.prices);
+    },
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
@@ -142,6 +188,10 @@ export default {
     },
   },
   watch: {
+    filter() {
+      this.config = this.f_definer();
+      this.rel();
+    },
     prices() {
       this.resetList(this.prices);
     },
