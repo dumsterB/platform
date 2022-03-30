@@ -81,6 +81,7 @@
               :prices="prices"
               :filter="as_filter"
               title="table_position"
+              ref="a_session"
             ></TableASession>
           </v-col>
         </v-row>
@@ -96,6 +97,7 @@
           :currency="curr_code ? curr_code : undefined"
           :prices="arb_data"
           :current="current"
+          @reload="reload"
         ></TableAC>
       </v-col>
     </v-row>
@@ -250,6 +252,10 @@ export default {
     ...mapActions("data/arbitrage_session", {
       fetchAS: "fetchList",
     }),
+    async reload() {
+      console.log('AAAAAAAAAA', this.$refs.a_session)
+      await this.$refs.a_session.reload();
+    },
     onResize(event) {
       this.graphWidth = parseInt(((window.innerWidth - 250) * 2) / 3);
     },

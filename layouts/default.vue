@@ -75,7 +75,7 @@ export default {
         if (ws.readyState !== ws.OPEN) {
           global.socket = new WebSocket(this.$env("WS_SERVER_BASE"));
         }
-      }, 5000);
+      }, 10000);
       await this.preload_models();
     } else {
       if (this.$router.history.current.path != "/auth/registration") {

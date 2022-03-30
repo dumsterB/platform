@@ -28,6 +28,7 @@
         :tradePlatform="selected"
         :price="selected ? selected.price : null"
         @close="closeTrade"
+        @reload="$emit('reload')"
       />
     </v-dialog>
   </div>

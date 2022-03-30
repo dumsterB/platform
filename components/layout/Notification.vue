@@ -53,13 +53,13 @@ export default {
       const vm = this;
       vm.processing = true;
       if (vm.items && Array.isArray(vm.items) && vm.items.length > 0) {
-        this.item = vm.items[vm.items.length - 1];
+        vm.item = vm.items[vm.items.length - 1];
         for (let i = 0; i < vm.items.length - 1; i++) {
           vm.removeItem(vm.items[i].id);
         }
         return (vm.timeoutId = setTimeout(() => {
-          if (item && item.id) {
-            vm.removeItem(item.id);
+          if (vm.item && vm.item.id) {
+            vm.removeItem(vm.item.id);
           }
         }, vm.timeout));
       } else {
