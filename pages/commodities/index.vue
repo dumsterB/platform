@@ -81,7 +81,7 @@ export default {
                   low: dt.low,
                   high: dt.high,
                   change: dt.close - dt.open,
-                  change_perc: (dt.close - dt.open) / dt.open,
+                  change_perc: (dt.close - dt.open) * 100 / dt.open,
                 };
                 list.push(p_d);
               }

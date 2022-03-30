@@ -55,6 +55,8 @@
                 :items="countries"
                 :rules="validation.birth_place"
                 :label="$t('place_of_birth')"
+                item-text="country"
+                item-value="id"
                 outlined
                 filled
                 dense
@@ -109,6 +111,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "privateInformation",
   data() {
@@ -119,10 +122,9 @@ export default {
           value.size < 2000000 ||
           "Avatar size should be less than 2 MB!",
       ],
-      countries: this.$store.state.config.data.countries,
       gender: ["male", "female"],
       imageData: null,
-      selectCountry: this.$auth.user.birth_place,
+      selectCountry: this.$auth.user.country_id,
       name: this.$auth.user.name,
       surname: this.$auth.user.last_name,
       email: this.$auth.user.mail,
@@ -157,7 +159,7 @@ export default {
       user_data.last_name = this.surname;
       user_data.birth = this.date;
       user_data.phone = this.phone;
-      user_data.selectCountry = this.selectCountry;
+      user_data.country_id = this.selectCountry;
       console.log("user_data", user_data);
       let rs = await this.$axios.put(
         `/api/platform/user_platform/${user_data.id}`,
@@ -172,6 +174,9 @@ export default {
   },
   mounted() {},
   computed: {
+    ...mapGetters('data/countries', {
+      countries: "list"
+    }),
     validation() {
       return {
         required: [

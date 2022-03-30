@@ -79,8 +79,10 @@
     <v-row>
       <v-col>
         <TableASession
+          v-if="arb_ses_filter"
           :prices="prices_all"
           :filter="arb_ses_filter"
+          ref="a_session"
           @get_prices="update_subscr"
         ></TableASession>
       </v-col>
@@ -200,8 +202,7 @@ export default {
       this.curr_company = false;
     },
     async reload() {
-      await this.fetchWallet();
-      await this.fetchAS();
+      await this.$refs.a_session.reload();
     },
   },
   computed: {
@@ -247,8 +248,6 @@ export default {
     }),
   },
   async created() {
-    await this.fetchWallet();
-    await this.fetchAS();
     let me = this;
     let socket = global.socket;
     socket.send(`{
