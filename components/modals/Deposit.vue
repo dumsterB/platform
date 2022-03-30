@@ -16,24 +16,27 @@
           </v-btn>
         </v-row>
         <v-list flat>
-          <v-list-item-group v-model="selected_card" color="primary">
-            <v-list-item v-for="(item, i) in items" :key="i">
-              <v-list-item-content>
-                <v-list-item-title class="d-flex align-center">
-                  <img
-                    v-if="item.card_icon"
-                    class="card_input__icon mr-2"
-                    width="24"
-                    height="24"
-                    :src="item.card_icon"
-                    alt=""
-                  />
-                  <v-icon class="mr-2" v-else>mdi-credit-card-outline</v-icon>
-                  {{ item ? item.card_number : "" }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
+          <v-list-item v-for="(item, i) in items" :key="i">
+            <v-list-item-content class="pb-2 pt-2">
+              <v-btn large :class="i == selected_card ? 'success-btn' : ''" @click="selected_card = i">
+                <img
+                  v-if="item.card_icon"
+                  class="card_input__icon mr-2"
+                  width="24"
+                  height="24"
+                  :src="item.card_icon"
+                  alt=""
+                />
+                <v-icon class="mr-2" v-else>mdi-credit-card-outline</v-icon>
+                {{ item ? item.card_number : "" }}
+                <v-icon
+                  style="position: absolute; right: 20px"
+                  @click="delete_card(item)"
+                  >mdi-close</v-icon
+                >
+              </v-btn>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
         <div class="text-center justify-center d-flex">
           <div class="d-block">
@@ -54,6 +57,7 @@
               outlined
               :label="$t('enter_your_amount')"
               type="number"
+              :error-messages="err_m"
             ></v-text-field>
             <!-- <p class="text-gray">{{ $t("deposit_ruls") }}</p> -->
           </v-col>
@@ -66,7 +70,7 @@
             dark
             class="success-btn"
             text
-            :disabled="!selected_card || selected_card.length == 0"
+            :disabled="selected_card < 0"
             :loading="loading"
             @click="make_order"
           >
@@ -111,6 +115,7 @@ export default {
       selected_card: -1,
       loading: false,
       curr: "USD",
+      err_m: [],
     };
   },
   computed: {
@@ -133,6 +138,23 @@ export default {
     cardDialogChanger() {
       this.cardDialog = !this.cardDialog;
     },
+    delete_card(item) {
+      let d = localStorage.getItem("bank_cards");
+      let items = d ? JSON.parse(d) : [];
+      let new_arr = [];
+      items.forEach((el) => {
+        if (el.card_number != item.card_number) {
+          new_arr.push(el);
+        }
+      });
+      localStorage.setItem("bank_cards", JSON.stringify(new_arr));
+      this.items = new_arr;
+      if (this.items && this.items.length > 0) {
+        this.selected_card = 0;
+      } else {
+        this.selected_card = -1;
+      }
+    },
     save() {
       let d = localStorage.getItem("bank_cards");
       if (d) {
@@ -145,6 +167,12 @@ export default {
     },
     async make_order() {
       if (this.selected_card > -1) {
+        if (!this.enteredMoney) {
+          this.err_m = [this.$t("enter_amount")];
+          return;
+        } else {
+          this.err_m = [];
+        }
         this.loading = true;
         let order_data = {};
         let curr;
@@ -229,5 +257,8 @@ export default {
 .success-btn {
   background: linear-gradient(94.9deg, #2fed59 4.26%, #23ad41 95.87%);
   color: white !important;
+}
+.select_card {
+  background-color: #23ad41;
 }
 </style>
