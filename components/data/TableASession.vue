@@ -190,8 +190,14 @@ export default {
         if (fnd && fnd.price) {
           pr = fnd.price;
         }
-        element.current_cost = pr;
-        let diff = pr - element.start_exchange_rate;
+        let diff;
+        if (element.status.key == "CLOSED") {
+          element.current_cost = element.stop_exchange_rate;
+          diff = element.stop_exchange_rate - element.start_exchange_rate;
+        } else {
+          element.current_cost = pr;
+          diff = pr - element.start_exchange_rate;
+        }
         let diff_full = diff * element.amount;
         let diff_proc = (diff * 100) / element.start_exchange_rate;
         element.difference = diff_full.toFixed(3);

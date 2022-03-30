@@ -77,7 +77,7 @@
               :filter="trade_filter"
             ></TableTrades>
             <TableASession
-              v-else
+              v-if="as_filter && page_state == 1"
               :prices="prices"
               :filter="as_filter"
               title="table_position"
