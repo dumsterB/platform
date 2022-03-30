@@ -217,7 +217,7 @@ export default {
         arbitrage_company_id: this.tradePlatform.id,
         session_start_type_id: act === "Buy" ? 1 : 2,
         exchange_wallet_id: this.wl.id,
-        wallet_id: this.userWallet.id,
+        currency_id: this.tradeItem.id,
       };
       // code
       as_data.start_exchange_rate = this.price;
@@ -258,7 +258,6 @@ export default {
   },
   async created() {
     this.wl = this.wallet.find((el) => el.currency.symbol == "USD") || {};
-    await this.fetchAs();
   },
 };
 </script>

@@ -27,11 +27,11 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col :cols="9">
+        <v-col :cols="6">
           <span>{{ $t("available_balance_title") }}</span>
         </v-col>
-        <v-col :cols="3">
-          <span>{{ av_bal }} {{ curr }}</span>
+        <v-col :cols="6">
+          <span>{{ av_bal ? av_bal.toFixed(4) : "" }} {{ curr }}</span>
         </v-col>
       </v-row>
       <v-row>

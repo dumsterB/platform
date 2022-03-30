@@ -239,6 +239,7 @@
 import SvgImage from "./svg.vue";
 import LangSelect from "~/components/settings/LanguageSelect";
 import config from "~/config/config.json";
+import { mapGetters } from "vuex";
 
 export default {
   layout: "auth",
@@ -273,11 +274,13 @@ export default {
     CURRENT_LOCALE() {
       return this.$i18n.locale;
     },
+    ...mapGetters('data/countries', {
+      countries: "list"
+    }),
   },
   data() {
     return {
       config: config,
-      countries: this.$store.state.config.data.countries,
       auth_login_form_valid: false,
       name: "",
       surname: "",
