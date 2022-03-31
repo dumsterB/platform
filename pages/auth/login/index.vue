@@ -5,22 +5,27 @@
         <v-row>
           <v-spacer></v-spacer>
           <img
-            style="height: 60px; margin-right: 20px"
+            style="
+              height: 60px;
+              margin-right: 20px;
+              background-color: #fafafa;
+              border-radius: 4px;
+            "
             :src="config.logo"
-            alt="Профинвест картинка"
+            :alt="$t('logoPic')"
           />
           <LangSelect style="max-width: 150px; margin-top: 10px" />
           <v-spacer></v-spacer>
         </v-row>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="authContainer">
       <v-col :md="12" :lg="6" style="">
         <v-card
           v-if="!reg_log"
           elevation="4"
           max-width="450"
-          class="px-4 py-6 pt-8 mx-auto"
+          class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
         >
           <h3>{{ $t("register") }}</h3>
           <div v-if="steper == 0">
@@ -165,7 +170,7 @@
           v-if="reg_log"
           max-width="450"
           elevation="4"
-          class="px-4 py-6 pt-8 mx-auto"
+          class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
         >
           <h3>{{ $t("signin") }}</h3>
           <p class="d-flex">
@@ -274,8 +279,8 @@ export default {
     CURRENT_LOCALE() {
       return this.$i18n.locale;
     },
-    ...mapGetters('data/countries', {
-      countries: "list"
+    ...mapGetters("data/countries", {
+      countries: "list",
     }),
   },
   data() {
@@ -425,4 +430,13 @@ export default {
   cursor: pointer;
   margin-top: 15px;
 }
+.authContainer {
+  display: flex;
+  align-items: center;
+}
+.cardBorder {
+  border: 1px solid #d8d8d8;
+  box-shadow: 0px 23px 82px rgb(0 0 0 / 4%) !important;
+}
 </style>
+// border: 1px solid #ffffff3d; // border: 1px solid rgba(0, 0, 0, 0.38);
