@@ -40,7 +40,7 @@ definitions:
           - gcloud auth activate-service-account --key-file ~/.gcloud-api-key.json
           - gcloud container clusters get-credentials $K8s_CLUSTER_NAME_DEV --zone $GCLOUD_ZONE_DEV --project $GCLOUD_PROJECT_ID_DEV
           - docker login -u $DOCKER_GCR_REPO_URL_DEV -p $DOCKER_HUB_PASSWORD_DEV
-          - kubectl set image deployment ${K8s_DEPLOYMENT_NAME_DEV}  ${K8s_DEPLOYMENT_CONTAINER_NAME_DEV}=${DOCKER_GCR_REPO_URL_DEV}/${DOCKER_IMAGE_NAME_DEV}:${BITBUCKET_BUILD_NUMBER}_d_dubaicoins --record --namespace=${K8s_NAMESPACE_DEV}
+          - kubectl set image deployment ${K8s_DEPLOYMENT_NAME_DEV_dubaicoins}  ${K8s_DEPLOYMENT_CONTAINER_NAME_DEV}=${DOCKER_GCR_REPO_URL_DEV}/${DOCKER_IMAGE_NAME_DEV}:${BITBUCKET_BUILD_NUMBER}_d_dubaicoins --record --namespace=${K8s_NAMESPACE_DEV}
 
 pipelines:
   branches:
