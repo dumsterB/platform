@@ -22,11 +22,33 @@ definitions:
           - gcloud container clusters get-credentials $K8s_CLUSTER_NAME_DEV --zone $GCLOUD_ZONE_DEV --project $GCLOUD_PROJECT_ID_DEV
           - docker login -u $DOCKER_GCR_REPO_URL_DEV -p $DOCKER_HUB_PASSWORD_DEV
           - kubectl set image deployment ${K8s_DEPLOYMENT_NAME_DEV}  ${K8s_DEPLOYMENT_CONTAINER_NAME_DEV}=${DOCKER_GCR_REPO_URL_DEV}/${DOCKER_IMAGE_NAME_DEV}:${BITBUCKET_BUILD_NUMBER}_d_prof-investment --record --namespace=${K8s_NAMESPACE_DEV}
+    - step: &docker-build-dev-dubaicoins
+        name: Create and push Docker image
+        caches:
+          - docker
+        script:
+          - docker login -u $DOCKER_GCR_REPO_URL_DEV -p $DOCKER_HUB_PASSWORD_DEV
+          - docker build -t $DOCKER_GCR_REPO_URL_DEV/$DOCKER_IMAGE_NAME_DEV:${BITBUCKET_BUILD_NUMBER}_d_dubaicoins -f DockerfileDevDubaicoins .
+          - docker push $DOCKER_GCR_REPO_URL_DEV/$DOCKER_IMAGE_NAME_DEV:${BITBUCKET_BUILD_NUMBER}_d_dubaicoins
+        services:
+          - docker
+    - step: &deploy-dev-dubaicoins
+        name: Deploy to K8s
+        image: google/cloud-sdk:latest
+        script:
+          - echo ${GCLOUD_API_KEYFILE} > ~/.gcloud-api-key.json
+          - gcloud auth activate-service-account --key-file ~/.gcloud-api-key.json
+          - gcloud container clusters get-credentials $K8s_CLUSTER_NAME_DEV --zone $GCLOUD_ZONE_DEV --project $GCLOUD_PROJECT_ID_DEV
+          - docker login -u $DOCKER_GCR_REPO_URL_DEV -p $DOCKER_HUB_PASSWORD_DEV
+          - kubectl set image deployment ${K8s_DEPLOYMENT_NAME_DEV}  ${K8s_DEPLOYMENT_CONTAINER_NAME_DEV}=${DOCKER_GCR_REPO_URL_DEV}/${DOCKER_IMAGE_NAME_DEV}:${BITBUCKET_BUILD_NUMBER}_d_dubaicoins --record --namespace=${K8s_NAMESPACE_DEV}
 
 pipelines:
   branches:
     prof-invest-dev:
       - step: *docker-build-dev-prof-investment
       - step: *deploy-dev-prof-investment
+    dubaicoins-dev:
+      - step: *docker-build-dev-dubaicoins
+      - step: *deploy-dev-dubaicoins
 options:
   docker: true
