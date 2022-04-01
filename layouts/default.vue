@@ -1,18 +1,21 @@
 <template>
-  <v-app>
-    <LoadingScreen :isLoading="isLoading" />
-    <div v-if="!isLoading" class="main-page mb-16">
-      <SnackBar />
-      <Menu />
-      <NavBar />
-      <v-main fluid class="mb-16">
-        <v-container fluid class="layout_default__content mt-5 ma-0 pa-0">
-          <nuxt />
-        </v-container>
-      </v-main>
-    </div>
-    <Footer />
-  </v-app>
+  <div id="dir-rtl" :dir="$dir()">
+    >
+    <v-app>
+      <LoadingScreen :isLoading="isLoading" />
+      <div v-if="!isLoading" class="main-page mb-16">
+        <SnackBar />
+        <Menu />
+        <NavBar dir="ltr" />
+        <v-main fluid class="mb-16">
+          <v-container fluid class="layout_default__content mt-5 ma-0 pa-0">
+            <nuxt />
+          </v-container>
+        </v-main>
+      </div>
+      <Footer />
+    </v-app>
+  </div>
 </template>
 
 <script>
@@ -39,31 +42,38 @@ export default {
     CURRENT_LOCALE() {
       console.log("CURRENT_LOCALE", this.CURRENT_LOCALE);
     },
+    dir() {
+      if (this.dir == "rtl") {
+        this.$vuetify.rtl = true;
+      } else {
+        this.$vuetify.rtl = false;
+      }
+    }
   },
   methods: {
     async preload_models() {
-      if (this.$store.state.auth.user) {
-        let htmlElement = document.documentElement;
-        let theme = localStorage.getItem("theme");
-        if (!theme) {
-          theme = "light";
-        }
-        let lang = localStorage.getItem("language");
-        if (!lang) {
-          lang = this.$i18n.locale;
-        }
-        if (theme == "dark") {
-          this.$vuetify.theme.dark = true;
-        }
-        localStorage.setItem("theme", theme);
-        localStorage.setItem("language", lang);
-        this.$i18n.locale = lang;
-        // console.log('this.$i18n', this.$i18n)
-        htmlElement.setAttribute("theme", theme);
+      let htmlElement = document.documentElement;
+      let theme = localStorage.getItem("theme");
+      if (!theme) {
+        theme = "light";
       }
-      let models = this.$store.state.config.data.preload_models;
-      for (let i = 0; i < models.length; i++) {
-        let res = await this.$store.dispatch(`data/${models[i]}/fetchList`);
+      let lang = localStorage.getItem("language");
+      if (!lang) {
+        lang = this.$i18n.locale;
+      }
+      if (theme == "dark") {
+        this.$vuetify.theme.dark = true;
+      }
+      localStorage.setItem("theme", theme);
+      localStorage.setItem("language", lang);
+      this.$i18n.locale = lang;
+      // console.log('this.$i18n', this.$i18n)
+      htmlElement.setAttribute("theme", theme);
+      if (this.$store.state.auth.user) {
+        let models = this.$store.state.config.data.preload_models;
+        for (let i = 0; i < models.length; i++) {
+          let res = await this.$store.dispatch(`data/${models[i]}/fetchList`);
+        }
       }
     },
   },
