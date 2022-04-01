@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="page-container">
     <v-row>
       <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
         <div
@@ -15,6 +15,7 @@
             <v-text-field
               :label="$t('market_search_bar_placeholder')"
               v-model="search"
+              solo
               outlined
               class="searchCurrency"
               dense

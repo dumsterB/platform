@@ -18,7 +18,7 @@
             <v-list-item-content class="pa-1">
               <div class="d-flex">
                 <v-img :src="currency.logo" :max-width="20"></v-img>
-                <span class="mt-1 ml-1">{{ currency.symbol }}</span>
+                <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
               </div>
               <span style="margin-bottom: -4px">${{ currency.price }}</span>
             </v-list-item-content>
@@ -75,7 +75,7 @@
         <v-list-item-content class="pa-1">
           <div class="d-flex">
             <v-img :src="currency.logo" :max-width="20"></v-img>
-            <span class="mt-1 ml-1">{{ currency.symbol }}</span>
+            <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
           </div>
           <span>${{ currency.price }}</span>
         </v-list-item-content>

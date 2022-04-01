@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card
-      class="mx-auto pa-3"
+      class="mx-auto pa-3 gc-card"
       elevation="1"
       max-width="430"
     >

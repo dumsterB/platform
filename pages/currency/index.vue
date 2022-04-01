@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-container">
     <v-row>
       <v-col :cols="4">
         <v-row>
