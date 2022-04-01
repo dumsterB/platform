@@ -7,7 +7,7 @@
             <p class="text-h5 text-center">
               {{ $t(action) }}
             </p>
-            <p class="text-h6 text-gray mt-1 text-center">
+            <p class="text-h6 text-gray--text mt-1 text-center">
               {{ $t("choose_payment_method") }}
             </p>
           </v-col>
@@ -18,7 +18,12 @@
         <v-list flat>
           <v-list-item v-for="(item, i) in items" :key="i">
             <v-list-item-content class="pb-2 pt-2">
-              <v-btn large :class="i == selected_card ? 'success-btn' : ''" @click="selected_card = i">
+              <v-btn
+                large
+                :class="i == selected_card ? 'success-btn' : ''"
+                :style="customStyle"
+                @click="selected_card = i"
+              >
                 <img
                   v-if="item.card_icon"
                   class="card_input__icon mr-2"
@@ -40,7 +45,11 @@
         </v-list>
         <div class="text-center justify-center d-flex">
           <div class="d-block">
-            <div class="credit-card-add" @click="cardDialogChanger">
+            <div
+              class="credit-card-add"
+              :style="customStyle"
+              @click="cardDialogChanger"
+            >
               <div>
                 <v-icon style="margin-top: 10px" size="25" dark
                   >mdi-plus</v-icon
@@ -59,7 +68,7 @@
               type="number"
               :error-messages="err_m"
             ></v-text-field>
-            <!-- <p class="text-gray">{{ $t("deposit_ruls") }}</p> -->
+            <!-- <p class="text-gray--text">{{ $t("deposit_ruls") }}</p> -->
           </v-col>
         </v-row>
         <v-card-actions>
@@ -69,6 +78,7 @@
             large
             dark
             class="success-btn"
+            :style="customStyle"
             text
             :disabled="selected_card < 0"
             :loading="loading"
@@ -90,6 +100,8 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import BankCard from "../modals/BankCard";
+import config from "~/config/config.json";
+
 export default {
   components: {
     BankCard,
@@ -108,6 +120,8 @@ export default {
   name: "Deposit",
   data() {
     return {
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
       selectedItem: 1,
       cardDialog: false,
       enteredMoney: "",
@@ -122,6 +136,12 @@ export default {
     ...mapGetters("data/currency", {
       currencies: "list",
     }),
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
   },
   methods: {
     ...mapActions("data/order", {
@@ -250,12 +270,20 @@ export default {
 .credit-card-add {
   width: 450px;
   height: 70px;
-  background: linear-gradient(94.9deg, #2fed59 4.26%, #23ad41 95.87%);
+  background: linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
   border-radius: 20px;
   cursor: pointer;
 }
 .success-btn {
-  background: linear-gradient(94.9deg, #2fed59 4.26%, #23ad41 95.87%);
+  background: linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
   color: white !important;
 }
 .select_card {

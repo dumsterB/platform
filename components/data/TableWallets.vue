@@ -32,7 +32,7 @@
         <v-btn
           v-if="item.currency.currency_type.key == 'FIAT'"
           elevation="0"
-          class="success-text"
+          class="success_text--text"
           @click="depositChanger(item)"
           >{{ $t("deposit_title") }}</v-btn
         >

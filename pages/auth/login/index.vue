@@ -85,7 +85,7 @@
                 <v-checkbox v-model="checkbox"></v-checkbox>
                 <span
                   style="font-size: 13px; margin-top: 22px"
-                  class="text-gray"
+                  class="text-gray--text"
                 >
                   {{ $t("agree_with_policy") }}</span
                 >

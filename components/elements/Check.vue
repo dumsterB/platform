@@ -23,20 +23,20 @@
           <br /><br />
           <v-row class="mt-10">
             <v-col>
-              <p class="text-gray">{{ $t("total_equity") }}</p>
+              <p class="text-gray--text">{{ $t("total_equity") }}</p>
               <p class="text-h6">
                 <strong
                   >{{ main_currency ? totalEquity : total_equity_usdt }}
                   {{ main_currency ? "BTC" : "USD" }}</strong
                 >
               </p>
-              <p class="text-gray">
+              <p class="text-gray--text">
                 ≈ {{ main_currency ? total_equity_usdt : totalEquity }}
                 {{ main_currency ? "USD" : "BTC" }}
               </p>
             </v-col>
             <v-col>
-              <p class="text-gray">{{ $t("available_balance") }}</p>
+              <p class="text-gray--text">{{ $t("available_balance") }}</p>
               <p class="text-h6">
                 <strong
                   >{{
@@ -45,7 +45,7 @@
                   {{ main_currency ? "BTC" : "USD" }}</strong
                 >
               </p>
-              <p class="text-gray">
+              <p class="text-gray-text">
                 ≈
                 {{ main_currency ? available_balance_usdt : available_balance }}
                 {{ main_currency ? "USD" : "BTC" }}

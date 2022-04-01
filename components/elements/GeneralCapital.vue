@@ -1,22 +1,20 @@
 <template>
   <div>
-    <v-card
-      class="mx-auto pa-3"
-      elevation="1"
-      max-width="430"
-    >
+    <v-card class="mx-auto pa-3" elevation="1" max-width="430">
       <v-list-item three-line>
         <v-list-item-content>
           <v-list-item-title class="text-h5 mb-1">
-            <strong>{{ $t('total_equity') }}</strong>
+            <strong>{{ $t("total_equity") }}</strong>
           </v-list-item-title>
-          <br><br>
+          <br /><br />
           <v-list-item-title class="text-h5 mb-1">
-            <strong v-if="hideBalancer">{{total_sum_btc}} </strong>
+            <strong v-if="hideBalancer">{{ total_sum_btc }} </strong>
             <strong v-if="!hideBalancer">******</strong> BTC
           </v-list-item-title>
-          <p v-if="hideBalancer" class="mt-2 text-gray">≈ {{total_sum}} USD</p>
-          <p v-if="!hideBalancer" class="mt-2 text-gray">******</p>
+          <p v-if="hideBalancer" class="mt-2 text-gray--text">
+            ≈ {{ total_sum }} USD
+          </p>
+          <p v-if="!hideBalancer" class="mt-2 text-gray--text">******</p>
         </v-list-item-content>
 
         <v-icon v-if="!hideBalancer" @click="hideBalance">mdi-eye</v-icon>
@@ -29,10 +27,11 @@
           large
           rounded
           class="success-btn-half mr-6"
+          :style="customStyle"
           color="white"
           @click="depositChanger('deposit_title')"
         >
-          {{ $t('deposit_title') }}
+          {{ $t("deposit_title") }}
         </v-btn>
         <v-btn
           elevation="0"
@@ -41,51 +40,65 @@
           class="simple-btn-half"
           @click="depositChanger('withdraw')"
         >
-          {{ $t('withdraw') }}
+          {{ $t("withdraw") }}
         </v-btn>
       </v-card-actions>
     </v-card>
-    <Deposit :action="action" :dialog="dialog" @depositChanger="depositChanger"></Deposit>
-
+    <Deposit
+      :action="action"
+      :dialog="dialog"
+      @depositChanger="depositChanger"
+    ></Deposit>
   </div>
 </template>
 
 <script>
 import Deposit from "@/components/modals/Deposit";
+import config from "~/config/config.json";
 export default {
   name: "GeneralCapital",
-  components:{
-    Deposit
+  components: {
+    Deposit,
   },
   props: {
     total_sum_btc: "",
-    total_sum: ""
+    total_sum: "",
   },
   data() {
     return {
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
       hideBalancer: false,
-      dialog:false,
-      action:''
-    }
+      dialog: false,
+      action: "",
+    };
+  },
+  computed: {
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
   },
   methods: {
     hideBalance() {
-      this.hideBalancer = !this.hideBalancer
+      this.hideBalancer = !this.hideBalancer;
     },
-    depositChanger(val){
-      this.dialog=!this.dialog
-      this.action=val
-    }
+    depositChanger(val) {
+      this.dialog = !this.dialog;
+      this.action = val;
+    },
   },
-  watch:{
-    dialog(newVal,oldVal){
-      console.log(newVal,oldVal)
-    }
+  watch: {
+    dialog(newVal, oldVal) {
+      console.log(newVal, oldVal);
+    },
   },
   mounted() {
-    console.log(this.dialog)
-  }
-}
+    console.log(this.dialog);
+  },
+};
 </script>
 
 <style scoped>
@@ -97,7 +110,11 @@ export default {
   width: 150px;
 }
 .success-btn-half {
-  background: linear-gradient(94.9deg, #2fed59 4.26%, #23ad41 95.87%);
+  background: linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
   color: white !important;
   border-radius: 12px;
   width: 150px;

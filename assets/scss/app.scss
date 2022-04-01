@@ -1,88 +1,92 @@
 /* BASE */
 
 a {
-  text-decoration: none;
-  display: block;
+    text-decoration: none;
+    display: block;
 }
 
 button,
 select,
 a {
-  cursor: pointer;
-  outline: none;
-  background-color: transparent;
-  border: none;
-  color: inherit;
+    cursor: pointer;
+    outline: none;
+    background-color: transparent;
+    border: none;
+    color: inherit;
 }
 
 html[theme="light"] .v-application--wrap {
-  background-color: #eee !important;
+    background-color: #eee !important;
 }
 
 .v-application p {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 ul,
 ol,
 li {
-  list-style: none;
+    list-style: none;
 }
 
 img {
-  display: block;
+    display: block;
 }
 
 input[type="number"] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 input[type="number"]::-webkit-inner-spin-button {
-  display: none;
+    display: none;
 }
 
 .flexNone {
-  flex: none;
-}
-
-.text-gray {
-  color: #717e95;
-  font-size: 15px;
-}
-.success-text{
-  color: #23ad41;
+    flex: none;
 }
 
 html[theme="light"] {
-  .back-failure {
-    background: linear-gradient(to right top, #e08b8b, #df7472, #db5c58, #d5423d, #cd2121);
-  }
-
-  .back-success {
-    background: linear-gradient(to right top, #edfff1, #b9e8c0, #87d08c, #56b756, #119d11);
-  }
+    .back-failure {
+        background: linear-gradient( to right top, #e08b8b, #df7472, #db5c58, #d5423d, #cd2121);
+        background: #ef3b36;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right top, #ffffff, #ef3b36);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right top, #ffffff, #ef3b36);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+    .back-success {
+        background: linear-gradient( to right top, #edfff1, #b9e8c0, #87d08c, #56b756, #119d11);
+    }
 }
 
 .back-failure {
-  background: linear-gradient(to right top, #872121, #681c1e, #4a1719, #2d1112, #110404);
+    background: linear-gradient( to right top, #872121, #681c1e, #4a1719, #2d1112, #110404);
+    background: #200122;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right top, #6f0000, #200122);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right top, #6f0000, #200122);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .back-success {
-  background: linear-gradient(to right top, #34a34c, #277b3d, #1d552d, #14321c, #041107);
+    background: linear-gradient( to right top, #34a34c, #277b3d, #1d552d, #14321c, #041107);
 }
 
 .success-btn {
-  background: linear-gradient(94.9deg, #2fed59 4.26%, #23ad41 95.87%);
-  // color: white !important;
+    background: linear-gradient(94.9deg, #2fed59 4.26%, #23ad41 95.87%);
+    // color: white !important;
 }
+
 .white-btn {
-  border: 2px solid #23ad41;
-  background: white;
-  color: #23ad41 !important;
+    border: 2px solid #23ad41;
+    background: white;
+    color: #23ad41 !important;
 }
 
 .uc_text {
-  position: relative;
-  top: 100px;
-  text-align: center;
+    position: relative;
+    top: 100px;
+    text-align: center;
 }
