@@ -439,4 +439,3 @@ export default {
   box-shadow: 0px 23px 82px rgb(0 0 0 / 4%) !important;
 }
 </style>
-// border: 1px solid #ffffff3d; // border: 1px solid rgba(0, 0, 0, 0.38);
