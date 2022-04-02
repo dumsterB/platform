@@ -1,26 +1,22 @@
 <template>
   <div>
-    <v-dialog
-      v-model="dialog"
-      width="800"
-    >
+    <v-dialog v-model="dialog" width="800">
       <template v-slot:activator="{ on, attrs }">
-        <div    v-bind="attrs"
-                v-on="on" >
-          <v-btn dark elevation="0"  class="success-btn" >{{ $t('change') }}</v-btn>
+        <div v-bind="attrs" v-on="on">
+          <v-btn dark elevation="0" :style="customStyle" class="success-btn">{{
+            $t("change")
+          }}</v-btn>
         </div>
       </template>
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">
-          {{$t('email_change')}}
+          {{ $t("email_change") }}
         </v-card-title>
         <div class="pa-5">
-          <h4>{{$t('new_email_verify')}}</h4>
+          <h4>{{ $t("new_email_verify") }}</h4>
           <v-divider></v-divider>
           <v-col>
-            <v-text-field
-              :label="$t('new_email_address')"
-            ></v-text-field>
+            <v-text-field :label="$t('new_email_address')"></v-text-field>
           </v-col>
           <v-col>
             <v-text-field
@@ -29,7 +25,7 @@
               @click:suffix="GetCodePhoneNumber"
             ></v-text-field>
           </v-col>
-          <h4>{{$t('security_check')}}</h4>
+          <h4>{{ $t("security_check") }}</h4>
           <v-col>
             <v-text-field
               :label="$t('email_verification_code')"
@@ -46,12 +42,8 @@
           </v-col>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              text
-              @click="dialog=false"
-            >
-              {{$t('send')}}
+            <v-btn color="primary" text @click="dialog = false">
+              {{ $t("send") }}
             </v-btn>
           </v-card-actions>
         </div>
@@ -61,21 +53,43 @@
 </template>
 
 <script>
+import config from "~/config/config.json";
 export default {
   name: "securityModal",
-  props:{
-    dialog:{
-      type:Boolean,
-    }
+  data() {
+    return {
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
+    };
   },
-  methods:{
-    GetCodePhoneNumber(){
-      console.log('clicked')
-    }
-  }
-}
+  props: {
+    dialog: {
+      type: Boolean,
+    },
+  },
+  methods: {
+    GetCodePhoneNumber() {
+      console.log("clicked");
+    },
+  },
+  computed: {
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
+  },
+};
 </script>
 
 <style scoped>
-
+.success-btn {
+  background: linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
+  color: white !important;
+}
 </style>

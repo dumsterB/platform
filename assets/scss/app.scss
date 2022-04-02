@@ -74,15 +74,15 @@ html[theme="light"] {
     background: linear-gradient( to right top, #34a34c, #277b3d, #1d552d, #14321c, #041107);
 }
 
-.success-btn {
-    background: linear-gradient(94.9deg, #2fed59 4.26%, #23ad41 95.87%);
-    // color: white !important;
-}
-
 .white-btn {
-    border: 2px solid #23ad41;
-    background: white;
-    color: #23ad41 !important;
+    // border: 2px solid #23ad41;
+    // background: transparent;
+    // color: #23ad41 !important;
+    // color: #23ad41;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    border: solid 1px transparent;
+    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(94.9deg, #2fed59 4.26%, #23ad41 95.87%);
 }
 
 .uc_text {

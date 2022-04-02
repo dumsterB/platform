@@ -37,7 +37,8 @@
           elevation="0"
           large
           rounded
-          class="simple-btn-half"
+          :style="customStyle"
+          class="outlined-btn primary--text"
           @click="depositChanger('withdraw')"
         >
           {{ $t("withdraw") }}
@@ -66,6 +67,7 @@ export default {
   },
   data() {
     return {
+      btn_bg: config.colors.text.btn_bg,
       start_gradient: config.themes.dark.start_gradient,
       end_gradient: config.themes.dark.end_gradient,
       hideBalancer: false,
@@ -76,6 +78,7 @@ export default {
   computed: {
     customStyle() {
       return {
+        "--btn_bg": this.btn_bg,
         "--start_gradient": this.start_gradient,
         "--end_gradient": this.end_gradient,
       };
@@ -102,11 +105,17 @@ export default {
 </script>
 
 <style scoped>
-.simple-btn-half {
-  color: black;
+.outlined-btn {
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border: solid 1px transparent;
+  background-image: linear-gradient(var(--btn_bg), var(--btn_bg)),
+    linear-gradient(
+      94.9deg,
+      var(--start_gradient) 4.26%,
+      var(--end_gradient) 95.87%
+    );
   border-radius: 12px;
-  border: 1px solid #23ad41;
-  background: transparent;
   width: 150px;
 }
 .success-btn-half {

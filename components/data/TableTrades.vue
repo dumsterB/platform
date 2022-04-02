@@ -33,7 +33,11 @@
         </v-toolbar>
       </template>
       <template v-slot:[`item.dest_amount`]="{ item }">
-        <span>{{ `${item.dest_amount ? item.dest_amount.toFixed(4) : ""} ${item.dest_currency.symbol}` }}</span>
+        <span>{{
+          `${item.dest_amount ? item.dest_amount.toFixed(4) : ""} ${
+            item.dest_currency.symbol
+          }`
+        }}</span>
       </template>
       <template v-slot:[`item.source_amount`]="{ item }">
         <span>{{

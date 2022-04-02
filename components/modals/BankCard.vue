@@ -96,6 +96,7 @@
               @click="addCardNumber"
               large
               class="success-btn mb-4 ml-2"
+              :style="customStyle"
               >{{ $t("add_card") }}
             </v-btn>
           </v-card-actions>
@@ -120,6 +121,7 @@ const validateIsNumber = (value) => {
   let stringValue = value.split(" ").join("");
   return /^\d+$/.test(stringValue);
 };
+import config from "~/config/config.json";
 export default {
   name: "BankCard",
   props: {
@@ -131,6 +133,8 @@ export default {
   data() {
     return {
       data: {
+        start_gradient: config.themes.dark.start_gradient,
+        end_gradient: config.themes.dark.end_gradient,
         expire_date: "",
         card_number: "",
         user_name: "",
@@ -228,11 +232,26 @@ export default {
       // );
       return this.valid;
     },
+
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
   },
   mounted() {},
 };
 </script>
 <style scoped>
+.success-btn {
+  background: linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
+  color: white !important;
+}
 .v-subheader {
   height: 32px;
   margin-left: 6px;

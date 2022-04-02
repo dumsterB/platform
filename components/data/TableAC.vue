@@ -119,9 +119,9 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return "color: error--text;";
+        return "color: 'red';";
       } else {
-        return "color: success_text--text;";
+        return "color: 'green';";
       }
     },
     buy(item) {

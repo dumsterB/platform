@@ -10,9 +10,13 @@
           </div>
           <v-spacer></v-spacer>
           <div style="align-items: center; display: flex">
-            <v-btn dark elevation="0" class="success-btn">{{
-              $t("enable")
-            }}</v-btn>
+            <v-btn
+              dark
+              elevation="0"
+              :style="customStyle"
+              class="success-btn"
+              >{{ $t("enable") }}</v-btn
+            >
           </div>
         </div>
         <v-divider class="mt-2 mb-2"></v-divider>
@@ -30,9 +34,12 @@
             :label="$t('unset')"
           ></v-checkbox>
           <div style="align-items: center; display: flex">
-            <v-btn elevation="0" class="white-btn">{{
-              $t("deleteText")
-            }}</v-btn>
+            <v-btn
+              elevation="0"
+              :style="customStyle"
+              class="outlined-btn primary--text"
+              >{{ $t("deleteText") }}</v-btn
+            >
           </div>
           <phone
             style="align-items: center; display: flex"
@@ -55,9 +62,12 @@
             :label="$t('unset')"
           ></v-checkbox>
           <div style="align-items: center; display: flex">
-            <v-btn elevation="0" class="white-btn">{{
-              $t("deleteText")
-            }}</v-btn>
+            <v-btn
+              elevation="0"
+              :style="customStyle"
+              class="outlined-btn primary--text"
+              >{{ $t("deleteText") }}</v-btn
+            >
           </div>
           <email
             style="align-items: center; display: flex"
@@ -96,7 +106,7 @@ import password from "../modals/security/Password";
 import email from "../modals/security/Email";
 import phone from "../modals/security/Phone";
 import confirmPassword from "../modals/security/СonfirmPassword";
-
+import config from "~/config/config.json";
 export default {
   name: "privateInformation",
   components: {
@@ -107,11 +117,44 @@ export default {
   },
   data() {
     return {
+      btn_bg: config.colors.text.btn_bg,
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
       VerificationNumberCheckbox: false,
     };
   },
   methods: {},
+  computed: {
+    customStyle() {
+      return {
+        "--btn_bg": this.btn_bg,
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.success-btn {
+  background: linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
+  color: white !important;
+}
+.outlined-btn {
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border: solid 1px transparent;
+  color: primary;
+  background-image: linear-gradient(var(--btn_bg), var(--btn_bg)),
+    linear-gradient(
+      94.9deg,
+      var(--start_gradient) 4.26%,
+      var(--end_gradient) 95.87%
+    );
+}
+</style>

@@ -59,6 +59,7 @@
           block
           large
           class="success-btn mb-3"
+          :style="customStyle"
           elevation="0"
           @click="trade_run"
           :loading="loading"
@@ -92,6 +93,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import config from "~/config/config.json";
 const currencies = "data/currency";
 export default {
   name: "Exchange",
@@ -105,6 +107,8 @@ export default {
   },
   data() {
     return {
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
       link_url: "bc1qu75kr9s9j0hpuf5qugqdastwwhzglz3gfwcz06",
       copied: false,
       pay: null,
@@ -242,6 +246,13 @@ export default {
     ...mapGetters(currencies, {
       currencies: "list",
     }),
+
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
     ...mapGetters("data/wallet", {
       wallets: "list",
     }),
@@ -255,4 +266,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.success-btn {
+  background: linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
+  color: white !important;
+}
+</style>
