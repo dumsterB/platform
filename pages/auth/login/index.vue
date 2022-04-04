@@ -5,30 +5,36 @@
         <v-row>
           <v-spacer></v-spacer>
           <img
-            style="height: 60px; margin-right: 20px"
+            style="
+              height: 60px;
+              margin-right: 20px;
+              background-color: #fafafa;
+              border-radius: 4px;
+            "
             :src="config.logo"
-            alt="Профинвест картинка"
+            :alt="$t('logoPic')"
           />
           <LangSelect style="max-width: 150px; margin-top: 10px" />
           <v-spacer></v-spacer>
         </v-row>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="authContainer">
       <v-col :md="12" :lg="6" style="">
         <v-card
           v-if="!reg_log"
-          elevation="4"
+          elevation="8"
           max-width="450"
-          class="px-4 py-6 pt-8 mx-auto"
+          class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
+          :style="customStyle"
         >
           <h3>{{ $t("register") }}</h3>
           <div v-if="steper == 0">
             <p class="d-flex">
               {{ $t("readyToRegister") }}
               <span
-                style="cursor: pointer; color: green"
-                class="ml-2"
+                style="cursor: pointer"
+                class="ml-2 primary--text"
                 @click="reg_log = true"
                 >{{ $t("signinHere") }}</span
               >
@@ -80,14 +86,14 @@
                 <v-checkbox v-model="checkbox"></v-checkbox>
                 <span
                   style="font-size: 13px; margin-top: 22px"
-                  class="text-gray"
+                  class="text-gray--text"
                 >
                   {{ $t("agree_with_policy") }}</span
                 >
               </div>
               <p style="font-size: 14px">
                 {{ $t("agree")
-                }}<span style="cursor: pointer; color: green">
+                }}<span style="cursor: pointer" class="primary--text">
                   {{ $t("terms_and_policy") }}
                 </span>
               </p>
@@ -98,7 +104,7 @@
                   outlined
                   tile
                   class="d-flex mt-2 mb-2 mx-auto"
-                  color="green"
+                  color="primary"
                   @click="reg_start"
                 >
                   {{ $t("to_continue") }}
@@ -151,7 +157,7 @@
                   outlined
                   tile
                   class="d-flex mt-2 mb-2 mx-auto"
-                  color="green"
+                  color="primary"
                   :loading="reg_loader"
                   @click="reg_end"
                 >
@@ -165,14 +171,15 @@
           v-if="reg_log"
           max-width="450"
           elevation="4"
-          class="px-4 py-6 pt-8 mx-auto"
+          class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
+          :style="customStyle"
         >
           <h3>{{ $t("signin") }}</h3>
           <p class="d-flex">
             {{ $t("haveNotAccount") }}
             <span
-              style="cursor: pointer; color: green"
-              class="ml-2"
+              style="cursor: pointer"
+              class="ml-2 primary--text"
               @click="reg_log = false"
               >{{ $t("signupHere") }}</span
             >
@@ -210,12 +217,12 @@
                 tile
                 :loading="log_loader"
                 class="d-flex mt-2 mb-2 mx-auto"
-                color="green"
+                color="primary"
                 type="submit"
               >
                 {{ $t("signin") }}
               </v-btn>
-              <span class="forgetPassword">
+              <span class="forgetPassword primary--text">
                 {{ $t("forgetPasswordMessage") }}</span
               >
             </div>
@@ -278,9 +285,26 @@ export default {
       };
     },
   },
+<<<<<<< HEAD
+=======
+  computed: {
+    CURRENT_LOCALE() {
+      return this.$i18n.locale;
+    },
+    ...mapGetters("data/countries", {
+      countries: "list",
+    }),
+    customStyle() {
+      return {
+        "--border_color": this.border_color,
+      };
+    },
+  },
+>>>>>>> styles
   data() {
     return {
       config: config,
+      border_color: config.colors.border,
       auth_login_form_valid: false,
       name: "",
       surname: "",
@@ -396,11 +420,17 @@ export default {
 </script>
 <style scoped>
 .forgetPassword {
-  color: #23ad41;
   text-align: center;
   display: flex;
   justify-content: center;
   cursor: pointer;
   margin-top: 15px;
+}
+.authContainer {
+  display: flex;
+  align-items: center;
+}
+.cardBorder {
+  border: 1px solid var(--border_color);
 }
 </style>

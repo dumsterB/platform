@@ -21,7 +21,9 @@
       </v-list-item-group>
     </v-col>
     <v-col md="8" lg="7">
-      <h2 style="text-align: center">{{ $t("user_help") }}</h2>
+      <h2 class="success_text--text" style="text-align: center">
+        {{ $t("user_help") }}
+      </h2>
       <v-expansion-panels class="mt-4">
         <v-text-field
           class="mb-4"

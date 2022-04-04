@@ -17,6 +17,7 @@
         "balm-ui": "^8.46.6",
         "card": "^2.5.4",
         "core-js": "^3.19.3",
+        "node-sass-json-importer": "^4.3.0",
         "nuxt": "^2.15.8",
         "trading-vue-js": "^1.0.2",
         "vue-apexcharts": "^1.6.2",

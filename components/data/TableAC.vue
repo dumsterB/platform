@@ -11,7 +11,7 @@
     >
       <template v-slot:[`item.action`]="{ item }">
         <div class="d-flex justify-end">
-          <v-btn small @click="buy(item)"  class="ml-3 green--text" outlined>
+          <v-btn small @click="buy(item)" class="ml-3 green--text" outlined>
             {{ $t("buy") }}
           </v-btn>
           <v-btn small @click="sell(item)" class="ml-3 red--text" outlined>
@@ -119,9 +119,9 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return "color: red;";
+        return "color: 'red';";
       } else {
-        return "color: green;";
+        return "color: 'green';";
       }
     },
     buy(item) {

@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import "../assets/scss/variables.scss";
-// import "../plugins/vuetify.js";
 export default {
   mounted() {
     this.$router.push({
@@ -14,6 +12,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// @import "../plugins/vuetify.js";
-</style>
+<style lang="scss" scoped></style>

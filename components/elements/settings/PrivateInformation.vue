@@ -11,7 +11,7 @@
           >
     <span
       v-if="!imageData"
-      class="placeholder"
+      class="placeholder text-gray--text"
     >
       <v-icon size="70">mdi-camera</v-icon>
     </span>
@@ -94,6 +94,7 @@
             <v-card-actions class="text-center d-flex justify-center">
               <v-btn
                 class="mr-4 success-btn ml-2 mb-4"
+                :style="customStyle"
                 @click="validate"
                 elevation="0"
                 large
@@ -112,10 +113,13 @@
 
 <script>
 import { mapGetters } from "vuex";
+import config from "~/config/config.json";
 export default {
   name: "privateInformation",
   data() {
     return {
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
       rules: [
         (value) =>
           !value ||
@@ -131,7 +135,7 @@ export default {
       date: this.$auth.user.birth,
       menu: false,
       phone: this.$auth.user.phone,
-      loading: false
+      loading: false,
     };
   },
   methods: {
@@ -174,19 +178,29 @@ export default {
   },
   mounted() {},
   computed: {
-    ...mapGetters('data/countries', {
-      countries: "list"
+    ...mapGetters("data/countries", {
+      countries: "list",
     }),
+
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
+
     validation() {
       return {
-        required: [
-          (v) => !!v || this.$t("password_required"),
-        ],
+        required: [(v) => !!v || this.$t("password_required")],
         password: [
           (v) => !!v || this.$t("password_required"),
-          (v) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(v) || this.$t("password_create_description"),
+          (v) =>
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(v) ||
+            this.$t("password_create_description"),
         ],
-        number: [(v) => (!!v && v.length == 12) || this.$t("invalid_phone_number")],
+        number: [
+          (v) => (!!v && v.length == 12) || this.$t("invalid_phone_number"),
+        ],
         name: [(v) => !!v || this.$t("enter_first_name")],
         surname: [(v) => !!v || this.$t("enter_last_name")],
         birth_place: [(v) => !!v || this.$t("enter_place_birth")],
@@ -195,7 +209,7 @@ export default {
           (v) => !!v || this.$t("enter_verification_email"),
           (v) => /.+@.+\..+/.test(v) || this.$t("enter_verification_email"),
         ],
-      }
+      };
     },
     disableBtn() {
       return (
@@ -213,6 +227,14 @@ export default {
 </script>
 
 <style scoped>
+.success-btn {
+  background: linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
+  color: white !important;
+}
 .selecImage {
   display: flex;
   justify-content: center;
@@ -236,7 +258,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #333;
+
   font-size: 18px;
 }
 

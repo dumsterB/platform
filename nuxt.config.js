@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const langs = [{
   code: 'en',
   name: 'English',
@@ -19,6 +20,26 @@ const langs = [{
   name: "اَلْعَرَبِيَّةُ",
   dir: 'rtl'
 }];
+=======
+const langs = [
+  {
+    code: "en",
+    name: "English",
+  },
+  {
+    code: "ru",
+    name: "Русский",
+  },
+  {
+    code: "pl",
+    name: "Polskie",
+  },
+  {
+    code: "de",
+    name: "Deutsch",
+  },
+];
+>>>>>>> styles
 import de from "./config/locales/de.js";
 import en from "./config/locales/en.js";
 import pl from "./config/locales/pl.js";
@@ -62,7 +83,7 @@ export default {
           },
         },
         tokenRequired: true,
-        tokenType: 'Bearer'
+        tokenType: "Bearer",
       },
     },
     redirect: {
@@ -94,43 +115,24 @@ export default {
   modules: ["@nuxtjs/axios", "@nuxtjs/auth", "@nuxtjs/i18n"],
 
   router: {
-    middleware: ['auth']
+    middleware: ["auth"],
   },
 
   vuetify: {
     customVariables: ["~/assets/scss/app.scss"],
     theme: {
-      themes: {
-        dark: {
-          primary: "#2fed59",
-          info: "#ffffff66",
-          secondary: "#ffffffa6",
-          accent: "#d1d4dc",
-          error: "#ff2b5e",
-          success: "#32fa5d",
-          warning: "#ff922e",
-        },
-        light: {
-          primary: "#166e29",
-          info: "#00000066",
-          secondary: "#000000a6",
-          accent: "#293345",
-          error: "#ff2b5e",
-          success: "#32fa5d",
-          warning: "#ff922e",
-        },
-      },
+      themes: config.themes,
     },
   },
 
   i18n: {
-    strategy: 'no_prefix',
+    strategy: "no_prefix",
     locales: langs,
     defaultLocale: config.default_language,
     vueI18n: {
       fallbackLocale: config.default_language,
       messages: locales,
-    }
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

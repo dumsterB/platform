@@ -4,5 +4,72 @@
     "domain": "alfex.com",
     "default_language": "ru",
     "logo": "/falcon/logoblue.png",
-    "icon": "/falcon/faviconblue.png"
+    "icon": "/falcon/faviconblue.png",
+    "themes": {
+        "dark": {
+            "primary": "#212fc0",
+            "info": "#787878",
+            "secondary": "#ffffffa6",
+            "accent": "#d1d4dc",
+            "error": "#c03221",
+            "success": "#4D59CD",
+            "warning": "#F3A633",
+            "success_text": "#343fb3",
+            "red": "#c03221",
+            "purple": "#6321bf",
+            "deep-purple": "#570861",
+            "indigo": "#183783",
+            "blue": "#216FC0",
+            "light-blue": "#47BBDF",
+            "cyan": "#30d6c5",
+            "teal": "#008080",
+            "green": "#21c020",
+            "light-green": "#30D574",
+            "lime": "#6FC021",
+            "yellow": "#C0B221",
+            "orange": "#F3A633",
+            "deep-orange": "#cc5728",
+            "gray": "#767786",
+            "text-gray": "#6d6f8c",
+            "start_gradient": "#5d69e3",
+            "end_gradient": "#1e2bb0"
+        },
+        "light": {
+            "primary": "#212fc0",
+            "info": "#787878",
+            "secondary": "#000000a6",
+            "accent": "#293345",
+            "error": "#c03221",
+            "success": "#4D59CD",
+            "warning": "#F3A633",
+            "success_text": "#343fb3",
+            "red": "#c03221",
+            "purple": "#6321bf",
+            "deep-purple": "#570861",
+            "indigo": "#183783",
+            "blue": "#216FC0",
+            "light-blue": "#47BBDF",
+            "cyan": "#30d6c5",
+            "teal": "#008080",
+            "green": "#21c020",
+            "light-green": "#30D574",
+            "lime": "#6FC021",
+            "yellow": "#C0B221",
+            "orange": "#F3A633",
+            "deep-orange": "#faa218",
+            "gray": "#767786",
+            "text-gray": "#6d6f8c",
+            "start_gradient": "#5d69e3",
+            "end_gradient": "#1e2bb0"
+        }
+    },
+    "colors": {
+        "text": {
+            "primary": "#212fc0",
+            "btn_bg": "#f5f5f5"
+        },
+        "border": "#d8d8d8",
+        "box_shadow_auth": "",
+        "icon_color": "#9d9d9d"
+    }
 }

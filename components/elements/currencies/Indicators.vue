@@ -67,9 +67,9 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return "color: red;";
+        return "color: 'red';";
       } else {
-        return "color: green;";
+        return "color: 'green';";
       }
     },
   },

@@ -36,7 +36,7 @@
                     @click.prevent.stop="handlerSelection"
                     size="25"
                     v-if="!star_selection"
-                    style="color: #fff59d"
+                    class="yellow--text"
                     >mdi-star-outline</v-icon
                   >
                 </v-btn>
@@ -60,7 +60,7 @@
           v-else
           :size="25"
           :width="3"
-          color="green"
+          color="primary"
           indeterminate
           style="left: 64px"
         ></v-progress-circular>
@@ -147,6 +147,7 @@ export default {
   width: 80px;
 }
 .coinList .chip {
+  // toolbar background
   background-color: #3d3d3d;
   padding: 1px;
   text-align: center;
@@ -162,6 +163,7 @@ export default {
 }
 html[theme="light"] {
   .chip {
+    // toolbar background
     background-color: #ebebeb;
   }
 }

@@ -1157,8 +1157,8 @@
         y2="19.4122"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#2fed59"></stop>
-        <stop offset="1" stop-color="#23ad41"></stop>
+        <stop offset="0" :stop-color="start_gradient"></stop>
+        <stop offset="1" :stop-color="end_gradient"></stop>
       </linearGradient>
       <linearGradient
         id="paint19_linear_3047:12407"
@@ -1168,8 +1168,8 @@
         y2="19.4122"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#2fed59"></stop>
-        <stop offset="1" stop-color="#23ad41"></stop>
+        <stop offset="0" :stop-color="start_gradient"></stop>
+        <stop offset="1" :stop-color="end_gradient"></stop>
       </linearGradient>
       <linearGradient
         id="paint20_linear_3047:12407"
@@ -1201,8 +1201,8 @@
         y2="31.1184"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#2fed59"></stop>
-        <stop offset="1" stop-color="#23ad41"></stop>
+        <stop offset="0" :stop-color="start_gradient"></stop>
+        <stop offset="1" :stop-color="end_gradient"></stop>
       </linearGradient>
       <linearGradient
         id="paint23_linear_3047:12407"
@@ -1322,8 +1322,8 @@
         y2="154.717"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#2fed59"></stop>
-        <stop offset="1" stop-color="#23ad41"></stop>
+        <stop offset="0" :stop-color="start_gradient"></stop>
+        <stop offset="1" :stop-color="end_gradient"></stop>
       </linearGradient>
       <linearGradient
         id="paint34_linear_3047:12407"
@@ -1366,8 +1366,8 @@
         y2="293.313"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#2fed59"></stop>
-        <stop offset="1" stop-color="#23ad41"></stop>
+        <stop offset="0" :stop-color="start_gradient"></stop>
+        <stop offset="1" :stop-color="end_gradient"></stop>
       </linearGradient>
       <linearGradient
         id="paint38_linear_3047:12407"
@@ -1450,7 +1450,13 @@
   </svg>
 </template>
 <script>
+import config from "~/config/config.json";
 export default {
-
-}
+  data() {
+    return {
+      start_gradient: config.themes.light.start_gradient,
+      end_gradient: config.themes.light.end_gradient,
+    };
+  },
+};
 </script>

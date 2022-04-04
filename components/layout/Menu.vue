@@ -27,7 +27,7 @@
       <v-btn
         icon
         class="mx-auto"
-        color="#aaa"
+        :color="icon_color"
         @click.stop="style_panel_left_minimal = !style_panel_left_minimal"
       >
         <v-icon size="28">{{ "mdi-menu" }}</v-icon>
@@ -40,9 +40,9 @@
       style="height: 70px; margin: 0px"
     >
       <img
-        style="height: 30px; margin-right: 20px; margin-left: auto;"
+        style="height: 30px; margin-right: 20px; margin-left: auto"
         :src="config.logo"
-        alt="Профинвест картинка"
+        :alt="$t('logoPic')"
       />
       <v-btn
         icon
@@ -57,7 +57,12 @@
     <v-list class="ma-0 pa-0">
       <v-list-item-group v-model="menu_active">
         <div v-for="(item, i) in menu" :key="i">
-          <v-list-item :key="i" nuxt :to="item.to" active-class="primary--text">
+          <v-list-item
+            :key="i"
+            nuxt
+            :to="item.to"
+            active-class="success_text--text"
+          >
             <template v-slot:default="{}">
               <v-tooltip
                 right
@@ -66,10 +71,15 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-list-item-action v-on="on">
-                    <v-icon color="#9D9D9D" size="24">{{ item.icon }}</v-icon>
+                    <v-icon :color="icon_color" size="24">{{
+                      item.icon
+                    }}</v-icon>
                   </v-list-item-action>
                   <v-list-item-content>
-                    <v-list-item-title v-text="$t(item.title)" />
+                    <v-list-item-title
+                      class="font-weight-medium"
+                      v-text="$t(item.title)"
+                    />
                   </v-list-item-content>
                 </template>
                 <span>{{ $t(item.title) }}</span>
@@ -84,15 +94,16 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import config from "~/config/config.json"
+import config from "~/config/config.json";
 export default {
   data: function () {
     return {
+      icon_color: config.colors.icon_color,
       style_panel_left_minimal: false,
       permanent: true,
       menu_active: 0,
       drawer: true,
-      config: config
+      config: config,
     };
   },
   components: {},

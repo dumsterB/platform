@@ -2,7 +2,7 @@
   <div>
     <v-dialog width="500" v-model="cardDialog">
       <v-card>
-        <div class="d-flex darken-1 pa-5 white--text font-weight-black title">
+        <div class="d-flex pa-5 white--text font-weight-black title">
           <v-spacer></v-spacer>
           <v-btn icon @click="$emit('cardDialogChanger')">
             <v-icon>mdi-close</v-icon>
@@ -95,7 +95,8 @@
               elevation="0"
               @click="addCardNumber"
               large
-              class="success-btn mb-4 ml-2"
+              :style="customStyle"
+              class="mb-4 ml-2 success-btn"
               >{{ $t("add_card") }}
             </v-btn>
           </v-card-actions>
@@ -120,6 +121,7 @@ const validateIsNumber = (value) => {
   let stringValue = value.split(" ").join("");
   return /^\d+$/.test(stringValue);
 };
+import config from "~/config/config.json";
 export default {
   name: "BankCard",
   props: {
@@ -137,6 +139,8 @@ export default {
         cvv: "",
         card_icon: "https://www.svgrepo.com/show/103010/credit-card.svg",
       },
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
       showCVV: false,
       card_number: "",
       exp_date: "",
@@ -205,6 +209,12 @@ export default {
     },
   },
   computed: {
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
     getCardType() {
       let number = this.card_number;
       let re = new RegExp("^4");
@@ -229,10 +239,20 @@ export default {
       return this.valid;
     },
   },
-  mounted() {},
+  mounted() {
+    console.log("this.start_gradient :>> ", this.start_gradient);
+  },
 };
 </script>
 <style scoped>
+.success-btn {
+  background: linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
+  color: white !important;
+}
 .v-subheader {
   height: 32px;
   margin-left: 6px;
