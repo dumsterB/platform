@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const langs = [{
   code: 'en',
   name: 'English',
@@ -20,26 +19,6 @@ const langs = [{
   name: "اَلْعَرَبِيَّةُ",
   dir: 'rtl'
 }];
-=======
-const langs = [
-  {
-    code: "en",
-    name: "English",
-  },
-  {
-    code: "ru",
-    name: "Русский",
-  },
-  {
-    code: "pl",
-    name: "Polskie",
-  },
-  {
-    code: "de",
-    name: "Deutsch",
-  },
-];
->>>>>>> styles
 import de from "./config/locales/de.js";
 import en from "./config/locales/en.js";
 import pl from "./config/locales/pl.js";

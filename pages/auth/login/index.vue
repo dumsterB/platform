@@ -285,8 +285,6 @@ export default {
       };
     },
   },
-<<<<<<< HEAD
-=======
   computed: {
     CURRENT_LOCALE() {
       return this.$i18n.locale;
@@ -300,7 +298,6 @@ export default {
       };
     },
   },
->>>>>>> styles
   data() {
     return {
       config: config,
