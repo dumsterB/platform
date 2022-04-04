@@ -47,42 +47,27 @@ input[type="number"]::-webkit-inner-spin-button {
 
 html[theme="light"] {
     .back-failure {
-        background: linear-gradient( to right top, #e08b8b, #df7472, #db5c58, #d5423d, #cd2121);
-        background: #ef3b36;
-        /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right top, #ffffff, #ef3b36);
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right top, #ffffff, #ef3b36);
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: #d5303f;
+        background: -webkit-linear-gradient(to right top, transparent, #d5303f);
+        background: linear-gradient(to right top, transparent, #d5303f);
     }
     .back-success {
-        background: linear-gradient( to right top, #edfff1, #b9e8c0, #87d08c, #56b756, #119d11);
+        background: #3fd530;
+        background: -webkit-linear-gradient(to right top, transparent, #3fd530);
+        background: linear-gradient(to right top, transparent, #3fd530);
     }
 }
 
 .back-failure {
-    background: linear-gradient( to right top, #872121, #681c1e, #4a1719, #2d1112, #110404);
-    background: #200122;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right top, #6f0000, #200122);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right top, #6f0000, #200122);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: transparent;
+    background: -webkit-linear-gradient(to right top, transparent, #6f0000);
+    background: linear-gradient(to right top, transparent, #6f0000);
 }
 
 .back-success {
-    background: linear-gradient( to right top, #34a34c, #277b3d, #1d552d, #14321c, #041107);
-}
-
-.white-btn {
-    // border: 2px solid #23ad41;
-    // background: transparent;
-    // color: #23ad41 !important;
-    // color: #23ad41;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    border: solid 1px transparent;
-    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(94.9deg, #2fed59 4.26%, #23ad41 95.87%);
+    background: #0f9b0f;
+    background: -webkit-linear-gradient(to right top, transparent, #0f9b0f);
+    background: linear-gradient(to right top, transparent, #0f9b0f);
 }
 
 .uc_text {

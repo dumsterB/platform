@@ -23,17 +23,18 @@
       <v-col :md="12" :lg="6" style="">
         <v-card
           v-if="!reg_log"
-          elevation="4"
+          elevation="8"
           max-width="450"
           class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
+          :style="customStyle"
         >
           <h3>{{ $t("register") }}</h3>
           <div v-if="steper == 0">
             <p class="d-flex">
               {{ $t("readyToRegister") }}
               <span
-                style="cursor: pointer; color: green"
-                class="ml-2"
+                style="cursor: pointer"
+                class="ml-2 primary--text"
                 @click="reg_log = true"
                 >{{ $t("signinHere") }}</span
               >
@@ -92,7 +93,7 @@
               </div>
               <p style="font-size: 14px">
                 {{ $t("agree")
-                }}<span style="cursor: pointer; color: green">
+                }}<span style="cursor: pointer" class="primary--text">
                   {{ $t("terms_and_policy") }}
                 </span>
               </p>
@@ -103,7 +104,7 @@
                   outlined
                   tile
                   class="d-flex mt-2 mb-2 mx-auto"
-                  color="green"
+                  color="primary"
                   @click="reg_start"
                 >
                   {{ $t("to_continue") }}
@@ -156,7 +157,7 @@
                   outlined
                   tile
                   class="d-flex mt-2 mb-2 mx-auto"
-                  color="green"
+                  color="primary"
                   :loading="reg_loader"
                   @click="reg_end"
                 >
@@ -171,13 +172,14 @@
           max-width="450"
           elevation="4"
           class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
+          :style="customStyle"
         >
           <h3>{{ $t("signin") }}</h3>
           <p class="d-flex">
             {{ $t("haveNotAccount") }}
             <span
-              style="cursor: pointer; color: green"
-              class="ml-2"
+              style="cursor: pointer"
+              class="ml-2 primary--text"
               @click="reg_log = false"
               >{{ $t("signupHere") }}</span
             >
@@ -215,12 +217,12 @@
                 tile
                 :loading="log_loader"
                 class="d-flex mt-2 mb-2 mx-auto"
-                color="green"
+                color="primary"
                 type="submit"
               >
                 {{ $t("signin") }}
               </v-btn>
-              <span class="forgetPassword">
+              <span class="forgetPassword primary--text">
                 {{ $t("forgetPasswordMessage") }}</span
               >
             </div>
@@ -282,10 +284,16 @@ export default {
     ...mapGetters("data/countries", {
       countries: "list",
     }),
+    customStyle() {
+      return {
+        "--border_color": this.border_color,
+      };
+    },
   },
   data() {
     return {
       config: config,
+      border_color: config.colors.border,
       auth_login_form_valid: false,
       name: "",
       surname: "",
@@ -423,7 +431,6 @@ export default {
 </script>
 <style scoped>
 .forgetPassword {
-  color: #23ad41;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -435,7 +442,6 @@ export default {
   align-items: center;
 }
 .cardBorder {
-  border: 1px solid #d8d8d8;
-  box-shadow: 0px 23px 82px rgb(0 0 0 / 4%) !important;
+  border: 1px solid var(--border_color);
 }
 </style>

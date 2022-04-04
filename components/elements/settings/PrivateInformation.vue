@@ -11,7 +11,7 @@
           >
     <span
       v-if="!imageData"
-      class="placeholder"
+      class="placeholder text-gray--text"
     >
       <v-icon size="70">mdi-camera</v-icon>
     </span>
@@ -258,7 +258,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #333;
+
   font-size: 18px;
 }
 

@@ -1,10 +1,5 @@
 <template>
-  <v-app-bar
-    app
-    flat
-    fixed
-    style="border-bottom: 1px solid #383741; height: 71px"
-  >
+  <v-app-bar app flat fixed style="border-bottom: 1px solid grey; height: 71px">
     <div class="d-flex mt-8">
       <v-btn elevation="0" @click="handlerOpenWallet" class="navLink">{{
         $t("my_wallet")
@@ -51,7 +46,7 @@
         </template>
         <template v-slot:item="{ item }">
           <v-list-item-avatar
-            color="indigo"
+            color="primary"
             class="text-h5 font-weight-light white--text"
           >
             <v-img :src="item.logo"></v-img>
@@ -82,16 +77,7 @@
       <template v-slot:activator="{ on }">
         <v-card
           flat
-          class="
-            account-menu
-            d-flex
-            flex-columns
-            align-center
-            mt-2
-            py-2
-            pr-2
-            pl-4
-          "
+          class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
           style="width: 200px"
           v-on="on"
         >

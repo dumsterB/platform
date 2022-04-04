@@ -76,7 +76,7 @@
         </div>
         <br />
         <v-divider class="mt-2 mb-2"></v-divider>
-        <h4>Расширенная безопасность</h4>
+        <h4>{{ $t("advanced_security") }}</h4>
         <v-divider class="mt-2 mb-2"></v-divider>
         <div class="list-item d-flex">
           <div>

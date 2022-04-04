@@ -4,5 +4,72 @@
     "domain": "alfex.com",
     "default_language": "en",
     "logo": "/dubai/Blue_Logo.png",
-    "icon": "/dubai/Blue_Favicon.png"
+    "icon": "/dubai/Blue_Favicon.png",
+    "themes": {
+        "dark": {
+            "primary": "#1870fa",
+            "info": "#787878",
+            "secondary": "#ffffffa6",
+            "accent": "#d1d4dc",
+            "error": "#FA3118",
+            "success": "#3118fa",
+            "warning": "#faa218",
+            "success_text": "#044ec1",
+            "red": "#f92d16",
+            "purple": "#5532d3",
+            "deep-purple": "#570861",
+            "indigo": "#091f92",
+            "blue": "#22577E",
+            "light-blue": "#32b0d3",
+            "cyan": "#30d6c5",
+            "teal": "#008080",
+            "green": "#71f916",
+            "light-green": "#30D574",
+            "lime": "#b0d332",
+            "yellow": "#e3f916",
+            "orange": "#faa218",
+            "deep-orange": "#cc5728",
+            "gray": "#757e8c",
+            "text-gray": "#6b7c98",
+            "start_gradient": "#639efc",
+            "end_gradient": "#044ec1"
+        },
+        "light": {
+            "primary": "#1870fa",
+            "info": "#787878",
+            "secondary": "#000000a6",
+            "accent": "#293345",
+            "error": "#FA3118",
+            "success": "#3118fa",
+            "warning": "#faa218",
+            "success_text": "#044ec1",
+            "red": "#f92d16",
+            "purple": "#5532d3",
+            "deep-purple": "#570861",
+            "indigo": "#091f92",
+            "blue": "#22577E",
+            "light-blue": "#32b0d3",
+            "cyan": "#30d6c5",
+            "teal": "#008080",
+            "green": "#71f916",
+            "light-green": "#30D574",
+            "lime": "#b0d332",
+            "yellow": "#e3f916",
+            "orange": "#D57330",
+            "deep-orange": "#faa218",
+            "gray": "#757e8c",
+            "text-gray": "#6b7c98",
+            "start_gradient": "#639efc",
+            "end_gradient": "#044ec1"
+        }
+    },
+    "colors": {
+        "text": {
+            "primary": "#1870fa",
+            "btn_bg": "#f5f5f5"
+        },
+        "border": "#d8d8d8",
+        "box_shadow_auth": "",
+        "icon_color": "#9d9d9d"
+    }
 }

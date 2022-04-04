@@ -1,16 +1,15 @@
 <template>
   <v-footer v-bind="localAttrs" :padless="padless" class="pa-0 mt-4">
     <v-card flat tile width="100%" class="text-center">
-
-      <v-card-text class="grey--text pa-1">
-        {{ new Date().getFullYear() }} — <strong>{{config.name}}</strong>
+      <v-card-text class="primary--text pa-1">
+        {{ new Date().getFullYear() }} — <strong>{{ config.name }}</strong>
       </v-card-text>
     </v-card>
   </v-footer>
 </template>
 
 <script>
-import config from "~/config/config.json"
+import config from "~/config/config.json";
 export default {
   data: () => ({
     icons: [

@@ -286,7 +286,4 @@ export default {
   );
   color: white !important;
 }
-.select_card {
-  background-color: #23ad41;
-}
 </style>

@@ -9,7 +9,7 @@
                 <v-btn
                   small
                   block
-                  :class="page_state == 0 ? 'green' : 'green--text'"
+                  :class="page_state == 0 ? 'primary' : 'primary--text'"
                   @click="page_state = 0"
                   >{{ $t("Spot") }}</v-btn
                 >
@@ -18,7 +18,7 @@
                 <v-btn
                   small
                   block
-                  :class="page_state == 1 ? 'green' : 'green--text'"
+                  :class="page_state == 1 ? 'primary' : 'primary--text'"
                   @click="page_state = 1"
                   >{{ $t("Arbitrage") }}</v-btn
                 >
@@ -201,7 +201,7 @@ export default {
       this.trade_filter = {
         trade_status_id: "3",
         dest_currency_id: this.curr_id,
-      }
+      };
       this.current = this.curr_by_id(this.curr_id) || {};
       this.curr_code = this.current.symbol;
     },
@@ -253,7 +253,7 @@ export default {
       fetchAS: "fetchList",
     }),
     async reload() {
-      console.log('AAAAAAAAAA', this.$refs.a_session)
+      console.log("AAAAAAAAAA", this.$refs.a_session);
       await this.$refs.a_session.reload();
     },
     onResize(event) {

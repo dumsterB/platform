@@ -10,7 +10,7 @@
             <v-btn
               rounded
               outlined
-              :class="tgl ? 'historyChip green' : 'historyChip'"
+              :class="tgl ? 'historyChip primary white--text' : 'historyChip'"
               x-small
               @click="history_tgl"
               ><div>

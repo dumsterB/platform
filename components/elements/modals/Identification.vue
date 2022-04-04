@@ -60,7 +60,7 @@
                 :style="{ 'background-image': `url(${imageData})` }"
                 @click="chooseImage"
               >
-                <span v-if="!imageData" class="placeholder">
+                <span v-if="!imageData" class="placeholder text-gray--text">
                   <div>
                     <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                     <br />
@@ -86,7 +86,10 @@
                       :style="{ 'background-image': `url(${imageData})` }"
                       @click="chooseImage"
                     >
-                      <span v-if="!imageData" class="placeholder">
+                      <span
+                        v-if="!imageData"
+                        class="placeholder text-gray--text"
+                      >
                         <div>
                           <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                           <br />
@@ -111,7 +114,10 @@
                       :style="{ 'background-image': `url(${imageData})` }"
                       @click="chooseImage"
                     >
-                      <span v-if="!imageData" class="placeholder">
+                      <span
+                        v-if="!imageData"
+                        class="placeholder text-gray--text"
+                      >
                         <div>
                           <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                           <br />
@@ -460,7 +466,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #333;
   font-size: 18px;
 }
 

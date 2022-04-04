@@ -58,7 +58,7 @@ export default {
   methods: {
     resetList(prices) {
       let list = this.ac.map((el, i) => {
-        let fnd = prices.find(e => e && e.company == el.name);
+        let fnd = prices.find((e) => e && e.company == el.name);
         let pr = 0;
         if (fnd && fnd.price) pr = fnd.price;
         el.price = pr;
@@ -90,17 +90,15 @@ export default {
         return el;
       });
       this.list = list;
-      this.$emit('clicked', val.name)
+      this.$emit("clicked", val.name);
     },
   },
   watch: {
     prices() {
-      this.resetList(this.prices)
+      this.resetList(this.prices);
     },
   },
-  async created() {
-    
-  },
+  async created() {},
 };
 </script>
 <style lang="scss" scoped>
@@ -108,11 +106,13 @@ export default {
   font-size: 13px !important;
 }
 .btn-clicked {
-  background-color: #313131;
+  // toolbar background
+  background-color: #3d3d3d;
 }
 html[theme="light"] {
   .btn-clicked {
-    background-color: #e6e6e6;
+    // toolbar background
+    background-color: #ebebeb;
   }
 }
 </style>

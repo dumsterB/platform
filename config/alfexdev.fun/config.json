@@ -4,5 +4,72 @@
     "domain": "alfex.com",
     "default_language": "ru",
     "logo": "/prof-invest/color_logo.png",
-    "icon": "/prof-invest/favicon_color.png"
+    "icon": "/prof-invest/favicon_color.png",
+    "themes": {
+        "dark": {
+            "primary": "#325FD3",
+            "info": "#787878",
+            "secondary": "#ffffffa6",
+            "accent": "#d1d4dc",
+            "error": "#d3325f",
+            "success": "#212FC0",
+            "warning": "#FDAF75",
+            "success_text": "#215FFF",
+            "red": "#d3325f",
+            "purple": "#5532d3",
+            "deep-purple": "#570861",
+            "indigo": "#091f92",
+            "blue": "#22577E",
+            "light-blue": "#32b0d3",
+            "cyan": "#30d6c5",
+            "teal": "#008080",
+            "green": "#5fd332",
+            "light-green": "#30D574",
+            "lime": "#b0d332",
+            "yellow": "#d3a632",
+            "orange": "#D57330",
+            "deep-orange": "#cc5728",
+            "gray": "#787c88",
+            "text-gray": "#707991",
+            "start_gradient": "#4579FF",
+            "end_gradient": "#305BCB"
+        },
+        "light": {
+            "primary": "#325FD3",
+            "info": "#787878",
+            "secondary": "#000000a6",
+            "accent": "#293345",
+            "error": "#d3325f",
+            "success": "#212FC0",
+            "warning": "#FDAF75",
+            "success_text": "#215FFF",
+            "red": "#d3325f",
+            "purple": "#5532d3",
+            "deep-purple": "#570861",
+            "indigo": "#091f92",
+            "blue": "#22577E",
+            "light-blue": "#32b0d3",
+            "cyan": "#30d6c5",
+            "teal": "#008080",
+            "green": "#5fd332",
+            "light-green": "#30D574",
+            "lime": "#b0d332",
+            "yellow": "#d3a632",
+            "orange": "#D57330",
+            "deep-orange": "#cc5728",
+            "gray": "#787c88",
+            "text-gray": "#707991",
+            "start_gradient": "#4579FF",
+            "end_gradient": "#305BCB"
+        }
+    },
+    "colors": {
+        "text": {
+            "primary": "#325FD3",
+            "btn_bg": "#f5f5f5"
+        },
+        "border": "#d8d8d8",
+        "box_shadow_auth": "",
+        "icon_color": "#9d9d9d"
+    }
 }
