@@ -82,9 +82,12 @@
         ></v-text-field>
       </v-col>
       <v-col :cols="3">
-        <v-icon large @click.prevent.stop="copyURL(link_url)">{{
-          copied ? "mdi-check" : "mdi-content-copy"
-        }}</v-icon>
+        <v-icon
+          :color="copied ? 'green' : ''"
+          large
+          @click.prevent.stop="copyURL(link_url)"
+          >{{ copied ? "mdi-check" : "mdi-content-copy" }}</v-icon
+        >
       </v-col>
     </v-row>
     <br />

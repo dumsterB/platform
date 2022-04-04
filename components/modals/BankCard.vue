@@ -2,7 +2,7 @@
   <div>
     <v-dialog width="500" v-model="cardDialog">
       <v-card>
-        <div class="d-flex darken-1 pa-5 white--text font-weight-black title">
+        <div class="d-flex pa-5 white--text font-weight-black title">
           <v-spacer></v-spacer>
           <v-btn icon @click="$emit('cardDialogChanger')">
             <v-icon>mdi-close</v-icon>
@@ -95,8 +95,8 @@
               elevation="0"
               @click="addCardNumber"
               large
-              class="success-btn mb-4 ml-2"
               :style="customStyle"
+              class="mb-4 ml-2 success-btn"
               >{{ $t("add_card") }}
             </v-btn>
           </v-card-actions>
@@ -133,14 +133,14 @@ export default {
   data() {
     return {
       data: {
-        start_gradient: config.themes.dark.start_gradient,
-        end_gradient: config.themes.dark.end_gradient,
         expire_date: "",
         card_number: "",
         user_name: "",
         cvv: "",
         card_icon: "https://www.svgrepo.com/show/103010/credit-card.svg",
       },
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
       showCVV: false,
       card_number: "",
       exp_date: "",
@@ -209,6 +209,12 @@ export default {
     },
   },
   computed: {
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
     getCardType() {
       let number = this.card_number;
       let re = new RegExp("^4");
@@ -232,15 +238,10 @@ export default {
       // );
       return this.valid;
     },
-
-    customStyle() {
-      return {
-        "--start_gradient": this.start_gradient,
-        "--end_gradient": this.end_gradient,
-      };
-    },
   },
-  mounted() {},
+  mounted() {
+    console.log("this.start_gradient :>> ", this.start_gradient);
+  },
 };
 </script>
 <style scoped>

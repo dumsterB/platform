@@ -47,7 +47,7 @@
       <v-btn
         v-if="userWallet && userWallet.balance"
         class="c-actions-sell"
-        color="red darken-1"
+        color="red "
         type="submit"
         text
         :loading="loadingSell"
@@ -58,7 +58,7 @@
       <v-spacer></v-spacer>
       <v-btn
         class="c-actions"
-        color="green darken-1"
+        color="green "
         type="submit"
         text
         :loading="loading"
@@ -68,13 +68,7 @@
       </v-btn>
     </v-card-actions>
     <v-card-actions v-else class="c-actions">
-      <v-btn
-        color="green darken-1"
-        type="submit"
-        text
-        :loading="loading"
-        @click="save"
-      >
+      <v-btn color="green" type="submit" text :loading="loading" @click="save">
         {{ action === "Sell" ? $t("sell") : $t("buy") }}
       </v-btn>
     </v-card-actions>

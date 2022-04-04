@@ -26,7 +26,7 @@
                   {{ $t("daily_withdrawal_limit") }}
                 </p>
                 <p class="success_text--text">100BTC</p>
-                <v-btn elevation="0" disabled>Проверить сейчас</v-btn>
+                <v-btn elevation="0" disabled>{{ $t("verify_now") }}</v-btn>
               </v-card>
             </v-col>
           </v-row>
