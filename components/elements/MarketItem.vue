@@ -8,7 +8,7 @@
             @click.prevent.stop="togglerFavorite"
             size="40"
             v-if="isFavorite"
-            style="color: yellow"
+            color="yellow"
             >mdi-star</v-icon
           >
           <v-icon

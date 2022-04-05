@@ -4,7 +4,7 @@
       <p class="text-h6">{{ $t("my_wallet") }}</p>
       <a @click="$router.push('/wallet')">{{ $t("show_all") }}</a>
     </div>
-    <v-card class="pa-3">
+    <v-card class="pa-3" elevation="4">
       <div class="justify-center">
         <div class="text-center justify-center d-flex pa-4">
           <div>
@@ -75,7 +75,9 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
-              <a v-if="!more" class="ma-3" @click="view_more">{{ $t("view_more") }}</a>
+              <a v-if="!more" class="ma-3" @click="view_more">{{
+                $t("view_more")
+              }}</a>
             </div>
             <a v-if="more" class="ma-3" @click="view_back">{{
               $t("go_back")

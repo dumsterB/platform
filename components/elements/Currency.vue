@@ -3,19 +3,18 @@
     <v-tooltip v-if="tooltip" bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-card
-          class="currecyCard"
-          elevation="3"
+          class="currecyCard rounded-lg"
+          elevation="8"
           v-bind="attrs"
           v-on="on"
           :width="220"
-          :class="diffColor(currency.change_p)"
         >
           <v-list-item
             three-line
-            class="pa-2"
+            class="pa-2 rounded-lg"
             @click="$router.push(`/currency?id=${currency.id}`)"
           >
-            <v-list-item-content class="pa-1">
+            <v-list-item-content class="pa-1 rounded-lg">
               <div class="d-flex">
                 <v-img :src="currency.logo" :max-width="20"></v-img>
                 <span class="mt-1 ml-1">{{ currency.symbol }}</span>
@@ -29,7 +28,7 @@
                     @click.prevent.stop="handlerSelection"
                     size="30"
                     v-if="star_selection"
-                    style="color: yellow"
+                    color="yellow"
                     >mdi-star</v-icon
                   >
                   <v-icon
@@ -41,7 +40,9 @@
                   >
                 </v-btn>
               </div>
-              <span>{{ currency.change_p }}%</span>
+              <span :style="customStyles" :class="diffColor(currency.change_p)"
+                >{{ currency.change_p }}%</span
+              >
             </v-list-item-content>
           </v-list-item>
         </v-card>
@@ -66,10 +67,10 @@
         ></v-progress-circular>
       </div>
     </v-tooltip>
-    <v-card v-else class="currecyCard" elevation="3" :width="220">
+    <v-card v-else class="currecyCard" elevation="8" :width="220">
       <v-list-item
         three-line
-        class="pa-2"
+        class="pa-2 rounded-lg"
         @click="$router.push(`/currency?id=${currency.id}`)"
       >
         <v-list-item-content class="pa-1">
@@ -81,7 +82,7 @@
         </v-list-item-content>
         <v-list-item-content class="coinList pa-1 flexNone">
           <div class="chip">24H</div>
-          <span :style="diffColor(currency.change_p)"
+          <span :style="customStyles" :class="diffColor(currency.change_p)"
             >{{ currency.change_p }}%</span
           >
         </v-list-item-content>
@@ -91,7 +92,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-
+import config from "~/config/config.json";
 export default {
   props: {
     currency: {
@@ -110,6 +111,8 @@ export default {
   },
   data() {
     return {
+      green: config.themes.dark.green,
+      red: config.themes.dark.red,
       interv: null,
       star_selection: false,
     };
@@ -122,6 +125,12 @@ export default {
     ...mapGetters("data/arbitrage_company", {
       arbitrage_company: "list",
     }),
+    customStyles() {
+      return {
+        "--green": this.green,
+        "--red": this.red,
+      };
+    },
   },
   methods: {
     diffColor(diff) {
@@ -170,5 +179,12 @@ html[theme="light"] {
 .star-btn {
   text-align: center;
   width: 40px;
+}
+
+.back-failure {
+  color: var(--red);
+}
+.back-success {
+  color: var(--green);
 }
 </style>

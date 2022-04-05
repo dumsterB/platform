@@ -3,7 +3,7 @@
     <div class="d-flex mdc-form-field--space-between">
       <p class="text-h6">{{ $t("exchange") }}</p>
     </div>
-    <v-card class="pa-3">
+    <v-card class="pa-3" elevation="4">
       <div class="justify-center text-center">
         <div class="pa-1 mt-2 justify-space-between d-flex">
           <v-text-field

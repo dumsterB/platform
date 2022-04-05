@@ -148,7 +148,7 @@ export default {
 .outlined-btn {
   background-origin: border-box;
   background-clip: padding-box, border-box;
-  border: solid 1px transparent;
+  border: solid 2px transparent;
   color: primary;
   background-image: linear-gradient(var(--btn_bg), var(--btn_bg)),
     linear-gradient(

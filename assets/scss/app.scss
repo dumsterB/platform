@@ -45,31 +45,6 @@ input[type="number"]::-webkit-inner-spin-button {
     flex: none;
 }
 
-html[theme="light"] {
-    .back-failure {
-        background: #d5303f;
-        background: -webkit-linear-gradient(to right top, transparent, #d5303f);
-        background: linear-gradient(to right top, transparent, #d5303f);
-    }
-    .back-success {
-        background: #3fd530;
-        background: -webkit-linear-gradient(to right top, transparent, #3fd530);
-        background: linear-gradient(to right top, transparent, #3fd530);
-    }
-}
-
-.back-failure {
-    background: transparent;
-    background: -webkit-linear-gradient(to right top, transparent, #6f0000);
-    background: linear-gradient(to right top, transparent, #6f0000);
-}
-
-.back-success {
-    background: #0f9b0f;
-    background: -webkit-linear-gradient(to right top, transparent, #0f9b0f);
-    background: linear-gradient(to right top, transparent, #0f9b0f);
-}
-
 .uc_text {
     position: relative;
     top: 100px;

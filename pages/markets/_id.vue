@@ -3,7 +3,12 @@
     <Marketplace class="mt-4" :item="item" />
     <v-row class="mx-auto ml-1">
       <v-col class="" v-for="(curr, i) in currencies" :key="i">
-        <Currency :currency="curr" :tooltip="false" />
+        <Currency
+          :currency="curr"
+          :companies="companies"
+          :tooltip="false"
+          :id="`ttp-${curr.symbol}`"
+        />
       </v-col>
     </v-row>
   </div>
@@ -24,8 +29,8 @@ export default {
 
   data() {
     return {
-      currencies: []
-    }
+      currencies: [],
+    };
   },
 
   computed: {
@@ -59,7 +64,7 @@ export default {
           if (json_d && json_d.method == `${me.item.name}_all@ticker_10s`) {
             let data = json_d.data ? json_d.data.data || [] : [];
             let currencies = [];
-            me.currs.forEach(el => {
+            me.currs.forEach((el) => {
               let res = el;
               let fnd = data.find((e) => e && e.base == el.symbol);
               if (fnd && fnd.price) {

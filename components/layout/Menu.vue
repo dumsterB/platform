@@ -7,7 +7,7 @@
     mobile-breakpoint="1"
     mini-variant-width="75"
     width="280"
-    class="elevation-0"
+    elevation="0"
   >
     <div
       v-if="style_panel_left_minimal"
