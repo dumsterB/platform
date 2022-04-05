@@ -182,9 +182,16 @@ html[theme="light"] {
 }
 
 .back-failure {
+  font-weight: 600;
   color: var(--red);
+  &:hover {
+  }
 }
+
 .back-success {
   color: var(--green);
+  font-weight: 600;
+  &:hover {
+  }
 }
 </style>
