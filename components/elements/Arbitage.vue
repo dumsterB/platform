@@ -15,7 +15,7 @@
             <div>
               <v-card-subtitle class="d-flex"
                 ><img height="30" :src="coin.logo" alt="" />
-                <p class="ml-2 mt-1">
+                <p class="ml-2 mt-1 curr_name">
                   <strong>{{ coin.symbol }}</strong>
                 </p></v-card-subtitle
               >

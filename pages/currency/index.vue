@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-container">
     <v-row>
       <v-col :cols="4">
         <v-row>
@@ -149,6 +149,7 @@ export default {
       str_subscr: "",
       curr_subscr: "",
       trade_filter: null,
+      interv: null
     };
   },
   computed: {
@@ -278,9 +279,7 @@ export default {
             if (!fnd) {
               str += `"${st}"`;
               arr.push(st);
-              if (i < this.trades.length - 1) {
-                str += ",";
-              }
+              str += ",";
             }
           } else {
             let ex_t = curr.exchange_type.key;
@@ -290,9 +289,7 @@ export default {
               if (!fnd) {
                 str += `"${st}"`;
                 arr.push(st);
-                if (i < this.trades.length - 1) {
-                  str += ",";
-                }
+                str += ",";
               }
             }
           }
@@ -407,6 +404,12 @@ export default {
   },
   async mounted() {
     window.addEventListener("resize", this.onResize);
+    setTimeout(() => {
+      this.prices = Object.assign([], this.prices);
+    }, 2000)
+    this.interv = setInterval(() => {
+      this.prices = Object.assign([], this.prices);
+    }, 8000);
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResize);
@@ -417,6 +420,9 @@ export default {
       "method": "unsubscribe",
       "data": [${this.str_subscr}]
     }`);
+    if (this.interv) {
+      clearInterval(this.interv);
+    }
   },
 };
 </script>

@@ -254,9 +254,16 @@ export default {
     SvgImage,
     LangSelect,
   },
-  watch: {
-    CURRENT_LOCALE(v) {
-      this.validation = {
+  watch: {},
+  computed: {
+    CURRENT_LOCALE() {
+      return this.$i18n.locale;
+    },
+    ...mapGetters("data/countries", {
+      countries: "list",
+    }),
+    validation() {
+      return {
         required: [(v) => !!v || this.$t("password_required")],
         password: [
           (v) => !!v || this.$t("password_required"),
@@ -268,6 +275,7 @@ export default {
           (v) => (!!v && v.length == 12) || this.$t("invalid_phone_number"),
         ],
         name: [(v) => !!v || this.$t("enter_first_name")],
+        surname: [(v) => !!v || this.$t("enter_last_name")],
         birth_place: [(v) => !!v || this.$t("enter_place_birth")],
         birth: [(v) => !!v || this.$t("enter_day_birth")],
         email: [
@@ -276,14 +284,6 @@ export default {
         ],
       };
     },
-  },
-  computed: {
-    CURRENT_LOCALE() {
-      return this.$i18n.locale;
-    },
-    ...mapGetters("data/countries", {
-      countries: "list",
-    }),
     customStyle() {
       return {
         "--border_color": this.border_color,
@@ -317,28 +317,6 @@ export default {
       reg_loader: false,
       log_loader: false,
       ident_passwords: [],
-
-      // data validation
-      validation: {
-        required: [(v) => !!v || this.$t("password_required")],
-        password: [
-          (v) => !!v || this.$t("password_required"),
-          (v) =>
-            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(v) ||
-            this.$t("password_create_description"),
-        ],
-        number: [
-          (v) => (!!v && v.length == 12) || this.$t("invalid_phone_number"),
-        ],
-        name: [(v) => !!v || this.$t("enter_first_name")],
-        surname: [(v) => !!v || this.$t("enter_last_name")],
-        birth_place: [(v) => !!v || this.$t("enter_place_birth")],
-        birth: [(v) => !!v || this.$t("enter_day_birth")],
-        email: [
-          (v) => !!v || this.$t("enter_verification_email"),
-          (v) => /.+@.+\..+/.test(v) || this.$t("enter_verification_email"),
-        ],
-      },
     };
   },
 

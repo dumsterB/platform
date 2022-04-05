@@ -1,28 +1,32 @@
-const langs = [
-  {
-    code: "en",
-    name: "English",
-  },
-  {
-    code: "ru",
-    name: "Русский",
-  },
-  {
-    code: "pl",
-    name: "Polskie",
-  },
-  {
-    code: "de",
-    name: "Deutsch",
-  },
-];
+const langs = [{
+  code: 'en',
+  name: 'English',
+  dir: 'ltr'
+}, {
+  code: "ru",
+  name: 'Русский',
+  dir: 'ltr'
+}, {
+  code: "pl",
+  name: 'Polskie',
+  dir: 'ltr'
+}, {
+  code: "de",
+  name: "Deutsch",
+  dir: 'ltr'
+}, {
+  code: "ar",
+  name: "اَلْعَرَبِيَّةُ",
+  dir: 'rtl'
+}];
 import de from "./config/locales/de.js";
 import en from "./config/locales/en.js";
 import pl from "./config/locales/pl.js";
 import ru from "./config/locales/ru.js";
+import ar from "./config/locales/ar.js";
 import config from "./config/config.json";
 
-let locales = { en, de, ru, pl };
+let locales = { en, de, ru, pl, ar };
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -73,7 +77,7 @@ export default {
   css: ["balm-ui/dist/balm-ui.css", "~layouts/global.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/axios", "~/plugins/envstore", "@/plugins/balm-ui"],
+  plugins: ["~/plugins/axios", "~/plugins/envstore", "@/plugins/balm-ui", "~/plugins/i18n.js"],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [

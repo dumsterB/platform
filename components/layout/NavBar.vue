@@ -1,6 +1,11 @@
 <template>
-  <v-app-bar app flat fixed style="border-bottom: 1px solid grey; height: 71px">
-    <div class="d-flex mt-8">
+  <v-app-bar
+    app
+    flat
+    fixed
+    style="border-bottom: 1px solid #383741; height: 71px"
+  >
+    <div class="d-flex mt-8" :dir="$dir()">
       <v-btn elevation="0" @click="handlerOpenWallet" class="navLink">{{
         $t("my_wallet")
       }}</v-btn>
@@ -22,6 +27,7 @@
         item-text="name"
         dense
         outlined
+        solo
         chips
         clearable
         hide-selected

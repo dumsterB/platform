@@ -1,6 +1,10 @@
 <template>
   <div>
-    <v-card class="mx-auto pa-3" elevation="1" max-width="430">
+    <v-card
+      class="mx-auto pa-3 gc-card"
+      elevation="1"
+      max-width="430"
+    >
       <v-list-item three-line>
         <v-list-item-content>
           <v-list-item-title class="text-h5 mb-1">

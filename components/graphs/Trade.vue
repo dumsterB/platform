@@ -75,6 +75,9 @@ export default {
     };
   },
   computed: {
+    CURRENT_LOCALE() {
+      return this.$i18n.locale;
+    },
     colors() {
       return this.$vuetify.theme.dark
         ? {
@@ -138,7 +141,7 @@ export default {
               "timezone": "Etc/UTC",
               "theme": "dark",
               "style": "1",
-              "locale": "ru",
+              "locale": "${this.CURRENT_LOCALE}",
               "toolbar_bg": "#f1f3f6",
               "enable_publishing": false,
               "hide_side_toolbar": false,
@@ -164,7 +167,7 @@ export default {
             "timezone": "Etc/UTC",
             "theme": "light",
             "style": "1",
-            "locale": "ru",
+            "locale": "${this.CURRENT_LOCALE}",
             "toolbar_bg": "#f1f3f6",
             "enable_publishing": false,
             "hide_side_toolbar": false,

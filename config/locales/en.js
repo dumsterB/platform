@@ -35,18 +35,12 @@ export default {
   sure_change_email_verify:
     "Are you sure you want to change email verification?",
   sure_change_phone: "Are you sure you want to change your phone number?",
-  description_sure_change_phone:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas accumsan, ligula at bibendum blandit, nulla tortor suscipit elit, faucibus posuere augue orci eget mi.", // not for translate now
   change_your_password: "Change your password",
-  description_change_your_password:
-    " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas accumsan, ligula at bibendum blandit, nulla tortor suscipit elit, faucibus posuere augue orci eget mi.", // not for translate now
   verifying_phone_number: "Verifying on new phone number",
   new_phone_number: "New phone number",
   security_check: "Security check",
   email_not_standart: "Your email does not meet the emails standard.",
   email_change: "Email change",
-  description_change_email:
-    " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas accumsan, ligula at bibendum blandit, nulla tortor suscipit elit, faucibus posuere augue orci eget mi.", // not for translate now
   user_balance: "Your balance is equivalent",
   deposit: "Deposit",
   withdraw: "Withdraw",
