@@ -1,56 +1,12 @@
 <template>
   <div>
-    <v-row v-if="curr_company" class="pa-3 pl-6 pr-6">
-      <v-col
-        cols="12"
-        xl="3"
-        md="6"
-        lg="4"
-        sm="12"
-        v-for="(coin, i) in currs"
-        :key="i"
-      >
-        <v-card elevation="1" max-width="500" min-height="130" class="pb-4">
-          <div class="justify-space-between d-flex pa-3">
-            <div>
-              <v-card-subtitle class="d-flex"
-                ><img height="30" :src="coin.logo" alt="" />
-                <p class="ml-2 mt-1 curr_name">
-                  <strong>{{ coin.symbol }}</strong>
-                </p></v-card-subtitle
-              >
-            </div>
-
-            <div>
-              <v-card-subtitle
-                ><p class="mr-6 mt-1">
-                  <strong>${{ coin.price }}</strong>
-                </p></v-card-subtitle
-              >
-            </div>
-          </div>
-          <div class="ma-8 mb-1 mt-1">
-            <v-btn class="green" block @click="trade_now(coin)">{{
-              $t("trade_now")
-            }}</v-btn>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row class="pa-3 pl-6 pr-6" v-if="!curr_company"
+    <v-row class="pa-3 pl-6 pr-6"
       ><v-col
         ><v-row
           ><v-col>
-            <v-row class="pl-4 mb-2"
-              ><v-icon class="mr-4" @click="curr_company = true"
-                >mdi-arrow-left</v-icon
-              >
-              <v-img
-                class="mr-4"
-                max-width="50"
-                :src="sel_currency.logo"
-              ></v-img>
-              <span class="mt-3">{{ sel_currency.symbol }}</span></v-row
+            <v-row class="pl-4 mb-2">
+              <v-img class="mr-4" max-width="50" :src="currency.logo"></v-img>
+              <span class="mt-3">{{ currency.symbol }}</span></v-row
             >
           </v-col></v-row
         >
@@ -63,13 +19,13 @@
             sm="12"
             v-for="(cmp, i) in arb_companies"
             :key="i"
-            ><TradePosition
+            ><TradeCreditPosition
               :tradeItem="cmp.currency"
               :action="cmp.action"
               :userWallet="cmp.wallet"
               :tradePlatform="cmp.company"
               :price="cmp.price"
-              :height="380"
+              :height="530"
               @reload="reload"
           /></v-col> </v-row></v-col
     ></v-row>
@@ -78,13 +34,13 @@
     >
     <v-row>
       <v-col>
-        <TableASession
+        <TableCreditSession
           v-if="arb_ses_filter"
           :prices="prices_all"
           :filter="arb_ses_filter"
           ref="a_session"
           @get_prices="update_subscr"
-        ></TableASession>
+        ></TableCreditSession>
       </v-col>
     </v-row>
     <v-dialog v-model="dialog" max-width="600px"> </v-dialog>
@@ -93,28 +49,33 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import TradePosition from "../../components/elements/modals/TradePosition";
-import TableASession from "~/components/data/TableASession";
-import ThemeSelectVue from "../settings/ThemeSelect.vue";
+import TradeCreditPosition from "../../components/elements/modals/CreditTradePosition";
+import TableCreditSession from "~/components/data/TableCreditSession";
 
 const modelCompanies = "data/arbitrage_company";
 const wallet = "data/wallet";
 export default {
   name: "Arbitage",
+  props: {
+    currency: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+  },
   components: {
-    TradePosition,
-    TableASession,
+    TradeCreditPosition,
+    TableCreditSession,
   },
   data() {
     return {
       dialog: false,
-      sel_currency: {},
       arb_companies: [],
       prices_all: [],
       cur_len: 8,
       prices: [],
       need_curr: null,
-      curr_company: true,
       base_p: this.$store.state.config.data.base_p,
       arb_ses_filter: {
         status_id: 1,
@@ -128,6 +89,9 @@ export default {
         this.userWallet = {};
         this.selectedArbitrageCompany = {};
       }
+    },
+    currency(v) {
+      this.update_subscr(v);
     },
   },
   methods: {
@@ -182,10 +146,10 @@ export default {
         if (element && element.price) {
           let comp = me.ac.find((el) => el.name == element.company);
           let wallet = me.wallet_full.find(
-            (el) => el.currency_id == me.sel_currency.id
+            (el) => el.currency_id == me.currency.id
           );
           arb_companies.push({
-            currency: me.sel_currency,
+            currency: me.currency,
             wallet: wallet || {},
             company: comp,
             action: wallet ? "Both" : "Buy",
@@ -195,12 +159,6 @@ export default {
       });
       me.arb_companies = arb_companies;
       console.log("me.arb_companies", me.arb_companies);
-    },
-    trade_now(coin) {
-      this.arb_companies = [];
-      this.sel_currency = coin;
-      this.update_subscr(coin);
-      this.curr_company = false;
     },
     async reload() {
       await this.$refs.a_session.reload();
@@ -255,7 +213,7 @@ export default {
       "method": "subscribe",
       "data": ["${me.base_p}_all@ticker_10s"]
     }`);
-
+    me.update_subscr(me.currency);
     socket.onmessage = function (event) {
       if (event.data) {
         let json_d = JSON.parse(event.data);

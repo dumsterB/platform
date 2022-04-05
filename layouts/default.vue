@@ -37,6 +37,9 @@ export default {
     CURRENT_LOCALE() {
       return this.$i18n.locale;
     },
+    ...mapGetters("data/credit_session", {
+      credit_session: "list",
+    }),
   },
   watch: {
     CURRENT_LOCALE() {
@@ -48,7 +51,7 @@ export default {
       } else {
         this.$vuetify.rtl = false;
       }
-    }
+    },
   },
   methods: {
     async preload_models() {
@@ -76,6 +79,65 @@ export default {
         }
       }
     },
+    async check_credit_prices() {
+      let me = this;
+      await this.$store.dispatch(`data/credit_session/fetchList`, {
+        config: {
+          params: {
+            status_id: 1,
+          },
+        },
+      });
+      let socket = global.socket;
+      let subscr_obj = me.sessions_subscribe_definer();
+      socket.send(`{
+        "method": "subscribe",
+        "data": [${subscr_obj.str}]
+      }`);
+      console.log("subscr_obj", subscr_obj);
+      socket.onmessage = function (event) {
+        if (event.data) {
+          let json_d = JSON.parse(event.data);
+          subscr_obj.arr.forEach((el) => {
+            if (json_d && json_d.method == el) {
+              let data = json_d.data ? json_d.data.data || [] : [];
+              if (data.length > 0) {
+                me.check_credit(data[0]);
+              }
+            }
+          });
+        }
+      };
+    },
+    check_credit(data) {
+      console.log("credit_price", data);
+    },
+    sessions_subscribe_definer() {
+      let me = this;
+      let str = "";
+      let arr = [];
+      this.credit_session.forEach((arb_s, i) => {
+        let curr = arb_s.wallet.currency;
+        let cr = curr.symbol;
+        let arb_comp = arb_s.arbitrage_company.name;
+        if (curr.currency_type.key == "CRYPTO") {
+          let st = `${arb_comp}_${cr}-USD@ticker_1m`;
+          let fnd = arr.find((el) => el == st);
+          if (!fnd) {
+            str += `"${st}"`;
+            arr.push(`${arb_comp}_${cr}-USD@ticker_1m`);
+            str += ",";
+          }
+        }
+      });
+      if (str) {
+        str = str.slice(0, -1);
+      }
+      return {
+        str: str,
+        arr: arr,
+      };
+    },
   },
   async created() {
     if (this.$store.state.auth.user) {
@@ -85,8 +147,9 @@ export default {
         if (ws.readyState !== ws.OPEN) {
           global.socket = new WebSocket(this.$env("WS_SERVER_BASE"));
         }
-      }, 10000);
+      }, 3000);
       await this.preload_models();
+      await this.check_credit_prices();
     } else {
       if (this.$router.history.current.path != "/auth/registration") {
         this.$router.push({

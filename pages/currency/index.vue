@@ -1,11 +1,11 @@
 <template>
   <div class="page-container">
     <v-row>
-      <v-col :cols="4">
+      <v-col :cols="5">
         <v-row>
           <v-col :cols="7">
             <v-row v-if="curr_crypto" class="mt-2 ml-4">
-              <v-col :lg="6">
+              <v-col :lg="4">
                 <v-btn
                   small
                   block
@@ -14,13 +14,22 @@
                   >{{ $t("Spot") }}</v-btn
                 >
               </v-col>
-              <v-col :lg="6" class="pl-0">
+              <v-col :lg="4" class="pl-0">
                 <v-btn
                   small
                   block
                   :class="page_state == 1 ? 'primary' : 'primary--text'"
                   @click="page_state = 1"
                   >{{ $t("Arbitrage") }}</v-btn
+                >
+              </v-col>
+              <v-col :lg="4" class="pl-0">
+                <v-btn
+                  small
+                  block
+                  :class="page_state == 2 ? 'primary' : 'primary--text'"
+                  @click="page_state = 2"
+                  >{{ $t("Leverage") }}</v-btn
                 >
               </v-col>
             </v-row>
@@ -40,7 +49,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col :cols="8">
+      <v-col :cols="7">
         <Indicators
           v-if="page_state == 0"
           :currency="curr_code"
@@ -50,11 +59,16 @@
           :high="high"
         ></Indicators>
         <Platforms
-          v-else
+          v-if="page_state == 1"
           :currency="curr_code"
           :prices="arb_data"
           @clicked="platform_changed"
         ></Platforms>
+      </v-col>
+    </v-row>
+    <v-row v-if="page_state == 2">
+      <v-col>
+        <Leverage :currency="current"></Leverage>
       </v-col>
     </v-row>
     <v-row>
@@ -62,7 +76,7 @@
         <v-row class="ml-4">
           <v-col class="d-flex justify-center">
             <TradeGraph
-              v-if="graph_key"
+              v-if="graph_key && page_state != 2"
               :width="graphWidth"
               :height="graphHeight"
               :key_g="graph_key"
@@ -93,7 +107,7 @@
           :price="price"
         ></SpotCard>
         <TableAC
-          v-else
+          v-if="page_state == 1"
           :currency="curr_code ? curr_code : undefined"
           :prices="arb_data"
           :current="current"
@@ -113,6 +127,7 @@ import TableAC from "~/components/data/TableAC";
 import TableASession from "~/components/data/TableASession";
 import SpotCard from "~/components/elements/currencies/SpotCard";
 import Platforms from "~/components/elements/currencies/Platforms";
+import Leverage from "~/components/elements/Leverage";
 const model = "data/currency";
 
 export default {
@@ -124,6 +139,7 @@ export default {
     Platforms,
     SpotCard,
     TableASession,
+    Leverage,
   },
   data() {
     let stocks = JSON.parse(
@@ -149,7 +165,7 @@ export default {
       str_subscr: "",
       curr_subscr: "",
       trade_filter: null,
-      interv: null
+      interv: null,
     };
   },
   computed: {
@@ -232,8 +248,14 @@ export default {
     page_state() {
       if (this.page_state == 0) {
         this.spot_sockets();
-      } else {
+      } else if (this.page_state == 1) {
         this.arbitrage_sockets();
+      } else if (this.page_state == 2) {
+        let socket = global.socket;
+        socket.send(`{
+          "method": "unsubscribe",
+          "data": [${this.str_subscr}]
+        }`);
       }
     },
     selected_platform() {
@@ -406,7 +428,7 @@ export default {
     window.addEventListener("resize", this.onResize);
     setTimeout(() => {
       this.prices = Object.assign([], this.prices);
-    }, 2000)
+    }, 2000);
     this.interv = setInterval(() => {
       this.prices = Object.assign([], this.prices);
     }, 8000);

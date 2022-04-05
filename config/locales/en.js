@@ -529,4 +529,5 @@ export default {
   card_rules: "Card number must have 16 characters.",
   card_rules_number: "The card number can only consist of numbers.",
   cvv_rules_number: "The CVV can only consist of numbers.",
+  self_amount: "Self amount"
 };
