@@ -110,7 +110,56 @@ export default {
       };
     },
     check_credit(data) {
-      console.log("credit_price", data);
+      let not_count_str = localStorage.getItem('not_count');
+      let not_count = {};
+      if (not_count_str) {
+        not_count = JSON.parse(not_count_str);
+      }
+      this.credit_session.forEach((el) => {
+        if (
+          el.wallet.currency.symbol == data.base &&
+          el.arbitrage_company.name == data.company
+        ) {
+          let fnd = el;
+          let price = data.price;
+          let sign = fnd.session_start_type.key == "BUY" ? -1 : 1;
+          let curr_am = (fnd.amount * fnd.start_exchange_rate) / price;
+          let lose = (sign * (fnd.amount - curr_am)) / fnd.self_amount;
+          console.log("lose", fnd, lose);
+          if (lose > 0.5 && lose < 0.7) {
+            if (!not_count[fnd.id]) not_count[fnd.id] = 0;
+            if (not_count[fnd.id] == 0) {
+              this.$store.commit("data/notifications/create", {
+                id: "red_" + Math.random().toString(36),
+                title: this.$t("credit_arbitrage_session"),
+                text: this.$t("session_lost_50%"),
+                color: "red",
+              });
+              not_count[fnd.id] += 1;
+            }
+          }
+          if (lose > 0.7) {
+            if (not_count[fnd.id] == 1) {
+              this.$store.commit("data/notifications/create", {
+                id: "red_" + Math.random().toString(36),
+                title: this.$t("credit_arbitrage_session"),
+                text: this.$t("session_lost_70%"),
+                color: "red",
+              });
+              not_count[fnd.id] += 1;
+            }
+          }
+          if (lose > 0.99) {
+            this.$store.commit("data/notifications/create", {
+              id: "red_" + Math.random().toString(36),
+              title: this.$t("credit_arbitrage_session"),
+              text: this.$t("session_auto_closed"),
+              color: "red",
+            });
+          }
+        }
+      });
+      localStorage.setItem('not_count', JSON.stringify(not_count));
     },
     sessions_subscribe_definer() {
       let me = this;
@@ -121,11 +170,11 @@ export default {
         let cr = curr.symbol;
         let arb_comp = arb_s.arbitrage_company.name;
         if (curr.currency_type.key == "CRYPTO") {
-          let st = `${arb_comp}_${cr}-USD@ticker_1m`;
+          let st = `${arb_comp}_${cr}-USD@ticker_30s`;
           let fnd = arr.find((el) => el == st);
           if (!fnd) {
             str += `"${st}"`;
-            arr.push(`${arb_comp}_${cr}-USD@ticker_1m`);
+            arr.push(`${arb_comp}_${cr}-USD@ticker_30s`);
             str += ",";
           }
         }
@@ -146,6 +195,7 @@ export default {
         let ws = global.socket;
         if (ws.readyState !== ws.OPEN) {
           global.socket = new WebSocket(this.$env("WS_SERVER_BASE"));
+          this.check_credit_prices();
         }
       }, 3000);
       await this.preload_models();
