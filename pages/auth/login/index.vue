@@ -284,14 +284,6 @@ export default {
         ],
       };
     },
-  },
-  computed: {
-    CURRENT_LOCALE() {
-      return this.$i18n.locale;
-    },
-    ...mapGetters("data/countries", {
-      countries: "list",
-    }),
     customStyle() {
       return {
         "--border_color": this.border_color,
