@@ -60,6 +60,7 @@
     <v-dialog v-model="dialog" max-width="600px">
       <ClosePosition
         :item="selectedItem"
+        :credit="true"
         :prices="prices"
         @close="dialog = false"
         @reload="reload"
@@ -70,7 +71,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import ClosePosition from "~/components/elements/modals/ClosePosition";
-const model = "data/arbitrage_session";
+const model = "data/credit_session";
 
 export default {
   components: {
@@ -122,6 +123,11 @@ export default {
         {
           text: this.$t("table_time"),
           value: "created_at",
+        },
+        {
+          text: this.$t("self_amount"),
+          value: "self_amount",
+          // width: 100,
         },
         {
           text: this.$t("amount"),

@@ -44,7 +44,6 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-const model = "data/arbitrage_company";
 export default {
   name: "ClosePosition",
   data() {
@@ -67,19 +66,20 @@ export default {
         return [];
       },
     },
+    credit: {
+      type: Boolean,
+      default: false,
+    }
   },
   computed: {
-    ...mapGetters(model, {
+    ...mapGetters('data/arbitrage_company', {
       companies: "list",
     }),
+    model() {
+      return this.credit ? 'data/credit_session' : 'data/arbitrage_session'
+    }
   },
   methods: {
-    ...mapActions(model, {
-      fetchList: "fetchList",
-    }),
-    ...mapActions("data/arbitrage_session", {
-      update_as: "replace",
-    }),
     changeClicked(i) {
       this.cmps.forEach((e) => (e.checked = false));
       this.cmps[i].checked = true;
@@ -97,7 +97,7 @@ export default {
         : this.item.arbitrage_company_id;
       // code
       console.log("as_data", as_data);
-      let rs = await this.update_as({ data: as_data, id: as_data.id });
+      let rs = await this.$store.dispatch(`${this.model}/replace`, { data: as_data, id: as_data.id });
       let title, color;
       if (rs.data && rs.data.status_id != 2) {
         title = this.$t("not_enough_balance");
