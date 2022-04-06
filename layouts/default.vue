@@ -129,33 +129,43 @@ export default {
           if (lose > 0.5 && lose < 0.7) {
             if (!not_count[fnd.id]) not_count[fnd.id] = 0;
             if (not_count[fnd.id] == 0) {
-              this.$store.commit("data/notifications/create", {
-                id: "red_" + Math.random().toString(36),
-                title: this.$t("credit_arbitrage_session"),
-                text: this.$t("session_lost_50%"),
-                color: "red",
-              });
+              setTimeout(() => {
+                this.$store.commit("data/notifications/create", {
+                  id: "red_" + Math.random().toString(36),
+                  title: this.$t("credit_arbitrage_session"),
+                  text: this.$t("session_lost_50%"),
+                  color: "red",
+                });
+              }, 2000);
               not_count[fnd.id] += 1;
             }
           }
           if (lose > 0.7) {
             if (not_count[fnd.id] == 1) {
-              this.$store.commit("data/notifications/create", {
-                id: "red_" + Math.random().toString(36),
-                title: this.$t("credit_arbitrage_session"),
-                text: this.$t("session_lost_70%"),
-                color: "red",
-              });
+              setTimeout(() => {
+                this.$store.commit("data/notifications/create", {
+                  id: "red_" + Math.random().toString(36),
+                  title: this.$t("credit_arbitrage_session"),
+                  text: this.$t("session_lost_70%"),
+                  color: "red",
+                });
+              }, 2000)
               not_count[fnd.id] += 1;
             }
           }
           if (lose > 0.99) {
-            this.$store.commit("data/notifications/create", {
-              id: "red_" + Math.random().toString(36),
-              title: this.$t("credit_arbitrage_session"),
-              text: this.$t("session_auto_closed"),
-              color: "red",
-            });
+            let as_data = JSON.parse(JSON.stringify(fnd));
+            as_data.status_id = 2;
+            as_data.stop_exchange_rate = price ? price : 1;
+            this.$store.dispatch(`data/credit_session/replace`, { data: as_data, id: as_data.id });
+            setTimeout(() => {
+              this.$store.commit("data/notifications/create", {
+                id: "red_" + Math.random().toString(36),
+                title: this.$t("credit_arbitrage_session"),
+                text: this.$t("session_auto_closed"),
+                color: "red",
+              });
+            }, 2000);
           }
         }
       });
