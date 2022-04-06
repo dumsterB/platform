@@ -3,7 +3,13 @@
     <v-row>
       <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
         <div
-          class="d-flex mt-2 mdc-form-field--space-between justify-content-beetween currencyNavbar"
+          class="
+            d-flex
+            mt-2
+            mdc-form-field--space-between
+            justify-content-beetween
+            currencyNavbar
+          "
         >
           <div>
             <p class="text-h6 ml-10">{{ $t("markets") }}</p>
@@ -68,6 +74,8 @@ export default {
       prices: [],
       search: "",
       f_currs: [],
+      subscr: "",
+      com_prices: [],
     };
   },
   computed: {
@@ -82,6 +90,9 @@ export default {
     },
     ...mapGetters("data/arbitrage_company", {
       arbitrage_company: "list",
+    }),
+    ...mapGetters("data/wallet", {
+      wallets: "list",
     }),
   },
   watch: {
@@ -135,31 +146,78 @@ export default {
         }
         return res;
       });
-      me.f_currs = currs;
+      me.f_currs = currs.filter(el => el.price);
       me.search_f();
     },
     reload_wallet() {
       this.$refs.wallet.counter = 1;
       this.init_currs();
     },
+    price_update(data) {
+      let add_data = {
+        price: data.close ? 1 / data.close : data.price,
+        base: data.base ? data.base : data.share,
+      };
+      let fnd = this.com_prices.find((el) => el && el.base == add_data.base);
+      if (fnd) {
+        fnd.price = add_data.price;
+      } else {
+        this.com_prices.push(add_data);
+      }
+    },
+    wallets_subscribe_definer() {
+      let str = "";
+      let arr = [];
+      this.wallets.forEach((wall, i) => {
+        let cr = wall.currency.symbol;
+        if (wall.currency.currency_type.key != "CRYPTO") {
+          let ex_t = wall.currency.exchange_type.key;
+          if (cr != "USD") {
+            str += `"shares_${cr}.${ex_t}@kline_1d"`;
+            arr.push(`shares_${cr}.${ex_t}@kline_1d`);
+            if (i < this.wallets.length - 1) {
+              str += ",";
+            }
+          }
+        }
+      });
+      return {
+        str: str,
+        arr: arr,
+      };
+    },
   },
 
   async created() {
     let me = this;
     let socket = global.socket;
+    let subscr_obj = me.wallets_subscribe_definer();
+    me.subscr = `"${me.base_p}_all@ticker_10s"`;
+    if (subscr_obj.str) {
+      me.subscr += `, ${subscr_obj.str}`;
+    }
     socket.send(`{
       "method": "subscribe",
-      "data": ["${me.base_p}_all@ticker_10s"]
+      "data": [${me.subscr}]
     }`);
     socket.onmessage = function (event) {
       if (event.data) {
         let json_d = JSON.parse(event.data);
         if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
           let data = json_d.data ? json_d.data.data || [] : [];
-          me.prices = data;
+          me.prices = data.concat(me.com_prices);
           me.init_currs();
           // console.log(json_d.method, currs, data)
         }
+        subscr_obj.arr.forEach((el) => {
+          if (json_d && json_d.method == el) {
+            let data = json_d.data ? json_d.data.data || [] : [];
+            if (data.length > 0) {
+              me.price_update(data[0]);
+              me.prices = me.prices.concat(me.com_prices);
+            }
+          }
+        });
         let s_method = json_d.method.slice(0, 3);
         if (json_d && s_method == "all") {
           let data = json_d.data ? json_d.data.data || [] : [];
@@ -231,7 +289,7 @@ export default {
     let socket = global.socket;
     socket.send(`{
       "method": "unsubscribe",
-      "data": ["${this.base_p}_all@ticker_10s"]
+      "data": [${this.subscr}]
     }`);
   },
 };
