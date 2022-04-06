@@ -205,11 +205,10 @@ export default {
         let ws = global.socket;
         if (ws.readyState !== ws.OPEN) {
           global.socket = new WebSocket(this.$env("WS_SERVER_BASE"));
-          this.check_credit_prices();
         }
       }, 3000);
       await this.preload_models();
-      await this.check_credit_prices();
+      // await this.check_credit_prices();
     } else {
       if (this.$router.history.current.path != "/auth/registration") {
         this.$router.push({
