@@ -1,6 +1,5 @@
 <template>
   <div id="dir-rtl" :dir="$dir()">
-    >
     <v-app>
       <LoadingScreen :isLoading="isLoading" />
       <div v-if="!isLoading" class="main-page mb-16">
@@ -218,7 +217,7 @@ export default {
     }
     setTimeout(() => {
       this.isLoading = false;
-    }, 1000);
+    }, 500);
   },
   components: {
     NavBar,

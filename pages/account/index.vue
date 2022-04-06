@@ -146,7 +146,7 @@ export default {
         }
         return res;
       });
-      me.f_currs = currs.filter(el => el.price);
+      me.f_currs = currs.filter((el) => el.price);
       me.search_f();
     },
     reload_wallet() {
@@ -244,41 +244,43 @@ export default {
   mounted() {
     let me = this;
     let int = setInterval(() => {
-      let test = document.getElementById(`ttp-BTC`);
-      if (test) {
+      let test_case = document.getElementById(`ttp-BTC`);
+      if (test_case) {
         setTimeout(() => {
           me.currencies.forEach((currency) => {
             let sym = currency.symbol;
             let test = document.getElementById(`ttp-${sym}`);
             let socket = global.socket;
-            test.addEventListener(
-              "mouseenter",
-              function (event) {
-                me.companies = [];
-                me.waiter[sym] = true;
-                setTimeout(() => {
-                  if (me.waiter[sym]) {
-                    socket.send(`{
+            if (test) {
+              test.addEventListener(
+                "mouseenter",
+                function (event) {
+                  me.companies = [];
+                  me.waiter[sym] = true;
+                  setTimeout(() => {
+                    if (me.waiter[sym]) {
+                      socket.send(`{
                     "method": "subscribe",
                     "data": ["all_${sym}-USD@ticker_10s"]
                   }`);
-                  }
-                }, 500);
-              },
-              false
-            );
+                    }
+                  }, 500);
+                },
+                false
+              );
 
-            test.addEventListener(
-              "mouseleave",
-              function (event) {
-                me.waiter[sym] = false;
-                socket.send(`{
+              test.addEventListener(
+                "mouseleave",
+                function (event) {
+                  me.waiter[sym] = false;
+                  socket.send(`{
                 "method": "unsubscribe",
                 "data": ["all_${sym}-USD@ticker_10s"]
               }`);
-              },
-              false
-            );
+                },
+                false
+              );
+            }
           });
           clearInterval(int);
         }, 400);
