@@ -45,7 +45,7 @@
         </v-row>
       </v-col>
       <v-col :cols="12" :md="4" :lg="4" :sm="12" :xs="12">
-        <Wallet ref="wallet" :currency="currs"></Wallet>
+        <Wallet ref="wallet" :prices="prices"></Wallet>
         <Exchange :currency="currs" @reload="reload_wallet"></Exchange>
       </v-col>
     </v-row>
@@ -192,6 +192,7 @@ export default {
     let me = this;
     let socket = global.socket;
     let subscr_obj = me.wallets_subscribe_definer();
+    console.log('subscr_obj', subscr_obj);
     me.subscr = `"${me.base_p}_all@ticker_10s"`;
     if (subscr_obj.str) {
       me.subscr += `, ${subscr_obj.str}`;

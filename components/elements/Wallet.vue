@@ -101,7 +101,7 @@ export default {
   },
   name: "Wallet",
   props: {
-    currency: {
+    prices: {
       type: Array,
       default: () => {
         return [];
@@ -121,6 +121,7 @@ export default {
       filteredArr: [],
       more: false,
       counter: 0,
+      wait_render: true,
       limit: 5,
       chartOptions: {
         colors: [
@@ -210,9 +211,9 @@ export default {
         };
       });
       this.total_sum = 0;
-      if (this.currency && this.currency.length > 0) {
+      if (this.prices && this.prices.length > 0) {
         data.forEach((element) => {
-          let fnd = this.currency.find((el) => el.symbol == element.currency);
+          let fnd = this.prices.find((el) => el && el.base == element.currency);
           if (fnd && fnd.price) {
             element.balance =
               parseFloat(element.balance) * parseFloat(fnd.price);
@@ -221,7 +222,7 @@ export default {
             this.total_sum += element.balance;
           }
         });
-        let fnd_btc = this.currency.find((el) => el.symbol == "BTC");
+        let fnd_btc = this.prices.find((el) => el && el.base == "BTC");
         if (fnd_btc) {
           this.total_sum_btc = this.total_sum / parseFloat(fnd_btc.price);
         }
@@ -258,12 +259,22 @@ export default {
   },
 
   watch: {
-    currency() {
-      this.filteredArrInit();
+    prices() {
+      if (!this.wait_render) {
+        this.filteredArrInit();
+      }
     },
+    wait_render() {
+      if (!this.wait_render) {
+        this.filteredArrInit();
+      }
+    }
   },
 
   created() {
+    setTimeout(() => {
+      this.wait_render = false;
+    }, 2000)
     this.fetchWallet();
   },
 };
