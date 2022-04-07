@@ -1,18 +1,29 @@
 <template>
-  <v-list tag="section" class="mt-4 mr-4 mb-4 ml-4 bgColor">
-    <v-list-item-group tag="ul" class="pl-0 d-flex flex-wrap">
-      <MarketItem
-        v-for="(company, i) in companies"
-        :key="i"
-        :item="company"
-        :prices="prices[company.name]"
-        :currencies="fav_currencies"
-      />
-      <p v-if="!companies.length">
-        {{ $t("no_market_place") }}
-      </p>
-    </v-list-item-group>
-  </v-list>
+  <v-row>
+    <v-col>
+      <v-row class="ml-4 mr-4">
+        <v-col
+          class="d-flex justify-center mt-4"
+          :xl="3"
+          :lg="4"
+          :md="6"
+          v-for="(company, i) in companies"
+          :key="i"
+        >
+          <MarketItem
+            :item="company"
+            :prices="prices[company.name]"
+            :currencies="fav_currencies"
+          />
+        </v-col>
+      </v-row>
+      <v-col v-if="!companies.length" class="d-flex justify-center mt-4">
+        <p>
+          {{ $t("no_market_place") }}
+        </p>
+      </v-col>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -40,14 +51,14 @@ export default {
       currency: "list",
     }),
     fav_currencies() {
-      return this.currency.filter(el => {
-        let fnd = this.fav_currs.find(e => e == el.symbol);
+      return this.currency.filter((el) => {
+        let fnd = this.fav_currs.find((e) => e == el.symbol);
         if (fnd) {
           return true;
         }
         return false;
-      })
-    }
+      });
+    },
   },
   methods: {
     ...mapActions(model, {
@@ -76,23 +87,23 @@ export default {
         me.fav_currs.forEach((curr) => {
           if (json_d && json_d.method == `all_${curr}-USD@ticker_5s`) {
             let data = json_d.data ? json_d.data.data || [] : [];
-            me.companies.forEach(cmp => {
-              let fnd = data.find(el => el && el.company == cmp.name);
+            me.companies.forEach((cmp) => {
+              let fnd = data.find((el) => el && el.company == cmp.name);
               if (fnd && fnd.price) {
                 if (!me.prices[cmp.name]) me.prices[cmp.name] = {};
                 me.prices[cmp.name][curr] = fnd.price;
               }
-            })
+            });
           }
         });
       }
     };
     setTimeout(() => {
-      me.prices = Object.assign({}, me.prices)
-    }, 1500)
+      me.prices = Object.assign({}, me.prices);
+    }, 1500);
     me.interv = setInterval(() => {
-      me.prices = Object.assign({}, me.prices)
-    }, 4000)
+      me.prices = Object.assign({}, me.prices);
+    }, 4000);
   },
   destroyed() {
     let socket = global.socket;
@@ -101,7 +112,7 @@ export default {
       "data": [${this.send_str}]
     }`);
     if (this.interv) {
-      clearInterval(this.interv)
+      clearInterval(this.interv);
     }
   },
 };

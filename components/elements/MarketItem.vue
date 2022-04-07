@@ -2,7 +2,7 @@
   <v-card class="pl-0 pr-0 mb-2 ml-2 mr-2" :width="380">
     <div style="cursor: pointer" @click="handlerOpenMarketPage">
       <div class="d-flex justify-space-between">
-        <v-card-title>{{ `${item.name}` }}</v-card-title>
+        <v-card-title class="text-uppercase">{{ `${item.name}` }}</v-card-title>
         <v-btn fab icon class="ma-5 pa-1">
           <v-icon
             @click.prevent.stop="togglerFavorite"

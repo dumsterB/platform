@@ -15,7 +15,7 @@
               @click="history_tgl"
               ><div>
                 <v-icon x-small>mdi-history</v-icon
-                ><span class="history-btn-cl">History</span>
+                ><span class="history-btn-cl">{{ $t("history_button") }}</span>
               </div>
             </v-btn>
           </div>

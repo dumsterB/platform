@@ -1,23 +1,36 @@
 <template>
-  <v-app-bar
-    app
-    flat
-    fixed
-    style="border-bottom: 1px solid #383741; height: 71px"
-  >
+  <v-app-bar app flat fixed style="border-bottom: 1px solid gray; height: 71px">
     <div class="d-flex mt-8" :dir="$dir()">
-      <v-btn elevation="0" @click="handlerOpenWallet" class="navLink">{{
-        $t("my_wallet")
-      }}</v-btn>
-      <v-btn elevation="0" @click="handlerOpenCommodities" class="navLink">{{
-        $t("user_commodities")
-      }}</v-btn>
-      <v-btn elevation="0" @click="handlerOpenArbitrage" class="navLink">{{
-        $t("user_arbitrage")
-      }}</v-btn>
-      <v-btn elevation="0" @click="handlerOpenTrading" class="navLink">{{
-        $t("user_trading")
-      }}</v-btn>
+      <v-btn-toggle>
+        <v-btn
+          elevation="0"
+          @click="handlerOpenWallet"
+          active-class="primary--text"
+          class="navLink"
+          >{{ $t("my_wallet") }}</v-btn
+        >
+        <v-btn
+          elevation="0"
+          @click="handlerOpenCommodities"
+          active-class="primary--text"
+          class="navLink"
+          >{{ $t("user_commodities") }}</v-btn
+        >
+        <v-btn
+          elevation="0"
+          @click="handlerOpenArbitrage"
+          active-class="primary--text"
+          class="navLink"
+          >{{ $t("user_arbitrage") }}</v-btn
+        >
+        <v-btn
+          elevation="0"
+          @click="handlerOpenTrading"
+          active-class="primary--text"
+          class="navLink"
+          >{{ $t("user_trading") }}</v-btn
+        ></v-btn-toggle
+      >
       <v-autocomplete
         v-model="value"
         :items="filtered"
@@ -155,6 +168,7 @@ export default {
         },
       ];
     },
+
     handlerOpenWallet: function () {
       this.$router.push({
         path: `/wallet`,
@@ -263,7 +277,7 @@ export default {
 
 <style lang="scss">
 .account-menu {
-  background-color: rgb(39, 39, 39) !important;
+  background-color: transparent !important;
 }
 
 .navLink {
@@ -272,7 +286,7 @@ export default {
 
 html[theme="light"] {
   .account-menu {
-    background-color: rgb(245, 245, 245) !important;
+    background-color: transparent !important;
   }
 }
 </style>

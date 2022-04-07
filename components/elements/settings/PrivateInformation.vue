@@ -1,6 +1,6 @@
 <template>
   <div class="privateInformation">
-    <p class="text-h6">{{ $t("settings_page") }}</p>
+    <p class="text-h6">{{ $t("personal_information") }}</p>
     <v-card class="mainCard pt-6">
       <!-- <div class="text-center">
         <div class="selecImage">

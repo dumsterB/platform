@@ -46,57 +46,87 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .uc_text {
-  position: relative;
-  top: 100px;
-  text-align: center;
+    position: relative;
+    top: 100px;
+    text-align: center;
 }
 
 #dir-rtl[dir="rtl"] {
-  .items-nav-bar a {
-      margin-right: 20px !important;
-      margin-left: 0px !important;
-      padding-left: 5px !important;
-  }
-  td.text-right {
-    text-align: left !important;
-  }
-  td.text-left {
-    text-align: right !important;
-  }
-  th.text-left {
-    text-align: right !important;
-  }
-  .layout_default__content {
-    padding-right: 30px !important;
-    padding-left: 10px !important;
-  }
-  .currencyNavbar {
-    padding-right: 20px !important;
-    padding-left: 30px !important;
-  }
-  .v-list-item__content {
-    padding-right: 10px !important;
-  }
-  .curr_name {
-    margin-right: 10px !important;
-  }
-  .v-input__icon--append {
-    display: none;
-  }
-  .mainCard .v-btn {
-    margin-right: 15px !important;
-  }
-  .settingsTab .text-h6 {
-    margin-right: 15px !important;
-  }
-  .historyChip {
-    position: relative;
-    margin-left: 10px !important;
-  }
-  .gc-card .v-btn {
-    margin-right: 30px !important;
-  }
-  .v-data-footer .v-input {
-    margin-right: 15px !important;
-  }
+    .items-nav-bar a {
+        margin-right: 20px !important;
+        margin-left: 0px !important;
+        padding-left: 5px !important;
+    }
+    td.text-right {
+        text-align: left !important;
+    }
+    td.text-left {
+        text-align: right !important;
+    }
+    th.text-left {
+        text-align: right !important;
+    }
+    .layout_default__content {
+        padding-right: 30px !important;
+        padding-left: 10px !important;
+    }
+    .currencyNavbar {
+        padding-right: 20px !important;
+        padding-left: 30px !important;
+    }
+    .v-list-item__content {
+        padding-right: 10px !important;
+    }
+    .curr_name {
+        margin-right: 10px !important;
+    }
+    .v-input__icon--append {
+        display: none;
+    }
+    .mainCard .v-btn {
+        margin-right: 15px !important;
+    }
+    .settingsTab .text-h6 {
+        margin-right: 15px !important;
+    }
+    .historyChip {
+        position: relative;
+        margin-left: 10px !important;
+    }
+    .gc-card .v-btn {
+        margin-right: 30px !important;
+    }
+    .v-data-footer .v-input {
+        margin-right: 15px !important;
+    }
+}
+
+.v-btn:before {
+    opacity: 0 !important;
+    background-color: transparent !important;
+}
+
+.v-ripple__container {
+    opacity: 0 !important;
+}
+
+.mdc-ripple-surface:hover:before {
+    opacity: 0 !important;
+}
+
+.v-btn-toggle {}
+
+.theme--light.v-btn-toggle:not(.v-btn-toggle--group),
+.theme--dark.v-btn-toggle:not(.v-btn-toggle--group) {
+    background: none;
+}
+
+.theme--light.v-btn-toggle:not(.v-btn-toggle--group) .v-btn.v-btn,
+.theme--dark.v-btn-toggle:not(.v-btn-toggle--group) .v-btn.v-btn {
+    border-color: transparent !important;
+}
+
+.theme--dark.v-navigation-drawer .v-divider,
+.theme--light.v-navigation-drawer .v-divider {
+    border-color: gray;
 }

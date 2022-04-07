@@ -1,7 +1,9 @@
 <template>
   <v-card tag="section" class="mx-auto ml-4 mr-4 mb-4">
     <div class="d-flex align-center">
-      <v-card-title tag="h2">{{ `${item.name}` }}</v-card-title>
+      <v-card-title class="text-uppercase" tag="h2">{{
+        `${item.name}`
+      }}</v-card-title>
       <v-img
         contain
         height="auto"

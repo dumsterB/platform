@@ -3,7 +3,7 @@
     <v-cantainer>
       <v-row>
         <v-col>
-          <h2 class="ml-5 success_text--text">
+          <h2 class="ml-5 gradient-text" :style="customStyle">
             {{ $t("frequently_asked_questions") }}
           </h2>
           <v-row class="pa-10">
@@ -17,18 +17,26 @@
                       v-for="(item, i) in items1"
                       :key="i"
                     >
-                      <v-card-actions>
-                        <p>
-                          How are the prices calculated for the various
-                          cryptocurrencies?
-                        </p>
-                        <v-spacer></v-spacer>
-                        <v-btn icon @click="item.show = !item.show">
-                          <v-icon>{{
-                            item.show ? "mdi-chevron-up" : "mdi-chevron-down"
-                          }}</v-icon>
-                        </v-btn>
-                      </v-card-actions>
+                      <v-hover
+                        v-slot="{ hover }"
+                        open-delay="223"
+                        close-delay="223"
+                      >
+                        <v-card-actions
+                          :class="hover ? 'success_text--text' : ''"
+                        >
+                          <p>
+                            How are the prices calculated for the various
+                            cryptocurrencies?
+                          </p>
+                          <v-spacer></v-spacer>
+                          <v-btn icon @click="item.show = !item.show">
+                            <v-icon :color="hover ? 'primary' : 'icon_color'">{{
+                              item.show ? "mdi-chevron-up" : "mdi-chevron-down"
+                            }}</v-icon>
+                          </v-btn>
+                        </v-card-actions>
+                      </v-hover>
 
                       <v-expand-transition>
                         <div v-show="item.show">
@@ -60,20 +68,28 @@
                       v-for="(item, i) in items"
                       :key="i"
                     >
-                      <v-card-actions>
-                        <p>
-                          How are the prices calculated for the various
-                          cryptocurrencies?
-                        </p>
+                      <v-hover
+                        v-slot="{ hover }"
+                        open-delay="223"
+                        close-delay="223"
+                      >
+                        <v-card-actions
+                          :class="hover ? 'success_text--text' : ''"
+                        >
+                          <p>
+                            How are the prices calculated for the various
+                            cryptocurrencies?
+                          </p>
 
-                        <v-spacer></v-spacer>
+                          <v-spacer></v-spacer>
 
-                        <v-btn icon @click="item.show = !item.show">
-                          <v-icon>{{
-                            item.show ? "mdi-chevron-up" : "mdi-chevron-down"
-                          }}</v-icon>
-                        </v-btn>
-                      </v-card-actions>
+                          <v-btn icon @click="item.show = !item.show">
+                            <v-icon :color="hover ? 'primary' : 'icon_color'">{{
+                              item.show ? "mdi-chevron-up" : "mdi-chevron-down"
+                            }}</v-icon>
+                          </v-btn>
+                        </v-card-actions>
+                      </v-hover>
 
                       <v-expand-transition>
                         <div v-show="item.show">
@@ -105,7 +121,8 @@ import config from "~/config/config.json";
 export default {
   data() {
     return {
-      success_text: config.colors.text.primary,
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
       show: false,
       items: [
         {
@@ -161,5 +178,26 @@ export default {
       ],
     };
   },
+  computed: {
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
+  },
 };
 </script>
+<style>
+.gradient-text {
+  background: -webkit-linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
+  width: fit-content;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+</style>

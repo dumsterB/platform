@@ -24,14 +24,16 @@
       class="d-flex align-center px-4"
       style="height: 70px; margin: 0px"
     >
-      <v-btn
-        icon
-        class="mx-auto"
-        :color="icon_color"
-        @click.stop="style_panel_left_minimal = !style_panel_left_minimal"
-      >
-        <v-icon size="28">{{ "mdi-menu" }}</v-icon>
-      </v-btn>
+      <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
+        <v-btn
+          icon
+          :color="hover ? 'primary' : 'icon_color'"
+          class="mx-auto"
+          @click.stop="style_panel_left_minimal = !style_panel_left_minimal"
+        >
+          <v-icon size="28">{{ "mdi-menu" }}</v-icon>
+        </v-btn>
+      </v-hover>
     </div>
 
     <v-row
@@ -44,13 +46,17 @@
         :src="config.logo"
         :alt="$t('logoPic')"
       />
-      <v-btn
-        icon
-        class="ml-auto"
-        @click.stop="style_panel_left_minimal = !style_panel_left_minimal"
-      >
-        <v-icon size="28">{{ "mdi-chevron-left" }}</v-icon>
-      </v-btn>
+      <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
+        <v-btn
+          icon
+          :color="hover ? 'primary' : 'icon_color'"
+          :v-ripple="{ center: false }"
+          class="ml-auto"
+          @click.stop="style_panel_left_minimal = !style_panel_left_minimal"
+        >
+          <v-icon size="28">{{ "mdi-chevron-left" }}</v-icon>
+        </v-btn>
+      </v-hover>
     </v-row>
 
     <v-divider></v-divider>
@@ -71,15 +77,29 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-list-item-action v-on="on">
-                    <v-icon :color="icon_color" size="24">{{
-                      item.icon
-                    }}</v-icon>
+                    <v-hover
+                      v-slot="{ hover }"
+                      open-delay="223"
+                      close-delay="223"
+                    >
+                      <v-icon
+                        :color="hover ? 'primary' : 'icon_color'"
+                        size="24"
+                        >{{ item.icon }}</v-icon
+                      >
+                    </v-hover>
                   </v-list-item-action>
                   <v-list-item-content>
-                    <v-list-item-title
-                      class="font-weight-medium"
-                      v-text="$t(item.title)"
-                    />
+                    <v-hover
+                      v-slot="{ hover }"
+                      open-delay="223"
+                      close-delay="223"
+                    >
+                      <v-list-item-title
+                        class="font-weight-medium"
+                        v-text="$t(item.title)"
+                      />
+                    </v-hover>
                   </v-list-item-content>
                 </template>
                 <span>{{ $t(item.title) }}</span>

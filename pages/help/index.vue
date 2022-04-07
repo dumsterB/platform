@@ -1,12 +1,12 @@
 <template>
   <v-row class="ma-4">
     <v-col class="pl-4 rounded" md="4" lg="2">
-      <h2 style="font-weight: 400">{{ $t("general_questions") }}</h2>
+      <h3 style="font-weight: 400">{{ $t("general_questions") }}</h3>
       <v-list-item-group
         class="mt-4"
         dense
         v-model="selectedItem"
-        color="primary"
+        active-class="primary--text"
       >
         <v-list-item dense v-for="(item, i) in categories" :key="i">
           <v-list-item-icon class="mr-0 pr-2">
@@ -21,7 +21,7 @@
       </v-list-item-group>
     </v-col>
     <v-col md="8" lg="7">
-      <h2 class="success_text--text" style="text-align: center">
+      <h2 class="gradient" :style="customStyle">
         {{ $t("user_help") }}
       </h2>
       <v-expansion-panels class="mt-4">
@@ -39,7 +39,16 @@
           v-for="(item, i) in help_items"
           :key="i"
         >
-          <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
+          <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
+            <v-expansion-panel-header
+              >{{ item.title }}
+              <template v-slot:actions>
+                <v-icon :color="hover ? 'primary' : 'success_text'"
+                  >mdi-chevron-down</v-icon
+                >
+              </template>
+            </v-expansion-panel-header>
+          </v-hover>
           <v-expansion-panel-content>
             {{ item.text }}
           </v-expansion-panel-content>
@@ -62,9 +71,12 @@
   </v-row>
 </template>
 <script>
+import config from "~/config/config.json";
 export default {
   data() {
     return {
+      start_gradient: config.themes.dark.start_gradient,
+      end_gradient: config.themes.dark.end_gradient,
       selectedItem: 0,
       search: "",
       count: 15,
@@ -130,11 +142,29 @@ export default {
       }
       return data;
     },
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+      };
+    },
   },
 };
 </script>
 <style>
 .rounded .v-list-item--link:before {
   border-radius: 10px;
+}
+.gradient {
+  background: -webkit-linear-gradient(
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 auto;
+  width: fit-content;
 }
 </style>

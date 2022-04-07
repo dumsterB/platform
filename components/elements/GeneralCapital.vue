@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-card
-      class="mx-auto pa-3 gc-card"
-      elevation="1"
-      max-width="430"
-    >
+    <v-card class="mx-auto pa-3 gc-card" elevation="1" max-width="430">
       <v-list-item three-line>
         <v-list-item-content>
           <v-list-item-title class="text-h5 mb-1">
@@ -22,7 +18,9 @@
         </v-list-item-content>
 
         <v-icon v-if="!hideBalancer" @click="hideBalance">mdi-eye</v-icon>
-        <v-icon v-if="hideBalancer" @click="hideBalance">mdi-eye-off</v-icon>
+        <v-icon class="primary--text" v-if="hideBalancer" @click="hideBalance"
+          >mdi-eye-off</v-icon
+        >
       </v-list-item>
 
       <v-card-actions class="justify-center">

@@ -249,7 +249,6 @@ export default {
     ...mapGetters(currencies, {
       currencies: "list",
     }),
-
     customStyle() {
       return {
         "--start_gradient": this.start_gradient,
