@@ -276,7 +276,6 @@ export default {
       fetchAS: "fetchList",
     }),
     async reload() {
-      console.log("AAAAAAAAAA", this.$refs.a_session);
       await this.$refs.a_session.reload();
     },
     onResize(event) {
