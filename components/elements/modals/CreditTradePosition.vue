@@ -46,6 +46,7 @@
       <v-container>
         <v-row class="pl-3 mb-0 mt-0">
           <v-btn
+            small
             class="mr-3"
             v-for="(item, i) in credit_vars"
             :key="i"
@@ -115,9 +116,9 @@ export default {
       loading: false,
       loadingSell: false,
       err_m: null,
-      credit_x: 10,
+      credit_x: 1,
       max_x: 100,
-      credit_vars: [10, 20, 50, 100],
+      credit_vars: [1, 10, 20, 50, 100],
     };
   },
   props: {
