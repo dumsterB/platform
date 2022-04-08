@@ -36,6 +36,11 @@
           </div>
         </v-card>
       </v-col>
+      <v-col class="d-flex justify-center mt-4">
+        <v-btn x-large outlined class="mt-6" @click="cur_len += 8">{{
+          $t("view_more")
+        }}</v-btn>
+      </v-col>
     </v-row>
     <v-row class="pa-3 pl-6 pr-6" v-if="!curr_company"
       ><v-col
@@ -71,8 +76,9 @@
               :price="cmp.price"
               :height="380"
               @reload="reload"
-          /></v-col> </v-row></v-col
-    ></v-row>
+          /></v-col> </v-row
+      ></v-col>
+    </v-row>
     <v-row class="pl-8"
       ><v-col class="op_t_title">{{ $t("open_positions") }}</v-col></v-row
     >
@@ -111,7 +117,7 @@ export default {
       sel_currency: {},
       arb_companies: [],
       prices_all: [],
-      cur_len: 8,
+      cur_len: 7,
       prices: [],
       need_curr: null,
       curr_company: true,
@@ -129,6 +135,9 @@ export default {
         this.selectedArbitrageCompany = {};
       }
     },
+    cur_len() {
+      this.init();
+    }
   },
   methods: {
     ...mapActions(wallet, {
@@ -205,6 +214,31 @@ export default {
     async reload() {
       await this.$refs.a_session.reload();
     },
+    init() {
+      let me = this;
+      let socket = global.socket;
+      socket.send(`{
+      "method": "subscribe",
+      "data": ["${me.base_p}_all@ticker_10s"]
+    }`);
+
+      socket.onmessage = function (event) {
+        if (event.data) {
+          let json_d = JSON.parse(event.data);
+          if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
+            let data = json_d.data ? json_d.data.data || [] : [];
+            me.define_prices(data);
+          } else if (me.need_curr) {
+            let curr = me.need_curr.symbol;
+            if (json_d && json_d.method == `all_${curr}-USD@ticker_5s`) {
+              let data = json_d.data ? json_d.data.data || [] : [];
+              me.define_arb_companies(data);
+              me.define_prices(data);
+            }
+          }
+        }
+      };
+    },
   },
   computed: {
     ...mapGetters("data/wallet", {
@@ -215,7 +249,9 @@ export default {
     }),
     currs() {
       let res = [];
-      let wlts = this.wallet_full.filter((el) => el.currency.symbol != "USD");
+      let wlts = this.wallet_full.filter(
+        (el) => el.currency.currency_type.key == "CRYPTO"
+      );
       let crs = wlts.map((el) => {
         el.currency.wallet_id = el.id;
         return el.currency;
@@ -232,11 +268,11 @@ export default {
             }
             return false;
           });
-          res.push(cr);
+          if (cr) res.push(cr);
         }
       }
       res.forEach((el) => {
-        let fnd = this.prices_all.find((e) => e.base == el.symbol);
+        let fnd = this.prices_all.find((e) => el && e.base == el.symbol);
         if (fnd && fnd.price) el.price = fnd.price;
       });
       return res;
@@ -249,29 +285,7 @@ export default {
     }),
   },
   async created() {
-    let me = this;
-    let socket = global.socket;
-    socket.send(`{
-      "method": "subscribe",
-      "data": ["${me.base_p}_all@ticker_10s"]
-    }`);
-
-    socket.onmessage = function (event) {
-      if (event.data) {
-        let json_d = JSON.parse(event.data);
-        if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
-          let data = json_d.data ? json_d.data.data || [] : [];
-          me.define_prices(data);
-        } else if (me.need_curr) {
-          let curr = me.need_curr.symbol;
-          if (json_d && json_d.method == `all_${curr}-USD@ticker_5s`) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            me.define_arb_companies(data);
-            me.define_prices(data);
-          }
-        }
-      }
-    };
+    this.init();
   },
   destroyed() {
     let socket = global.socket;
