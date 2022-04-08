@@ -1,17 +1,17 @@
 <template>
   <div class="page-container">
-    <v-row>
-      <v-col :cols="5">
+    <v-row class="justify-start align-center">
+      <v-col :cols="6">
         <v-row>
-          <v-col :cols="7">
-            <v-row v-if="curr_crypto" class="mt-2 ml-4">
-              <v-col :lg="4">
+          <v-col :cols="8" class="pl-6">
+            <v-row v-if="curr_crypto" class="mt-2 ml-2">
+              <v-col :lg="4" class="pl-0 pr-1">
                 <v-btn
                   small
                   block
                   :class="page_state == 0 ? 'primary' : 'primary--text'"
                   @click="page_state = 0"
-                  >{{ $t("Spot") }}</v-btn
+                  >{{ $t("spot_title") }}</v-btn
                 >
               </v-col>
               <v-col :lg="4" class="pl-0">
@@ -20,21 +20,21 @@
                   block
                   :class="page_state == 1 ? 'primary' : 'primary--text'"
                   @click="page_state = 1"
-                  >{{ $t("Arbitrage") }}</v-btn
+                  >{{ $t("user_arbitrage") }}</v-btn
                 >
               </v-col>
-              <v-col :lg="4" class="pl-0">
+              <v-col :lg="4" class="pl-0 pr-0">
                 <v-btn
                   small
                   block
                   :class="page_state == 2 ? 'primary' : 'primary--text'"
                   @click="page_state = 2"
-                  >{{ $t("Leverage") }}</v-btn
+                  >{{ $t("leverage") }}</v-btn
                 >
               </v-col>
             </v-row>
           </v-col>
-          <v-col :cols="5">
+          <v-col :cols="4">
             <v-autocomplete
               class="crypto-select ml-4 mt-4"
               v-model="curr_id"
@@ -49,7 +49,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col :cols="7">
+      <v-col :cols="6" class="mt-3">
         <Indicators
           v-if="page_state == 0"
           :currency="curr_code"

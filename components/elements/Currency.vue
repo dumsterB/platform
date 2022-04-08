@@ -5,7 +5,7 @@
         <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
           <v-card
             class="currecyCard rounded-lg"
-            :elevation="hover ? 8 : 12"
+            :elevation="hover ? 18 : 8"
             v-bind="attrs"
             v-on="on"
             :width="220"

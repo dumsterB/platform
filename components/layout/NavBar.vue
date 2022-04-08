@@ -94,23 +94,31 @@
       hide-details
     >
       <template v-slot:activator="{ on }">
-        <v-card
-          flat
-          class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
-          style="width: 200px"
-          v-on="on"
-        >
-          <div class="mr-2">
-            <v-avatar size="40">
-              <v-icon class="mr-2">mdi-account</v-icon>
-            </v-avatar>
-          </div>
-          <div>{{ $auth.user.name }}</div>
-          <v-spacer></v-spacer>
-          <div>
-            <v-icon class="mr-2">mdi-chevron-down</v-icon>
-          </div>
-        </v-card>
+        <v-hover v-slot="{ hover }">
+          <v-card
+            flat
+            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
+            style="width: 200px"
+            v-on="on"
+          >
+            <div class="mr-2">
+              <v-avatar size="40">
+                <v-icon :color="hover ? 'primary' : 'gray'" class="mr-2"
+                  >mdi-account</v-icon
+                >
+              </v-avatar>
+            </div>
+            <div :class="hover ? 'primary--text' : 'gray--text'">
+              {{ $auth.user.name }}
+            </div>
+            <v-spacer></v-spacer>
+            <div>
+              <v-icon :color="hover ? 'primary' : 'gray'" class="mr-2"
+                >mdi-chevron-down</v-icon
+              >
+            </div>
+          </v-card>
+        </v-hover>
       </template>
       <v-list>
         <v-list-item

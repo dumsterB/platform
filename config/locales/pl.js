@@ -539,5 +539,6 @@ export default {
   card_rules: "Numer karty musi mieć 16 znaków.",
   card_rules_number: "Numer karty może składać się tylko z cyfr.",
   cvv_rules_number: "CVV może składać się tylko z cyfr.",
-  self_amount: "Kwota własna"
+  self_amount: "Kwota własna",
+  leverage:'Leverage',
 };

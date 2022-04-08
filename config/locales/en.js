@@ -530,4 +530,5 @@ export default {
   card_rules_number: "The card number can only consist of numbers.",
   cvv_rules_number: "The CVV can only consist of numbers.",
   self_amount: "Self amount",
+  leverage: "Leverage",
 };

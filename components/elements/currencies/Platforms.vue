@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col
-      class="mt-3"
+      class="mt-0"
       :cols="12"
       :md="2"
       :lg="2"
@@ -11,15 +11,15 @@
       :key="i"
     >
       <v-btn
-        x-large
+        large
+        :width="100"
         outlined
-        :width="150"
         :class="val.clicked ? 'btn-clicked' : ''"
         @click="changeClicked(val)"
       >
         <div>
-          <p class="ma-0 pa-3 pb-0 mt-0">{{ val.name }}</p>
-          <p class="price ma-0 pa-3 pt-0 mt-1">${{ val.price }}</p>
+          <p class="ma-0">{{ val.name }}</p>
+          <p class="price ma-0">${{ val.price }}</p>
         </div>
       </v-btn>
     </v-col>
@@ -103,15 +103,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .price {
-  font-size: 13px !important;
+  font-size: 12px !important;
 }
 .btn-clicked {
-  // toolbar background
   background-color: #3d3d3d;
 }
 html[theme="light"] {
   .btn-clicked {
-    // toolbar background
     background-color: #ebebeb;
   }
 }

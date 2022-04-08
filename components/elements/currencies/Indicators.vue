@@ -1,26 +1,26 @@
 <template>
   <v-row>
-    <v-col :cols="2">
-      <p class="ma-0 pa-0 mt-3">{{ indicators[0].title }}</p>
-      <p class="ma-0 pa-0 mt-1" :style="diffColor(change)">
+    <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
+      <p class="ma-0 pa-0">{{ indicators[0].title }}</p>
+      <p class="ma-0 pa-0" :style="diffColor(change)">
         {{ price }}
       </p>
     </v-col>
-    <v-col :cols="2">
-      <p class="ma-0 pa-0 mt-3">{{ indicators[1].title }}</p>
-      <p class="ma-0 pa-0 mt-1" :style="diffColor(change)">
+    <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
+      <p class="ma-0 pa-0">{{ indicators[1].title }}</p>
+      <p class="ma-0 pa-0" :style="diffColor(change)">
         {{ change ? change.toFixed(4) : "" }}
       </p>
     </v-col>
-    <v-col :cols="2">
-      <p class="ma-0 pa-0 mt-3">{{ indicators[2].title }}</p>
-      <p class="ma-0 pa-0 mt-1">
+    <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
+      <p class="ma-0 pa-0">{{ indicators[2].title }}</p>
+      <p class="ma-0 pa-0">
         {{ high }}
       </p>
     </v-col>
-    <v-col :cols="2">
-      <p class="ma-0 pa-0 mt-3">{{ indicators[3].title }}</p>
-      <p class="ma-0 pa-0 mt-1">
+    <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
+      <p class="ma-0 pa-0">{{ indicators[3].title }}</p>
+      <p class="ma-0 pa-0">
         {{ low }}
       </p>
     </v-col>
