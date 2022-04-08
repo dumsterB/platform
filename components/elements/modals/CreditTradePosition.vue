@@ -1,5 +1,5 @@
 <template>
-  <v-card :height="height ? height : undefined">
+  <v-card :height="height ? height : undefined" :min-height="572">
     <v-card-title class="d-flex">
       <v-img
         contain
@@ -44,10 +44,10 @@
         <span>{{ balance }}</span>
       </v-container>
       <v-container>
-        <v-row class="pl-3 mb-0 mt-0">
+        <v-row class="pl-3 mb-0 mt-0 justify-space-between">
           <v-btn
             small
-            class="mr-3"
+            class="mr-0 mb-2 pl-1 pr-1"
             v-for="(item, i) in credit_vars"
             :key="i"
             :class="credit_x == item ? 'primary' : 'primary--text'"
@@ -247,7 +247,7 @@ export default {
         return;
       }
       this[load] = true;
-      let amount = act == 'Buy' ? this.amount : this.amount * this.credit_x;
+      let amount = act == "Buy" ? this.amount : this.amount * this.credit_x;
       let as_data = {
         self_amount: amount / this.credit_x,
         amount: amount,

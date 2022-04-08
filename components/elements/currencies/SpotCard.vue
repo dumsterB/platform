@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="ma-2 mr-8 pa-4">
+    <v-card class="ma-2 mr-8 pa-4 elevation-4 rounded-lg">
       <v-row>
         <v-col :cols="6">
           <v-btn
@@ -329,5 +329,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

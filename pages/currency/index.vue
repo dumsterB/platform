@@ -14,7 +14,7 @@
                   >{{ $t("spot_title") }}</v-btn
                 >
               </v-col>
-              <v-col :lg="4" class="pl-0">
+              <v-col :lg="4" class="pl-0 pr-1">
                 <v-btn
                   small
                   block
@@ -74,7 +74,7 @@
     <v-row>
       <v-col :lg="8" :md="12">
         <v-row class="ml-4">
-          <v-col class="d-flex justify-center">
+          <v-col class="d-flex justify-start">
             <TradeGraph
               v-if="graph_key && page_state != 2"
               :width="graphWidth"
@@ -106,6 +106,7 @@
           :currency="curr_code"
           :price="price"
         ></SpotCard>
+
         <TableAC
           v-if="page_state == 1"
           :currency="curr_code ? curr_code : undefined"

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="elevation-4">
     <!-- <trading-vue
       :data="chart"
       :width="width"

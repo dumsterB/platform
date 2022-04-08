@@ -7,14 +7,14 @@
       :footer-props="{
         'items-per-page-options': [5, 10, 20],
       }"
-      class="elevation-1 ma-4 ml-8"
+      class="elevation-4 space rounded-lg"
     >
       <template v-slot:[`item.action`]="{ item }">
         <div class="d-flex justify-end">
-          <v-btn small @click="buy(item)" class="ml-3 green--text" outlined>
+          <v-btn x-small @click="buy(item)" class="ml-1 green--text" outlined>
             {{ $t("buy") }}
           </v-btn>
-          <v-btn small @click="sell(item)" class="ml-3 red--text" outlined>
+          <v-btn x-small @click="sell(item)" class="ml-1 red--text" outlined>
             {{ $t("sell") }}
           </v-btn>
         </div>
@@ -82,7 +82,7 @@ export default {
         {
           text: this.$t("name_table"),
           value: "name",
-          width: 120,
+          width: 100,
         },
         {
           text: this.$t("price"),
@@ -92,7 +92,7 @@ export default {
         {
           text: "",
           value: "action",
-          sortable: false,
+          width: 100,
         },
       ];
     },
@@ -153,3 +153,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.space {
+  margin-left: -22px !important;
+}
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  padding: 0 6px !important;
+}
+.v-application--is-ltr .v-data-footer__select {
+  margin: 0;
+}
+</style>
