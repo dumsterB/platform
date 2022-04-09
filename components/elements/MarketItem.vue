@@ -7,7 +7,7 @@
     >
       <div style="cursor: pointer" @click="handlerOpenMarketPage">
         <div class="d-flex justify-space-between">
-          <v-card-title class="text-uppercase">{{
+          <v-card-title class="text-uppercase ml-4">{{
             `${item.name}`
           }}</v-card-title>
           <v-btn fab icon class="ma-5 pa-1">
@@ -28,8 +28,9 @@
           </v-btn>
         </div>
 
-        <v-list class="mt-4 mr-4 mb-4 ml-4">
+        <v-list v-if="currencies" class="mt-4 mr-4 mb-4 ml-4">
           <v-list-item
+            
             class=""
             disabled
             v-for="(cur, i) in currencies"
@@ -39,11 +40,12 @@
               <v-img v-bind:src="cur.logo"></v-img>
             </v-list-item-avatar>
             <v-list-item-content v-text="cur.name"></v-list-item-content>
-            $<v-list-item-content
+            <span>{{prices[cur.symbol] ? '$' : ''}}</span><v-list-item-content
               v-text="prices[cur.symbol]"
             ></v-list-item-content>
           </v-list-item>
         </v-list>
+        <div v-else class="message-available"><span>{{$t('no_coins_available')}}</span></div>
       </div>
     </v-card>
   </v-hover>
@@ -85,13 +87,20 @@ export default {
       this.isFavorite = !this.isFavorite;
     },
     handlerOpenMarketPage() {
-      this.$router.push({
-        path: `/markets/${this.item.id}`,
-      });
+      if (this.currencies) {
+        this.$router.push({
+          path: `/markets/${this.item.id}`,
+        });
+      }
     },
   },
   mounted() {},
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.message-available {
+  padding-top: 70px;
+  text-align: center;
+}
+</style>

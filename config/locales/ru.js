@@ -547,4 +547,5 @@ export default {
   cvv_rules_number: "CVV может состоять только из цифр.",
   self_amount: "Собственная сумма",
   leverage:'Leverage',
+  no_coins_available: "На данный момент монеты недоступны"
 };

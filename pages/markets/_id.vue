@@ -1,7 +1,15 @@
 <template>
   <div>
     <Marketplace class="mt-4" :item="item" />
-    <v-row class="mx-auto ml-1">
+    <div v-if="isLoading" class="loader-market">
+      <v-progress-circular
+        :size="50"
+        :width="5"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+    </div>
+    <v-row v-else class="mx-auto ml-1">
       <v-col class="" v-for="(curr, i) in currencies" :key="i">
         <Currency
           :currency="curr"
@@ -30,6 +38,7 @@ export default {
   data() {
     return {
       currencies: [],
+      isLoading: true
     };
   },
 
@@ -78,6 +87,7 @@ export default {
               }
             });
             me.currencies = currencies;
+            me.isLoading = false;
           }
           // console.log('me.currs', me.currs)
         }
@@ -95,3 +105,9 @@ export default {
   },
 };
 </script>
+<style>
+.loader-market {
+  padding-top: 100px;
+  text-align: center;
+}
+</style>

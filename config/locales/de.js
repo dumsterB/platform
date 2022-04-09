@@ -553,4 +553,5 @@ export default {
   cvv_rules_number: "Der CVV darf nur aus Ziffern bestehen.",
   self_amount: "Selbstbetrag",
   leverage: "Leverage",
+  no_coins_available: "Münzen sind derzeit nicht verfügbar"
 };

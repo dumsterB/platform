@@ -264,7 +264,10 @@ export default {
           let cr = this.currencies.find((el) => {
             if (el.currency_type.key == "CRYPTO") {
               let f = res.find((e) => e.id == el.id);
-              if (!f) return true;
+              if (!f) {
+                let fnd = this.prices_all.find((e) => el && e.base == el.symbol);
+                if (fnd && fnd.price) return true;
+              };
             }
             return false;
           });

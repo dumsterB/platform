@@ -13,7 +13,7 @@
           <MarketItem
             :item="company"
             :prices="prices[company.name]"
-            :currencies="fav_currencies"
+            :currencies="fav_currencies[i]"
           />
         </v-col>
       </v-row>
@@ -37,7 +37,6 @@ export default {
   },
   data() {
     return {
-      fav_currs: ["BTC", "ETH", "BCH", "LUNA", "XRP"],
       send_str: "",
       prices: {},
       interv: null,
@@ -46,18 +45,29 @@ export default {
   computed: {
     ...mapGetters(model, {
       companies: "list",
+      fav_currs: "currencies",
     }),
     ...mapGetters("data/currency", {
       currency: "list",
     }),
     fav_currencies() {
-      return this.currency.filter((el) => {
-        let fnd = this.fav_currs.find((e) => e == el.symbol);
-        if (fnd) {
-          return true;
+      let res = [];
+      this.companies.forEach((comp, i) => {
+        let f_c = this.fav_currs[comp.name];
+        if (f_c) {
+          let currs = this.currency.filter((el) => {
+            let fnd = f_c.find((e) => e == el.symbol);
+            if (fnd) {
+              return true;
+            }
+            return false;
+          });
+          res.push(currs);
+        } else {
+          res.push(null);
         }
-        return false;
       });
+      return res;
     },
   },
   methods: {
@@ -69,13 +79,16 @@ export default {
     let me = this;
     let socket = global.socket;
     let send_str = "";
-    me.fav_currs.forEach((element, i) => {
-      send_str += `"all_${element}-USD@ticker_5s"`;
-      if (i != me.fav_currs.length - 1) {
+    for (let prop in me.fav_currs) {
+      me.fav_currs[prop].forEach((element, i) => {
+        send_str += `"${prop}_${element}-USD@ticker_5s"`;
         send_str += ", ";
-      }
-    });
-    me.send_str = send_str;
+      });
+    }
+
+    if (send_str && send_str.length > 10) {
+      me.send_str = send_str.slice(0, -2);
+    }
     socket.send(`{
       "method": "subscribe",
       "data": [${me.send_str}]
@@ -84,26 +97,23 @@ export default {
     socket.onmessage = function (event) {
       if (event.data) {
         let json_d = JSON.parse(event.data);
-        me.fav_currs.forEach((curr) => {
-          if (json_d && json_d.method == `all_${curr}-USD@ticker_5s`) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            me.companies.forEach((cmp) => {
-              let fnd = data.find((el) => el && el.company == cmp.name);
-              if (fnd && fnd.price) {
-                if (!me.prices[cmp.name]) me.prices[cmp.name] = {};
-                me.prices[cmp.name][curr] = fnd.price;
-              }
-            });
-          }
-        });
+        for (let prop in me.fav_currs) {
+          me.fav_currs[prop].forEach((curr) => {
+            if (json_d && json_d.method == `${prop}_${curr}-USD@ticker_5s`) {
+              let data = json_d.data ? json_d.data.data || [] : [];
+              if (!me.prices[prop]) me.prices[prop] = {};
+              me.prices[prop][curr] = data[0] ? data[0].price : 1;
+            }
+          });
+        }
       }
     };
     setTimeout(() => {
       me.prices = Object.assign({}, me.prices);
-    }, 1500);
+    }, 800);
     me.interv = setInterval(() => {
       me.prices = Object.assign({}, me.prices);
-    }, 4000);
+    }, 1500);
   },
   destroyed() {
     let socket = global.socket;
