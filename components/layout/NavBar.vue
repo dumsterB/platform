@@ -1,35 +1,18 @@
 <template>
   <v-app-bar app flat fixed style="border-bottom: 1px solid gray; height: 71px">
     <div class="d-flex mt-8" :dir="$dir()">
-      <v-btn-toggle>
-        <v-btn
-          elevation="0"
-          @click="handlerOpenWallet"
-          active-class="primary--text"
-          class="navLink"
-          >{{ $t("my_wallet") }}</v-btn
-        >
-        <v-btn
-          elevation="0"
-          @click="handlerOpenCommodities"
-          active-class="primary--text"
-          class="navLink"
-          >{{ $t("user_commodities") }}</v-btn
-        >
-        <v-btn
-          elevation="0"
-          @click="handlerOpenArbitrage"
-          active-class="primary--text"
-          class="navLink"
-          >{{ $t("user_arbitrage") }}</v-btn
-        >
-        <v-btn
-          elevation="0"
-          @click="handlerOpenTrading"
-          active-class="primary--text"
-          class="navLink"
-          >{{ $t("user_trading") }}</v-btn
-        ></v-btn-toggle
+      <v-btn
+        v-for="(item, i) in items"
+        :key="i"
+        elevation="0"
+        @click="
+          $router.push({
+            path: item.route,
+          })
+        "
+        :class="$route.path == item.route ? 'primary--text' : ''"
+        class="navLink"
+        >{{ $t(item.text) }}</v-btn
       >
       <v-autocomplete
         v-model="value"
@@ -97,7 +80,16 @@
         <v-hover v-slot="{ hover }">
           <v-card
             flat
-            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
+            class="
+              account-menu
+              d-flex
+              flex-columns
+              align-center
+              mt-2
+              py-2
+              pr-2
+              pl-4
+            "
             style="width: 200px"
             v-on="on"
           >
@@ -151,6 +143,24 @@ export default {
       user_image: null,
       account_menu: this.initAccountMenu(),
       value: null,
+      items: [
+        {
+          text: "my_wallet",
+          route: "/wallet",
+        },
+        {
+          text: "user_commodities",
+          route: "/commodities",
+        },
+        {
+          text: "user_arbitrage",
+          route: "/arbitrage",
+        },
+        {
+          text: "user_trading",
+          route: "/trading",
+        },
+      ],
     };
   },
   methods: {
@@ -175,27 +185,6 @@ export default {
           },
         },
       ];
-    },
-
-    handlerOpenWallet: function () {
-      this.$router.push({
-        path: `/wallet`,
-      });
-    },
-    handlerOpenCommodities: function () {
-      this.$router.push({
-        path: `/commodities`,
-      });
-    },
-    handlerOpenArbitrage: function () {
-      this.$router.push({
-        path: `/arbitrage`,
-      });
-    },
-    handlerOpenTrading: function () {
-      this.$router.push({
-        path: `/trading`,
-      });
     },
     async auth_logout() {
       this.$auth.logout();

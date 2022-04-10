@@ -91,7 +91,6 @@
                   </v-list-item-action>
                   <v-list-item-content>
                     <v-hover
-                      v-slot="{ hover }"
                       open-delay="223"
                       close-delay="223"
                     >
