@@ -112,13 +112,14 @@ export default {
             text: this.$t("stop_arbitrage_sessions_done"),
             color: "primary",
           });
-        }, 2000);
+        }, 2500);
       }
       this.$store.commit("data/notifications/create", {
         id: color + "_" + Math.random().toString(36),
         title: title,
         text: title,
         color: color,
+        timeout: 2000
       });
       this.$emit("reload");
       setTimeout(() => {

@@ -89,6 +89,7 @@
               v-if="trade_filter && page_state == 0"
               :prices="prices"
               :filter="trade_filter"
+              ref="trades"
             ></TableTrades>
             <TableASession
               v-if="as_filter && page_state == 1"
@@ -105,6 +106,7 @@
           v-if="page_state == 0"
           :currency="curr_code"
           :price="price"
+          @reload="reload_trade"
         ></SpotCard>
 
         <TableAC
@@ -278,6 +280,9 @@ export default {
     }),
     async reload() {
       await this.$refs.a_session.reload();
+    },
+    async reload_trade() {
+      await this.$refs.trades.reload();
     },
     onResize(event) {
       this.graphWidth = parseInt(((window.innerWidth - 250) * 2) / 3);

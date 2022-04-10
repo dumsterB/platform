@@ -10,6 +10,7 @@ export const mutations = {
             text: message.text,
             title: message.title,
             color: message.color,
+            timeout: message.timeout,
             created_at: new Date()
         }
         state.messages.push(msg);

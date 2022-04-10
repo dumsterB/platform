@@ -230,13 +230,14 @@ export default {
             text: this.$t("arbitrage_session_done"),
             color: "primary",
           });
-        }, 2000);
+        }, 2500);
       }
       this.$store.commit("data/notifications/create", {
         id: color + "_" + Math.random().toString(36),
         title: title,
         text: title,
         color: color,
+        timeout: 2000
       });
       this.fetchWallet();
       setTimeout(() => {

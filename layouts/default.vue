@@ -30,6 +30,7 @@ export default {
     return {
       isLoading: true,
       interv: null,
+      interv2: null,
     };
   },
   computed: {
@@ -78,123 +79,46 @@ export default {
         }
       }
     },
-    async check_credit_prices() {
-      let me = this;
-      await this.$store.dispatch(`data/credit_session/fetchList`, {
-        config: {
-          params: {
-            status_id: 1,
-          },
-        },
-      });
-      let socket = global.socket;
-      let subscr_obj = me.sessions_subscribe_definer();
-      socket.send(`{
-        "method": "subscribe",
-        "data": [${subscr_obj.str}]
-      }`);
-      console.log("subscr_obj", subscr_obj);
-      socket.onmessage = function (event) {
-        if (event.data) {
-          let json_d = JSON.parse(event.data);
-          subscr_obj.arr.forEach((el) => {
-            if (json_d && json_d.method == el) {
-              let data = json_d.data ? json_d.data.data || [] : [];
-              if (data.length > 0) {
-                me.check_credit(data[0]);
-              }
-            }
-          });
-        }
+    notification_socket() {
+      let user_id = this.$auth.user.id;
+      console.log("user_id", user_id);
+      let cntx = "platform";
+      let ws_query = `${this.$env(
+        "WS_STORE_SERVER"
+      )}?user_id=${user_id}&ws_context=${cntx}`;
+      let store_socket = new WebSocket(ws_query);
+      store_socket.onmessage = (event) => {
+        this.notification_listener(event);
       };
+      this.interv2 = setInterval(() => {
+        if (store_socket.readyState !== store_socket.OPEN) {
+          store_socket = new WebSocket(ws_query);
+          store_socket.onmessage = (event) => {
+            this.notification_listener(event);
+          };
+        }
+      }, 3000);
     },
-    check_credit(data) {
-      let not_count_str = localStorage.getItem('not_count');
-      let not_count = {};
-      if (not_count_str) {
-        not_count = JSON.parse(not_count_str);
-      }
-      this.credit_session.forEach((el) => {
-        if (
-          el.wallet.currency.symbol == data.base &&
-          el.arbitrage_company.name == data.company
-        ) {
-          let fnd = el;
-          let price = data.price;
-          let sign = fnd.session_start_type.key == "BUY" ? -1 : 1;
-          let curr_am = (fnd.amount * fnd.start_exchange_rate) / price;
-          let lose = (sign * (fnd.amount - curr_am)) / fnd.self_amount;
-          console.log("lose", fnd, lose);
-          if (lose > 0.5 && lose < 0.7) {
-            if (!not_count[fnd.id]) not_count[fnd.id] = 0;
-            if (not_count[fnd.id] == 0) {
-              setTimeout(() => {
-                this.$store.commit("data/notifications/create", {
-                  id: "red_" + Math.random().toString(36),
-                  title: this.$t("credit_arbitrage_session"),
-                  text: this.$t("session_lost_50%"),
-                  color: "red",
-                });
-              }, 2000);
-              not_count[fnd.id] += 1;
-            }
-          }
-          if (lose > 0.7) {
-            if (not_count[fnd.id] == 1) {
-              setTimeout(() => {
-                this.$store.commit("data/notifications/create", {
-                  id: "red_" + Math.random().toString(36),
-                  title: this.$t("credit_arbitrage_session"),
-                  text: this.$t("session_lost_70%"),
-                  color: "red",
-                });
-              }, 2000)
-              not_count[fnd.id] += 1;
-            }
-          }
-          if (lose > 0.99) {
-            let as_data = JSON.parse(JSON.stringify(fnd));
-            as_data.status_id = 2;
-            as_data.stop_exchange_rate = price ? price : 1;
-            this.$store.dispatch(`data/credit_session/replace`, { data: as_data, id: as_data.id });
+    notification_listener(event) {
+      if (event.data) {
+        let json_d = JSON.parse(event.data);
+        console.log("notification_listener", json_d);
+        if (json_d && json_d.method == "notification") {
+          let data = json_d.data;
+          if (data) {
+            let color = "primary";
             setTimeout(() => {
               this.$store.commit("data/notifications/create", {
-                id: "red_" + Math.random().toString(36),
-                title: this.$t("credit_arbitrage_session"),
-                text: this.$t("session_auto_closed"),
-                color: "red",
+                id: color + "_" + Math.random().toString(36),
+                title: data.title,
+                text: data.notification,
+                color: color,
+                timeout: 86400000,
               });
             }, 2000);
           }
         }
-      });
-      localStorage.setItem('not_count', JSON.stringify(not_count));
-    },
-    sessions_subscribe_definer() {
-      let me = this;
-      let str = "";
-      let arr = [];
-      this.credit_session.forEach((arb_s, i) => {
-        let curr = arb_s.wallet.currency;
-        let cr = curr.symbol;
-        let arb_comp = arb_s.arbitrage_company.name;
-        if (curr.currency_type.key == "CRYPTO") {
-          let st = `${arb_comp}_${cr}-USD@ticker_30s`;
-          let fnd = arr.find((el) => el == st);
-          if (!fnd) {
-            str += `"${st}"`;
-            arr.push(`${arb_comp}_${cr}-USD@ticker_30s`);
-            str += ",";
-          }
-        }
-      });
-      if (str) {
-        str = str.slice(0, -1);
       }
-      return {
-        str: str,
-        arr: arr,
-      };
     },
   },
   async created() {
@@ -207,6 +131,7 @@ export default {
         }
       }, 3000);
       await this.preload_models();
+      this.notification_socket();
       // await this.check_credit_prices();
     } else {
       if (this.$router.history.current.path != "/auth/registration") {
@@ -229,6 +154,9 @@ export default {
   beforeDestroy() {
     if (this.interv) {
       clearInterval(this.interv);
+    }
+    if (this.interv2) {
+      clearInterval(this.interv2);
     }
   },
 };

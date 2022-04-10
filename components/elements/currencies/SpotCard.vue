@@ -244,8 +244,8 @@ export default {
       if (!this.buy_sell) pay_curr = this.currency;
       let buy_curr = this.currency;
       if (!this.buy_sell) buy_curr = "USD";
-      let pay = this.t_price;
-      let buy = this.amount;
+      let pay = this.buy_sell ? this.t_price : this.amount;
+      let buy = this.buy_sell ? this.amount : this.t_price;
       if (!this.buy_sell) buy = parseFloat(this.t_price) * this.price;
       console.log(pay, buy, this.t_price, this.price);
       let wall = this.wallet.find((el) => el.currency.symbol == pay_curr);
@@ -277,16 +277,17 @@ export default {
             text: this.$t("create_order_done"),
             color: "primary",
           });
-        }, 2000);
+        }, 2500);
       }
       this.$store.commit("data/notifications/create", {
         id: color + "_" + Math.random().toString(36),
         title: title,
         text: title,
         color: color,
+        timeout: 2000
       });
       await this.fetchWallet();
-      await this.fetchTrades();
+      this.$emit("reload");
       setTimeout(() => {
         this.loading = false;
       }, 500);

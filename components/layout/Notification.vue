@@ -1,13 +1,13 @@
 <template>
   <div>
     <v-snackbar
-      v-if="item"
+      v-for="(item, i) in items"
+      :key="i"
       :color="item.color"
-      :key="item.id"
       right
-      :timeout="timeout"
       top
       :value="true"
+      :style="`top: ${80 * i}px`"
     >
       <div class="main-msg">
         <div>
@@ -34,7 +34,7 @@ export default {
       closeButtonIcon: "mdi-close",
       processing: false,
       timeoutId: false,
-      item: null,
+      timeouts: [],
     };
   },
   created() {},
@@ -53,15 +53,23 @@ export default {
       const vm = this;
       vm.processing = true;
       if (vm.items && Array.isArray(vm.items) && vm.items.length > 0) {
-        vm.item = vm.items[vm.items.length - 1];
-        for (let i = 0; i < vm.items.length - 1; i++) {
-          vm.removeItem(vm.items[i].id);
-        }
-        return (vm.timeoutId = setTimeout(() => {
-          if (vm.item && vm.item.id) {
-            vm.removeItem(vm.item.id);
+        // vm.item = vm.items[vm.items.length - 1];
+        // for (let i = 0; i < vm.items.length - 1; i++) {
+        //   vm.removeItem(vm.items[i].id);
+        // }
+        for (let i = 0; i < vm.items.length; i++) {
+          let item = vm.items[i];
+          let timeout = item && item.timeout ? item.timeout : vm.timeout;
+          let fnd = this.timeouts.find((el) => el == item.id);
+          if (!fnd) {
+            this.timeouts.push(item.id);
+            setTimeout(() => {
+              if (item && item.id) {
+                vm.removeItem(item.id);
+              }
+            }, timeout);
           }
-        }, vm.timeout));
+        }
       } else {
         this.item = null;
       }
@@ -77,7 +85,6 @@ export default {
     },
     removeItem(id) {
       const vm = this;
-      clearTimeout(vm.timeoutId);
       this.$store.commit("data/notifications/remove", id);
       if (vm.items.length > 0) {
         return vm.processItems();
