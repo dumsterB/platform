@@ -138,7 +138,7 @@ export default {
     async copyURL() {
       try {
         //*TODO - документация обещает, что navigator.clipboard будет работать при https соеденении. Иначе нужен иной способ
-        // await navigator.clipboard.writeText(this.link_url);
+        await navigator.clipboard.writeText(this.link_url);
         this.copied = true;
         setTimeout(() => {
           this.copied = false;
@@ -185,7 +185,7 @@ export default {
         title: title,
         text: title,
         color: color,
-        timeout: 2000
+        timeout: 2000,
       });
       await this.fWallets();
       this.$emit("reload");

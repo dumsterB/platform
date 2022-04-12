@@ -49,14 +49,16 @@ export default {
   computed: {
     formatedDate() {
       const date = new Date(this.item.pubDate);
+      const minutes =
+        date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
       const newsItemDate =
         date.getDate() < 10
           ? `0${date.getDate()}.0${
               date.getMonth() + 1
-            }.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
+            }.${date.getFullYear()} ${date.getHours()}:${minutes}`
           : `${date.getDate()}.0${
               date.getMonth() + 1
-            }.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+            }.${date.getFullYear()} ${date.getHours()}:${minutes}`;
       return newsItemDate;
     },
   },
@@ -65,9 +67,7 @@ export default {
       window.open(this.item.link, "_blank").focus();
     },
   },
-  mounted() {
-    console.log("this.formatedDate :>> ", this.formatedDate);
-  },
+  mounted() {},
 };
 </script>
 <style lang="scss">
@@ -76,9 +76,6 @@ export default {
   bottom: 0;
 }
 .description {
-  // text-overflow: ellipsis;
-  // white-space: nowrap;
-  // overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
