@@ -250,11 +250,11 @@ export default {
     currs() {
       let res = [];
       let wlts = this.wallet_full.filter(
-        async (el) => (await el.currency.currency_type.key) == "CRYPTO"
+        (el) => el.currency.currency_type.key == "CRYPTO"
       );
-      let crs = wlts.map(async (el) => {
+      let crs = wlts.map((el) => {
         el.currency.wallet_id = el.id;
-        return await el.currency;
+        return el.currency;
       });
       if (crs.length > this.cur_len) {
         res = crs.slice(0, this.cur_len);

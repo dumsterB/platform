@@ -193,8 +193,8 @@ export default {
       let me = this;
       let str = "";
       let arr = [];
-      this.wallets.forEach(async (wall, i) => {
-        let cr = await wall.currency.symbol;
+      this.wallets.forEach((wall, i) => {
+        let cr = wall.currency.symbol;
         if (wall.currency.currency_type.key == "CRYPTO") {
           str += `"${me.base_p}_${cr}-USD@ticker_10s"`;
           arr.push(`${me.base_p}_${cr}-USD@ticker_10s`);
