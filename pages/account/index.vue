@@ -3,13 +3,7 @@
     <v-row>
       <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
         <div
-          class="
-            d-flex
-            mt-2
-            mdc-form-field--space-between
-            justify-content-beetween
-            currencyNavbar
-          "
+          class="d-flex mt-2 mdc-form-field--space-between justify-content-beetween currencyNavbar"
         >
           <div>
             <p class="text-h6 ml-10">{{ $t("markets") }}</p>
@@ -168,8 +162,8 @@ export default {
     wallets_subscribe_definer() {
       let str = "";
       let arr = [];
-      this.wallets.forEach((wall, i) => {
-        let cr = wall.currency.symbol;
+      this.wallets.forEach(async (wall, i) => {
+        let cr = await wall.currency.symbol;
         if (wall.currency.currency_type.key != "CRYPTO") {
           let ex_t = wall.currency.exchange_type.key;
           if (cr != "USD") {
@@ -192,7 +186,7 @@ export default {
     let me = this;
     let socket = global.socket;
     let subscr_obj = me.wallets_subscribe_definer();
-    console.log('subscr_obj', subscr_obj);
+    console.log("subscr_obj", subscr_obj);
     me.subscr = `"${me.base_p}_all@ticker_10s"`;
     if (subscr_obj.str) {
       me.subscr += `, ${subscr_obj.str}`;

@@ -121,6 +121,10 @@ const validateIsNumber = (value) => {
   let stringValue = value.split(" ").join("");
   return /^\d+$/.test(stringValue);
 };
+const validateNumberLength = (value) => {
+  let stringValue = value.split(" ").join("");
+  return stringValue.length === 16;
+};
 import config from "~/config/config.json";
 export default {
   name: "BankCard",
@@ -147,7 +151,7 @@ export default {
       valid: false,
       cardRules: [
         (v) => !!v || this.$t("card_number_required"),
-        (v) => (v && v.length == 19) || this.$t("card_rules"),
+        (v) => (v && validateNumberLength(v)) || this.$t("card_rules"),
         (v) => (v && validateIsNumber(v)) || this.$t("card_rules_number"),
       ],
       nameRules: [(v) => !!v || this.$t("cardholder_name_required")],
@@ -239,9 +243,7 @@ export default {
       return this.valid;
     },
   },
-  mounted() {
-    console.log("this.start_gradient :>> ", this.start_gradient);
-  },
+  mounted() {},
 };
 </script>
 <style scoped>

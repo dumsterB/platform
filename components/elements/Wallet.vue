@@ -203,11 +203,11 @@ export default {
       this.filteredArrInit();
     },
     filteredArrInit() {
-      let data = this.wallet.map((el) => {
+      let data = this.wallet.map(async (el) => {
         return {
-          balance: el.balance,
-          currency: el.currency.symbol,
-          currency_id: el.currency_id,
+          balance: await el.balance,
+          currency: await el.currency.symbol,
+          currency_id: await el.currency_id,
         };
       });
       this.total_sum = 0;
@@ -268,13 +268,13 @@ export default {
       if (!this.wait_render) {
         this.filteredArrInit();
       }
-    }
+    },
   },
 
   created() {
     setTimeout(() => {
       this.wait_render = false;
-    }, 2000)
+    }, 2000);
     this.fetchWallet();
   },
 };

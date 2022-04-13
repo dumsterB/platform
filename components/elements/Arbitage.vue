@@ -137,7 +137,7 @@ export default {
     },
     cur_len() {
       this.init();
-    }
+    },
   },
   methods: {
     ...mapActions(wallet, {
@@ -250,11 +250,11 @@ export default {
     currs() {
       let res = [];
       let wlts = this.wallet_full.filter(
-        (el) => el.currency.currency_type.key == "CRYPTO"
+        async (el) => (await el.currency.currency_type.key) == "CRYPTO"
       );
-      let crs = wlts.map((el) => {
+      let crs = wlts.map(async (el) => {
         el.currency.wallet_id = el.id;
-        return el.currency;
+        return await el.currency;
       });
       if (crs.length > this.cur_len) {
         res = crs.slice(0, this.cur_len);
@@ -265,9 +265,11 @@ export default {
             if (el.currency_type.key == "CRYPTO") {
               let f = res.find((e) => e.id == el.id);
               if (!f) {
-                let fnd = this.prices_all.find((e) => el && e.base == el.symbol);
+                let fnd = this.prices_all.find(
+                  (e) => el && e.base == el.symbol
+                );
                 if (fnd && fnd.price) return true;
-              };
+              }
             }
             return false;
           });
