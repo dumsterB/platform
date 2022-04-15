@@ -8,7 +8,6 @@
             :elevation="hover ? 18 : 8"
             v-bind="attrs"
             v-on="on"
-            :width="220"
             :style="customStyles"
             :class="backgroundDiffColor(currency.change_p)"
           >
@@ -73,7 +72,7 @@
         ></v-progress-circular>
       </div>
     </v-tooltip>
-    <v-card v-else class="currecyCard" elevation="8" :width="220">
+    <v-card v-else class="currecyCard" elevation="8">
       <v-list-item
         three-line
         class="pa-2 rounded-lg"
@@ -229,14 +228,10 @@ html[theme="light"] {
 .back-failure {
   font-weight: 600;
   color: var(--red);
-  &:hover {
-  }
 }
 
 .back-success {
   color: var(--green);
   font-weight: 600;
-  &:hover {
-  }
 }
 </style>

@@ -1,18 +1,32 @@
 <template>
   <div class="page-container">
+    <v-row
+      ><v-col class="mt-4"
+        ><marquee>
+          {{str_currs}}
+        </marquee></v-col
+      ></v-row
+    >
     <v-row>
-      <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
+      <v-col>
         <div
-          class="d-flex mt-2 mdc-form-field--space-between justify-content-beetween currencyNavbar"
+          class="
+            d-flex
+            mt-2
+            mr-6
+            mdc-form-field--space-between
+            justify-content-beetween
+            currencyNavbar
+          "
         >
           <div>
             <p class="text-h6 ml-10">{{ $t("markets") }}</p>
           </div>
-          <div class="d-flex">
-            <!-- <p elevation="0" class="mr-4 mt-2">
+          <div class="d-flex mb-4">
+            <p elevation="0" class="mr-4 mt-2">
               <v-icon>mdi-filter</v-icon> {{ $t("filters") }}
-            </p> -->
-            <v-text-field
+            </p>
+            <!-- <v-text-field
               :label="$t('market_search_bar_placeholder')"
               v-model="search"
               solo
@@ -20,12 +34,11 @@
               class="searchCurrency"
               dense
               prepend-inner-icon="mdi-magnify"
-            ></v-text-field>
+            ></v-text-field> -->
           </div>
         </div>
-        <v-row class="ml-4">
+        <v-row class="ml-4 mr-6">
           <v-col
-            class="d-flex justify-center"
             v-for="(curr, i) in currs"
             :key="i"
           >
@@ -37,6 +50,11 @@
             />
           </v-col>
         </v-row>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
+        <div class="ma-5">TOP SECTION</div>
       </v-col>
       <v-col :cols="12" :md="4" :lg="4" :sm="12" :xs="12">
         <Wallet ref="wallet" :prices="prices"></Wallet>
@@ -70,6 +88,8 @@ export default {
       f_currs: [],
       subscr: "",
       com_prices: [],
+      str_currs: "",
+      max_items: 5,
     };
   },
   computed: {
@@ -140,7 +160,9 @@ export default {
         }
         return res;
       });
-      me.f_currs = currs.filter((el) => el.price);
+      let f_currs = currs.filter((el) => el.price);
+      me.f_currs = f_currs.slice(0, me.max_items);
+      me.str_currs = f_currs.map(el => `${el.symbol} - $${el.price}`).join(', ');
       me.search_f();
     },
     reload_wallet() {

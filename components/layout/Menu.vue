@@ -59,7 +59,6 @@
       </v-hover>
     </v-row>
 
-    <v-divider></v-divider>
     <v-list class="ma-0 pa-0">
       <v-list-item-group v-model="menu_active">
         <div v-for="(item, i) in menu" :key="i">
@@ -137,4 +136,8 @@ export default {
   watch: {},
 };
 </script>
-<style scoped></style>
+<style>
+.v-navigation-drawer__border {
+  display: none;
+}
+</style>

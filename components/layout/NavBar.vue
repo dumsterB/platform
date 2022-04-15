@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app flat fixed style="border-bottom: 1px solid gray; height: 71px">
+  <v-app-bar app flat fixed>
     <div class="d-flex mt-8" :dir="$dir()">
       <v-autocomplete
         v-model="value"
