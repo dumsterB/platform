@@ -1,19 +1,6 @@
 <template>
   <v-app-bar app flat fixed style="border-bottom: 1px solid gray; height: 71px">
     <div class="d-flex mt-8" :dir="$dir()">
-      <v-btn
-        v-for="(item, i) in items"
-        :key="i"
-        elevation="0"
-        @click="
-          $router.push({
-            path: item.route,
-          })
-        "
-        :class="$route.path == item.route ? 'primary--text' : ''"
-        class="navLink"
-        >{{ $t(item.text) }}</v-btn
-      >
       <v-autocomplete
         v-model="value"
         :items="filtered"

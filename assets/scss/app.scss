@@ -16,7 +16,19 @@ a {
 }
 
 html[theme="light"] .v-application--wrap {
-    background-color: #eee !important;
+    background: #FFFFFF !important;
+}
+
+html .v-application--wrap {
+    background: radial-gradient(112.42% 98.89% at 50% 0%, rgba(111, 0, 255, 0.2) 0%, rgba(0, 0, 0, 0) 100%), radial-gradient(100% 101.89% at 0% 15.9%, rgba(0, 122, 255, 0.2) 0%, rgba(0, 122, 255, 0) 100%), #111111;
+}
+
+.v-navigation-drawer {
+    background-color: transparent !important;
+}
+
+.v-app-bar {
+    background-color: transparent !important;
 }
 
 .v-application p {
@@ -113,8 +125,6 @@ input[type="number"]::-webkit-inner-spin-button {
 .mdc-ripple-surface:hover:before {
     opacity: 0 !important;
 }
-
-.v-btn-toggle {}
 
 .theme--light.v-btn-toggle:not(.v-btn-toggle--group),
 .theme--dark.v-btn-toggle:not(.v-btn-toggle--group) {

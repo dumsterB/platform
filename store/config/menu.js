@@ -8,6 +8,34 @@ export const state = () => ({
       badge_color: "primary",
     },
     {
+      icon: "mdi-home-outline",
+      title: "my_wallet",
+      key: "wallet",
+      to: "/wallet",
+      badge_color: "primary",
+    },
+    {
+      icon: "mdi-home-outline",
+      title: "user_commodities",
+      key: "commodities",
+      to: "/commodities",
+      badge_color: "primary",
+    },
+    {
+      icon: "mdi-home-outline",
+      title: "user_arbitrage",
+      key: "arbitrage",
+      to: "/arbitrage",
+      badge_color: "primary",
+    },
+    {
+      icon: "mdi-home-outline",
+      title: "user_trading",
+      key: "trading",
+      to: "/trading",
+      badge_color: "primary",
+    },
+    {
       icon: "mdi-clipboard-text-multiple-outline",
       title: "user_news",
       key: "News",
@@ -42,7 +70,6 @@ export const state = () => ({
       to: "/settings",
       badge_color: "primary",
     },
-    
   ],
 });
 
