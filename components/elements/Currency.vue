@@ -209,7 +209,7 @@ html[theme="light"] {
 }
 .background-failure {
   background: var(--red);
-  background: -webkit-linear-gradient(36deg, var(--red), #000000);
+  background: -webkit-linear-gradient(36deg, var(--red), #000000) ;
   background: linear-gradient(36deg, var(--red), #000000);
   filter: blur(0.3px);
 }

@@ -3,7 +3,7 @@
     <v-row
       ><v-col class="mt-4"
         ><marquee>
-          {{str_currs}}
+          {{ str_currs }}
         </marquee></v-col
       ></v-row
     >
@@ -38,10 +38,7 @@
           </div>
         </div>
         <v-row class="ml-4 mr-6">
-          <v-col
-            v-for="(curr, i) in currs"
-            :key="i"
-          >
+          <v-col v-for="(curr, i) in currs" :key="i">
             <Currency
               :currency="curr"
               :companies="companies"
@@ -54,7 +51,10 @@
     </v-row>
     <v-row>
       <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
-        <div class="ma-5">TOP SECTION</div>
+        <div class="mt-4">
+          <p class="text-h6 ml-10">{{ $t("Top") }}</p>
+          <TableTop></TableTop>
+        </div>
       </v-col>
       <v-col :cols="12" :md="4" :lg="4" :sm="12" :xs="12">
         <Wallet ref="wallet" :prices="prices"></Wallet>
@@ -69,6 +69,7 @@ import { mapGetters, mapActions } from "vuex";
 import Currency from "~/components/elements/Currency";
 import Wallet from "../../components/elements/Wallet";
 import Exchange from "../../components/elements/Exchange";
+import TableTop from "../../components/data/TableTop";
 const model = "data/currency";
 
 export default {
@@ -76,6 +77,7 @@ export default {
     Currency,
     Wallet,
     Exchange,
+    TableTop
   },
   data() {
     return {
@@ -162,7 +164,9 @@ export default {
       });
       let f_currs = currs.filter((el) => el.price);
       me.f_currs = f_currs.slice(0, me.max_items);
-      me.str_currs = f_currs.map(el => `${el.symbol} - $${el.price}`).join(', ');
+      me.str_currs = f_currs
+        .map((el) => `${el.symbol} - $${el.price}`)
+        .join(", ");
       me.search_f();
     },
     reload_wallet() {
@@ -313,7 +317,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .currencyNavbar .v-input__control {
   width: 40% !important;
 }
