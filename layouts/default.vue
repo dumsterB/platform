@@ -7,7 +7,7 @@
         <Menu />
         <NavBar dir="ltr" />
         <v-main fluid class="mb-16">
-          <v-container fluid class="layout_default__content mt-5 ma-0 pa-0">
+          <v-container fluid class="layout_default__content">
             <nuxt />
           </v-container>
         </v-main>
@@ -176,5 +176,9 @@ html {
 }
 div {
   font-family: "Cera Pro";
+}
+.page-container {
+  margin-right: 30px;
+  margin-top: 20px;
 }
 </style>

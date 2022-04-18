@@ -41,11 +41,7 @@
       class="align-center px-4"
       style="height: 70px; margin: 0px"
     >
-      <img
-        style="height: 30px; margin-right: 20px; margin-left: auto"
-        :src="config.logo"
-        :alt="$t('logoPic')"
-      />
+      <img class="logo-img" :src="config.logo" :alt="$t('logoPic')" />
       <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
         <v-btn
           icon
@@ -66,7 +62,8 @@
             :key="i"
             nuxt
             :to="item.to"
-            active-class="success_text--text"
+            class="menu-list-item"
+            active-class="success_text--text active-list-item"
           >
             <template v-slot:default="{}">
               <v-tooltip
@@ -89,10 +86,7 @@
                     </v-hover>
                   </v-list-item-action>
                   <v-list-item-content>
-                    <v-hover
-                      open-delay="223"
-                      close-delay="223"
-                    >
+                    <v-hover open-delay="223" close-delay="223">
                       <v-list-item-title
                         class="font-weight-medium"
                         v-text="$t(item.title)"
@@ -139,5 +133,25 @@ export default {
 <style>
 .v-navigation-drawer__border {
   display: none;
+}
+.active-list-item::before {
+  background: transparent;
+}
+.active-list-item .v-list-item__title {
+  font-size: 18px !important;
+}
+.menu-list-item .v-list-item__title {
+  font-size: 15px;
+}
+.menu-list-item .v-icon {
+  margin-left: 20px;
+}
+.v-navigation-drawer--mini-variant .menu-list-item .v-icon {
+  margin-left: 0px;
+}
+.logo-img {
+  height: 30px;
+  margin-right: auto;
+  margin-left: 20px;
 }
 </style>

@@ -8,8 +8,6 @@
             style="
               height: 60px;
               margin-right: 20px;
-              background-color: #fafafa;
-              border-radius: 4px;
             "
             :src="config.logo"
             :alt="$t('logoPic')"
@@ -421,5 +419,8 @@ export default {
 }
 .cardBorder {
   border: 1px solid var(--border_color);
+}
+.v-card {
+  background: #3b383f !important;
 }
 </style>
