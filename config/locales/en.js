@@ -92,7 +92,7 @@ export default {
   low_blance: "Low balance",
   orLog: "Or Login with",
   questions: "Questions",
-  markets: "All markets",
+  markets: "Markets",
   trading: "Trading",
   cryptocurrency: "All cryptocurrency",
   news_page: "Blog",

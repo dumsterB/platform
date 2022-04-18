@@ -53,7 +53,7 @@
       <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
         <div class="mt-4">
           <p class="text-h6 ml-10">{{ $t("Top") }}</p>
-          <TableTop></TableTop>
+          <TableTop :price="prices"></TableTop>
         </div>
       </v-col>
       <v-col :cols="12" :md="4" :lg="4" :sm="12" :xs="12">
