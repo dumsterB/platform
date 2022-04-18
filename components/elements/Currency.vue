@@ -10,11 +10,11 @@
             v-on="on"
             :style="customStyles"
             :class="backgroundDiffColor(currency.change_p)"
+            @click="$router.push(`/currency?id=${currency.id}`)"
           >
             <v-list-item
               three-line
               class="pa-2 rounded-lg"
-              @click="$router.push(`/currency?id=${currency.id}`)"
             >
               <v-list-item-content class="pa-1 rounded-lg">
                 <div class="d-flex">
@@ -49,6 +49,13 @@
                 >
               </v-list-item-content>
             </v-list-item>
+            <v-list-item>
+            <v-list-item-content>
+            <div>
+              <sparklines></sparklines>
+            </div>
+          </v-list-item-content>
+            </v-list-item>
           </v-card>
         </v-hover>
       </template>
@@ -65,7 +72,7 @@
         <v-progress-circular
           v-else
           :size="25"
-          :width="3"
+          :width="3"x
           color="primary"
           indeterminate
           style="left: 64px"
@@ -98,7 +105,11 @@
 <script>
 import { mapGetters } from "vuex";
 import config from "~/config/config.json";
+import sparklines from "@/components/elements/currencies/Sparklines";
 export default {
+  components:{
+    sparklines
+  },
   props: {
     currency: {
       type: Object,
