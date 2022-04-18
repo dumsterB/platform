@@ -1,6 +1,6 @@
 <template>
-  <div class="ma-4">
-    <div class="d-flex mdc-form-field--space-between">
+  <div class="ma-4 pt-4">
+    <div class="mx-4 d-flex mdc-form-field--space-between">
       <p class="text-h6">{{ $t("exchange") }}</p>
     </div>
     <v-card class="pa-3" elevation="4">
