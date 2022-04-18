@@ -1,5 +1,6 @@
 <template>
-  <v-app-bar app flat fixed>
+  <v-app-bar app flat fixed class="app-bar-margins">
+    <v-spacer></v-spacer>
     <div class="d-flex mt-8" :dir="$dir()">
       <v-autocomplete
         v-model="value"
@@ -14,7 +15,7 @@
         chips
         clearable
         hide-selected
-        class="ml-2"
+        class="ml-2 global-search"
         ><template v-slot:selection="{ attr, on, item, selected }">
           <v-chip
             v-bind="attr"
@@ -65,7 +66,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-hover v-slot="{ hover }">
-          <v-card
+          <div
             flat
             class="
               account-menu
@@ -77,7 +78,6 @@
               pr-2
               pl-4
             "
-            style="width: 200px"
             v-on="on"
           >
             <div class="mr-2">
@@ -87,19 +87,13 @@
                 >
               </v-avatar>
             </div>
-            <div :class="hover ? 'primary--text' : 'gray--text'">
+            <div :class="hover ? 'primary--text' : ''">
               {{ $auth.user.name }}
             </div>
-            <v-spacer></v-spacer>
-            <div>
-              <v-icon :color="hover ? 'primary' : 'gray'" class="mr-2"
-                >mdi-chevron-down</v-icon
-              >
-            </div>
-          </v-card>
+          </div>
         </v-hover>
       </template>
-      <v-list>
+      <v-list class="menu-list">
         <v-list-item
           v-for="(action, i) in account_menu"
           :key="i"
@@ -116,6 +110,10 @@
         ></v-list-item>
       </v-list>
     </v-menu>
+    <v-hover v-slot="{ hover }">
+      <v-icon class="mt-2 icon-bell" :color="hover ? 'primary' : 'gray'">{{ is_nots ? 'mdi-bell-badge-outline' : 'mdi-bell-outline' }}</v-icon>
+    </v-hover>
+    
   </v-app-bar>
 </template>
 
@@ -130,6 +128,7 @@ export default {
       user_image: null,
       account_menu: this.initAccountMenu(),
       value: null,
+      is_nots: true,
       items: [
         {
           text: "my_wallet",
@@ -261,16 +260,26 @@ export default {
 
 <style lang="scss">
 .account-menu {
-  background-color: transparent !important;
+  background: transparent !important;
+  cursor: pointer;
+  width: 150px;
 }
 
 .navLink {
   text-transform: none;
 }
 
+.app-bar-margins {
+  margin-right: 80px;
+}
+
+.icon-bell {
+  cursor: pointer;
+}
+
 html[theme="light"] {
   .account-menu {
-    background-color: transparent !important;
+    background: transparent !important;
   }
 }
 </style>

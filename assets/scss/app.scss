@@ -31,8 +31,22 @@ html .v-application--wrap {
     background-color: inherit !important;
 }
 
+.v-input__slot {
+    background: rgba(154, 154, 154, 0.3) !important;
+    border-radius: 20px !important;
+  }
+
 .v-application p {
     margin-bottom: 10px;
+}
+
+.v-menu__content .v-list {
+    background: #000e1d !important;
+    border-radius: 20px !important;
+}
+
+html[theme="light"] .v-menu__content .v-list {
+    background: #FFFFFF !important;
 }
 
 .v-card {

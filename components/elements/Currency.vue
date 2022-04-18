@@ -18,10 +18,10 @@
             >
               <v-list-item-content class="pa-1 rounded-lg">
                 <div class="d-flex">
-                  <v-img :src="currency.logo" :max-width="20"></v-img>
+                  <v-img :src="currency.logo" :max-width="32"></v-img>
                   <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
                 </div>
-                <span style="margin-bottom: -4px">${{ currency.price }}</span>
+                <span class="price-text" style="margin-bottom: -4px">${{ currency.price }}</span>
               </v-list-item-content>
               <v-list-item-content class="coinList pa-1 flexNone">
                 <div class="star-btn">
@@ -72,7 +72,7 @@
         <v-progress-circular
           v-else
           :size="25"
-          :width="3"x
+          :width="3"
           color="primary"
           indeterminate
           style="left: 64px"
@@ -90,7 +90,7 @@
             <v-img :src="currency.logo" :max-width="20"></v-img>
             <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
           </div>
-          <span>${{ currency.price }}</span>
+          <span class="price-text">${{ currency.price }}</span>
         </v-list-item-content>
         <v-list-item-content class="coinList pa-1 flexNone">
           <div class="chip">24H</div>
@@ -180,6 +180,14 @@ export default {
 .coinList {
   width: 80px;
 }
+.coinList span {
+  padding-top: 10px;
+}
+.curr_name {
+  color: #979797;
+  padding-left: 10px;
+  padding-top: 5px;
+}
 .coinList .chip {
   // 24H background
   background-color: #3d3d3d;
@@ -191,6 +199,11 @@ export default {
 }
 .currecyCard {
   cursor: pointer;
+  padding: 0px 10px 0px 10px;
+}
+.price-text {
+  font-size: 20px;
+  font-weight: 700;
 }
 .star_btn:hover {
   background: none;
