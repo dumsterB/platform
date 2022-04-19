@@ -14,7 +14,7 @@
           >
             <v-list-item
               three-line
-              class="pa-2 rounded-lg"
+              class="pa-2 rounded-lg d-flex"
             >
               <v-list-item-content class="pa-1 rounded-lg">
                 <div class="d-flex">
@@ -199,7 +199,7 @@ export default {
 }
 .currecyCard {
   cursor: pointer;
-  padding: 0px 10px 0px 10px;
+  padding: 0px 2px 0px 2px;
 }
 .price-text {
   font-size: 20px;

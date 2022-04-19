@@ -15,8 +15,9 @@
       </div>
     </template>
     <template v-slot:item.change="{item}">
-      <div class="d-flex">
-     {{item.change}} {{item.price}}
+      <div class="">
+        ${{item.price}}
+        <span > {{item.change}}</span>
       </div>
     </template>
     <template v-slot:item.action="{item}">

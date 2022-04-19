@@ -38,7 +38,7 @@
           </div>
         </div>
         <v-row class="ml-3 mr-3">
-          <v-col v-for="(curr, i) in currs" :key="i">
+          <v-col class="d-flex" v-for="(curr, i) in currs" :key="i">
             <Currency
               :currency="curr"
               :companies="companies"
