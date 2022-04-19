@@ -16,7 +16,7 @@ a {
 }
 
 html[theme="light"] .v-application--wrap {
-    background: #FFFFFF !important;
+    background: #ECEFF1 !important;
 }
 
 html .v-application--wrap {
@@ -31,10 +31,9 @@ html .v-application--wrap {
     background-color: inherit !important;
 }
 
-.v-input__slot {
-    background: rgba(154, 154, 154, 0.3) !important;
+.v-text-field--outlined .v-input__slot {
     border-radius: 20px !important;
-  }
+}
 
 .v-application p {
     margin-bottom: 10px;
