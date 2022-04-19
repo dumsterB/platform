@@ -15,9 +15,12 @@
       </div>
     </template>
     <template v-slot:item.change="{item}">
-      <div class="">
+      <div  class="" v-if="item.change && item.price">
         ${{item.price}}
-        <span > {{item.change}}</span>
+        <span :class="diffColor(item.change)" class="d-flex"> <v-icon size="small" color="#0089B5">mdi-chevron-up</v-icon>  {{item.change}}  <span style="font-size: 8px; margin-left: 1px; margin-top: 5px">( %{{item.percent}} )</span>  </span>
+      </div>
+      <div v-else>
+        {{$t('no-data')}}
       </div>
     </template>
     <template v-slot:item.action="{item}">
@@ -89,6 +92,15 @@ export default {
       ]
     };
   },
+  methods:{
+    diffColor(el){
+      if (el < 0) {
+        return "text--red";
+      } else {
+        return "text--success";
+      }
+    }
+  },
   computed: {
     ...mapGetters("data/currency", {
       currencies_full: "list",
@@ -97,9 +109,11 @@ export default {
       let currency_full=this.currencies_full.filter(item=>item.currency_type && item.currency_type.key ==='CRYPTO')
     return currency_full.map(el=>{
      let determine= this.price.find(ell=>ell.base== el.symbol)
+      let percent=((parseFloat(el.change) * 100) / parseFloat(el.price)).toFixed(2);
       if(determine){
         el.price =determine.price
         el.change=determine.change
+        el.percent=percent
       }
       return el
     })
@@ -115,7 +129,8 @@ export default {
         {
           text: this.$t("change"),
           value: "change",
-          width: 100,
+          width: 120,
+          align: 'start',
           sortable: false,
         },
         {
@@ -144,5 +159,14 @@ export default {
 <style>
 .curr-table {
   background-color: transparent !important;
+}
+.text--red{
+  color: #E20000
+}
+.text--success{
+  color:#0089B5
+}
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td{
+  padding: 0 10px!important;
 }
 </style>

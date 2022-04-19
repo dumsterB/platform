@@ -62,8 +62,8 @@
             :key="i"
             nuxt
             :to="item.to"
-            class="menu-list-item"
-            active-class="success_text--text active-list-item"
+            class="menu-list-item primary--text"
+            active-class="active-list-item"
           >
             <template v-slot:default="{}">
               <v-tooltip
@@ -87,14 +87,10 @@
                   </v-list-item-action>
                   <v-list-item-content>
                     <v-hover open-delay="223" close-delay="223">
-                      <v-list-item-title
-                        class="font-weight-medium"
-                        v-text="$t(item.title)"
-                      />
+                      <v-list-item-title v-text="$t(item.title)" />
                     </v-hover>
                   </v-list-item-content>
                 </template>
-                <span>{{ $t(item.title) }}</span>
               </v-tooltip>
             </template>
           </v-list-item>
@@ -130,7 +126,7 @@ export default {
   watch: {},
 };
 </script>
-<style>
+<style lang="scss">
 .v-navigation-drawer__border {
   display: none;
 }
@@ -138,13 +134,23 @@ export default {
   background: transparent;
 }
 .active-list-item .v-list-item__title {
-  font-size: 18px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--v-primary-base) !important;
 }
 .menu-list-item .v-list-item__title {
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #848484;
 }
 .menu-list-item .v-icon {
   margin-left: 20px;
+  color: #848484;
+}
+html[theme="dark"] {
+  .active-list-item {
+    color: white !important;
+  }
 }
 .v-navigation-drawer--mini-variant .menu-list-item .v-icon {
   margin-left: 0px;

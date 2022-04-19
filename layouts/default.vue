@@ -178,7 +178,9 @@ div {
   font-family: "Cera Pro";
 }
 .page-container {
-  margin-right: 30px;
-  margin-top: 20px;
+  margin-right: 20px;
+}
+.layout_default__content {
+  margin-top: 10px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app flat fixed class="app-bar-margins">
+  <v-app-bar app flat hide-on-scroll class="app-bar-margins">
     <v-spacer></v-spacer>
     <div class="d-flex mt-8" :dir="$dir()">
       <v-autocomplete
@@ -111,9 +111,19 @@
       </v-list>
     </v-menu>
     <v-hover v-slot="{ hover }">
-      <v-icon class="mt-2 icon-bell" :color="hover ? 'primary' : 'gray'">{{ is_nots ? 'mdi-bell-badge-outline' : 'mdi-bell-outline' }}</v-icon>
+      <v-icon class="mt-2 icon-bell" :color="hover ? 'primary' : 'gray'">{{
+        is_nots ? "mdi-bell-badge-outline" : "mdi-bell-outline"
+      }}</v-icon>
     </v-hover>
-    
+    <template v-slot:extension>
+      <v-row>
+        <v-col class="ma-0 pa-0"
+          ><marquee>
+            {{ 'BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, ' }}
+          </marquee></v-col
+        ></v-row
+      >
+    </template>
   </v-app-bar>
 </template>
 
@@ -259,10 +269,19 @@ export default {
 </script>
 
 <style lang="scss">
+
+marquee {
+  font-size: 12px;
+  margin: 0px 10px 0px 30px;
+}
 .account-menu {
   background: transparent !important;
   cursor: pointer;
   width: 150px;
+}
+
+.global-search .v-input__slot {
+  background: rgba(154, 154, 154, 0.3) !important;
 }
 
 .navLink {

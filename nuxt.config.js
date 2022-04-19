@@ -99,6 +99,7 @@ export default {
 
   vuetify: {
     customVariables: ["~/assets/scss/app.scss"],
+    customProperties: true,
     theme: {
       themes: config.themes,
     },

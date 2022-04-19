@@ -68,7 +68,7 @@
         >
       </div>
     </v-card>
-    <v-row class="mt-10 d-flex align-center justify-start">
+    <!-- <v-row class="mt-10 d-flex align-center justify-start">
       <v-col :cols="8">
         <v-text-field
           v-model="link_url"
@@ -90,7 +90,7 @@
         >
       </v-col>
     </v-row>
-    <br />
+    <br /> -->
   </div>
 </template>
 

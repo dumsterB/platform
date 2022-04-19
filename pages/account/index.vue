@@ -1,18 +1,10 @@
 <template>
   <div class="page-container">
-    <v-row
-      ><v-col class="mt-4"
-        ><marquee>
-          {{ str_currs }}
-        </marquee></v-col
-      ></v-row
-    >
     <v-row>
-      <v-col>
+      <v-col class="pt-0">
         <div
           class="
             d-flex
-            mt-2
             mr-6
             mdc-form-field--space-between
             justify-content-beetween
@@ -57,8 +49,8 @@
         </div>
       </v-col>
       <v-col :cols="12" :md="4" :lg="4" :sm="12" :xs="12">
-        <Wallet ref="wallet" :prices="prices"></Wallet>
         <Exchange :currency="currs" @reload="reload_wallet"></Exchange>
+        <Wallet ref="wallet" :prices="prices"></Wallet>
       </v-col>
     </v-row>
   </div>
@@ -318,6 +310,7 @@ export default {
 };
 </script>
 <style>
+
 .currencyNavbar .v-input__control {
   width: 40% !important;
 }
