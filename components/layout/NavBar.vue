@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app flat hide-on-scroll class="app-bar-margins">
+  <v-app-bar app flat class="app-bar-margins" id="app-bar-id">
     <v-spacer></v-spacer>
     <div class="d-flex mt-8" :dir="$dir()">
       <v-autocomplete
@@ -119,7 +119,9 @@
       <v-row>
         <v-col class="ma-0 pa-0"
           ><marquee>
-            {{ 'BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, ' }}
+            {{
+              "BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, "
+            }}
           </marquee></v-col
         ></v-row
       >
@@ -261,15 +263,21 @@ export default {
       //   initiales += surname && surname.length > 0 ? surname[0] : "";
       return "User";
     },
-    mounted() {
-      console.log("this.filtered :>> ", this.filtered);
-    },
   },
+  mounted() {
+      console.log("this.filtered :>> ", this.filtered);
+      window.addEventListener('scroll', (e) => {
+        if (window.pageYOffset > 60) {
+          document.getElementById("app-bar-id").style.display = 'none';
+        } else {
+          document.getElementById("app-bar-id").style.display = 'block';
+        }
+      });
+    },
 };
 </script>
 
 <style lang="scss">
-
 marquee {
   font-size: 12px;
   margin: 0px 10px 0px 30px;
