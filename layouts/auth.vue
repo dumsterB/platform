@@ -15,7 +15,7 @@
 
 <style>
 html {
-  font-family: "Cera Pro";
+  font-family: "Montserrat";
   height: 100%;
   font-style: normal;
   font-weight: normal;
@@ -25,6 +25,6 @@ html {
   transition: 223ms;
 }
 div {
-  font-family: "Cera Pro";
+  font-family: "Montserrat";
 }
 </style>

@@ -1,0 +1,223 @@
+@font-face {
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 300;
+    src: local(""), url("~/fonts/rubik-v14-latin-300.woff2") format("woff2"), url("~/fonts/rubik-v14-latin-300.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    src: local(""), url("~/fonts/inter-v8-latin-500.woff2") format("woff2"), url("~/fonts/inter-v8-latin-500.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 100;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-100.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-100.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 200;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-200.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-200.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 300;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-300.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-300.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-regular.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 500;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-500.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-500.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 600;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-600.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-600.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 700;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-700.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-700.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 800;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-800.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-800.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 900;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-900.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-900.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: italic;
+    font-weight: 100;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-100italic.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-100italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: italic;
+    font-weight: 200;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-200italic.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-200italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: italic;
+    font-weight: 300;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-300italic.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-300italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: italic;
+    font-weight: 400;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-italic.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: italic;
+    font-weight: 500;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-500italic.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-500italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: italic;
+    font-weight: 600;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-600italic.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-600italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: italic;
+    font-weight: 700;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-700italic.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-700italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: italic;
+    font-weight: 800;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-800italic.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-800italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: italic;
+    font-weight: 900;
+    src: local(""), url("~/fonts/Montserrat/montserrat-v23-latin-900italic.woff2") format("woff2"), url("~/fonts/Montserrat/montserrat-v23-latin-900italic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: normal;
+    font-weight: 300;
+    src: local("Cera Pro Light"), local("CeraPro-Light"), url("~/fonts/CeraPro/CeraPro-Light.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-Light.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: italic;
+    font-weight: 500;
+    src: local("Cera Pro Medium Italic"), local("CeraPro-MediumItalic"), url("~/fonts/CeraPro/CeraPro-MediumItalic.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-MediumItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: italic;
+    font-weight: normal;
+    src: local("Cera Pro Regular Italic"), local("CeraPro-RegularItalic"), url("~/fonts/CeraPro/CeraPro-RegularItalic.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-RegularItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: italic;
+    font-weight: 900;
+    src: local("Cera Pro Black Italic"), local("CeraPro-BlackItalic"), url("~/fonts/CeraPro/CeraPro-BlackItalic.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-BlackItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: normal;
+    font-weight: 500;
+    src: local("Cera Pro Medium"), local("CeraPro-Medium"), url("~/fonts/CeraPro/CeraPro-Medium.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-Medium.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: italic;
+    font-weight: bold;
+    src: local("Cera Pro Bold Italic"), local("CeraPro-BoldItalic"), url("~/fonts/CeraPro/CeraPro-BoldItalic.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-BoldItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-weight: 100;
+    font-style: italic;
+    src: local("Cera Pro Thin Italic"), local("CeraPro-ThinItalic"), url("~/fonts/CeraPro/CeraPro-ThinItalic.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-ThinItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: italic;
+    font-weight: 300;
+    src: local("Cera Pro Light Italic"), local("CeraPro-LightItalic"), url("~/fonts/CeraPro/CeraPro-LightItalic.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-LightItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: normal;
+    font-weight: 900;
+    src: local("Cera Pro Black"), local("CeraPro-Black"), url("~/fonts/CeraPro/CeraPro-Black.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-Black.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: normal;
+    font-weight: bold;
+    src: local("Cera Pro Bold"), local("CeraPro-Bold"), url("~/fonts/CeraPro/CeraPro-Bold.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-Bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Cera Pro Regular"), local("CeraPro-Regular"), url("~/fonts/CeraPro/CeraPro-Regular.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-Regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cera Pro";
+    font-style: normal;
+    font-weight: 100;
+    src: local("Cera Pro Thin"), local("CeraPro-Thin"), url("~/fonts/CeraPro/CeraPro-Thin.woff2") format("woff2"), url("~/fonts/CeraPro/CeraPro-Thin.woff") format("woff");
+}
