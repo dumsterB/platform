@@ -3,32 +3,32 @@
   <v-data-table
     :items="currencies"
     :headers="headers"
-    :items-per-page="10"
+    :items-per-page="20"
     class="ma-4 ml-8 curr-table"
     :footer-props="{
       'items-per-page-options': [5, 10, 20, 50],
     }"
   >
-    <template v-slot:item.name="{item}">
+    <template v-slot:[`item.name`]="{item}">
       <div class="d-flex">
-        <img height="20" :src="item.logo" alt=""> <div class="d-flex ml-3"><strong>{{item.name}}</strong>   <span class="ml-2">  {{item.symbol}}</span></div>
+        <img height="20" :src="item.logo" alt=""> <div class="d-flex ml-3"><strong>{{item.name}}</strong>   <span class="ml-2" style="color: #BFB5FF">  {{item.symbol}}</span></div>
       </div>
     </template>
-    <template v-slot:item.change="{item}">
+    <template v-slot:[`item.change`]="{item}">
       <div  class="" v-if="item.change && item.price">
-        ${{item.price}}
-        <span :class="diffColor(item.change)" class="d-flex"> <v-icon size="small" color="#0089B5">mdi-chevron-up</v-icon>  {{item.change}}  <span style="font-size: 8px; margin-left: 1px; margin-top: 5px">( %{{item.percent}} )</span>  </span>
+        <span style="font-size: 14px;">${{item.price}}</span>
+        <span style="font-size: 10px;" :class="diffColor(item.change)" class="d-flex"> <v-icon :class="diffColor(item.change)" size="small">{{item.change > 0 ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>  {{item.change}}  <span style="font-size: 8px; margin-left: 3px; margin-top: 2px">( %{{item.percent}} )</span>  </span>
       </div>
       <div v-else>
         {{$t('no-data')}}
       </div>
     </template>
-    <template v-slot:item.action="{item}">
+    <template v-slot:[`item.action`]="{}">
       <div class="d-flex">
         <v-btn class="primary" small elevation="0" rounded>{{$t('buy')}}</v-btn>
       </div>
     </template>
-    <template v-slot:item.chart="{item}">
+    <template v-slot:[`item.chart`]="{}">
       <div class="d-flex">
         <v-sparkline
             :value="value"
@@ -41,17 +41,12 @@
         </v-sparkline>
       </div>
     </template>
-    <template v-slot:item.action="{item}">
-      <div class="d-flex">
-        <v-btn class="primary" small elevation="0" rounded>{{$t('buy')}}</v-btn>
-      </div>
-    </template>
-    <template v-slot:item.52W="{item}">
+    <template v-slot:[`item.52W`]="{}">
       <div class="d-flex">
         <v-progress-linear color="#333333" value="60"></v-progress-linear>
       </div>
     </template>
-    <template v-slot:item.sentiment="{item}">
+    <template v-slot:[`item.sentiment`]="{}">
       <div class="d-flex">
         <v-progress-linear
             background-color="blue lighten-3"
@@ -60,7 +55,7 @@
         ></v-progress-linear>
       </div>
     </template>
-    <template v-slot:item.dropdawn="{item}">
+    <template v-slot:[`item.dropdawn`]="{}">
       <div class="d-flex">
       <v-btn icon> <v-icon color="#333333">mdi-dots-vertical</v-icon></v-btn>
       </div>
@@ -95,9 +90,9 @@ export default {
   methods:{
     diffColor(el){
       if (el < 0) {
-        return "text--red";
+        return "red--text";
       } else {
-        return "text--success";
+        return "primary--text";
       }
     }
   },
@@ -129,7 +124,7 @@ export default {
         {
           text: this.$t("change"),
           value: "change",
-          width: 120,
+          width: 140,
           align: 'start',
           sortable: false,
         },
@@ -159,12 +154,6 @@ export default {
 <style>
 .curr-table {
   background-color: transparent !important;
-}
-.text--red{
-  color: #E20000
-}
-.text--success{
-  color:#0089B5
 }
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td{
   padding: 0 10px!important;
