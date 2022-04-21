@@ -60,7 +60,7 @@
 import { mapGetters, mapActions } from "vuex";
 import Currency from "~/components/elements/Currency";
 import Wallet from "../../components/elements/Wallet";
-import Exchange from "../../components/elements/Exchange";
+import Exchange from "../../components/elements/exchange";
 import TableTop from "../../components/data/TableTop";
 const model = "data/currency";
 

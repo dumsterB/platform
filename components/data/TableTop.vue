@@ -129,7 +129,7 @@ export default {
         {
           text: this.$t("change"),
           value: "change",
-          width: 120,
+          width: 140,
           align: 'start',
           sortable: false,
         },
