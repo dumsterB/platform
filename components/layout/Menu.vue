@@ -91,6 +91,7 @@
                     </v-hover>
                   </v-list-item-content>
                 </template>
+                <span>{{$t(item.title)}}</span>
               </v-tooltip>
             </template>
           </v-list-item>

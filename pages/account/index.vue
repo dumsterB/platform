@@ -30,7 +30,7 @@
           </div>
         </div>
         <v-row class="ml-3 mr-3">
-          <v-col class="d-flex" v-for="(curr, i) in currs" :key="i">
+          <v-col v-for="(curr, i) in f_currs" :key="i">
             <Currency
               :currency="curr"
               :companies="companies"
@@ -69,9 +69,10 @@ export default {
     Currency,
     Wallet,
     Exchange,
-    TableTop
+    TableTop,
   },
   data() {
+    let mi = parseInt(window.innerWidth / 350)
     return {
       currs: [],
       companies: [],
@@ -82,8 +83,8 @@ export default {
       f_currs: [],
       subscr: "",
       com_prices: [],
-      str_currs: "",
-      max_items: 5,
+      max_items: mi,
+      windowWidth: window.innerWidth,
     };
   },
   computed: {
@@ -102,10 +103,17 @@ export default {
     ...mapGetters("data/wallet", {
       wallets: "list",
     }),
+    innerwidth() {
+      console.log("window.innerWidth", window.innerWidth);
+      return window.innerWidth;
+    },
   },
   watch: {
     search() {
       this.search_f();
+    },
+    windowHeight(newHeight, oldHeight) {
+      this.txt = `it changed to ${newHeight} from ${oldHeight}`;
     },
   },
   methods: {
@@ -118,10 +126,13 @@ export default {
     ...mapActions("data/wallet", {
       fetchWallet: "fetchList",
     }),
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
     search_f() {
       let me = this;
       if (me.search) {
-        me.currs = me.f_currs.filter((el) => {
+        me.f_currs = me.currs.filter((el) => {
           return (
             (el.name &&
               el.name.toLowerCase().includes(this.search.toLowerCase())) ||
@@ -130,7 +141,7 @@ export default {
           );
         });
       } else {
-        me.currs = Object.assign([], me.f_currs);
+        me.f_currs = me.currs.slice(0, me.max_items);
       }
     },
     init_currs() {
@@ -155,11 +166,8 @@ export default {
         return res;
       });
       let f_currs = currs.filter((el) => el.price);
+      me.currs = f_currs;
       me.f_currs = f_currs.slice(0, me.max_items);
-      me.str_currs = f_currs
-        .map((el) => `${el.symbol} - $${el.price}`)
-        .join(", ");
-      me.search_f();
     },
     reload_wallet() {
       this.$refs.wallet.counter = 1;
@@ -256,6 +264,7 @@ export default {
   },
   mounted() {
     let me = this;
+    window.addEventListener("resize", this.onResize);
     let int = setInterval(() => {
       let test_case = document.getElementById(`ttp-BTC`);
       if (test_case) {
@@ -301,6 +310,7 @@ export default {
     }, 1000);
   },
   destroyed() {
+    window.removeEventListener("resize", this.onResize);
     let socket = global.socket;
     socket.send(`{
       "method": "unsubscribe",
@@ -310,7 +320,6 @@ export default {
 };
 </script>
 <style>
-
 .currencyNavbar .v-input__control {
   width: 40% !important;
 }

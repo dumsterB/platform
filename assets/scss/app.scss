@@ -1,5 +1,22 @@
 /* BASE */
 
+:root {
+    --mdc-typography-font-family: "Montserrat", sans-serif;
+}
+
+html,
+body,
+strong,
+p,
+div#app.v-application,
+div#app.v-application--wrap,
+.v-list-item__title,
+.mdc-typography,
+.v-application .text-h5,
+.v-application .text-h6 {
+    font-family: var(--mdc-typography-font-family), "Montserrat", sans-serif !important;
+}
+
 a {
     text-decoration: none;
     display: block;
@@ -16,11 +33,11 @@ a {
 }
 
 html[theme="light"] .v-application--wrap {
-    background: #ECEFF1 !important;
+    background: #eceff1 !important;
 }
 
 html .v-application--wrap {
-    background: radial-gradient(112.42% 98.89% at 50% 0%, rgba(111, 0, 255, 0.2) 0%, rgba(0, 0, 0, 0) 100%), radial-gradient(100% 101.89% at 0% 15.9%, rgba(0, 122, 255, 0.2) 0%, rgba(0, 122, 255, 0) 100%), #111111;
+    background: radial-gradient( 112.42% 98.89% at 50% 0%, rgba(111, 0, 255, 0.2) 0%, rgba(0, 0, 0, 0) 100%), radial-gradient( 100% 101.89% at 0% 15.9%, rgba(0, 122, 255, 0.2) 0%, rgba(0, 122, 255, 0) 100%), #111111;
 }
 
 .v-navigation-drawer {
@@ -45,16 +62,16 @@ html .v-application--wrap {
 }
 
 html[theme="light"] .v-menu__content .v-list {
-    background: #FFFFFF !important;
+    background: #ffffff !important;
 }
 
 .v-card {
-    background: #000C19 !important;
+    background: #000c19 !important;
     border-radius: 20px !important;
 }
 
 html[theme="light"] .v-card {
-    background: #FFFFFF !important;
+    background: #ffffff !important;
 }
 
 ul,
@@ -91,58 +108,45 @@ input[type="number"]::-webkit-inner-spin-button {
         margin-left: 0px !important;
         padding-left: 5px !important;
     }
-
     td.text-right {
         text-align: left !important;
     }
-
     td.text-left {
         text-align: right !important;
     }
-
     th.text-left {
         text-align: right !important;
     }
-
     .layout_default__content {
         padding-right: 30px !important;
         padding-left: 10px !important;
     }
-
     .currencyNavbar {
         padding-right: 20px !important;
         padding-left: 30px !important;
     }
-
     .v-list-item__content {
         padding-right: 10px !important;
     }
-
     .curr_name {
         margin-right: 10px !important;
     }
-
     .v-input__icon--append {
         display: none;
     }
-
     .mainCard .v-btn {
         margin-right: 15px !important;
     }
-
     .settingsTab .text-h6 {
         margin-right: 15px !important;
     }
-
     .historyChip {
         position: relative;
         margin-left: 10px !important;
     }
-
     .gc-card .v-btn {
         margin-right: 30px !important;
     }
-
     .v-data-footer .v-input {
         margin-right: 15px !important;
     }
