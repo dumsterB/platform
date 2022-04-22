@@ -103,8 +103,7 @@ export default {
       this.search_f();
     },
     prices_current(v) {
-      let json_d = Object.assign([], v);
-      console.log(json_d);
+      let json_d = Object.assign({}, v);
       let me = this;
       if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
         let data = json_d.data ? json_d.data.data || [] : [];
