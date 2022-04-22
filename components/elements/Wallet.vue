@@ -274,7 +274,11 @@ export default {
   created() {
     setTimeout(() => {
       this.wait_render = false;
+<<<<<<< HEAD
     }, 500);
+=======
+    }, 1000);
+>>>>>>> master
     this.fetchWallet();
   },
 };

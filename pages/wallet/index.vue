@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import GeneralCapital from "@/components/elements/GeneralCapital";
 import Check from "@/components/elements/Check";
 import TableTransactions from "@/components/data/TableWallets";
@@ -95,6 +95,9 @@ export default {
     ...mapGetters("data/wallet", {
       wallets: "list",
     }),
+    ...mapGetters("config/ws", {
+      prices_current: "page_data",
+    }),
     spot_title() {
       return this.$t("spot_account");
     },
@@ -111,6 +114,10 @@ export default {
     }),
     ...mapActions("data/order", {
       fetchOrders: "fetchList",
+    }),
+    ...mapMutations("config/ws", {
+      unsubscribe: "unsubscribe_page",
+      subscribe: "set_page_subscribe",
     }),
     check_tbls() {
       if (this.is_spot_order && !this.is_fiat_order) {
@@ -231,47 +238,21 @@ export default {
     },
     async init() {
       let me = this;
-      let socket = global.socket;
       let obj = me.wallets_subscribe_definer();
-      socket.send(`{
-        "method": "subscribe",
-        "data": [${obj.str}]
-      }`);
-      socket.onmessage = function (event) {
-        if (event.data) {
-          let json_d = JSON.parse(event.data);
-          obj.arr.forEach((el) => {
-            if (json_d && json_d.method == el) {
-              let data = json_d.data ? json_d.data.data || [] : [];
-              if (data.length > 0) {
-                me.price_update(data[0]);
-              }
-            }
-          });
-
-          // me.currs = me.currencies.map(el => {
-          //   let res = {
-          //     id: el.id,
-          //     symbol: el.symbol,
-          //     name: el.name,
-          //     logo: el.logo
-          //   }
-          //   let fnd = data.find(e => e && e.base == el.symbol);
-          //   if (fnd) {
-          //     res.price = fnd.price;
-          //     res.change = fnd.change;
-          //     res.change_p = (parseFloat(fnd.change) / parseFloat(fnd.price)).toFixed(4);
-          //   }
-          //   return res;
-          // })
-          // console.log('me.currs', me.currs)
-        }
-      };
+      this.subscribe(Object.assign([], obj.arr));
     },
   },
   watch: {
     prices() {
       this.init_tb();
+    },
+    prices_current(v) {
+      let json_d = Object.assign({}, v);
+      let me = this;
+      let data = json_d.data ? json_d.data.data || [] : [];
+      if (data.length > 0) {
+        me.price_update(data[0]);
+      }
     },
   },
   async created() {
@@ -282,12 +263,7 @@ export default {
     }, 8000);
   },
   destroyed() {
-    let socket = global.socket;
-    let obj = this.wallets_subscribe_definer();
-    socket.send(`{
-      "method": "unsubscribe",
-      "data": [${obj.str}]
-    }`);
+    this.unsubscribe();
     if (this.interv) {
       clearInterval(this.interv);
     }

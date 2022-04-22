@@ -7,7 +7,7 @@
       :footer-props="{
         'items-per-page-options': [5, 10, 20],
       }"
-      class="elevation-4 space rounded-lg"
+      class="elevation-4 space rounded-lg pl-4 pr-4"
     >
       <template v-slot:[`item.action`]="{ item }">
         <div class="d-flex justify-end">
@@ -136,7 +136,7 @@ export default {
     sell(item) {
       this.action = "Sell";
       this.dialog = true;
-      this.selected = this.list.filter((elem) => elem.name === item.name);
+      this.selected = this.list.find((elem) => elem.name === item.name);
       this.userWallet = this.wallets.find(
         (el) => el.currency.symbol === this.current.symbol
       );

@@ -115,6 +115,7 @@
           :prices="arb_data"
           :current="current"
           @reload="reload"
+          class="ml-4"
         ></TableAC>
       </v-col>
     </v-row>
@@ -122,7 +123,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import Indicators from "~/components/elements/currencies/Indicators";
 import TradeGraph from "~/components/graphs/Trade";
 import TableTrades from "~/components/data/TableTrades";
@@ -153,7 +154,7 @@ export default {
       curr_id: null,
       curr_code: null,
       current: {},
-      graphWidth: parseInt(((window.innerWidth - 350) * 2) / 3),
+      graphWidth: parseInt(((window.innerWidth - 380) * 2) / 3),
       graphHeight: 600,
       selected_platform: "binance",
       base_p: this.$store.state.config.data.base_p,
@@ -165,7 +166,7 @@ export default {
       prices: [],
       arb_data: [],
       as_filter: null,
-      str_subscr: "",
+      arr_subscr: [],
       curr_subscr: "",
       trade_filter: null,
       interv: null,
@@ -181,6 +182,9 @@ export default {
     }),
     ...mapGetters("data/trade", {
       trades: "list",
+    }),
+    ...mapGetters("config/ws", {
+      prices_current: "page_data",
     }),
     currencies() {
       let c_f = this.currencies_full;
@@ -254,15 +258,28 @@ export default {
       } else if (this.page_state == 1) {
         this.arbitrage_sockets();
       } else if (this.page_state == 2) {
-        let socket = global.socket;
-        socket.send(`{
-          "method": "unsubscribe",
-          "data": [${this.str_subscr}]
-        }`);
+        this.unsubscribe();
       }
     },
     selected_platform() {
       this.arbitrage_sockets();
+    },
+    prices_current(v) {
+      let me = this;
+      let json_d = Object.assign({}, v);
+      me.arr_subscr.forEach((el) => {
+        if (json_d && json_d.method == el) {
+          let data = json_d.data ? json_d.data.data || [] : [];
+          if (me.page_state == 0) {
+            if (data.length > 0) {
+              me.price_update(data[0]);
+            }
+          } else if (me.page_state == 1) {
+            me.arb_data = data;
+            me.prices = data;
+          }
+        }
+      });
     },
   },
   methods: {
@@ -278,6 +295,12 @@ export default {
     ...mapActions("data/arbitrage_session", {
       fetchAS: "fetchList",
     }),
+    ...mapMutations("config/ws", {
+      unsubscribe: "unsubscribe_page",
+      subscribe: "set_page_subscribe",
+      add_subscribe: "add_page_subscribe",
+      del_subscribe: "del_page_subscribe",
+    }),
     async reload() {
       await this.$refs.a_session.reload();
     },
@@ -285,7 +308,7 @@ export default {
       await this.$refs.trades.reload();
     },
     onResize(event) {
-      this.graphWidth = parseInt(((window.innerWidth - 250) * 2) / 3);
+      this.graphWidth = parseInt(((window.innerWidth - 380) * 2) / 3);
     },
     initGrpaphWidth() {},
     platform_changed(platform) {
@@ -368,65 +391,23 @@ export default {
       let me = this;
       let socket = global.socket;
       let obj = me.trades_subscribe_definer();
-      socket.send(`{
-        "method": "unsubscribe",
-        "data": [${me.str_subscr}]
-      }`);
-      me.str_subscr = obj.str;
+      this.unsubscribe();
+      me.arr_subscr = obj.arr;
       if (this.curr_crypto) {
-        me.str_subscr += `"${me.base_p}_${me.curr_code}-USD@ticker_5s", `;
-        obj.arr.push(`${me.base_p}_${me.curr_code}-USD@ticker_5s`);
-        me.str_subscr += `"${me.base_p}_${me.curr_code}-USD@kline_1d"`;
-        obj.arr.push(`${me.base_p}_${me.curr_code}-USD@kline_1d`);
+        me.arr_subscr.push(`${me.base_p}_${me.curr_code}-USD@ticker_5s`);
+        me.arr_subscr.push(`${me.base_p}_${me.curr_code}-USD@kline_1d`);
       } else {
         me.ex_type = me.current.exchange_type.key;
-        me.str_subscr += `"shares_${me.curr_code}.${me.ex_type}@kline_1d"`;
-        obj.arr.push(`shares_${me.curr_code}.${me.ex_type}@kline_1d`);
+        me.arr_subscr.push(`shares_${me.curr_code}.${me.ex_type}@kline_1d`);
       }
-      socket.send(`{
-        "method": "subscribe",
-        "data": [${me.str_subscr}]
-      }`);
-
+      this.subscribe(Object.assign([], me.arr_subscr));
       console.log("me.str_subscr", me.str_subscr);
-
-      socket.onmessage = function (event) {
-        if (event.data) {
-          let json_d = JSON.parse(event.data);
-          obj.arr.forEach((el) => {
-            if (json_d && json_d.method == el) {
-              let data = json_d.data ? json_d.data.data || [] : [];
-              if (data.length > 0) {
-                me.price_update(data[0]);
-              }
-            }
-          });
-        }
-      };
     },
     arbitrage_sockets() {
       let me = this;
-      let socket = global.socket;
-      socket.send(`{
-        "method": "unsubscribe",
-        "data": [${me.str_subscr}]
-      }`);
-      me.str_subscr = `"all_${me.curr_code}-USD@ticker_5s"`;
-      socket.send(`{
-        "method": "subscribe",
-        "data": [${me.str_subscr}]
-      }`);
-
-      socket.onmessage = function (event) {
-        if (event.data) {
-          let json_d = JSON.parse(event.data);
-          if (json_d && json_d.method == `all_${me.curr_code}-USD@ticker_5s`) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            me.arb_data = data;
-            me.prices = data;
-          }
-        }
-      };
+      this.unsubscribe();
+      me.arr_subscr = [`all_${me.curr_code}-USD@ticker_5s`];
+      this.subscribe(Object.assign([], me.arr_subscr));
     },
   },
   async mounted() {
@@ -442,11 +423,7 @@ export default {
     window.removeEventListener("resize", this.onResize);
   },
   destroyed() {
-    let socket = global.socket;
-    socket.send(`{
-      "method": "unsubscribe",
-      "data": [${this.str_subscr}]
-    }`);
+    this.unsubscribe();
     if (this.interv) {
       clearInterval(this.interv);
     }
