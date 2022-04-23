@@ -1,6 +1,6 @@
 <template>
   <div class="prod-table">
-    <div class="d-flex" style="max-width: 500px !important; margin-top: -50px">
+    <div class="d-flex" style="max-width: 500px !important">
       <v-text-field
         dense
         v-model="search"
@@ -19,7 +19,7 @@
       :headers="headers"
       :items="wallets"
       :search="search"
-      class="table mt-3 pa-2"
+      class="wallet-table mt-2 pa-2"
       @click:row="handleClick"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
@@ -146,7 +146,7 @@ export default {
 </script>
 
 <style scoped>
-.table {
+.wallet-table {
   background: #000c19;
   box-shadow: 20px 20px 100px rgba(0, 0, 0, 0.07);
   border-radius: 20px;

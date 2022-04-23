@@ -1,59 +1,99 @@
 <template>
-  <div class=" pt-2">
+  <div class="pt-2">
     <div class="mx-4 d-flex mdc-form-field--space-between">
       <p class="text-h6">{{ $t("exchange") }}</p>
     </div>
 
     <v-card class="pa-3" elevation="4">
       <div class="tabs_exchange">
-        <button class="btn_exchange" :class="[active_btn == 'buy' ? 'active_btn_exchange' : '']" @click="buyHandler">{{$t('buy')}}</button>
-        <button class="btn_exchange" :class="[active_btn == 'sell' ? 'active_btn_exchange' : '']" @click="sellHandler">{{$t('sell')}}</button>
+        <v-row
+          ><v-col lg="6"
+            ><v-btn
+              block
+              elevation="0"
+              class="btn_exchange"
+              :class="[active_btn == 'buy' ? 'active_btn_exchange' : '']"
+              @click="buyHandler"
+              >{{ $t("buy") }}</v-btn
+            > </v-col
+          ><v-col lg="6"
+            ><v-btn
+              block
+              elevation="0"
+              class="btn_exchange"
+              :class="[active_btn == 'sell' ? 'active_btn_exchange' : '']"
+              @click="sellHandler"
+              >{{ $t("sell") }}</v-btn
+            ></v-col
+          ></v-row
+        >
       </div>
-      <div class="chips  mt-3">
-        <v-chip :class="[item.active ? 'active_chip':'chip']" class=" pl-4 pr-4 chip" x-small v-for="(item ,i) of chips" :key="i" @click="chipHandler(item)">{{item.percent}}</v-chip>
+      <div class="chips mt-3">
+        <v-chip
+          :class="[item.active ? 'active_chip' : 'chip']"
+          class="pl-4 pr-4 chip"
+          x-small
+          v-for="(item, i) of chips"
+          :key="i"
+          @click="chipHandler(item)"
+          >{{ item.percent }}</v-chip
+        >
       </div>
       <div class="justify-center text-center">
-        <div class=" justify-space-between d-flex">
+        <div class="justify-space-between d-flex">
           <v-col>
-            <span class="small_text">{{$t('Choose the crypto:')}}</span>
-          <v-autocomplete
+            <span class="small_text">{{ $t("Choose the crypto:") }}</span>
+            <v-autocomplete
               v-model="buy_curr"
               :items="currencies"
-              height="31"
               label=""
               class="ml-2 currency_selector"
               item-text="name"
               item-value="symbol"
               solo
+              dense
               hide-details
-          >
-            <template v-slot:item="{ item }">
-              <img height="20" width="20" :src="item.logo" />
-              <p class="ml-4 mt-3">{{ item.name }}</p>
-            </template>
-          </v-autocomplete>
+            >
+              <template v-slot:item="{ item }">
+                <img height="20" width="20" :src="item.logo" />
+                <p class="ml-4 mt-3">{{ item.name }}</p>
+              </template>
+            </v-autocomplete>
           </v-col>
-<v-col>
-          <h1 class="d-flex mt-5">0.056 <span style="color: #BFB5FF;font-weight: 700;font-size: 18px;line-height: 22px;" class="ml-2 mt-4">BTC</span></h1>
-</v-col>
+          <v-col>
+            <h1 class="d-flex mt-5">
+              0.056
+              <span
+                style="
+                  color: #bfb5ff;
+                  font-weight: 700;
+                  font-size: 18px;
+                  line-height: 22px;
+                "
+                class="ml-2 mt-4"
+                >BTC</span
+              >
+            </h1>
+          </v-col>
         </div>
-        <br>
         <v-divider></v-divider>
         <div class="text-left ml-2">
-          <span class="small_text">{{$t('Min 0.0001 BTC - Max 10,000 BTC')}}</span>
-          <h5>Available Balance:  3.5849 BTC</h5>
+          <span class="small_text">{{
+            $t("Min 0.0001 BTC - Max 10,000 BTC")
+          }}</span>
+          <h5>Available Balance: 3.5849 BTC</h5>
         </div>
-        <br>
+        <br />
         <v-btn
-            block
-            large
-            rounded
-            class="success-btn mb-3"
-            :style="customStyle"
-            elevation="0"
-            @click="trade_run"
-            :loading="loading"
-        >{{ $t("buy") }} Bitcoin</v-btn
+          block
+          large
+          rounded
+          class="success-btn mb-3"
+          :style="customStyle"
+          elevation="0"
+          @click="trade_run"
+          :loading="loading"
+          >{{ $t("buy") }} Bitcoin</v-btn
         >
       </div>
     </v-card>
@@ -111,8 +151,15 @@ export default {
       pay_checker: false,
       loading: false,
       ex_rate: 1,
-      active_btn:'buy',
-      chips:[{percent:'0 %',active:false },{percent:'10%',active:false },{percent:'25%',active:false },{percent:'50 %',active:false },{percent:'75 %',active:false },{percent:'100%',active:false }]
+      active_btn: "buy",
+      chips: [
+        { percent: "0 %", active: false },
+        { percent: "10%", active: false },
+        { percent: "25%", active: false },
+        { percent: "50 %", active: false },
+        { percent: "75 %", active: false },
+        { percent: "100%", active: false },
+      ],
     };
   },
   methods: {
@@ -126,20 +173,20 @@ export default {
     ...mapActions("data/wallet", {
       fWallets: "fetchList",
     }),
-    buyHandler(){
-      this.active_btn='buy'
-      console.log('buyyy')
-      this.$forceUpdate()
+    buyHandler() {
+      this.active_btn = "buy";
+      console.log("buyyy");
+      this.$forceUpdate();
     },
-    sellHandler(){
-      this.active_btn='sell'
-      console.log('sell')
+    sellHandler() {
+      this.active_btn = "sell";
+      console.log("sell");
 
-      this.$forceUpdate()
+      this.$forceUpdate();
     },
-    chipHandler(value){
-      this.chips.map(ell=>ell.active=false)
-      value.active=true
+    chipHandler(value) {
+      this.chips.map((ell) => (ell.active = false));
+      value.active = true;
     },
     async copyURL() {
       try {
@@ -278,61 +325,57 @@ export default {
 <style scoped>
 .success-btn {
   background: linear-gradient(
-      94.9deg,
-      var(--start_gradient) 4.26%,
-      var(--end_gradient) 95.87%
+    94.9deg,
+    var(--start_gradient) 4.26%,
+    var(--end_gradient) 95.87%
   );
   color: white !important;
 }
-.tabs_exchange{
+.tabs_exchange {
   justify-content: space-between;
   display: flex;
 }
-.btn_exchange{
-  width: 150px;
+.btn_exchange {
   padding: 10px 10px 10px 0px;
   margin-top: -7px;
   font-weight: 700;
   font-size: 18px;
   text-transform: uppercase;
-  border-top:3px solid transparent;
+  border-top: 3px solid transparent;
+  background: transparent !important;
 }
-.active_btn_exchange{
-  color: #007BFF;
-  border-top:3px solid #007BFF;
-  border-radius: 0px 0px 10px 10px!important;
+.active_btn_exchange {
+  color: #007bff;
+  border-top: 3px solid #007bff;
+  border-radius: 0px 0px 10px 10px !important;
 }
-.chip{
-  background: #001935!important;
+.chip {
+  background: #001935 !important;
   padding: 12px;
   justify-content: space-between;
   display: flex;
 }
-.active_chip{
-  background: #007BFF!important;
+.active_chip {
+  background: #007bff !important;
 }
-.chips{
+.chips {
   justify-content: space-between;
   display: flex;
 }
-.currency_selector{
-  background: #001935!important;
-  height: 30px!important;
-}
-.v-text-field {
-  min-height: 30px!important;
-  height: 31px!important;
-}
-.v-input__control{
-  min-height: 30px!important;
-  height: 31px!important;
-}
-.small_text{
+.small_text {
   font-weight: 300;
   font-size: 13px;
 }
 .v-text-field.v-text-field--solo .v-input__control {
-  min-height: 38px!important;
   padding: 0;
+}
+</style>
+<style>
+.currency_selector .v-input__slot {
+  background: rgba(154, 154, 154, 0.3) !important;
+  border-radius: 10px;
+}
+.currency_selector {
+  height: 30px !important;
 }
 </style>

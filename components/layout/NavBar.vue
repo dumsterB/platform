@@ -118,10 +118,7 @@
     <template v-slot:extension>
       <v-row>
         <v-col class="ma-0 pa-0"
-          ><marquee>
-            {{
-              "BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, "
-            }}
+          ><marquee id="marquee">
           </marquee></v-col
         ></v-row
       >
@@ -130,17 +127,23 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import LanguageSelect from "~/components/settings/LanguageSelect";
 import ThemeSelect from "~/components/settings/ThemeSelect";
 
 export default {
-  data: function () {
+  data() {
+    let stocks = JSON.parse(
+      JSON.stringify(this.$store.state.config.data.exchanges)
+    );
     return {
+      stocks: stocks,
       user_image: null,
       account_menu: this.initAccountMenu(),
       value: null,
       is_nots: true,
+      mar_str: "",
+      subscrp: [],
       items: [
         {
           text: "my_wallet",
@@ -167,6 +170,9 @@ export default {
     }),
     ...mapActions("data/arbitrage_company", {
       fetchAC: "fetchList",
+    }),
+    ...mapMutations("config/ws", {
+      subscribe: "set_top_subscribe",
     }),
     initAccountMenu() {
       return [
@@ -207,6 +213,31 @@ export default {
       }
       console.log("selected", v);
     },
+    prices_current(v) {
+      let me = this;
+      let json_d = Object.assign({}, v);
+      console.log("MARQUE DATA", json_d)
+      me.stocks.forEach((st) => {
+        if (json_d && json_d.method == `shares_all.${st.key}@kline_1d`) {
+          let data = json_d.data ? json_d.data.data || [] : [];
+          data.forEach((dtm) => {
+            let dt = dtm;
+            if (Array.isArray(dtm)) {
+              dt = dtm[0];
+            }
+            let change = (dt.close - dt.open).toFixed(4);;
+            let ch_pr = (change * 100 / dt.close).toFixed(4);
+            let color = dt.close - dt.open > 0 ? 'primary--text' : 'red--text';
+            let share = dt.exchange == 'FOREX' ? `${dt.share}/USD` : `${dt.exchange} - ${dt.share}`
+            me.mar_str += `<span class='pr-4'>
+            <span class="font-weight-bold" style="color: #9A9A9A">${share}</span>
+            <span class="font-weight-medium ${color}"> ${dt.close} ${change} (${ch_pr}) </span>
+            </span>`;
+          });
+        }
+      });
+      document.getElementById('marquee').innerHTML = me.mar_str;
+    },
   },
 
   components: {
@@ -215,6 +246,9 @@ export default {
   },
 
   computed: {
+    ...mapGetters("config/ws", {
+      prices_current: "top_data",
+    }),
     userAvatar: function () {
       try {
         this.user_image =
@@ -265,15 +299,23 @@ export default {
     },
   },
   mounted() {
-      console.log("this.filtered :>> ", this.filtered);
-      window.addEventListener('scroll', (e) => {
-        if (window.pageYOffset > 60) {
-          document.getElementById("app-bar-id").style.display = 'none';
-        } else {
-          document.getElementById("app-bar-id").style.display = 'block';
-        }
-      });
-    },
+    console.log("this.filtered :>> ", this.filtered);
+    window.addEventListener("scroll", (e) => {
+      if (window.pageYOffset > 60) {
+        document.getElementById("app-bar-id").style.display = "none";
+      } else {
+        document.getElementById("app-bar-id").style.display = "block";
+      }
+    });
+  },
+  created() {
+    let me = this;
+    me.subscrp = [];
+    me.stocks.forEach((element, i) => {
+      me.subscrp.push(`shares_all.${element.key}@kline_1d`);
+    });
+    this.subscribe(Object.assign([], me.subscrp));
+  },
 };
 </script>
 

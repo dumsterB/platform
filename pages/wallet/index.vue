@@ -23,8 +23,8 @@
           ></Check>
         </div>
       </v-col>
-      <v-col lg="8" xl="9">
-        <div class="ma-2 mr-8 mt-10">
+      <v-col lg="8" xl="9" class="mt-0 pt-0">
+        <div class="ma-2 mr-8">
           <TableTransactions
             v-if="!is_history"
             :wallets="wallets_t"
