@@ -61,14 +61,22 @@ html .v-application--wrap {
     border-radius: 20px !important;
 }
 
- :not(.curr-table).v-data-table {
+:not(.curr-table).v-data-table {
     background: #000e1d !important;
     border-radius: 20px !important;
+}
+
+html[theme="light"] :not(.curr-table).v-data-table {
+    background: #ffffff !important;
 }
 
 :not(.app-bar-margins).v-toolbar {
     background: #000e1d !important;
     border-radius: 20px !important;
+}
+
+html[theme="light"] :not(.app-bar-margins).v-toolbar {
+    background: #ffffff !important;
 }
 
 html[theme="light"] .v-menu__content .v-list {

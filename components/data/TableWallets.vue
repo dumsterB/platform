@@ -1,15 +1,19 @@
 <template>
   <div class="prod-table">
-    <div class="d-flex" style="max-width: 500px !important;margin-top: -50px">
+    <div class="d-flex" style="max-width: 500px !important; margin-top: -50px">
       <v-text-field
-          dense
-          v-model="search"
-          append-icon="mdi-magnify"
-          outlined
-          :label="$t('market_search_bar_placeholder')"
-          hide-details
+        dense
+        v-model="search"
+        append-icon="mdi-magnify"
+        outlined
+        :label="$t('market_search_bar_placeholder')"
+        hide-details
       ></v-text-field>
-      <v-checkbox class="ml-2" style="margin-top: -1px" label="Hide zero balances"></v-checkbox>
+      <v-checkbox
+        class="ml-2"
+        style="margin-top: -1px"
+        label="Hide zero balances"
+      ></v-checkbox>
     </div>
     <v-data-table
       :headers="headers"
@@ -21,8 +25,8 @@
         'items-per-page-options': [5, 10, 20, 50],
       }"
     >
-      <template v-slot:[`item.currencies`]="{ item }">
-       <p>BTC</p>
+      <template v-slot:[`item.eqv`]="{ item }">
+        <span class="primary--text font-weight-bold">{{item.eqv}}</span><span class="primary--text"> USD</span>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-btn
@@ -90,17 +94,18 @@ export default {
   computed: {
     headers() {
       return [
-        {value: "currencies", sortable: false, },
         {
           text: this.$t("coin_title"),
           align: "start",
-          sortable: false,
-          value: "currency.name",
+          value: "currency.symbol",
         },
-        { text: this.$t("wallet_balance"), value: "balance", sortable: false, },
-        { text: this.$t("available_balance"), value: "balance", sortable: false, },
-        { text: this.$t("equivalent") + " $", value: "eqv", sortable: false, },
-        { text: this.$t("action_title"), value: "actions", sortable: false, },
+        { text: this.$t("wallet_balance"), value: "balance" },
+        {
+          text: this.$t("available_balance"),
+          value: "balance",
+        },
+        { text: this.$t("equivalent") + " $", value: "eqv" },
+        { text: this.$t("action_title"), value: "actions", sortable: false },
       ];
     },
   },
@@ -141,8 +146,8 @@ export default {
 </script>
 
 <style scoped>
-.table{
-  background: #000C19;
+.table {
+  background: #000c19;
   box-shadow: 20px 20px 100px rgba(0, 0, 0, 0.07);
   border-radius: 20px;
 }

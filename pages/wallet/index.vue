@@ -1,9 +1,9 @@
 <template>
   <div class="wallet">
     <v-row>
-      <v-col md="4">
+      <v-col lg="4" xl="3">
         <div class="">
-            <h2>{{$t('my_cards')}}</h2>
+          <h2>{{$t('my_cards')}}</h2>
           <GeneralCapital
             class="mt-5"
             :total_sum_btc="total_sum"
@@ -23,7 +23,7 @@
           ></Check>
         </div>
       </v-col>
-      <v-col md="8">
+      <v-col lg="8" xl="9">
         <div class="ma-2 mr-8 mt-10">
           <TableTransactions
             v-if="!is_history"
