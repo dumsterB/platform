@@ -61,6 +61,16 @@ html .v-application--wrap {
     border-radius: 20px !important;
 }
 
+ :not(.curr-table).v-data-table {
+    background: #000e1d !important;
+    border-radius: 20px !important;
+}
+
+:not(.app-bar-margins).v-toolbar {
+    background: #000e1d !important;
+    border-radius: 20px !important;
+}
+
 html[theme="light"] .v-menu__content .v-list {
     background: #ffffff !important;
 }

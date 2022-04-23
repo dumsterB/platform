@@ -27,7 +27,7 @@ import Marketplace from "~/components/elements/Marketplace";
 import Currency from "~/components/elements/Currency";
 
 const model = "data/arbitrage_company";
-import { mapGetters, mapActions, mapState } from "vuex";
+import { mapGetters, mapActions, mapState, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       currencies: [],
-      isLoading: true
+      isLoading: true,
     };
   },
 
@@ -50,6 +50,35 @@ export default {
     ...mapGetters("data/currency", {
       currs: "list",
     }),
+    ...mapGetters("config/ws", {
+      prices_current: "page_data",
+    }),
+  },
+
+  watch: {
+    prices_current(v) {
+      let me = this;
+      let json_d = Object.assign({}, v);
+      if (json_d && json_d.method == `${me.item.name}_all@ticker_10s`) {
+        let data = json_d.data ? json_d.data.data || [] : [];
+        let currencies = [];
+        me.currs.forEach((el) => {
+          let res = el;
+          let fnd = data.find((e) => e && e.base == el.symbol);
+          if (fnd && fnd.price) {
+            res.price = fnd.price;
+            res.change = fnd.change;
+            res.change_p = (
+              (parseFloat(fnd.change) * 100) /
+              parseFloat(fnd.price)
+            ).toFixed(4);
+            currencies.push(res);
+          }
+        });
+        me.currencies = currencies;
+        me.isLoading = false;
+      }
+    },
   },
 
   methods: {
@@ -57,50 +86,20 @@ export default {
       fetchCompanyById: "fetchSingle",
       fetchAC: "fetchList",
     }),
+    ...mapMutations("config/ws", {
+      unsubscribe: "unsubscribe_page",
+      subscribe: "set_page_subscribe",
+    }),
   },
   created() {
     this.item = this.companyById(parseInt(this.$route.params.id));
     if (this.item) {
-      let me = this;
-      let socket = global.socket;
-      socket.send(`{
-        "method": "subscribe",
-        "data": ["${me.item.name}_all@ticker_10s"]
-      }`);
-      socket.onmessage = function (event) {
-        if (event.data) {
-          let json_d = JSON.parse(event.data);
-          if (json_d && json_d.method == `${me.item.name}_all@ticker_10s`) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            let currencies = [];
-            me.currs.forEach((el) => {
-              let res = el;
-              let fnd = data.find((e) => e && e.base == el.symbol);
-              if (fnd && fnd.price) {
-                res.price = fnd.price;
-                res.change = fnd.change;
-                res.change_p = (
-                  (parseFloat(fnd.change) * 100) /
-                  parseFloat(fnd.price)
-                ).toFixed(4);
-                currencies.push(res);
-              }
-            });
-            me.currencies = currencies;
-            me.isLoading = false;
-          }
-          // console.log('me.currs', me.currs)
-        }
-      };
+      this.subscribe([`${this.item.name}_all@ticker_10s`]);
     }
   },
   destroyed() {
-    let socket = global.socket;
     if (this.item) {
-      socket.send(`{
-        "method": "unsubscribe",
-        "data": ["${this.item.name}_all@ticker_10s"]
-      }`);
+      this.unsubscribe();
     }
   },
 };

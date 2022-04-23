@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import MarketItem from "~/components/elements/MarketItem";
 const model = "data/arbitrage_company";
 
@@ -37,7 +37,6 @@ export default {
   },
   data() {
     return {
-      send_str: "",
       prices: {},
       interv: null,
     };
@@ -49,6 +48,9 @@ export default {
     }),
     ...mapGetters("data/currency", {
       currency: "list",
+    }),
+    ...mapGetters("config/ws", {
+      prices_current: "page_data",
     }),
     fav_currencies() {
       let res = [];
@@ -74,40 +76,20 @@ export default {
     ...mapActions(model, {
       fetchAC: "fetchList",
     }),
+    ...mapMutations("config/ws", {
+      unsubscribe: "unsubscribe_page",
+      subscribe: "set_page_subscribe",
+    }),
   },
   created() {
     let me = this;
-    let socket = global.socket;
-    let send_str = "";
+    let send_arr = [];
     for (let prop in me.fav_currs) {
       me.fav_currs[prop].forEach((element, i) => {
-        send_str += `"${prop}_${element}-USD@ticker_5s"`;
-        send_str += ", ";
+        send_arr.push(`${prop}_${element}-USD@ticker_5s`);
       });
     }
-
-    if (send_str && send_str.length > 10) {
-      me.send_str = send_str.slice(0, -2);
-    }
-    socket.send(`{
-      "method": "subscribe",
-      "data": [${me.send_str}]
-    }`);
-
-    socket.onmessage = function (event) {
-      if (event.data) {
-        let json_d = JSON.parse(event.data);
-        for (let prop in me.fav_currs) {
-          me.fav_currs[prop].forEach((curr) => {
-            if (json_d && json_d.method == `${prop}_${curr}-USD@ticker_5s`) {
-              let data = json_d.data ? json_d.data.data || [] : [];
-              if (!me.prices[prop]) me.prices[prop] = {};
-              me.prices[prop][curr] = data[0] ? data[0].price : 1;
-            }
-          });
-        }
-      }
-    };
+    me.subscribe(Object.assign([], send_arr));
     setTimeout(() => {
       me.prices = Object.assign({}, me.prices);
     }, 800);
@@ -115,12 +97,23 @@ export default {
       me.prices = Object.assign({}, me.prices);
     }, 1500);
   },
+  watch: {
+    prices_current(v) {
+      let me = this;
+      let json_d = Object.assign({}, v);
+      for (let prop in me.fav_currs) {
+        me.fav_currs[prop].forEach((curr) => {
+          if (json_d && json_d.method == `${prop}_${curr}-USD@ticker_5s`) {
+            let data = json_d.data ? json_d.data.data || [] : [];
+            if (!me.prices[prop]) me.prices[prop] = {};
+            me.prices[prop][curr] = data[0] ? data[0].price : 1;
+          }
+        });
+      }
+    },
+  },
   destroyed() {
-    let socket = global.socket;
-    socket.send(`{
-      "method": "unsubscribe",
-      "data": [${this.send_str}]
-    }`);
+    this.unsubscribe();
     if (this.interv) {
       clearInterval(this.interv);
     }
