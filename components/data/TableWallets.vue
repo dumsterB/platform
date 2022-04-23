@@ -1,32 +1,28 @@
 <template>
   <div class="prod-table">
+    <div class="d-flex" style="max-width: 500px !important;margin-top: -50px">
+      <v-text-field
+          dense
+          v-model="search"
+          append-icon="mdi-magnify"
+          outlined
+          :label="$t('market_search_bar_placeholder')"
+          hide-details
+      ></v-text-field>
+      <v-checkbox class="ml-2" style="margin-top: -1px" label="Hide zero balances"></v-checkbox>
+    </div>
     <v-data-table
       :headers="headers"
       :items="wallets"
       :search="search"
-      sort-by="calories"
-      class="elevation-1"
+      class="table mt-3 pa-2"
       @click:row="handleClick"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
       }"
     >
-      <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title>{{ $t("my_wallet") }}</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer></v-spacer>
-          <div style="max-width: 300px !important">
-            <v-text-field
-              dense
-              v-model="search"
-              append-icon="mdi-magnify"
-              outlined
-              :label="$t('market_search_bar_placeholder')"
-              hide-details
-            ></v-text-field>
-          </div>
-        </v-toolbar>
+      <template v-slot:[`item.currencies`]="{ item }">
+       <p>BTC</p>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-btn
@@ -94,17 +90,17 @@ export default {
   computed: {
     headers() {
       return [
+        {value: "currencies", sortable: false, },
         {
           text: this.$t("coin_title"),
           align: "start",
           sortable: false,
           value: "currency.name",
-          width: 220,
         },
-        { text: this.$t("wallet_balance"), value: "balance" },
-        { text: this.$t("available_balance"), value: "balance" },
-        { text: this.$t("equivalent") + " $", value: "eqv" },
-        { text: this.$t("action_title"), value: "actions" },
+        { text: this.$t("wallet_balance"), value: "balance", sortable: false, },
+        { text: this.$t("available_balance"), value: "balance", sortable: false, },
+        { text: this.$t("equivalent") + " $", value: "eqv", sortable: false, },
+        { text: this.$t("action_title"), value: "actions", sortable: false, },
       ];
     },
   },
@@ -144,7 +140,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.table{
+  background: #000C19;
+  box-shadow: 20px 20px 100px rgba(0, 0, 0, 0.07);
+  border-radius: 20px;
+}
 .prod-table tr {
   cursor: pointer;
 }

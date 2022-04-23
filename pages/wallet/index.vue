@@ -2,13 +2,17 @@
   <div class="wallet">
     <v-row>
       <v-col md="4">
-        <div class="ma-2">
+        <div class="">
+            <h2>{{$t('my_cards')}}</h2>
           <GeneralCapital
+            class="mt-5"
             :total_sum_btc="total_sum"
             :total_sum="total_sum_usdt"
           ></GeneralCapital>
-          <br />
+          <br>
+          <h2>{{$t('spot_account')}}</h2>
           <Check
+             class="mt-5"
             :title="spot_title"
             :totalEquity="spot_total_equity"
             :total_equity_usdt="spot_total_equity_usdt"
@@ -17,21 +21,10 @@
             :main_currency="true"
             @history="spot_history"
           ></Check>
-          <br />
-          <Check
-            :title="fiat_title"
-            :totalEquity="fiat_total_equity"
-            :total_equity_usdt="fiat_total_equity_usdt"
-            :available_balance="fiat_available_balance"
-            :available_balance_usdt="fiat_available_balance_usdt"
-            :main_currency="false"
-            @history="fiat_history"
-          >
-          </Check>
         </div>
       </v-col>
       <v-col md="8">
-        <div class="ma-2 mr-8">
+        <div class="ma-2 mr-8 mt-10">
           <TableTransactions
             v-if="!is_history"
             :wallets="wallets_t"
