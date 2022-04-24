@@ -68,16 +68,7 @@
         <v-hover v-slot="{ hover }">
           <div
             flat
-            class="
-              account-menu
-              d-flex
-              flex-columns
-              align-center
-              mt-2
-              py-2
-              pr-2
-              pl-4
-            "
+            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
             v-on="on"
           >
             <div class="mr-2">
@@ -116,15 +107,7 @@
       }}</v-icon>
     </v-hover>
     <template v-slot:extension>
-      <v-row>
-        <v-col class="ma-0 pa-0"
-          ><marquee>
-            {{
-              "BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, BTC - 44000$, "
-            }}
-          </marquee></v-col
-        ></v-row
-      >
+      <v-col class="ma-0 pa-0"> <Ticker /> </v-col>
     </template>
   </v-app-bar>
 </template>
@@ -133,6 +116,7 @@
 import { mapGetters, mapActions } from "vuex";
 import LanguageSelect from "~/components/settings/LanguageSelect";
 import ThemeSelect from "~/components/settings/ThemeSelect";
+import Ticker from "./Ticker";
 
 export default {
   data: function () {
@@ -212,6 +196,7 @@ export default {
   components: {
     LanguageSelect,
     ThemeSelect,
+    Ticker,
   },
 
   computed: {
@@ -265,23 +250,19 @@ export default {
     },
   },
   mounted() {
-      console.log("this.filtered :>> ", this.filtered);
-      window.addEventListener('scroll', (e) => {
-        if (window.pageYOffset > 60) {
-          document.getElementById("app-bar-id").style.display = 'none';
-        } else {
-          document.getElementById("app-bar-id").style.display = 'block';
-        }
-      });
-    },
+    console.log("this.filtered :>> ", this.filtered);
+    window.addEventListener("scroll", (e) => {
+      if (window.pageYOffset > 60) {
+        document.getElementById("app-bar-id").style.display = "none";
+      } else {
+        document.getElementById("app-bar-id").style.display = "block";
+      }
+    });
+  },
 };
 </script>
 
 <style lang="scss">
-marquee {
-  font-size: 12px;
-  margin: 0px 10px 0px 30px;
-}
 .account-menu {
   background: transparent !important;
   cursor: pointer;
