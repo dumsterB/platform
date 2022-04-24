@@ -1,55 +1,56 @@
 <template>
   <div>
-    <v-card class="mx-auto check-card pa-3" max-width="430" elevation="1">
+    <v-card class="check-card pa-3" elevation="1">
       <v-list-item three-line>
         <v-list-item-content>
-          <div class="d-flex">
-            <v-list-item-title class="text-h5 mb-1">
-              <strong>{{ title }}</strong>
-            </v-list-item-title>
-            <v-btn
-              rounded
-              outlined
-              :class="tgl ? 'historyChip primary white--text' : 'historyChip'"
-              x-small
-              @click="history_tgl"
-              ><div>
-                <v-icon x-small>mdi-history</v-icon
-                ><span class="history-btn-cl">{{ $t("history_button") }}</span>
-              </div>
-            </v-btn>
-          </div>
+          <v-row>
+            <v-col col="10">
+              <v-row class="">
+                <v-col cols="12">
+                  <p class="text-white--text">{{ $t("total_equity") }}</p>
+                  <p class="text-h6">
+                    <strong class="primary--text"
+                    >{{ main_currency ? totalEquity : total_equity_usdt }}
+                      {{ main_currency ? "BTC" : "USD" }}</strong
+                    >
+                  </p>
+                  <p class="text-white--text">
+                    ≈ {{ main_currency ? total_equity_usdt : totalEquity }}
+                    {{ main_currency ? "USD" : "BTC" }}
+                  </p>
+                </v-col>
+                <v-col cols="12">
+                  <p class="text-white--text">{{ $t("available_balance") }}</p>
+                  <p class="text-h6">
+                    <strong  class="primary--text"
+                    >{{
+                        main_currency ? available_balance : available_balance_usdt
+                      }}
+                      {{ main_currency ? "BTC" : "USD" }}</strong
+                    >
+                  </p>
+                  <p class="text-white--text">
+                    ≈
+                    {{ main_currency ? available_balance_usdt : available_balance }}
+                    {{ main_currency ? "USD" : "BTC" }}
+                  </p>
+                </v-col>
+              </v-row>
 
-          <br /><br />
-          <v-row class="mt-10">
-            <v-col>
-              <p class="text-gray--text">{{ $t("total_equity") }}</p>
-              <p class="text-h6">
-                <strong
-                  >{{ main_currency ? totalEquity : total_equity_usdt }}
-                  {{ main_currency ? "BTC" : "USD" }}</strong
-                >
-              </p>
-              <p class="text-gray--text">
-                ≈ {{ main_currency ? total_equity_usdt : totalEquity }}
-                {{ main_currency ? "USD" : "BTC" }}
-              </p>
             </v-col>
-            <v-col>
-              <p class="text-gray--text">{{ $t("available_balance") }}</p>
-              <p class="text-h6">
-                <strong
-                  >{{
-                    main_currency ? available_balance : available_balance_usdt
-                  }}
-                  {{ main_currency ? "BTC" : "USD" }}</strong
-                >
-              </p>
-              <p class="text-gray-text">
-                ≈
-                {{ main_currency ? available_balance_usdt : available_balance }}
-                {{ main_currency ? "USD" : "BTC" }}
-              </p>
+            <v-col cols="2">
+              <div class="d-flex">
+                <v-btn
+                    :class="tgl ? 'historyChip primary' : 'historyChip primary--text'"
+                    @click="history_tgl"
+                    outlined
+                    x-small
+                ><div>
+                  <v-icon x-small>mdi-history</v-icon
+                  ><span class="history-btn-cl">{{ $t("history_button") }}</span>
+                </div>
+                </v-btn>
+              </div>
             </v-col>
           </v-row>
         </v-list-item-content>
@@ -86,7 +87,7 @@ export default {
 
 <style scoped>
 .history-btn-cl {
-  font-size: 12px;
+  font-size: 13px;
   padding-left: 5px;
 }
 .check-card {
@@ -95,5 +96,7 @@ export default {
 .historyChip {
   position: absolute;
   right: 5px;
+  background: transparent !important;
+  border-radius: 20px !important;
 }
 </style>

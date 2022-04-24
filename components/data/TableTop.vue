@@ -23,9 +23,11 @@
         {{$t('no-data')}}
       </div>
     </template>
-    <template v-slot:[`item.action`]="{}">
+    <template v-slot:[`item.action`]="{item}">
       <div class="d-flex">
-        <v-btn class="primary" small elevation="0" rounded>{{$t('buy')}}</v-btn>
+        <v-btn class="primary" small elevation="0" rounded @click="$router.push({
+          path: `/currency?id=${item.id}`
+        })">{{$t('buy')}}</v-btn>
       </div>
     </template>
     <template v-slot:[`item.chart`]="{}">

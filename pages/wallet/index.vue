@@ -1,14 +1,18 @@
 <template>
   <div class="wallet">
     <v-row>
-      <v-col md="4">
-        <div class="ma-2">
+      <v-col lg="4" xl="3">
+        <div class="">
+          <h2>{{$t('my_cards')}}</h2>
           <GeneralCapital
+            class="mt-5"
             :total_sum_btc="total_sum"
             :total_sum="total_sum_usdt"
           ></GeneralCapital>
-          <br />
+          <br>
+          <h2>{{$t('spot_account')}}</h2>
           <Check
+             class="mt-5"
             :title="spot_title"
             :totalEquity="spot_total_equity"
             :total_equity_usdt="spot_total_equity_usdt"
@@ -17,20 +21,9 @@
             :main_currency="true"
             @history="spot_history"
           ></Check>
-          <br />
-          <Check
-            :title="fiat_title"
-            :totalEquity="fiat_total_equity"
-            :total_equity_usdt="fiat_total_equity_usdt"
-            :available_balance="fiat_available_balance"
-            :available_balance_usdt="fiat_available_balance_usdt"
-            :main_currency="false"
-            @history="fiat_history"
-          >
-          </Check>
         </div>
       </v-col>
-      <v-col md="8">
+      <v-col lg="8" xl="9" class="mt-0 pt-0">
         <div class="ma-2 mr-8">
           <TableTransactions
             v-if="!is_history"
@@ -50,7 +43,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import GeneralCapital from "@/components/elements/GeneralCapital";
 import Check from "@/components/elements/Check";
 import TableTransactions from "@/components/data/TableWallets";
@@ -95,6 +88,9 @@ export default {
     ...mapGetters("data/wallet", {
       wallets: "list",
     }),
+    ...mapGetters("config/ws", {
+      prices_current: "page_data",
+    }),
     spot_title() {
       return this.$t("spot_account");
     },
@@ -111,6 +107,10 @@ export default {
     }),
     ...mapActions("data/order", {
       fetchOrders: "fetchList",
+    }),
+    ...mapMutations("config/ws", {
+      unsubscribe: "unsubscribe_page",
+      subscribe: "set_page_subscribe",
     }),
     check_tbls() {
       if (this.is_spot_order && !this.is_fiat_order) {
@@ -231,47 +231,21 @@ export default {
     },
     async init() {
       let me = this;
-      let socket = global.socket;
       let obj = me.wallets_subscribe_definer();
-      socket.send(`{
-        "method": "subscribe",
-        "data": [${obj.str}]
-      }`);
-      socket.onmessage = function (event) {
-        if (event.data) {
-          let json_d = JSON.parse(event.data);
-          obj.arr.forEach((el) => {
-            if (json_d && json_d.method == el) {
-              let data = json_d.data ? json_d.data.data || [] : [];
-              if (data.length > 0) {
-                me.price_update(data[0]);
-              }
-            }
-          });
-
-          // me.currs = me.currencies.map(el => {
-          //   let res = {
-          //     id: el.id,
-          //     symbol: el.symbol,
-          //     name: el.name,
-          //     logo: el.logo
-          //   }
-          //   let fnd = data.find(e => e && e.base == el.symbol);
-          //   if (fnd) {
-          //     res.price = fnd.price;
-          //     res.change = fnd.change;
-          //     res.change_p = (parseFloat(fnd.change) / parseFloat(fnd.price)).toFixed(4);
-          //   }
-          //   return res;
-          // })
-          // console.log('me.currs', me.currs)
-        }
-      };
+      this.subscribe(Object.assign([], obj.arr));
     },
   },
   watch: {
     prices() {
       this.init_tb();
+    },
+    prices_current(v) {
+      let json_d = Object.assign({}, v);
+      let me = this;
+      let data = json_d.data ? json_d.data.data || [] : [];
+      if (data.length > 0) {
+        me.price_update(data[0]);
+      }
     },
   },
   async created() {
@@ -282,12 +256,7 @@ export default {
     }, 8000);
   },
   destroyed() {
-    let socket = global.socket;
-    let obj = this.wallets_subscribe_definer();
-    socket.send(`{
-      "method": "unsubscribe",
-      "data": [${obj.str}]
-    }`);
+    this.unsubscribe();
     if (this.interv) {
       clearInterval(this.interv);
     }

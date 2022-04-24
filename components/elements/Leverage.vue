@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import TradeCreditPosition from "../../components/elements/modals/CreditTradePosition";
 import TableCreditSession from "~/components/data/TableCreditSession";
 
@@ -93,6 +93,21 @@ export default {
     currency(v) {
       this.update_subscr(v);
     },
+    prices_current(v) {
+      let me = this;
+      let json_d = Object.assign({}, v);
+      if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
+        let data = json_d.data ? json_d.data.data || [] : [];
+        me.define_prices(data);
+      } else if (me.need_curr) {
+        let curr = me.need_curr.symbol;
+        if (json_d && json_d.method == `all_${curr}-USD@ticker_5s`) {
+          let data = json_d.data ? json_d.data.data || [] : [];
+          me.define_arb_companies(data);
+          me.define_prices(data);
+        }
+      }
+    },
   },
   methods: {
     ...mapActions(wallet, {
@@ -104,21 +119,20 @@ export default {
     ...mapActions(modelCompanies, {
       fetchList: "fetchList",
     }),
+    ...mapMutations("config/ws", {
+      unsubscribe: "unsubscribe_page",
+      subscribe: "set_page_subscribe",
+      add_subscribe: "add_page_subscribe",
+      del_subscribe: "del_page_subscribe",
+    }),
     update_subscr(curr) {
       let me = this;
-      let socket = global.socket;
       if (this.need_curr) {
-        socket.send(`{
-          "method": "unsubscribe",
-          "data": ["all_${this.need_curr.symbol}-USD@ticker_5s"]
-        }`);
+        me.del_subscribe(`all_${this.need_curr.symbol}-USD@ticker_5s`);
       }
       this.need_curr = curr;
       setTimeout(() => {
-        socket.send(`{
-          "method": "subscribe",
-          "data": ["all_${curr.symbol}-USD@ticker_5s"]
-        }`);
+        me.add_subscribe(`all_${curr.symbol}-USD@ticker_5s`);
       }, 100);
     },
     define_prices(data) {
@@ -171,6 +185,9 @@ export default {
     ...mapGetters("data/currency", {
       currencies: "list",
     }),
+    ...mapGetters("config/ws", {
+      prices_current: "page_data",
+    }),
     currs() {
       let res = [];
       let wlts = this.wallet_full.filter((el) => el.currency.symbol != "USD");
@@ -208,36 +225,11 @@ export default {
   },
   async created() {
     let me = this;
-    let socket = global.socket;
-    socket.send(`{
-      "method": "subscribe",
-      "data": ["${me.base_p}_all@ticker_10s"]
-    }`);
+    this.subscribe([`${me.base_p}_all@ticker_10s`]);
     me.update_subscr(me.currency);
-    socket.onmessage = function (event) {
-      if (event.data) {
-        let json_d = JSON.parse(event.data);
-        if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
-          let data = json_d.data ? json_d.data.data || [] : [];
-          me.define_prices(data);
-        } else if (me.need_curr) {
-          let curr = me.need_curr.symbol;
-          if (json_d && json_d.method == `all_${curr}-USD@ticker_5s`) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            me.define_arb_companies(data);
-            me.define_prices(data);
-          }
-        }
-      }
-    };
   },
   destroyed() {
-    let socket = global.socket;
-    let curr = this.need_curr ? this.need_curr.symbo : "USD";
-    socket.send(`{
-      "method": "unsubscribe",
-      "data": ["${this.base_p}_all@ticker_10s", "all_${curr}-USD@ticker_5s"]
-    }`);
+    this.unsubscribe();
   },
 };
 </script>

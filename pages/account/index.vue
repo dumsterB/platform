@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import Currency from "~/components/elements/Currency";
 import Wallet from "../../components/elements/Wallet";
-import Exchange from "../../components/elements/Exchange";
+import Exchange from "../../components/elements/exchange";
 import TableTop from "../../components/data/TableTop";
 const model = "data/currency";
 
@@ -107,13 +107,51 @@ export default {
       console.log("window.innerWidth", window.innerWidth);
       return window.innerWidth;
     },
+    ...mapGetters("config/ws", {
+      prices_current: "page_data",
+    }),
   },
   watch: {
     search() {
       this.search_f();
     },
-    windowHeight(newHeight, oldHeight) {
-      this.txt = `it changed to ${newHeight} from ${oldHeight}`;
+    prices_current(v) {
+      let json_d = Object.assign({}, v);
+      let me = this;
+      if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
+        let data = json_d.data ? json_d.data.data || [] : [];
+        me.prices = data.concat(me.com_prices);
+        me.init_currs();
+        // console.log(json_d.method, currs, data)
+      }
+      me.subscr_arr.forEach((el) => {
+        if (json_d && json_d.method == el) {
+          let data = json_d.data ? json_d.data.data || [] : [];
+          if (data.length > 0) {
+            me.price_update(data[0]);
+            me.prices = me.prices.concat(me.com_prices);
+          }
+        }
+      });
+      let s_method = json_d.method.slice(0, 3);
+      if (json_d && s_method == "all") {
+        let data = json_d.data ? json_d.data.data || [] : [];
+        let crs = me.arbitrage_company.map((el) => {
+          let res = {
+            id: el.id,
+            name: el.name,
+          };
+          let fnd = data.find((e) => e && e.company == el.name);
+          if (fnd) {
+            res.price = fnd.price;
+          }
+          return res;
+        });
+        let companies = crs.filter((el) => {
+          return el.price ? true : false;
+        });
+        me.companies = companies;
+      }
     },
   },
   methods: {
@@ -129,6 +167,12 @@ export default {
     onResize() {
       this.windowWidth = window.innerWidth;
     },
+    ...mapMutations("config/ws", {
+      unsubscribe: "unsubscribe_page",
+      subscribe: "set_page_subscribe",
+      add_subscribe: "add_page_subscribe",
+      del_subscribe: "del_page_subscribe"
+    }),
     search_f() {
       let me = this;
       if (me.search) {
@@ -209,58 +253,15 @@ export default {
   },
 
   async created() {
-    let me = this;
-    let socket = global.socket;
-    let subscr_obj = me.wallets_subscribe_definer();
+    let subscr_obj = this.wallets_subscribe_definer();
     console.log("subscr_obj", subscr_obj);
-    me.subscr = `"${me.base_p}_all@ticker_10s"`;
+    this.subscr = `"${this.base_p}_all@ticker_10s"`;
     if (subscr_obj.str) {
-      me.subscr += `, ${subscr_obj.str}`;
+      this.subscr += `, ${subscr_obj.str}`;
     }
-    socket.send(`{
-      "method": "subscribe",
-      "data": [${me.subscr}]
-    }`);
-    socket.onmessage = function (event) {
-      if (event.data) {
-        let json_d = JSON.parse(event.data);
-        if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
-          let data = json_d.data ? json_d.data.data || [] : [];
-          me.prices = data.concat(me.com_prices);
-          me.init_currs();
-          // console.log(json_d.method, currs, data)
-        }
-        subscr_obj.arr.forEach((el) => {
-          if (json_d && json_d.method == el) {
-            let data = json_d.data ? json_d.data.data || [] : [];
-            if (data.length > 0) {
-              me.price_update(data[0]);
-              me.prices = me.prices.concat(me.com_prices);
-            }
-          }
-        });
-        let s_method = json_d.method.slice(0, 3);
-        if (json_d && s_method == "all") {
-          let data = json_d.data ? json_d.data.data || [] : [];
-          let crs = me.arbitrage_company.map((el) => {
-            let res = {
-              id: el.id,
-              name: el.name,
-            };
-            let fnd = data.find((e) => e && e.company == el.name);
-            if (fnd) {
-              res.price = fnd.price;
-            }
-            return res;
-          });
-          let companies = crs.filter((el) => {
-            return el.price ? true : false;
-          });
-          me.companies = companies;
-        }
-        // console.log('me.currs', me.currs)
-      }
-    };
+    this.subscr_arr = subscr_obj.arr;
+    this.subscr_arr.push(`${this.base_p}_all@ticker_10s`);
+    this.subscribe(Object.assign([], this.subscr_arr));
   },
   mounted() {
     let me = this;
@@ -272,7 +273,6 @@ export default {
           me.currencies.forEach((currency) => {
             let sym = currency.symbol;
             let test = document.getElementById(`ttp-${sym}`);
-            let socket = global.socket;
             if (test) {
               test.addEventListener(
                 "mouseenter",
@@ -281,10 +281,7 @@ export default {
                   me.waiter[sym] = true;
                   setTimeout(() => {
                     if (me.waiter[sym]) {
-                      socket.send(`{
-                    "method": "subscribe",
-                    "data": ["all_${sym}-USD@ticker_10s"]
-                  }`);
+                      me.add_subscribe(`all_${sym}-USD@ticker_10s`);
                     }
                   }, 500);
                 },
@@ -295,10 +292,7 @@ export default {
                 "mouseleave",
                 function (event) {
                   me.waiter[sym] = false;
-                  socket.send(`{
-                "method": "unsubscribe",
-                "data": ["all_${sym}-USD@ticker_10s"]
-              }`);
+                  me.del_subscribe(`all_${sym}-USD@ticker_10s`);
                 },
                 false
               );
@@ -311,11 +305,7 @@ export default {
   },
   destroyed() {
     window.removeEventListener("resize", this.onResize);
-    let socket = global.socket;
-    socket.send(`{
-      "method": "unsubscribe",
-      "data": [${this.subscr}]
-    }`);
+    this.unsubscribe();
   },
 };
 </script>

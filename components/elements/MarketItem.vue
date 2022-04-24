@@ -28,7 +28,7 @@
           </v-btn>
         </div>
 
-        <v-list v-if="currencies" class="mt-4 mr-4 mb-4 ml-4">
+        <v-list v-if="currencies" class="mt-4 mr-4 mb-4 ml-4 market-list">
           <v-list-item
             
             class=""
@@ -102,5 +102,8 @@ export default {
 .message-available {
   padding-top: 70px;
   text-align: center;
+}
+.market-list {
+  background: transparent !important;
 }
 </style>

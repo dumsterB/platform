@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-4">
+  <div class="mt-4">
     <div class="d-flex mdc-form-field--space-between">
       <p class="text-h6 mx-4">{{ $t("my_wallet") }}</p>
       <a class="mx-4" @click="$router.push('/wallet')">{{ $t("show_all") }}</a>
@@ -274,7 +274,7 @@ export default {
   created() {
     setTimeout(() => {
       this.wait_render = false;
-    }, 500);
+    }, 1000);
     this.fetchWallet();
   },
 };

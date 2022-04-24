@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-card class="mx-auto pa-3 gc-card" elevation="1" max-width="430">
+    <v-card class="pa-3 gc-card" elevation="1">
       <v-list-item three-line>
         <v-list-item-content>
           <v-list-item-title class="text-h5 mb-1">
-            <strong>{{ $t("total_equity") }}</strong>
+            <strong>{{ $t('total_equity') }}</strong>
           </v-list-item-title>
           <br /><br />
           <v-list-item-title class="text-h5 mb-1">
