@@ -68,7 +68,16 @@
         <v-hover v-slot="{ hover }">
           <div
             flat
-            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
+            class="
+              account-menu
+              d-flex
+              flex-columns
+              align-center
+              mt-2
+              py-2
+              pr-2
+              pl-4
+            "
             v-on="on"
           >
             <div class="mr-2">
@@ -107,7 +116,14 @@
       }}</v-icon>
     </v-hover>
     <template v-slot:extension>
-      <v-col class="ma-0 pa-0"> <Ticker /> </v-col>
+      <!-- <v-col class="ma-0 pa-0"> <Ticker /> </v-col> -->
+      <v-row>
+        <v-col class="ma-0 pa-0"
+          ><marquee id="marquee">
+            {{ mar_str }}
+          </marquee></v-col
+        ></v-row
+      >
     </template>
   </v-app-bar>
 </template>
@@ -315,6 +331,11 @@ export default {
   background: transparent !important;
   cursor: pointer;
   width: 150px;
+}
+
+#marquee {
+  font-size: 12px;
+  margin-left: 40px;
 }
 
 .global-search .v-input__slot {
