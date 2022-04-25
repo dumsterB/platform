@@ -531,5 +531,7 @@ export default {
   cvv_rules_number: "The CVV can only consist of numbers.",
   self_amount: "Self amount",
   leverage: "Leverage",
-  no_coins_available: "Coins are currently unavailable"
+  no_coins_available: "Coins are currently unavailable",
+  fingertips:"Trading at your fingertips",
+  trade_anywhere:"Trade anywhere, anytime using our various platforms."
 };

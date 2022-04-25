@@ -18,221 +18,140 @@
       </v-col>
     </v-row>
     <v-row class="authContainer">
-      <v-col :md="12" :lg="6" style="">
-        <v-card
-          v-if="!reg_log"
-          elevation="8"
-          max-width="450"
-          class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
-          :style="customStyle"
-        >
-          <h3>{{ $t("register") }}</h3>
-          <div v-if="steper == 0">
-            <p class="d-flex">
-              {{ $t("readyToRegister") }}
-              <span
-                style="cursor: pointer"
-                class="ml-2 primary--text"
-                @click="reg_log = true"
-                >{{ $t("signinHere") }}</span
-              >
-            </p>
-            <v-form ref="reg_form" class="mt-6" :lazy-validation="false">
-              <v-text-field
-                v-model="name"
-                :rules="validation.name"
-                dense
-                outlined
-                :label="$t('first_name')"
-              ></v-text-field>
-              <v-text-field
-                v-model="email"
-                :rules="validation.email"
-                dense
-                outlined
-                :label="$t('email')"
-                required
-              ></v-text-field>
-              <!-- <v-text-field
-                v-model="phone_number"
-                :rules="validation.number"
-                dense
-                outlined
-                type="number"
-                :label="$t('phone_number')"
-              ></v-text-field> -->
-              <!-- <v-autocomplete
-                v-model="selectCountry"
-                :items="countries"
-                :rules="validation.birth_place"
-                :label="$t('place_of_birth')"
-                outlined
-                dense
-              ></v-autocomplete> -->
-              <!-- <v-text-field
-                v-model="date"
-                :label="$t('date_of_birth')"
-                outlined
-                :rules="validation.birth"
-                dense
-                type="date"
-              ></v-text-field> -->
-
-              <p v-if="error_message" style="color: red"></p>
-
-              <div class="d-flex">
-                <v-checkbox v-model="checkbox"></v-checkbox>
-                <span
-                  style="font-size: 13px; margin-top: 22px"
-                  class="text-gray--text"
-                >
-                  {{ $t("agree_with_policy") }}</span
-                >
-              </div>
-              <p style="font-size: 14px">
-                {{ $t("agree")
-                }}<span style="cursor: pointer" class="primary--text">
-                  {{ $t("terms_and_policy") }}
-                </span>
-              </p>
-
-              <div>
-                <v-btn
-                  width="200"
-                  outlined
-                  tile
-                  class="d-flex mt-2 mb-2 mx-auto"
-                  color="primary"
-                  @click="reg_start"
-                >
-                  {{ $t("to_continue") }}
-                </v-btn>
-              </div>
-            </v-form>
-          </div>
-          <div v-if="steper == 1">
-            <p class="d-flex">
-              {{ $t("create_password") }}
-            </p>
-            <v-form
-              ref="reg_form_password"
-              class="mt-6"
-              :lazy-validation="false"
-            >
-              <v-text-field
-                v-model="email"
-                disabled
-                dense
-                outlined
-                :label="$t('email')"
-              ></v-text-field>
-
-              <v-text-field
-                v-model="password"
-                dense
-                outlined
-                :label="$t('password')"
-                :append-icon="is_show_pass ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="validation.password"
-                :type="is_show_pass ? 'text' : 'password'"
-                @click:append="is_show_pass = !is_show_pass"
-              ></v-text-field>
-
-              <v-text-field
-                v-model="password_confirm"
-                dense
-                outlined
-                :label="$t('confirm_password')"
-                :append-icon="is_show_pass_confirm ? 'mdi-eye' : 'mdi-eye-off'"
-                :error-messages="ident_passwords"
-                :type="is_show_pass_confirm ? 'text' : 'password'"
-                @click:append="is_show_pass_confirm = !is_show_pass_confirm"
-              ></v-text-field>
-
-              <div>
-                <v-btn
-                  width="200"
-                  outlined
-                  tile
-                  class="d-flex mt-2 mb-2 mx-auto"
-                  color="primary"
-                  :loading="reg_loader"
-                  @click="reg_end"
-                >
-                  {{ $t("to_continue") }}
-                </v-btn>
-              </div>
-            </v-form>
-          </div>
-        </v-card>
-        <v-card
-          v-if="reg_log"
-          max-width="450"
-          elevation="4"
-          class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
-          :style="customStyle"
-        >
-          <h3>{{ $t("signin") }}</h3>
-          <p class="d-flex">
-            {{ $t("haveNotAccount") }}
-            <span
-              style="cursor: pointer"
-              class="ml-2 primary--text"
-              @click="reg_log = false"
-              >{{ $t("signupHere") }}</span
-            >
-          </p>
-          <v-form
-            v-model="auth_login_form_valid"
-            ref="auth_login_form"
-            class="mt-6"
-            :lazy-validation="false"
-            @submit.prevent="auth_login"
-          >
-            <v-text-field
-              v-model="email"
-              :rules="validation.email"
-              dense
-              outlined
-              :label="$t('email')"
-            ></v-text-field>
-
-            <v-text-field
-              v-model="password"
-              dense
-              outlined
-              :label="$t('password')"
-              :append-icon="is_show_pass ? 'mdi-eye' : 'mdi-eye-off'"
-              :rules="validation.required"
-              :type="is_show_pass ? 'text' : 'password'"
-              @click:append="is_show_pass = !is_show_pass"
-            ></v-text-field>
-
-            <div>
-              <v-btn
-                width="200"
-                outlined
-                tile
-                :loading="log_loader"
-                class="d-flex mt-2 mb-2 mx-auto"
-                color="primary"
-                type="submit"
-              >
-                {{ $t("signin") }}
-              </v-btn>
-              <span class="forgetPassword primary--text">
-                {{ $t("forgetPasswordMessage") }}</span
-              >
-            </div>
-          </v-form>
-        </v-card>
-      </v-col>
-      <v-col :md="12" :lg="6" class="text-center">
+      <v-col :md="12" :lg="5" class="text-center">
         <div style="position: relative; top: 20%">
           <SvgImage />
         </div>
       </v-col>
+      <v-col :md="12" :lg="7" style="">
+        <v-card
+            v-if="!reg_log"
+            elevation="8"
+            class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
+            :style="customStyle"
+            style="background: #000e1d!important"
+        >
+          <v-row>
+            <v-col cols="2">
+              <p class="primary--text"> <v-btn icon > <v-icon class="primary--text">mdi-arrow-left</v-icon> </v-btn> Back</p>
+            </v-col>
+            <v-col>
+              <h3>{{ $t("signin") }}</h3>
+              <div v-if="steper == 0">
+                <p class="d-flex text-gray--text">
+                  {{ $t("readyToRegister") }}
+                  <span
+                      style="cursor: pointer"
+                      class="ml-2 primary--text"
+                  >{{ $t("signupHere") }}</span
+                  >
+                </p>
+                <v-form
+                    v-model="auth_login_form_valid"
+                    ref="auth_login_form"
+                    class="mt-6"
+                    :lazy-validation="false"
+                    @submit.prevent="auth_login">
+                  <v-row>
+                    <v-col>
+                      <v-text-field
+                          v-model="email"
+                          :rules="validation.email"
+                          dense
+                          outlined
+                          filled
+                          class="fields"
+                          :label="$t('email')"
+                      ></v-text-field>
+
+                    </v-col>
+                    <v-col>
+                      <v-text-field
+                          v-model="password"
+                          dense
+                          outlined
+                          :label="$t('password')"
+                          filled
+                          :append-icon="is_show_pass ? 'mdi-eye' : 'mdi-eye-off'"
+                          :rules="validation.required"
+                          :type="is_show_pass ? 'text' : 'password'"
+                          @click:append="is_show_pass = !is_show_pass"
+                      ></v-text-field>
+
+                    </v-col>
+                  </v-row>
+                  <p v-if="error_message" style="color: red"></p>
+
+                  <div class="d-flex">
+                    <v-checkbox v-model="checkbox"></v-checkbox>
+                    <span
+                        style="font-size: 13px; margin-top: 22px"
+                        class="text-gray--text"
+                    >
+                  {{ $t("agree_with_policy") }}</span
+                    >
+                  </div>
+                  <div>
+                    <v-row no-gutters>
+                      <v-col>
+                        <v-btn
+                            width="250"
+                            :loading="log_loader"
+                            class="d-flex mt-2 mb-2 mx-auto"
+                            color="primary"
+                            type="submit"
+                        >
+                          {{ $t("signup") }}
+                        </v-btn>
+
+                      </v-col>
+                      <v-col>
+                        <v-btn
+                            width="250"
+                            outlined
+                            tile
+                            class="d-flex mt-2 mb-2 mx-auto"
+                            color="primary"
+                            @click="reg_start"
+                        >
+                          <v-icon
+                              right
+                              dark
+                          >
+                            mdi-google
+                          </v-icon>
+                       <p style="font-size: 12px;text-transform: none; font-weight: 700" class="mt-2 ml-2">  {{ $t("google_auth") }}</p>
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                  </div>
+                </v-form>
+              </div>
+              <div>
+                <div style="margin-top: 100px">
+                  <h2>{{$t('fingertips')}}</h2>
+                  <p class="text-gray--text mt-2">{{$t('trade_anywhere')}}</p>
+                </div>
+                <div>
+                  <v-row class="mt-10" no-gutters>
+                  <v-col>
+                      <img src="@/static/img/AndroidApp.png" alt="">
+                  </v-col>
+                    <v-col>
+                      <img src="@/static/img/Windows10Trader.png" alt="">
+                    </v-col>
+                    <v-col>
+                    <img src="@/static/img/WebTrader.png" alt="">
+                  </v-col>
+                  </v-row>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
     </v-row>
+
     <v-snackbar v-model="is_notify" color="#1F1F29" :timeout="3000" top="top">
       {{ is_notify_message }}
       <v-btn dark text @click="is_notify = false"> OK</v-btn>
@@ -419,8 +338,13 @@ export default {
 }
 .cardBorder {
   border: 1px solid var(--border_color);
+  height: 100vh;
+  background: #000C19;
 }
 .v-card {
   background: #3b383f !important;
+}
+.fields input{
+  background: #161F49!important;
 }
 </style>
