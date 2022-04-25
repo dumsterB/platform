@@ -1,20 +1,59 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" width="500" persistent>
-      <v-card class="pa-4">
+    <v-dialog id="dialog" v-model="dialog" width="600" persistent>
+      <v-card class="pl-12 pr-12 pt-8 pb-12">
         <v-row>
           <v-col>
-            <p class="text-h5 text-center">
+            <p class="text-h5 text-center font-weight-bold">
               {{ $t(action) }}
             </p>
-            <p class="text-h6 text-gray--text mt-1 text-center">
+            <p
+              class="text-h6 text-gray--text mt-1 text-center font-weight-light"
+            >
               {{ $t("choose_payment_method") }}
             </p>
           </v-col>
-          <v-btn elevation="0" @click="close" icon class="mt-2 mr-2">
-            <v-icon>mdi-close</v-icon>
+          <v-btn
+            elevation="0"
+            @click="close"
+            icon
+            class="mt-2 mr-2 accent--text"
+          >
+            <v-icon class="accent--text">mdi-close</v-icon>
           </v-btn>
         </v-row>
+        <template>
+          <v-container fluid class="paymentMethod ma-0 pa-0">
+            <v-bottom-navigation
+              height="100"
+              v-model="selectedPaymentMethod"
+              class="justify-space-between"
+            >
+              <v-btn
+                value="bankCard"
+                class="paymentMethod_checkbox rounded-xl pl-8 pr-8"
+                activeClass="primary"
+              >
+                <v-icon class="mr-4">mdi-credit-card-multiple-outline</v-icon>
+                <div class="d-flex flex-wrap align-center">
+                  <p class="mr-4 mb-0 font-weight-bold">Bank Card</p>
+                  <p class="mb-0 font-weight-thin">1.2% {{ $t("fee") }}</p>
+                </div>
+              </v-btn>
+              <v-btn
+                value="crypto"
+                class="paymentMethod_checkbox rounded-xl pl-8 pr-8"
+                activeClass="primary"
+              >
+                <v-icon class="mr-4">mdi-currency-btc</v-icon>
+                <div class="d-flex flex-wrap align-center">
+                  <p class="mr-4 mb-0 font-weight-bold">Crypto</p>
+                  <p class="mb-0 font-weight-thin">1.2% {{ $t("fee") }}</p>
+                </div>
+              </v-btn>
+            </v-bottom-navigation>
+          </v-container>
+        </template>
         <v-list flat>
           <v-list-item v-for="(item, i) in items" :key="i">
             <v-list-item-content class="pb-2 pt-2">
@@ -43,23 +82,25 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-        <div class="text-center justify-center d-flex">
+        <div v-if="items.length === 0" class="text-center">
           <div class="d-block">
-            <div
-              class="credit-card-add"
-              :style="customStyle"
-              @click="cardDialogChanger"
-            >
+            <div class="credit-card-add item_bg" @click="cardDialogChanger">
               <div>
-                <v-icon style="margin-top: 10px" size="25" dark
+                <v-icon
+                  class="icon_color--text"
+                  style="margin-top: 10px"
+                  size="32"
+                  dark
                   >mdi-plus</v-icon
                 >
-                <p class="white--text">{{ $t("addNewPayment") }}</p>
+                <p class="icon_color--text">
+                  {{ $t("addNewPayment") }}
+                </p>
               </div>
             </div>
           </div>
         </div>
-        <v-row class="mt-4 pa-4">
+        <v-row v-if="items.length > 0" class="mt-4 pa-4">
           <v-col cols="12" sm="12" md="12">
             <v-text-field
               v-model="enteredMoney"
@@ -68,10 +109,10 @@
               type="number"
               :error-messages="err_m"
             ></v-text-field>
-            <!-- <p class="text-gray--text">{{ $t("deposit_ruls") }}</p> -->
+            <p class="text-gray--text">{{ $t("deposit_ruls") }}</p>
           </v-col>
         </v-row>
-        <v-card-actions>
+        <v-card-actions v-if="items.length > 0">
           {{ $t("pay") }}: {{ enteredMoney }} {{ curr }}
           <v-spacer></v-spacer>
           <v-btn
@@ -120,6 +161,7 @@ export default {
   name: "Deposit",
   data() {
     return {
+      selectedPaymentMethod: "bankCard",
       start_gradient: config.themes.dark.start_gradient,
       end_gradient: config.themes.dark.end_gradient,
       selectedItem: 1,
@@ -239,7 +281,7 @@ export default {
           title: title,
           text: title,
           color: color,
-          timeout: 2000
+          timeout: 2000,
         });
         await this.f_wallets();
         await this.fetchOrders();
@@ -267,15 +309,29 @@ export default {
 };
 </script>
 
-<style scoped>
-.credit-card-add {
-  width: 450px;
-  height: 70px;
+<style scoped lang="scss">
+html[theme="dark"] .v-card {
+  background: #001935 !important;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 35px !important;
+}
+html[theme="light"] .v-card {
   background: linear-gradient(
-    94.9deg,
-    var(--start_gradient) 4.26%,
-    var(--end_gradient) 95.87%
-  );
+      0deg,
+      rgba(226, 226, 226, 0.3),
+      rgba(226, 226, 226, 0.3)
+    ),
+    #ffffff !important;
+  border-radius: 35px !important;
+}
+.credit-card-add {
+  font-size: 18px;
+  width: 100%;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid;
   border-radius: 20px;
   cursor: pointer;
 }
@@ -286,5 +342,24 @@ export default {
     var(--end_gradient) 95.87%
   );
   color: white !important;
+}
+.paymentMethod {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &_checkbox {
+    position: relative;
+    border: 1px solid;
+    width: 45% !important;
+  }
+
+  .v-input__control .v-icon .mdi-checkbox-marked::before {
+    content: "" !important;
+  }
+
+  i.mdi-checkbox-blank-outline::before {
+    content: "" !important;
+  }
 }
 </style>

@@ -36,7 +36,7 @@
           v-for="(item, i) of chips"
           :key="i"
           @click="chipHandler(item)"
-          >{{ item.percent + ' %' }}</v-chip
+          >{{ item.percent + " %" }}</v-chip
         >
       </div>
       <div class="justify-center text-center">
@@ -188,12 +188,17 @@ export default {
       this.chips.map((ell) => (ell.active = false));
       value.active = true;
       if (this.active_btn == "buy") {
-        let curr = this.currency.find(el => el.symbol == this.buy_curr);
-        this.buy = Math.round(this.balance * value.percent / curr.price / 100 * 1000000) / 1000000;
+        let curr = this.currency.find((el) => el.symbol == this.buy_curr);
+        this.buy =
+          Math.round(
+            ((this.balance * value.percent) / curr.price / 100) * 1000000
+          ) / 1000000;
       }
       if (this.active_btn == "sell") {
-        this.buy = Math.round(this.balance * value.percent / 100 * 1000000) / 1000000;
-      } 
+        this.buy =
+          Math.round(((this.balance * value.percent) / 100) * 1000000) /
+          1000000;
+      }
     },
     async copyURL() {
       try {
@@ -213,11 +218,16 @@ export default {
       let usd_c = this.currencies.find((el) => el.symbol == "USD");
       let curr = this.currency.find((el) => el.symbol == this.buy_curr);
       if (curr && usd_c) {
-        trade_data.source_currency_id = this.active_btn == 'buy' ? usd_c.id : curr.id;
-        trade_data.source_amount = this.active_btn == 'buy' ? this.buy*curr.price : this.buy;
-        trade_data.dest_currency_id = this.active_btn == 'buy' ? curr.id : usd_c.id;
-        trade_data.dest_amount = this.active_btn == 'buy' ? this.buy : this.buy*curr.price;
-        trade_data.exchange_rate = this.active_btn == 'buy' ? 1/curr.price : curr.price;
+        trade_data.source_currency_id =
+          this.active_btn == "buy" ? usd_c.id : curr.id;
+        trade_data.source_amount =
+          this.active_btn == "buy" ? this.buy * curr.price : this.buy;
+        trade_data.dest_currency_id =
+          this.active_btn == "buy" ? curr.id : usd_c.id;
+        trade_data.dest_amount =
+          this.active_btn == "buy" ? this.buy : this.buy * curr.price;
+        trade_data.exchange_rate =
+          this.active_btn == "buy" ? 1 / curr.price : curr.price;
       }
       console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });
@@ -282,7 +292,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .success-btn {
   background: linear-gradient(
     94.9deg,
@@ -309,14 +319,28 @@ export default {
   border-top: 3px solid #007bff;
   border-radius: 0px 0px 10px 10px !important;
 }
-.chip {
+html[theme="light"] .chip {
+  background: #eeeeee !important;
+  padding: 12px;
+  justify-content: space-between;
+  display: flex;
+  color: #9a9a9a;
+}
+html[theme="dark"] .chip {
   background: #001935 !important;
   padding: 12px;
   justify-content: space-between;
   display: flex;
+  color: #ffffff;
 }
-.active_chip {
+html[theme="dark"] .active_chip {
   background: #007bff !important;
+  color: #ffffff;
+}
+
+html[theme="light"] .active_chip {
+  background: #007bff !important;
+  color: #ffffff;
 }
 .chips {
   justify-content: space-between;
@@ -335,7 +359,7 @@ export default {
   background: rgba(154, 154, 154, 0.3) !important;
   border-radius: 10px;
 }
-.value-field  .v-input__slot {
+.value-field .v-input__slot {
   background: transparent !important;
   height: 56px !important;
   font-size: 22px !important;

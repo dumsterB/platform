@@ -83,6 +83,18 @@ html[theme="light"] .v-menu__content .v-list {
     background: #ffffff !important;
 }
 
+.v-sheet {
+    background: transparent !important;
+}
+
+html[theme="light"] .v-sheet {
+    background: transparent !important;
+}
+
+.v-dialog {
+    border-radius: 20px;
+}
+
 .v-card {
     background: #000c19 !important;
     border-radius: 20px !important;
@@ -90,6 +102,7 @@ html[theme="light"] .v-menu__content .v-list {
 
 html[theme="light"] .v-card {
     background: #ffffff !important;
+    border-radius: 20px !important;
 }
 
 ul,
@@ -196,4 +209,20 @@ input[type="number"]::-webkit-inner-spin-button {
 .theme--dark.v-navigation-drawer .v-divider,
 .theme--light.v-navigation-drawer .v-divider {
     border-color: gray;
+}
+
+.v-bottom-navigation {
+    background: transparent;
+}
+
+.v-item-group.v-bottom-navigation {
+    box-shadow: none;
+}
+
+.v-item-group.v-bottom-navigation .v-btn {
+    max-width: 100%;
+}
+
+.v-btn__content {
+    display: contents;
 }
