@@ -533,5 +533,6 @@ export default {
   leverage: "Leverage",
   no_coins_available: "Coins are currently unavailable",
   fingertips:"Trading at your fingertips",
-  trade_anywhere:"Trade anywhere, anytime using our various platforms."
+  remember_me:"Remember me",
+  forgot_password:'Forgot password?'
 };

@@ -88,12 +88,15 @@
                         style="font-size: 13px; margin-top: 22px"
                         class="text-gray--text"
                     >
-                  {{ $t("agree_with_policy") }}</span
+                  {{ $t("remember_me") }}</span
+                    >
+                    <span
+                        style="cursor: pointer"
+                        class="ml-2 mt-5 primary--text"
+                    >{{ $t("forgot_password") }}</span
                     >
                   </div>
-                  <div>
-                    <v-row no-gutters>
-                      <v-col>
+                  <div class="">
                         <v-btn
                             width="250"
                             :loading="log_loader"
@@ -101,36 +104,14 @@
                             color="primary"
                             type="submit"
                         >
-                          {{ $t("signup") }}
+                          {{ $t("signin") }}
                         </v-btn>
-
-                      </v-col>
-                      <v-col>
-                        <v-btn
-                            width="250"
-                            outlined
-                            tile
-                            class="d-flex mt-2 mb-2 mx-auto"
-                            color="primary"
-                            @click="reg_start"
-                        >
-                          <v-icon
-                              right
-                              dark
-                          >
-                            mdi-google
-                          </v-icon>
-                       <p style="font-size: 12px;text-transform: none; font-weight: 700" class="mt-2 ml-2">  {{ $t("google_auth") }}</p>
-                        </v-btn>
-                      </v-col>
-                    </v-row>
                   </div>
                 </v-form>
               </div>
               <div>
                 <div style="margin-top: 100px">
                   <h2>{{$t('fingertips')}}</h2>
-                  <p class="text-gray--text mt-2">{{$t('trade_anywhere')}}</p>
                 </div>
                 <div>
                   <v-row class="mt-10" no-gutters>
