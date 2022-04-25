@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="mx-auto check-card pa-3" max-width="430" elevation="1">
+    <v-card class="check-card pa-3" elevation="1">
       <v-list-item three-line>
         <v-list-item-content>
           <v-row>
@@ -41,10 +41,12 @@
             <v-col cols="2">
               <div class="d-flex">
                 <v-btn
-                    :class="tgl ? 'historyChip primary white--text' : 'historyChip primary--text'"
+                    :class="tgl ? 'historyChip primary' : 'historyChip primary--text'"
                     @click="history_tgl"
+                    outlined
+                    x-small
                 ><div>
-                  <v-icon small>mdi-history</v-icon
+                  <v-icon x-small>mdi-history</v-icon
                   ><span class="history-btn-cl">{{ $t("history_button") }}</span>
                 </div>
                 </v-btn>
@@ -94,6 +96,7 @@ export default {
 .historyChip {
   position: absolute;
   right: 5px;
-  background: transparent!important;
+  background: transparent !important;
+  border-radius: 20px !important;
 }
 </style>

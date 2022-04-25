@@ -206,7 +206,7 @@ export default {
       let data = this.wallet.map((el) => {
         return {
           balance: el.balance,
-          currency: el.currency.symbol,
+          currency: el.currency ? el.currency.symbol : 'NO DATA',
           currency_id: el.currency_id,
         };
       });

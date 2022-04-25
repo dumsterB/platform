@@ -72,7 +72,7 @@ export default {
     TableTop,
   },
   data() {
-    let mi = parseInt(window.innerWidth / 350)
+    let mi = parseInt(window.innerWidth / 350);
     return {
       currs: [],
       companies: [],
@@ -171,7 +171,7 @@ export default {
       unsubscribe: "unsubscribe_page",
       subscribe: "set_page_subscribe",
       add_subscribe: "add_page_subscribe",
-      del_subscribe: "del_page_subscribe"
+      del_subscribe: "del_page_subscribe",
     }),
     search_f() {
       let me = this;
@@ -232,15 +232,17 @@ export default {
     wallets_subscribe_definer() {
       let str = "";
       let arr = [];
-      this.wallets.forEach(async (wall, i) => {
-        let cr = await wall.currency.symbol;
-        if (wall.currency.currency_type.key != "CRYPTO") {
-          let ex_t = wall.currency.exchange_type.key;
-          if (cr != "USD") {
-            str += `"shares_${cr}.${ex_t}@kline_1d"`;
-            arr.push(`shares_${cr}.${ex_t}@kline_1d`);
-            if (i < this.wallets.length - 1) {
-              str += ",";
+      this.wallets.forEach((wall, i) => {
+        if (wall.currency) {
+          let cr = wall.currency.symbol;
+          if (wall.currency.currency_type.key != "CRYPTO") {
+            let ex_t = wall.currency.exchange_type.key;
+            if (cr != "USD") {
+              str += `"shares_${cr}.${ex_t}@kline_1d"`;
+              arr.push(`shares_${cr}.${ex_t}@kline_1d`);
+              if (i < this.wallets.length - 1) {
+                str += ",";
+              }
             }
           }
         }
