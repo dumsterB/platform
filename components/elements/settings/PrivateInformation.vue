@@ -2,29 +2,26 @@
   <div class="privateInformation">
     <p class="text-h6">{{ $t("personal_information") }}</p>
     <v-card class="mainCard pt-6">
-      <!-- <div class="text-center">
+      <div class="text-center">
         <div class="selecImage">
           <div
             class="image-input"
             :style="{ 'background-image': `url(${imageData})` }"
             @click="chooseImage"
           >
-    <span
-      v-if="!imageData"
-      class="placeholder text-gray--text"
-    >
-      <v-icon size="70">mdi-camera</v-icon>
-    </span>
+            <span v-if="!imageData" class="placeholder text-gray--text">
+              <v-icon size="70">mdi-camera</v-icon>
+            </span>
             <input
               class="file-input"
               ref="fileInput"
               type="file"
               @input="onSelectFile"
-            >
+            />
           </div>
         </div>
-        <p>{{ $t('choose_photo') }}</p>
-      </div> -->
+        <p>{{ $t("choose_photo") }}</p>
+      </div>
       <div class="form">
         <v-container>
           <v-row>
@@ -136,6 +133,7 @@ export default {
       menu: false,
       phone: this.$auth.user.phone,
       loading: false,
+      formData: null,
     };
   },
   methods: {
@@ -146,12 +144,13 @@ export default {
       const input = this.$refs.fileInput;
       const files = input.files;
       if (files && files[0]) {
+        this.formData = new FormData();
+        this.formData.append("file", files[0]);
         const reader = new FileReader();
         reader.onload = (e) => {
           this.imageData = e.target.result;
         };
         reader.readAsDataURL(files[0]);
-        this.$emit("input", files[0]);
       }
     },
     async validate() {
@@ -170,13 +169,43 @@ export default {
         user_data,
         {}
       );
+      if (this.formData) {
+        let rs1 = await this.$axios
+          .post(
+            `/api/platform/user_platform/${this.$auth.user.id}/img`,
+            this.formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          )
+          .then((rsp) => {})
+          .catch(function (e) {
+            console.log("== == !! UPLOAD FAIL", e);
+            return;
+          });
+      }
+
       console.log("rs", rs);
       setTimeout(() => {
         this.loading = false;
       }, 500);
     },
   },
-  mounted() {},
+  mounted() {
+    console.log("user_data", this.$auth.user);
+    if (this.$auth.user.fs && this.$auth.user.fs.length > 0) {
+      let dir = this.$env("FILE_SERVER_BASE") + this.$auth.user.fs[0].dir;
+      if (dir) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageData = e.target.result;
+        };
+        reader.readAsDataURL(dir);
+      }
+    }
+  },
   computed: {
     ...mapGetters("data/countries", {
       countries: "list",
