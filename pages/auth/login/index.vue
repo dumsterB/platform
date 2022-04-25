@@ -18,9 +18,9 @@
       </v-col>
     </v-row>
     <v-row class="authContainer">
-      <v-col :md="12" :lg="5" class="text-center">
+      <v-col :md="12" :lg="5" class="text-center background_imgage">
         <div style="position: relative; top: 20%">
-          <SvgImage />
+
         </div>
       </v-col>
       <v-col :md="12" :lg="7" style="">
@@ -29,7 +29,6 @@
             elevation="8"
             class="px-4 py-6 pt-8 mx-auto rounded-lg cardBorder"
             :style="customStyle"
-            style="background: #000e1d!important"
         >
           <v-row>
             <v-col cols="2">
@@ -301,8 +300,11 @@ export default {
       }
     },
   },
-
-  mounted() {},
+  created(){
+    let htmlElement = document.documentElement;
+    this.$vuetify.theme.dark = true;
+    htmlElement.setAttribute("theme", 'dark')
+  }
 };
 </script>
 <style scoped>
@@ -322,10 +324,13 @@ export default {
   height: 100vh;
   background: #000C19;
 }
-.v-card {
-  background: #3b383f !important;
-}
 .fields input{
   background: #161F49!important;
+}
+.background_imgage{
+  background: url('./static/img/login_background.png');
+  height: 100vh;
+  background-repeat: no-repeat;
+  width: 100%;
 }
 </style>
