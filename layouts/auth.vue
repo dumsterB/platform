@@ -27,7 +27,4 @@ html {
 div {
   font-family: "Montserrat";
 }
-.layout_auth--content{
-  background: url("./static/img/login_background.png");
-}
 </style>
