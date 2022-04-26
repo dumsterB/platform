@@ -2,16 +2,18 @@
   <div class="settingsTab">
     <p class="text-h6 ml-4">{{ $t("settings_page") }}</p>
     <div class="content ma-4">
+      <div  @click="tabHandler(item)"
+            v-for="item of selections"
+            :key="item.text">
       <v-card
         :style="customStyle"
         :class="item.active ? 'tabs-active tabs-setting' : 'tabs-setting'"
-        @click="tabHandler(item)"
-        v-for="item of selections"
-        :key="item.text"
       >
-        <h3 class="tab-btn text">{{ $t(item.title) }}</h3>
-        <p>{{ $t(item.text) }}</p>
+        <h3 class="tab-btn text-left ml-3 mt-1 text">{{ $t(item.title) }}</h3>
+        <p class="text-left ml-3 mt-1"  v-if="item.text!=='unverified'">{{ $t(item.text) }}</p>
+        <p class="text-left ml-3 mt-1 warning--text d-flex"   v-else><img height="20" src="@/static/img/unverified_icon.png" alt=""> {{ $t(item.text) }}</p>
       </v-card>
+      </div>
       <p class="text-h6 mt-6 success_text--text">
         {{ $t("settings_notification") }}
       </p>
@@ -85,13 +87,11 @@ export default {
   display: block !important;
   margin-top: 10px;
   padding: 8px;
+  filter: drop-shadow(20px 20px 100px rgba(0, 0, 0, 0.5));
 }
 .tabs-active {
-  background: linear-gradient(
-    94.9deg,
-    var(--start_gradient) 4.26%,
-    var(--end_gradient) 95.87%
-  );
+  background:#007BFF!important;
+  filter: drop-shadow(20px 20px 100px rgba(0, 0, 0, 0.5));
   color: white;
 }
 </style>
