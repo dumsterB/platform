@@ -22,9 +22,16 @@
         </v-row>
       </v-col>
     </v-row>
+<<<<<<< HEAD
+    <v-row class="authContainer">
+      <v-col :md="12" :lg="5" class="text-center ">
+        <div style="position: relative; top: 20%">
+
+=======
     <v-row>
       <v-col :lg="6">
         <div class="background_image">
+>>>>>>> 013d2b74f8e4c77ccdfaf722f7672221424915f1
         </div>
       </v-col>
       <v-col class="px-4 py-6 pt-8" :style="customStyle">
@@ -42,10 +49,17 @@
                 <p class="d-flex text-gray--text">
                   {{ $t("readyToRegister") }}
                   <span
+<<<<<<< HEAD
+                      style="cursor: pointer"
+                      class="ml-2 primary--text"
+                      @click="$router.push('/registration')"
+                  >{{ $t("signupHere") }}</span
+=======
                     style="cursor: pointer"
                     class="ml-2 primary--text"
                     @click="reg_log = true"
                     >{{ $t("signinHere") }}</span
+>>>>>>> 013d2b74f8e4c77ccdfaf722f7672221424915f1
                   >
                 </p>
                 <v-form ref="reg_form" class="mt-6" :lazy-validation="false">
@@ -263,6 +277,7 @@
       {{ is_notify_message }}
       <v-btn dark text @click="is_notify = false"> OK</v-btn>
     </v-snackbar>
+    <registration></registration>
   </div>
 </template>
 
@@ -270,11 +285,16 @@
 import LangSelect from "~/components/settings/LanguageSelect";
 import config from "~/config/config.json";
 import { mapGetters } from "vuex";
+import registration from '../registration/index'
 
 export default {
   layout: "auth",
   components: {
+<<<<<<< HEAD
+    LangSelect,registration
+=======
     LangSelect,
+>>>>>>> 013d2b74f8e4c77ccdfaf722f7672221424915f1
   },
   watch: {
     theme(v) {
@@ -477,6 +497,10 @@ export default {
   height: 100vh;
   background: #000c19;
 }
+<<<<<<< HEAD
+.fields input{
+  background: #161F49!important;
+=======
 .background_image {
   background: url("./static/img/login_background.png");
   height: 110vh;
@@ -500,6 +524,7 @@ html[theme="light"] .v-menu__content .v-list {
   margin-top: 150px;
   margin-right: 200px;
   margin-left: 100px;
+>>>>>>> 013d2b74f8e4c77ccdfaf722f7672221424915f1
 }
 .login_block .v-btn {
   border-radius: 15px;

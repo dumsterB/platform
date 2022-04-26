@@ -79,7 +79,7 @@ export default {
   canResendCode: "You can resend code in 3 minutes",
   resendValidationCode: "Resend Code",
   checkVerificationCode: "Proceed",
-  createAccount: "Create account",
+  createAccount: "Create your account",
   saveAccountSettings: "Save changes",
   signinHere: "Login here!",
   signupHere: "Register here!",
