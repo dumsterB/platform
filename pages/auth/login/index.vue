@@ -15,8 +15,8 @@
       </v-col>
     </v-row>
     <v-row class="authContainer">
-      <v-col :md="12" :lg="5" class="text-center background_imgage">
-        <div style="position: relative; top: 20%"></div>
+      <v-col :lg="6">
+        <div class="background_image"></div>
       </v-col>
       <v-col class="px-4 py-6 pt-8" :style="customStyle">
         <div v-if="!reg_log">
@@ -459,10 +459,11 @@ export default {
 .fields input {
   background: #161f49 !important;
 }
-.background_imgage {
+.background_image {
   background: url("./static/img/login_background.png");
   height: 100vh;
+  position: relative;
+  top: -100px;
   background-repeat: no-repeat;
-  width: 100%;
 }
 </style>
