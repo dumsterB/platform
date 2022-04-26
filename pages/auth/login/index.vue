@@ -18,7 +18,7 @@
       </v-col>
     </v-row>
     <v-row class="authContainer">
-      <v-col :md="12" :lg="5" class="text-center background_imgage">
+      <v-col :md="12" :lg="5" class="text-center ">
         <div style="position: relative; top: 20%">
 
         </div>
@@ -42,6 +42,7 @@
                   <span
                       style="cursor: pointer"
                       class="ml-2 primary--text"
+                      @click="$router.push('/registration')"
                   >{{ $t("signupHere") }}</span
                   >
                 </p>
@@ -136,20 +137,20 @@
       {{ is_notify_message }}
       <v-btn dark text @click="is_notify = false"> OK</v-btn>
     </v-snackbar>
+    <registration></registration>
   </div>
 </template>
 
 <script>
-import SvgImage from "./svg.vue";
 import LangSelect from "~/components/settings/LanguageSelect";
 import config from "~/config/config.json";
 import { mapGetters } from "vuex";
+import registration from '../registration/index'
 
 export default {
   layout: "auth",
   components: {
-    SvgImage,
-    LangSelect,
+    LangSelect,registration
   },
   watch: {},
   computed: {
@@ -326,11 +327,5 @@ export default {
 }
 .fields input{
   background: #161F49!important;
-}
-.background_imgage{
-  background: url('./static/img/login_background.png');
-  height: 100vh;
-  background-repeat: no-repeat;
-  width: 100%;
 }
 </style>
