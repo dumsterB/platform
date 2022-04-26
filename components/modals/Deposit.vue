@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-dialog id="dialog" v-model="dialog" width="600" persistent>
-      <v-card class="pl-12 pr-12 pt-8 pb-12">
+      <v-card class="pl-12 pr-12 pt-8 pb-12" :style="customStyle">
         <v-row>
           <v-col>
             <p class="text-h5 text-center font-weight-bold">
@@ -23,7 +23,7 @@
           </v-btn>
         </v-row>
         <template>
-          <v-container fluid class="paymentMethod ma-0 pa-0">
+          <v-container fluid class="paymentMethod ma-0 mb-8 pa-0">
             <v-bottom-navigation
               height="100"
               v-model="selectedPaymentMethod"
@@ -32,7 +32,8 @@
               <v-btn
                 value="bankCard"
                 class="paymentMethod_checkbox rounded-xl pl-8 pr-8"
-                activeClass="primary"
+                activeClass="primary paymentMethod_checkbox_active"
+                :style="customStyle"
               >
                 <v-icon class="mr-4">mdi-credit-card-multiple-outline</v-icon>
                 <div class="d-flex flex-wrap align-center">
@@ -43,7 +44,8 @@
               <v-btn
                 value="crypto"
                 class="paymentMethod_checkbox rounded-xl pl-8 pr-8"
-                activeClass="primary"
+                activeClass="primary paymentMethod_checkbox_active"
+                :style="customStyle"
               >
                 <v-icon class="mr-4">mdi-currency-btc</v-icon>
                 <div class="d-flex flex-wrap align-center">
@@ -54,6 +56,7 @@
             </v-bottom-navigation>
           </v-container>
         </template>
+        <!--
         <v-list flat>
           <v-list-item v-for="(item, i) in items" :key="i">
             <v-list-item-content class="pb-2 pt-2">
@@ -82,9 +85,62 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
+        -->
+        <v-autocomplete
+          v-if="items.length > 0"
+          v-model="selected_card"
+          :items="items"
+          chips
+          hide-details
+          hide-selected
+          item-text="card_number"
+          item-value="card_number"
+          :label="$t('choose_card')"
+          solo
+          class="card_list"
+          :style="customStyle"
+          height="52"
+          background-color="item_bg"
+        >
+          <template v-slot:selection="{ attr, on, item, selected }">
+            <v-chip
+              v-bind="attr"
+              :input-value="selected"
+              color="item_bg"
+              class="icon_color--text"
+              v-on="on"
+            >
+              <img
+                width="24"
+                height="24"
+                :src="item.card_icon"
+                class="ma-0 mr-6"
+              />
+              <p class="ma-0">
+                {{ `**** **** **** ${item.card_number.slice(-4)}` }}
+              </p>
+            </v-chip>
+          </template>
+          <template v-slot:item="{ item }">
+            <v-list-item-avatar
+              color="item_bg"
+              class="text-h5 font-weight-light icon_color--text"
+            >
+              <img width="14" height="14" :src="item.card_icon" />
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.card_number }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+        </v-autocomplete>
+
         <div v-if="items.length === 0" class="text-center">
           <div class="d-block">
-            <div class="credit-card-add item_bg" @click="cardDialogChanger">
+            <div
+              class="credit-card-add item_bg"
+              @click="cardDialogChanger"
+              :style="customStyle"
+            >
               <div>
                 <v-icon
                   class="icon_color--text"
@@ -100,7 +156,7 @@
             </div>
           </div>
         </div>
-        <v-row v-if="items.length > 0" class="mt-4 pa-4">
+        <v-row v-if="items.length > 0" class="mt-4 pa-0">
           <v-col cols="12" sm="12" md="12">
             <v-text-field
               v-model="enteredMoney"
@@ -108,22 +164,30 @@
               :label="$t('enter_your_amount')"
               type="number"
               :error-messages="err_m"
+              background-color="item_bg"
             ></v-text-field>
-            <p class="text-gray--text">{{ $t("deposit_ruls") }}</p>
+            <p class="text-gray--text font-weight-light ruls">
+              {{ $t("deposit_ruls") }}
+            </p>
           </v-col>
+          <div class="mb-6 ml-auto mr-auto">
+            <span> {{ $t("pay") }}: </span>
+            <span class="primary--text ml-1">
+              {{ enteredMoney }} {{ curr }}</span
+            >
+          </div>
         </v-row>
         <v-card-actions v-if="items.length > 0">
-          {{ $t("pay") }}: {{ enteredMoney }} {{ curr }}
-          <v-spacer></v-spacer>
           <v-btn
             large
             dark
-            class="success-btn"
+            class="success-btn ml-auto mr-auto"
             :style="customStyle"
             text
             :disabled="selected_card < 0"
             :loading="loading"
             @click="make_order"
+            width="332"
           >
             {{ $t(action) }}
           </v-btn>
@@ -164,6 +228,14 @@ export default {
       selectedPaymentMethod: "bankCard",
       start_gradient: config.themes.dark.start_gradient,
       end_gradient: config.themes.dark.end_gradient,
+      light_text_color: config.themes.light.item_bg,
+      dark_text_color: config.themes.dark.item_bg,
+      light_drop_shadow: config.themes.light.drop_shadow,
+      dark_drop_shadow: config.themes.dark.drop_shadow,
+      icon_color: config.colors.icon_color,
+      box_shadow: config.colors.box_shadow,
+      light_background: config.themes.light.background,
+      dark_background: config.themes.dark.background,
       selectedItem: 1,
       cardDialog: false,
       enteredMoney: "",
@@ -182,6 +254,14 @@ export default {
       return {
         "--start_gradient": this.start_gradient,
         "--end_gradient": this.end_gradient,
+        "--light_text_color": this.light_text_color,
+        "--dark_text_color": this.dark_text_color,
+        "--light_drop_shadow": this.light_drop_shadow,
+        "--dark_drop_shadow": this.dark_drop_shadow,
+        "--icon_color": this.icon_color,
+        "--box_shadow": this.box_shadow,
+        "--light_background": this.light_background,
+        "--dark_background": this.dark_background,
       };
     },
   },
@@ -310,20 +390,31 @@ export default {
 </script>
 
 <style scoped lang="scss">
-html[theme="dark"] .v-card {
-  background: #001935 !important;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05) !important;
+.card_list {
+  border-radius: 20px !important;
+}
+
+.ruls {
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+}
+.v-card {
+  box-shadow: 0px 10px 30px var(--box_shadow);
   border-radius: 35px !important;
+}
+html[theme="dark"] .v-card {
+  background: var(--dark_background) !important;
 }
 html[theme="light"] .v-card {
   background: linear-gradient(
       0deg,
-      rgba(226, 226, 226, 0.3),
-      rgba(226, 226, 226, 0.3)
+      var(--light_background),
+      var(--light_background)
     ),
-    #ffffff !important;
-  border-radius: 35px !important;
+    var(light_text_color) !important;
 }
+
 .credit-card-add {
   font-size: 18px;
   width: 100%;
@@ -335,6 +426,12 @@ html[theme="light"] .v-card {
   border-radius: 20px;
   cursor: pointer;
 }
+html[theme="light"] .credit-card-add {
+  filter: drop-shadow(20px 20px 100px var(--light_drop_shadow));
+}
+html[theme="dark"] .credit-card-add {
+  filter: drop-shadow(20px 20px 100px var(--dark_drop_shadow));
+}
 .success-btn {
   background: linear-gradient(
     94.9deg,
@@ -342,24 +439,36 @@ html[theme="light"] .v-card {
     var(--end_gradient) 95.87%
   );
   color: white !important;
+  border-radius: 16px !important;
 }
 .paymentMethod {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   &_checkbox {
     position: relative;
     border: 1px solid;
     width: 45% !important;
   }
-
-  .v-input__control .v-icon .mdi-checkbox-marked::before {
-    content: "" !important;
+}
+html[theme="light"] .paymentMethod {
+  &_checkbox {
+    background: var(--light_text_color);
+    filter: drop-shadow(20px 20px 100px var(--light_drop_shadow));
+    &_active > span > div > p,
+    &_active > span > i {
+      color: var(--light_text_color);
+    }
   }
-
-  i.mdi-checkbox-blank-outline::before {
-    content: "" !important;
+}
+html[theme="dark"] .paymentMethod {
+  &_checkbox {
+    background: var(--dark_text_color);
+    filter: drop-shadow(20px 20px 100px var(--dark_drop_shadow));
+    &_active > span > div > p,
+    &_active > span > i {
+      color: var(--light_text_color);
+    }
   }
 }
 </style>

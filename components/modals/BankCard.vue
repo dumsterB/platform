@@ -42,22 +42,6 @@
                     </template>
                   </v-col>
 
-                  <!--  <v-col cols="12" class="pb-0">
-                    <v-subheader
-                      class="grey--text text--lighten-1 pl-0 subheader"
-                      >{{ $t("cardholder_name") }}</v-subheader
-                    >
-                    <v-text-field
-                      single-line
-                      outlined
-                      label=""
-                      dense
-                      v-model="data.user_name"
-                      type="text"
-                      :rules="nameRules"
-                    />
-                  </v-col> -->
-
                   <v-col cols="8">
                     <v-subheader
                       class="grey--text text--lighten-1 pl-0 subheader"
@@ -150,13 +134,13 @@ export default {
       data: {
         expire_date: "",
         card_number: "",
-        user_name: "",
+        isFavorite: false,
         cvv: "",
         card_icon: "https://www.svgrepo.com/show/103010/credit-card.svg",
       },
-      start_gradient: config.themes.dark.start_gradient,
-      end_gradient: config.themes.dark.end_gradient,
+      payment_card_box_shadow: config.colors.payment_card_box_shadow,
       primary: config.themes.dark.primary,
+      white: config.themes.light.item_bg,
       showCVV: false,
       card_number: "",
       exp_date: "",
@@ -192,7 +176,7 @@ export default {
       list.push(this.data);
       localStorage.setItem("bank_cards", JSON.stringify(list));
       this.$emit("save");
-      this.data.user_name = "";
+      this.data.isFavorite = false;
       this.data.cvv = "";
       this.card_number = "";
       this.exp_date = "";
@@ -227,9 +211,9 @@ export default {
   computed: {
     customStyle() {
       return {
-        "--start_gradient": this.start_gradient,
-        "--end_gradient": this.end_gradient,
         "--primary": this.primary,
+        "--payment_card_box_shadow": this.payment_card_box_shadow,
+        "--white": this.white,
       };
     },
     getCardType() {
@@ -247,12 +231,6 @@ export default {
       return ""; // default type
     },
     btnDisable() {
-      // return (
-      //   this.data.card_number &&
-      //   this.data.user_name &&
-      //   this.data.expire_date &&
-      //   this.data.cvv
-      // );
       return this.valid;
     },
   },
@@ -283,6 +261,14 @@ html[theme="light"] .card_data {
   color: white !important;
   background-color: var(--primary) !important;
   border-radius: 16px;
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+.theme--dark.v-btn.v-btn--disabled.v-btn--has-bg,
+.theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
+  background-color: var(--primary) !important;
 }
 .v-subheader {
   height: 32px;
@@ -311,8 +297,8 @@ html[theme="light"] .card_data {
   width: 456px;
   height: 252px;
   background: var(--primary) !important;
-  color: #ffffff;
-  box-shadow: inset -8px -6px 80px rgba(255, 255, 255, 0.3);
+  color: var(--white);
+  box-shadow: inset -8px -6px 80px var(--payment_card_box_shadow);
   border-radius: 20px;
   font-weight: 400;
   font-size: 24px;
