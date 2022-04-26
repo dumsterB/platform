@@ -31,17 +31,15 @@
         <div v-if="!reg_log" class="reg_block">
           <v-row
             ><v-col cols="2">
-              <p class="primary--text">
-                <v-btn icon>
-                  <v-icon class="primary--text">mdi-arrow-left</v-icon>
-                </v-btn>
+              <p v-if="steper == 1" class="primary--text" @click="steper = 0" style="cursor: pointer">
+                <v-icon class="primary--text">mdi-arrow-left</v-icon>
                 Back
               </p>
             </v-col>
             <v-col
               ><h3>{{ $t("register") }}</h3>
               <div v-if="steper == 0">
-                <p class="d-flex">
+                <p class="d-flex text-gray--text">
                   {{ $t("readyToRegister") }}
                   <span
                     style="cursor: pointer"
@@ -55,6 +53,7 @@
                     v-model="name"
                     :rules="validation.name"
                     dense
+                    filled
                     outlined
                     :label="$t('first_name')"
                   ></v-text-field>
@@ -62,6 +61,7 @@
                     v-model="email"
                     :rules="validation.email"
                     dense
+                    filled
                     outlined
                     :label="$t('email')"
                     required
@@ -112,13 +112,13 @@
                   <div>
                     <v-btn
                       width="200"
-                      outlined
                       tile
                       class="d-flex mt-2 mb-2 mx-auto"
                       color="primary"
+                      :loading="reg_loader"
                       @click="reg_start"
                     >
-                      {{ $t("to_continue") }}
+                      {{ reg_loader ? '' : $t("to_continue") }}
                     </v-btn>
                   </div>
                 </v-form>
@@ -135,6 +135,7 @@
                   <v-text-field
                     v-model="email"
                     disabled
+                    filled
                     dense
                     outlined
                     :label="$t('email')"
@@ -143,6 +144,7 @@
                   <v-text-field
                     v-model="password"
                     dense
+                    filled
                     outlined
                     :label="$t('password')"
                     :append-icon="is_show_pass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -154,6 +156,7 @@
                   <v-text-field
                     v-model="password_confirm"
                     dense
+                    filled
                     outlined
                     :label="$t('confirm_password')"
                     :append-icon="
@@ -167,14 +170,13 @@
                   <div>
                     <v-btn
                       width="200"
-                      outlined
                       tile
                       class="d-flex mt-2 mb-2 mx-auto"
                       color="primary"
                       :loading="reg_loader"
                       @click="reg_end"
                     >
-                      {{ $t("to_continue") }}
+                      {{ reg_loader ? '' : $t("to_continue") }}
                     </v-btn>
                   </div>
                 </v-form>
@@ -186,7 +188,7 @@
           <h3>{{ $t("signin") }}</h3>
           <div v-if="steper == 0">
             <p class="d-flex text-gray--text">
-              {{ $t("readyToRegister") }}
+              {{ $t("haveNotAccount") }}
               <span
                 style="cursor: pointer"
                 class="ml-2 primary--text"
@@ -248,7 +250,7 @@
                   color="primary"
                   type="submit"
                 >
-                  {{ $t("signin") }}
+                  {{ log_loader ? '' : $t("signin") }}
                 </v-btn>
               </div>
             </v-form>
@@ -261,6 +263,7 @@
       {{ is_notify_message }}
       <v-btn dark text @click="is_notify = false"> OK</v-btn>
     </v-snackbar>
+    <registration></registration>
   </div>
 </template>
 
@@ -268,6 +271,7 @@
 import LangSelect from "~/components/settings/LanguageSelect";
 import config from "~/config/config.json";
 import { mapGetters } from "vuex";
+import registration from '../registration/index'
 
 export default {
   layout: "auth",
@@ -382,12 +386,14 @@ export default {
         return;
       }
       this.phone_str = `+${this.phone_number}`;
+      this.reg_loader = true;
       let res = await this.$axios.put("api/user/validate", {
         mail: this.email,
         phone: this.phone_str,
       });
       if (res.data.success) {
         this.steper = 1;
+        this.reg_loader = false;
       } else {
         this.error_message = res.data.message;
         this.is_notify = true;
@@ -489,9 +495,15 @@ html[theme="light"] .v-menu__content .v-list {
   margin-top: 150px;
   margin-right: 200px;
 }
+.reg_block .v-btn {
+  border-radius: 15px;
+}
 .login_block {
   margin-top: 150px;
   margin-right: 200px;
   margin-left: 100px;
+}
+.login_block .v-btn {
+  border-radius: 15px;
 }
 </style>

@@ -76,6 +76,8 @@ export default {
       logout: "/auth/login",
       callback: "/auth/login",
       home: "/account",
+      registration:"/auth/registration"
+
     },
   },
 
