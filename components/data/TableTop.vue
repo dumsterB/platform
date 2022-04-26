@@ -127,11 +127,11 @@ export default {
       );
       return currency_full.map((el) => {
         let determine = this.price.find((ell) => ell.base == el.symbol);
-        let percent = (
-          (parseFloat(determine.change) * 100) /
-          parseFloat(determine.price)
-        ).toFixed(2);
         if (determine) {
+          let percent = (
+            (parseFloat(determine.change) * 100) /
+            parseFloat(determine.price)
+          ).toFixed(2);
           el.price = determine.price;
           el.change = determine.change;
           el.percent = percent;
