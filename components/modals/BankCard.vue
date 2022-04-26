@@ -1,107 +1,118 @@
 <template>
   <div>
-    <v-dialog width="500" v-model="cardDialog">
-      <v-card>
-        <div class="d-flex pa-5 white--text font-weight-black title">
-          <v-spacer></v-spacer>
-          <v-btn icon @click="$emit('cardDialogChanger')">
+    <v-dialog width="494" v-model="cardDialog" class="payment_card">
+      <div class="payment_card">
+        <div class="card_item pt-11 pl-10 pr-10 pb-7" :style="customStyle">
+          <p class="mb-12">{{ $t("payment_card") }} #{{ 1 }}</p>
+          <p class="mb-12 card_item_number">
+            {{
+              data.card_number !== "" ? data.card_number : "---- ---- ---- ----"
+            }}
+          </p>
+          <img width="40" height="20" :src="data.card_icon" class="icon" />
+          <v-card class="card_data">
+            <v-form :lazy-validation="false" v-model="valid">
+              <v-card-text class="pb-6">
+                <v-row>
+                  <v-col cols="12" class="pb-0 card">
+                    <v-subheader
+                      class="grey--text text--lighten-1 pl-0 subheader"
+                      >{{ $t("card_number") }}</v-subheader
+                    >
+                    <v-text-field
+                      v-model="card_number"
+                      mask="credit-card"
+                      :rules="cardRules"
+                      class="card_input"
+                      maxlength="19"
+                      single-line
+                      outlined
+                      dense
+                    />
+                    <template>
+                      <v-fade-transition leave-absolute>
+                        <img
+                          class="card_input__icon"
+                          width="24"
+                          height="24"
+                          :src="data.card_icon"
+                          alt=""
+                        />
+                      </v-fade-transition>
+                    </template>
+                  </v-col>
+
+                  <!--  <v-col cols="12" class="pb-0">
+                    <v-subheader
+                      class="grey--text text--lighten-1 pl-0 subheader"
+                      >{{ $t("cardholder_name") }}</v-subheader
+                    >
+                    <v-text-field
+                      single-line
+                      outlined
+                      label=""
+                      dense
+                      v-model="data.user_name"
+                      type="text"
+                      :rules="nameRules"
+                    />
+                  </v-col> -->
+
+                  <v-col cols="8">
+                    <v-subheader
+                      class="grey--text text--lighten-1 pl-0 subheader"
+                      >{{ $t("expiry") }}</v-subheader
+                    >
+                    <v-text-field
+                      label="MM/YY"
+                      :rules="expireDateRules"
+                      outlined
+                      dense
+                      maxlength="5"
+                      v-model="exp_date"
+                    />
+                  </v-col>
+
+                  <v-col cols="4">
+                    <v-subheader
+                      class="grey--text text--lighten-1 pl-0 subheader"
+                      >CVV</v-subheader
+                    >
+                    <v-text-field
+                      :append-icon="showCVV ? 'visibility_off' : 'visibility'"
+                      :type="showCVV ? 'text' : 'password'"
+                      @click:append="showCVV = !showCVV"
+                      v-model="data.cvv"
+                      :rules="cvvRules"
+                      maxlength="3"
+                      single-line
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                </v-row>
+              </v-card-text>
+              <v-card-actions class="mb-8 ml-2 mr-2 justify-center">
+                <v-btn
+                  :style="customStyle"
+                  dark
+                  elevation="0"
+                  @click="addCardNumber"
+                  large
+                  class="success-btn"
+                  :disabled="!btnDisable"
+                  >{{ $t("add_card") }}
+                </v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+        </div>
+        <div class="close-btn">
+          <v-btn icon @click="$emit('cardDialogChanger')" class="accent--text">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
-        <v-form :lazy-validation="false" v-model="valid">
-          <v-card-text class="pb-6">
-            <v-row>
-              <v-col cols="12" class="pb-0 card">
-                <v-subheader
-                  class="grey--text text--lighten-1 pl-0 subheader"
-                  >{{ $t("card_number") }}</v-subheader
-                >
-                <v-text-field
-                  v-model="card_number"
-                  mask="credit-card"
-                  :rules="cardRules"
-                  class="card_input"
-                  maxlength="19"
-                  single-line
-                  outlined
-                  dense
-                />
-                <template>
-                  <v-fade-transition leave-absolute>
-                    <img
-                      class="card_input__icon"
-                      width="24"
-                      height="24"
-                      :src="data.card_icon"
-                      alt=""
-                    />
-                  </v-fade-transition>
-                </template>
-              </v-col>
-
-              <v-col cols="12" class="pb-0">
-                <v-subheader
-                  class="grey--text text--lighten-1 pl-0 subheader"
-                  >{{ $t("cardholder_name") }}</v-subheader
-                >
-                <v-text-field
-                  single-line
-                  outlined
-                  label=""
-                  dense
-                  v-model="data.user_name"
-                  type="text"
-                  :rules="nameRules"
-                />
-              </v-col>
-
-              <v-col cols="8">
-                <v-subheader
-                  class="grey--text text--lighten-1 pl-0 subheader"
-                  >{{ $t("expiry") }}</v-subheader
-                >
-                <v-text-field
-                  label="MM/YY"
-                  :rules="expireDateRules"
-                  outlined
-                  dense
-                  maxlength="5"
-                  v-model="exp_date"
-                />
-              </v-col>
-
-              <v-col cols="4">
-                <v-subheader class="grey--text text--lighten-1 pl-0 subheader"
-                  >CVV</v-subheader
-                >
-                <v-text-field
-                  :append-icon="showCVV ? 'visibility_off' : 'visibility'"
-                  :type="showCVV ? 'text' : 'password'"
-                  @click:append="showCVV = !showCVV"
-                  v-model="data.cvv"
-                  :rules="cvvRules"
-                  maxlength="3"
-                  single-line
-                  outlined
-                  dense
-                />
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              :disabled="!btnDisable"
-              dark
-              elevation="0"
-              @click="addCardNumber"
-              large
-              :style="customStyle"
-              class="mb-4 ml-2 success-btn"
-              >{{ $t("add_card") }}
-            </v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
+      </div>
     </v-dialog>
   </div>
 </template>
@@ -145,6 +156,7 @@ export default {
       },
       start_gradient: config.themes.dark.start_gradient,
       end_gradient: config.themes.dark.end_gradient,
+      primary: config.themes.dark.primary,
       showCVV: false,
       card_number: "",
       exp_date: "",
@@ -217,6 +229,7 @@ export default {
       return {
         "--start_gradient": this.start_gradient,
         "--end_gradient": this.end_gradient,
+        "--primary": this.primary,
       };
     },
     getCardType() {
@@ -246,14 +259,30 @@ export default {
   mounted() {},
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
+.v-dialog {
+  border-radius: 35px;
+}
+
+html[theme="dark"] .card_data {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+html[theme="light"] .card_data {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
 .success-btn {
-  background: linear-gradient(
-    94.9deg,
-    var(--start_gradient) 4.26%,
-    var(--end_gradient) 95.87%
-  );
+  width: 100% !important;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -1px;
+  text-transform: inherit;
   color: white !important;
+  background-color: var(--primary) !important;
+  border-radius: 16px;
 }
 .v-subheader {
   height: 32px;
@@ -269,5 +298,42 @@ export default {
   top: 52px;
   right: 24px;
   bottom: 0;
+}
+.payment_card {
+  position: relative;
+  height: 600px;
+  background: transparent !important;
+  border-radius: 20px;
+  box-shadow: none;
+}
+.card_item {
+  position: relative;
+  width: 456px;
+  height: 252px;
+  background: var(--primary) !important;
+  color: #ffffff;
+  box-shadow: inset -8px -6px 80px rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+}
+.card_item_number {
+  font-size: 32px;
+  line-height: 38px;
+  letter-spacing: 1px;
+}
+.card_data {
+  position: absolute;
+  content: "";
+  top: 252px;
+  width: 380px;
+  margin: 0 auto;
+}
+.close-btn {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
 }
 </style>
