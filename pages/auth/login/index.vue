@@ -298,6 +298,7 @@ export default {
     ...mapGetters("data/countries", {
       countries: "list",
     }),
+
     validation() {
       return {
         required: [(v) => !!v || this.$t("password_required")],
@@ -356,7 +357,6 @@ export default {
       theme: true,
     };
   },
-
   methods: {
     async auth_login() {
       if (!this.$refs.auth_login_form.validate()) {
