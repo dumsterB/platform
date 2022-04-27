@@ -227,20 +227,14 @@ input[type="number"]::-webkit-inner-spin-button {
     display: contents;
 }
 
-.theme--dark.v-text-field--solo>.v-input__control>.v-input__slot {
+.card_list.theme--dark.v-text-field--solo>.v-input__control>.v-input__slot,
+.amount.theme--dark.v-text-field--outlined>.v-input__control>.v-input__slot,
+.card_list .theme--dark.v-chip:not(.v-chip--active) {
     background: var(--dark_text_color) !important;
 }
 
-.theme--light.v-text-field--solo>.v-input__control>.v-input__slot {
-    background: var(--light_text_color) !important;
-}
-
-.theme--dark.v-text-field--outlined>.v-input__control>.v-input__slot,
-.theme--dark.v-chip:not(.v-chip--active) {
-    background: var(--dark_text_color) !important;
-}
-
-.theme--light.v-text-field--outlined>.v-input__control>.v-input__slot,
-.theme--light.v-chip:not(.v-chip--active) {
+.card_list.theme--light.v-text-field--solo>.v-input__control>.v-input__slot,
+.amount.theme--light.v-text-field--outlined>.v-input__control>.v-input__slot,
+.card_list .theme--light.v-chip:not(.v-chip--active) {
     background: var(--light_text_color) !important;
 }
