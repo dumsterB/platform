@@ -10,7 +10,7 @@
             "primary": "#007BFF",
             "info": "#787878",
             "secondary": "#ffffffa6",
-            "accent": "#d1d4dc",
+            "accent": "#c4c4c4",
             "error": "#d3325f",
             "success": "#57A8FF",
             "warning": "#FDAF75",
@@ -32,13 +32,17 @@
             "gray": "#787c88",
             "text-gray": "#707991",
             "start_gradient": "#4579FF",
-            "end_gradient": "#305BCB"
+            "end_gradient": "#305BCB",
+            "item_bg": "#161F49",
+            "icon_color": "#9a9a9a",
+            "drop_shadow": "#00000080",
+            "background": "#001935"
         },
         "light": {
             "primary": "#007BFF",
             "info": "#787878",
             "secondary": "#000000a6",
-            "accent": "#293345",
+            "accent": "#c4c4c4",
             "error": "#d3325f",
             "success": "#57A8FF",
             "warning": "#FDAF75",
@@ -60,7 +64,11 @@
             "gray": "#787c88",
             "text-gray": "#707991",
             "start_gradient": "#4579FF",
-            "end_gradient": "#305BCB"
+            "end_gradient": "#305BCB",
+            "item_bg": "#ffffff",
+            "icon_color": "#9a9a9a",
+            "drop_shadow": "#00000012",
+            "background": "#e2e2e24d"
         }
     },
     "colors": {
@@ -69,7 +77,8 @@
             "btn_bg": "#f5f5f5"
         },
         "border": "#d8d8d8",
-        "box_shadow_auth": "",
-        "icon_color": "#9a9a9a"
+        "box_shadow": "#0000000d",
+        "icon_color": "#9a9a9a",
+        "payment_card_box_shadow": "#ffffff4d"
     }
 }

@@ -3,16 +3,16 @@
     <v-row>
       <v-col lg="4" xl="3">
         <div class="">
-          <h2>{{$t('my_cards')}}</h2>
+          <h2>{{ $t("my_cards") }}</h2>
           <GeneralCapital
             class="mt-5"
             :total_sum_btc="total_sum"
             :total_sum="total_sum_usdt"
           ></GeneralCapital>
-          <br>
-          <h2>{{$t('spot_account')}}</h2>
+          <br />
+          <h2>{{ $t("spot_account") }}</h2>
           <Check
-             class="mt-5"
+            class="mt-5"
             :title="spot_title"
             :totalEquity="spot_total_equity"
             :total_equity_usdt="spot_total_equity_usdt"
@@ -21,6 +21,19 @@
             :main_currency="true"
             @history="spot_history"
           ></Check>
+          <br />
+          <h2>{{ $t("fiat_account") }}</h2>
+          <Check
+            class="mt-5"
+            :title="fiat_title"
+            :totalEquity="fiat_total_equity"
+            :total_equity_usdt="fiat_total_equity_usdt"
+            :available_balance="fiat_available_balance"
+            :available_balance_usdt="fiat_available_balance_usdt"
+            :main_currency="false"
+            @history="fiat_history"
+          >
+          </Check>
         </div>
       </v-col>
       <v-col lg="8" xl="9" class="mt-0 pt-0">
