@@ -12,7 +12,15 @@
       <template v-slot:[`item.name`]="{ item }">
         <div class="d-flex">
           <img height="20" :src="item.logo" alt="" />
-          <div class="d-flex ml-3">
+          <div
+            class="d-flex ml-3"
+            @click="
+              $router.push({
+                path: `/currency?id=${item.id}`,
+              })
+            "
+            style="cursor: pointer"
+          >
             <strong>{{ item.name }}</strong>
             <span class="ml-2" style="color: #bfb5ff"> {{ item.symbol }}</span>
           </div>
@@ -68,25 +76,46 @@
           </v-sparkline>
         </div>
       </template>
-      <template v-slot:[`item.52W`]="{}">
-        <div class="d-flex">
-          <v-progress-linear color="#333333" value="60"></v-progress-linear>
-        </div>
-      </template>
-      <template v-slot:[`item.sentiment`]="{}">
-        <div class="d-flex">
-          <v-progress-linear
-            background-color="blue lighten-3"
-            color="green lighten-1"
-            value="15"
-          ></v-progress-linear>
-        </div>
-      </template>
-      <template v-slot:[`item.dropdawn`]="{}">
-        <div class="d-flex">
-          <v-btn icon>
-            <v-icon color="#333333">mdi-dots-vertical</v-icon></v-btn
+      <template v-slot:[`item.volume`]="{ item }">
+        <div class="ml-4" v-if="item.change && item.price">
+          <span style="font-size: 14px">${{ item.price }}</span>
+          <span
+            style="font-size: 10px"
+            :class="diffColor(item.change)"
+            class="d-flex"
           >
+            <v-icon :class="diffColor(item.change)" size="small">{{
+              item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
+            }}</v-icon>
+            {{ item.change }}
+            <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
+              >( %{{ item.percent }} )</span
+            >
+          </span>
+        </div>
+        <div v-else class="ml-4">
+          {{ $t("no-data") }}
+        </div>
+      </template>
+      <template v-slot:[`item.cap`]="{ item }">
+        <div class="" v-if="item.change && item.price">
+          <span style="font-size: 14px">${{ item.price }}</span>
+          <span
+            style="font-size: 10px"
+            :class="diffColor(item.change)"
+            class="d-flex"
+          >
+            <v-icon :class="diffColor(item.change)" size="small">{{
+              item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
+            }}</v-icon>
+            {{ item.change }}
+            <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
+              >( %{{ item.percent }} )</span
+            >
+          </span>
+        </div>
+        <div v-else>
+          {{ $t("no-data") }}
         </div>
       </template>
     </v-data-table>
@@ -144,8 +173,7 @@ export default {
         {
           text: this.$t("markets"),
           value: "name",
-          width: 100,
-          sortable: false,
+          width: 250,
         },
         {
           text: this.$t("change"),
@@ -160,14 +188,9 @@ export default {
           sortable: false,
           value: "chart",
         },
-
+        { text: "24H Volume", value: "volume", sortable: false },
+        { text: "Market Cap", value: "cap", sortable: false },
         { text: "Invest", value: "action", sortable: false },
-        { text: "52W Range", value: "52W", sortable: false },
-        { text: "Sentiment", value: "sentiment", sortable: false },
-        {
-          sortable: false,
-          value: "dropdawn",
-        },
       ];
     },
   },

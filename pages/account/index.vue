@@ -72,7 +72,7 @@ export default {
     TableTop,
   },
   data() {
-    let mi = parseInt(window.innerWidth / 350);
+    let mi = parseInt(window.innerWidth / 280);
     return {
       currs: [],
       companies: [],
@@ -90,6 +90,9 @@ export default {
   computed: {
     ...mapGetters(model, {
       currencies_full: "list",
+    }),
+    ...mapGetters("data/default", {
+      default_gate_all: "default_gate_all"
     }),
     currencies() {
       let c_f = this.currencies_full;
@@ -190,7 +193,7 @@ export default {
     },
     init_currs() {
       let me = this;
-      let data = me.prices;
+      let data = me.prices && me.prices.length ? me.prices : this.$store.getters["config/default/gate_all"];
       let currs = me.currencies.map((el) => {
         let res = {
           id: el.id,
@@ -255,6 +258,7 @@ export default {
   },
 
   async created() {
+    this.init_currs();
     let subscr_obj = this.wallets_subscribe_definer();
     console.log("subscr_obj", subscr_obj);
     this.subscr = `"${this.base_p}_all@ticker_10s"`;
