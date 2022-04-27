@@ -66,6 +66,10 @@ html .v-application--wrap {
     border-radius: 20px !important;
 }
 
+.v-autocomplete__content.v-menu__content {
+    border-radius: 20px !important;
+}
+
 html[theme="light"] :not(.curr-table).v-data-table {
     background: #ffffff !important;
 }

@@ -30,9 +30,12 @@
             </div>
           </div>
           <div class="ma-8 mb-1 mt-1">
-            <v-btn class="green" block @click="trade_now(coin)">{{
-              $t("trade_now")
-            }}</v-btn>
+            <v-btn
+              class="primary white--text text-none"
+              block
+              @click="trade_now(coin)"
+              >{{ $t("trade_now") }}</v-btn
+            >
           </div>
         </v-card>
       </v-col>
@@ -168,7 +171,7 @@ export default {
       unsubscribe: "unsubscribe_page",
       subscribe: "set_page_subscribe",
       add_subscribe: "add_page_subscribe",
-      del_subscribe: "del_page_subscribe"
+      del_subscribe: "del_page_subscribe",
     }),
     update_subscr(curr) {
       let me = this;

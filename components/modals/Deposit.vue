@@ -167,6 +167,60 @@
             >
           </div>
         </v-row>
+        <v-col
+          v-if="items.length > 0 && selectedPaymentMethod === `crypto`"
+          class="pa-0 m-0"
+        >
+          <v-autocomplete
+            v-model="selected_currencies"
+            :items="currencies"
+            :label="$t('choose_crypto')"
+            class="card_list mb-7"
+            height="52"
+            item-text="name"
+            item-value="symbol"
+            solo
+            dense
+            hide-details
+          >
+            <template v-slot:item="{ item }">
+              <img height="24" width="24" :src="item.logo" />
+              <p class="ml-4 mt-3">{{ item.name }}</p>
+            </template>
+          </v-autocomplete>
+          <v-row class="d-flex ma-0 pa-0">
+            <v-text-field
+              v-model="enteredCrypto"
+              outlined
+              :label="$t('enter_amount')"
+              class="amount mr-2"
+              type="number"
+              :error-messages="err_m"
+              :style="customStyle"
+              background-color="item_bg"
+            ></v-text-field>
+            <v-text-field
+              v-model="amountCrypto"
+              disabled
+              outlined
+              :label="$t('amount_choosed')"
+              class="amount ml-2"
+              type="number"
+              :error-messages="err_m"
+              :style="customStyle"
+              background-color="item_bg"
+            ></v-text-field>
+          </v-row>
+          <p class="text-gray--text font-weight-light ruls pb-3">
+            {{ $t("deposit_ruls") }}
+          </p>
+          <div class="mb-6 ml-auto mr-auto d-flex justify-center">
+            <span> {{ $t("pay") }}: </span>
+            <span class="primary--text ml-1">
+              {{ enteredCrypto }} {{ crypto_curr }}</span
+            >
+          </div>
+        </v-col>
         <v-card-actions v-if="items.length > 0">
           <v-btn
             large
@@ -230,10 +284,14 @@ export default {
       selectedItem: 1,
       cardDialog: false,
       enteredMoney: "",
+      enteredCrypto: "",
+      amountCrypto: 0,
       items: [],
       selected_card: -1,
+      selected_currencies: false,
       loading: false,
       curr: "USD",
+      crypto_curr: "BTC",
       err_m: [],
     };
   },
@@ -267,6 +325,7 @@ export default {
     }),
     close() {
       this.enteredMoney = "";
+      this.enteredCrypto = "";
       this.$emit("depositChanger");
     },
     cardDialogChanger() {
@@ -377,7 +436,6 @@ export default {
         this.selected_card = 0;
       }
     }
-    console.log("this.$refs :>> ", this.$vuetify.theme.isDark);
   },
 };
 </script>
