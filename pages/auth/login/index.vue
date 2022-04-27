@@ -22,12 +22,12 @@
         </v-row>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col :lg="6">
+    <v-row class="mb-0 pb-0">
+      <v-col :lg="6" style="height: 100vh">
         <div class="background_image">
         </div>
       </v-col>
-      <v-col class="px-4 py-6 pt-8" :style="customStyle">
+      <v-col class="px-4 pt-8" :style="customStyle">
         <div v-if="!reg_log" class="reg_block">
           <v-row
             ><v-col cols="2">
