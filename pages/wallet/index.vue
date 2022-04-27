@@ -245,7 +245,13 @@ export default {
     async init() {
       let me = this;
       let obj = me.wallets_subscribe_definer();
-      this.subscribe(Object.assign([], obj.arr));
+      let btc_sub = `${me.base_p}_BTC-USD@ticker_10s`;
+      let finder = obj.arr.find(el => el == btc_sub);
+      let arr = Object.assign([], obj.arr);
+      if (!finder) {
+        arr.unshift(btc_sub);
+      }      
+      this.subscribe(arr);
     },
   },
   watch: {
