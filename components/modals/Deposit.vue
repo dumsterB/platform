@@ -58,7 +58,7 @@
           </v-container>
         </template>
         <v-autocomplete
-          v-if="items.length > 0"
+          v-if="items.length > 0 && selectedPaymentMethod === `bankCard`"
           v-model="selected_card"
           :items="items"
           chips
@@ -91,14 +91,31 @@
           </template>
           <template v-slot:item="{ item }">
             <v-list-item-avatar
-              color="item_bg"
-              class="text-h5 font-weight-light icon_color--text"
+              class="text-h5 font-weight-light icon_color--text avatar"
             >
               <img width="14" height="14" :src="item.card_icon" />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>{{ item.card_number }}</v-list-item-title>
             </v-list-item-content>
+            <v-list-item-action @click="delete_card(item)">
+              <v-icon>mdi-close</v-icon>
+            </v-list-item-action>
+          </template>
+          <template v-slot:append-item>
+            <div class="d-flex pl-4 pr-4" style="cursor: pointer">
+              <v-list-item-avatar
+                class="text-h5 font-weight-light icon_color--text avatar"
+                @click="cardDialogChanger"
+              >
+                <v-icon class="icon_color--text" size="40" dark
+                  >mdi-plus</v-icon
+                >
+              </v-list-item-avatar>
+              <v-list-item-content @click="cardDialogChanger">
+                <v-list-item-title>{{ $t("addNewPayment") }}</v-list-item-title>
+              </v-list-item-content>
+            </div>
           </template>
         </v-autocomplete>
 
@@ -124,15 +141,20 @@
             </div>
           </div>
         </div>
-        <v-row v-if="items.length > 0" class="mt-4 pa-0">
+        <v-row
+          v-if="items.length > 0 && selectedPaymentMethod === `bankCard`"
+          class="mt-4 pa-0"
+        >
           <v-col cols="12" sm="12" md="12">
             <v-text-field
               v-model="enteredMoney"
               outlined
               :label="$t('enter_your_amount')"
+              class="amount"
               type="number"
               :error-messages="err_m"
               :style="customStyle"
+              background-color="item_bg"
             ></v-text-field>
             <p class="text-gray--text font-weight-light ruls">
               {{ $t("deposit_ruls") }}
@@ -152,7 +174,7 @@
             class="success-btn ml-auto mr-auto"
             :style="customStyle"
             text
-            :disabled="selected_card < 0"
+            :disabled="Boolean(!selected_card)"
             :loading="loading"
             @click="make_order"
             width="332"
@@ -204,6 +226,7 @@ export default {
       box_shadow: config.colors.box_shadow,
       light_background: config.themes.light.background,
       dark_background: config.themes.dark.background,
+      primary: config.themes.dark.primary,
       selectedItem: 1,
       cardDialog: false,
       enteredMoney: "",
@@ -230,6 +253,7 @@ export default {
         "--box_shadow": this.box_shadow,
         "--light_background": this.light_background,
         "--dark_background": this.dark_background,
+        "--primary": this.primary,
       };
     },
   },
@@ -276,7 +300,6 @@ export default {
       }
     },
     async make_order() {
-      console.log("this.selected_card :>> ", Boolean(this.selected_card));
       if (this.selected_card) {
         if (!this.enteredMoney) {
           this.err_m = [this.$t("enter_amount")];
@@ -354,6 +377,7 @@ export default {
         this.selected_card = 0;
       }
     }
+    console.log("this.$refs :>> ", this.$vuetify.theme.isDark);
   },
 };
 </script>
@@ -362,10 +386,12 @@ export default {
 .card_list {
   border-radius: 20px !important;
 }
-html[theme="light"] .card_list {
+html[theme="light"] .card_list,
+.avatar {
   background: var(--light_text_color) !important;
 }
-html[theme="dark"] .card_list {
+html[theme="dark"] .card_list,
+.avatar {
   background: var(--dark_text_color) !important;
 }
 .ruls {
@@ -417,6 +443,14 @@ html[theme="dark"] .credit-card-add {
   );
   color: white !important;
   border-radius: 16px !important;
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+.theme--dark.v-btn.v-btn--disabled.v-btn--has-bg,
+.theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
+  background-color: var(--primary) !important;
 }
 .paymentMethod {
   display: flex;
