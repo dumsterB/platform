@@ -10,14 +10,15 @@
         hide-details
       ></v-text-field>
       <v-checkbox
+        v-model="zero_bals"
         class="ml-2"
         style="margin-top: -1px"
-        label="Hide zero balances"
+        :label="zero_bals ? $t('open_zero_balances') : $t('hide_zero_balances')"
       ></v-checkbox>
     </div>
     <v-data-table
       :headers="headers"
-      :items="wallets"
+      :items="in_wallets"
       :search="search"
       class="wallet-table mt-2 pa-2"
       @click:row="handleClick"
@@ -75,6 +76,7 @@ export default {
       editedIndex: -1,
       sel_wallet: null,
       sel_row: false,
+      zero_bals: false,
       editedItem: {
         name: "",
         calories: 0,
@@ -108,6 +110,13 @@ export default {
         { text: this.$t("action_title"), value: "actions", sortable: false },
       ];
     },
+    in_wallets() {
+      if (this.zero_bals) {
+        return this.wallets.filter(el => el.balance);
+      } else {
+        return this.wallets;
+      }
+    }
   },
 
   watch: {

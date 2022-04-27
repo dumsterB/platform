@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-2">
+  <div class="pt-2 buy-sell-comp">
     <div class="mx-4 d-flex mdc-form-field--space-between">
       <p class="text-h6">{{ $t("exchange") }}</p>
     </div>
@@ -30,8 +30,8 @@
       </div>
       <div class="chips mt-3 mx-3">
         <v-chip
-          :class="[item.active ? 'active_chip' : 'chip']"
-          class="pl-4 pr-4 chip"
+          :class="[item.active ? 'active_p_chip' : 'p_chip']"
+          class="pl-4 pr-4"
           x-small
           v-for="(item, i) of chips"
           :key="i"
@@ -41,13 +41,13 @@
       </div>
       <div class="justify-center text-center">
         <div class="justify-space-between d-flex">
-          <v-col>
-            <span class="small_text">{{ $t("Choose the crypto:") }}</span>
+          <v-col class="pb-1">
+            <span class="small_text">{{ $t("Choose the crypto") }}:</span>
             <v-autocomplete
               v-model="buy_curr"
               :items="currency"
               label=""
-              class="ml-2 currency_selector"
+              class="currency_selector"
               item-text="name"
               item-value="symbol"
               solo
@@ -60,32 +60,41 @@
               </template>
             </v-autocomplete>
           </v-col>
-          <v-col>
-            <span class="d-flex mr-6 mt-2">
+          <v-col class="pb-1">
+            <span class="small_text">{{ $t("Get") }}:</span>
+            <span class="d-flex mr-2">
               <v-text-field
                 v-model="buy"
                 solo
+                dense
                 hide-details
                 class="value-field elevation-0"
                 type="number"
+                :suffix="buy_curr"
               ></v-text-field>
-              <span
-                style="
-                  color: #bfb5ff;
-                  font-weight: 700;
-                  font-size: 18px;
-                  line-height: 22px;
-                "
-                class="ml-2 mt-6"
-                >{{ buy_curr }}</span
-              >
+            </span>
+          </v-col>
+        </div>
+        <div class="justify-space-between d-flex">
+          <v-col class="mt-0 pt-0">
+            <span class="small_text">{{ $t("Pay") }}:</span>
+            <span class="d-flex mr-2">
+              <v-text-field
+                v-model="pay"
+                solo
+                dense
+                hide-details
+                class="value-field elevation-0"
+                type="number"
+                suffix="USD"
+              ></v-text-field>
             </span>
           </v-col>
         </div>
         <v-divider></v-divider>
         <div class="text-left ml-2">
           <span class="small_text">{{
-            `Min 0.0001 ${buy_curr} - Max 10,000 ${buy_curr}`
+            `Min ${min_val} ${buy_curr} - Max ${max_val} ${buy_curr}`
           }}</span>
           <h5>
             Available Balance: {{ balance }}
@@ -155,8 +164,13 @@ export default {
       loading: false,
       ex_rate: 1,
       buy: 0,
+      pay: 0,
+      buy_checker: true,
+      pay_checker: true,
       buy_curr: "BTC",
       active_btn: "buy",
+      min_val: 0.00001,
+      max_val: 100,
       chips: [
         { percent: 0, active: false },
         { percent: 10, active: false },
@@ -200,6 +214,32 @@ export default {
           1000000;
       }
     },
+    buy_def() {
+      if (this.buy) {
+        let t_price;
+        if (this.active_btn = "buy") {
+          t_price = this.price * this.buy;
+        } else {
+          t_price = this.price * this.buy;
+        }
+        this.pay = Math.round(t_price * 1000000) / 1000000;
+      } else {
+        this.pay = null;
+      }
+    },
+    pay_def() {
+      if (this.pay) {
+        let am;
+        if (this.active_btn = "buy") {
+          am = this.pay / this.price;
+        } else {
+          am = this.pay / this.price;
+        }
+        this.buy = Math.round(am * 1000000) / 1000000;
+      } else {
+        this.buy = null;
+      }
+    },
     async copyURL() {
       try {
         //*TODO - документация обещает, что navigator.clipboard будет работать при https соеденении. Иначе нужен иной способ
@@ -212,22 +252,29 @@ export default {
         console.log(e);
       }
     },
+    def_min_max() {
+      this.max_val = Math.round(1000000 * 100000 / this.price) / 100000;
+      this.min_val = Math.round(10 * 100000 / this.price) / 100000;
+    },
+    def_price() {
+      let curr = this.currency.find((el) => el.symbol == this.buy_curr);
+      this.price = curr.price || 1;
+    },
     async trade_run() {
       this.loading = true;
       let trade_data = {};
       let usd_c = this.currencies.find((el) => el.symbol == "USD");
-      let curr = this.currency.find((el) => el.symbol == this.buy_curr);
       if (curr && usd_c) {
         trade_data.source_currency_id =
           this.active_btn == "buy" ? usd_c.id : curr.id;
         trade_data.source_amount =
-          this.active_btn == "buy" ? this.buy * curr.price : this.buy;
+          this.active_btn == "buy" ? this.buy * this.price : this.buy;
         trade_data.dest_currency_id =
           this.active_btn == "buy" ? curr.id : usd_c.id;
         trade_data.dest_amount =
-          this.active_btn == "buy" ? this.buy : this.buy * curr.price;
+          this.active_btn == "buy" ? this.buy : this.buy * this.price;
         trade_data.exchange_rate =
-          this.active_btn == "buy" ? 1 / curr.price : curr.price;
+          this.active_btn == "buy" ? 1 / this.price : this.price;
       }
       console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });
@@ -287,8 +334,35 @@ export default {
         let wl = this.wallets.find((el) => el.currency.symbol == this.buy_curr);
         return wl ? wl.balance : 0;
       }
-    },
+    }
   },
+  watch: {
+    buy() {
+      if (this.buy_checker) {
+        this.pay_checker = false;
+        this.buy_def();
+      } else {
+        this.buy_checker = true;
+      }
+    },
+    pay() {
+      if (this.pay_checker) {
+        this.buy_checker = false;
+        this.pay_def();
+      } else {
+        this.pay_checker = true;
+      }
+    },
+    buy_curr() {
+      this.def_price();
+      this.def_min_max();
+      this.pay = 0;
+    }
+  },
+  created() {
+    this.def_price();
+    this.def_min_max();
+  }
 };
 </script>
 
@@ -319,27 +393,22 @@ export default {
   border-top: 3px solid #007bff;
   border-radius: 0px 0px 10px 10px !important;
 }
-html[theme="light"] .chip {
+html[theme="light"] .p_chip {
   background: #eeeeee !important;
-  padding: 12px;
-  justify-content: space-between;
-  display: flex;
   color: #9a9a9a;
 }
-html[theme="dark"] .chip {
+.p_chip {
   background: #001935 !important;
   padding: 12px;
   justify-content: space-between;
   display: flex;
   color: #ffffff;
 }
-html[theme="dark"] .active_chip {
+.active_p_chip {
   background: #007bff !important;
-  color: #ffffff;
-}
-
-html[theme="light"] .active_chip {
-  background: #007bff !important;
+  padding: 12px;
+  justify-content: space-between;
+  display: flex;
   color: #ffffff;
 }
 .chips {
@@ -350,20 +419,30 @@ html[theme="light"] .active_chip {
   font-weight: 300;
   font-size: 13px;
 }
-.v-text-field.v-text-field--solo .v-input__control {
-  padding: 0;
-}
 </style>
 <style>
-.currency_selector .v-input__slot {
-  background: rgba(154, 154, 154, 0.3) !important;
-  border-radius: 10px;
+.buy-sell-comp .v-input__slot {
+  border-radius: 20px;
+  background: #161f49 !important;
+  border-radius: 15px;
 }
-.value-field .v-input__slot {
-  background: transparent !important;
-  height: 56px !important;
-  font-size: 22px !important;
-  font-weight: 600;
+html[theme="light"] .buy-sell-comp .v-input__slot {
+  background: linear-gradient(
+      0deg,
+      rgba(226, 226, 226, 0.3),
+      rgba(226, 226, 226, 0.3)
+    ),
+    #ffffff !important;
+}
+.buy-sell-comp .value-field .v-input__slot {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+.buy-sell-comp .v-text-field__suffix {
+  color: #57a8ff;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
 }
 .currency_selector {
   height: 30px !important;
