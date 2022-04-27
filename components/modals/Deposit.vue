@@ -26,6 +26,7 @@
           <v-container fluid class="paymentMethod ma-0 mb-8 pa-0">
             <v-bottom-navigation
               height="100"
+              background-color="transparent"
               v-model="selectedPaymentMethod"
               class="justify-space-between"
             >
@@ -56,43 +57,12 @@
             </v-bottom-navigation>
           </v-container>
         </template>
-        <!--
-        <v-list flat>
-          <v-list-item v-for="(item, i) in items" :key="i">
-            <v-list-item-content class="pb-2 pt-2">
-              <v-btn
-                large
-                :class="i == selected_card ? 'success-btn' : ''"
-                :style="customStyle"
-                @click="selected_card = i"
-              >
-                <img
-                  v-if="item.card_icon"
-                  class="card_input__icon mr-2"
-                  width="24"
-                  height="24"
-                  :src="item.card_icon"
-                  alt=""
-                />
-                <v-icon class="mr-2" v-else>mdi-credit-card-outline</v-icon>
-                {{ item ? item.card_number : "" }}
-                <v-icon
-                  style="position: absolute; right: 20px"
-                  @click="delete_card(item)"
-                  >mdi-close</v-icon
-                >
-              </v-btn>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-        -->
         <v-autocomplete
           v-if="items.length > 0"
           v-model="selected_card"
           :items="items"
           chips
           hide-details
-          hide-selected
           item-text="card_number"
           item-value="card_number"
           :label="$t('choose_card')"
@@ -100,13 +70,11 @@
           class="card_list"
           :style="customStyle"
           height="52"
-          background-color="item_bg"
         >
           <template v-slot:selection="{ attr, on, item, selected }">
             <v-chip
               v-bind="attr"
               :input-value="selected"
-              color="item_bg"
               class="icon_color--text"
               v-on="on"
             >
@@ -164,7 +132,7 @@
               :label="$t('enter_your_amount')"
               type="number"
               :error-messages="err_m"
-              background-color="item_bg"
+              :style="customStyle"
             ></v-text-field>
             <p class="text-gray--text font-weight-light ruls">
               {{ $t("deposit_ruls") }}
@@ -308,7 +276,8 @@ export default {
       }
     },
     async make_order() {
-      if (this.selected_card > -1) {
+      console.log("this.selected_card :>> ", Boolean(this.selected_card));
+      if (this.selected_card) {
         if (!this.enteredMoney) {
           this.err_m = [this.$t("enter_amount")];
           return;
@@ -393,7 +362,12 @@ export default {
 .card_list {
   border-radius: 20px !important;
 }
-
+html[theme="light"] .card_list {
+  background: var(--light_text_color) !important;
+}
+html[theme="dark"] .card_list {
+  background: var(--dark_text_color) !important;
+}
 .ruls {
   font-weight: 300;
   font-size: 12px;
@@ -412,7 +386,7 @@ html[theme="light"] .v-card {
       var(--light_background),
       var(--light_background)
     ),
-    var(light_text_color) !important;
+    var(--light_text_color) !important;
 }
 
 .credit-card-add {
@@ -428,10 +402,13 @@ html[theme="light"] .v-card {
 }
 html[theme="light"] .credit-card-add {
   filter: drop-shadow(20px 20px 100px var(--light_drop_shadow));
+  background: var(--light_background) !important;
 }
 html[theme="dark"] .credit-card-add {
   filter: drop-shadow(20px 20px 100px var(--dark_drop_shadow));
+  background: var(--dark_background) !important;
 }
+
 .success-btn {
   background: linear-gradient(
     94.9deg,
