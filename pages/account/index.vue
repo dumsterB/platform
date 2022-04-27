@@ -262,7 +262,7 @@ export default {
       this.subscr += `, ${subscr_obj.str}`;
     }
     this.subscr_arr = subscr_obj.arr;
-    this.subscr_arr.push(`${this.base_p}_all@ticker_10s`);
+    this.subscr_arr.unshift(`${this.base_p}_all@ticker_10s`);
     this.subscribe(Object.assign([], this.subscr_arr));
   },
   mounted() {
