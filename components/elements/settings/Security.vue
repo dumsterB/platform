@@ -136,7 +136,7 @@
             }}</v-btn>
         </div>
         <div class="mt-15 d-flex">
-          <p>{{$t('suspicious_activity')}}</p> <span class="primary--text">{{$t('disable_account')}}</span>
+          <p>{{$t('suspicious_activity')}}</p> <span class="primary--text ml-2">{{$t('disable_account')}}</span>
         </div>
       </v-card>
     </div>
