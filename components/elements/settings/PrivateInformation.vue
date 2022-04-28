@@ -6,7 +6,7 @@
         <div class="selecImage">
           <div
             class="image-input"
-            :style="{ 'background-image': `url(${imageData})` }"
+            :style="`background-image: url(${imageData ? imageData : image_data}); background-size: 200px;`"
             @click="chooseImage"
           >
             <span v-if="!imageData" class="placeholder text-gray--text">
@@ -90,10 +90,10 @@
             </v-col>
             <v-col cols="6">
             <v-row>
-            <v-col cols="4">
+            <!-- <v-col cols="4">
               <v-autocomplete outlined dense :value="filteredNumbers[0]" filled item-text="total" item-value="total" :items="filteredNumbers"></v-autocomplete>
-            </v-col>
-            <v-col cols="8">
+            </v-col> -->
+            <!-- <v-col cols="8">
               <v-text-field
                   v-model="phone"
                   dense
@@ -102,7 +102,7 @@
                   filled
                   :rules="validation.phone_number"
               ></v-text-field>
-            </v-col>
+            </v-col> -->
             </v-row>
             </v-col>
           </v-row>
@@ -119,7 +119,7 @@
               dark
               :loading="loading"
           >
-            {{ $t("saveAccountSettings") }}
+            {{ loading ? '' : $t("saveAccountSettings") }}
           </v-btn>
         </v-card-actions>
       </div>
@@ -152,6 +152,7 @@ export default {
       menu: false,
       phone: this.$auth.user.phone,
       loading: false,
+      image_data: null,
       formData: null,
       countries_code: [{country: "United Kingdom", value: 44},
         {country: "United States", value: 1},
@@ -397,13 +398,7 @@ export default {
       user_data.last_name = this.surname;
       user_data.birth = this.date;
       user_data.phone = this.phone;
-      user_data.country_id = this.selectCountry;
-      console.log("user_data", user_data);
-      let rs = await this.$axios.put(
-        `/api/platform/user_platform/${user_data.id}`,
-        user_data,
-        {}
-      );
+      user_data.country_id = this.selectCountry;      
       if (this.formData) {
         let rs1 = await this.$axios
           .post(
@@ -415,13 +410,21 @@ export default {
               },
             }
           )
-          .then((rsp) => {})
+          .then((rsp) => {
+            console.log("FILE SAVE RESP", rsp)
+          })
           .catch(function (e) {
             console.log("== == !! UPLOAD FAIL", e);
             return;
           });
       }
 
+      let rs = await this.$axios.put(
+        `/api/platform/user_platform/${user_data.id}`,
+        user_data,
+        {}
+      );
+      this.$auth.setUser(rs.data.data);
       console.log("rs", rs);
       setTimeout(() => {
         this.loading = false;
@@ -431,14 +434,8 @@ export default {
   mounted() {
     console.log("user_data", this.$auth.user);
     if (this.$auth.user.fs && this.$auth.user.fs.length > 0) {
-      let dir = this.$env("FILE_SERVER_BASE") + this.$auth.user.fs[0].dir;
-      if (dir) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.imageData = e.target.result;
-        };
-        reader.readAsDataURL(dir);
-      }
+      this.image_data = this.$env("FILE_SERVER_BASE") + this.$auth.user.fs[0].dir;
+      console.log(this.image_data);
     }
   },
   computed: {
