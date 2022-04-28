@@ -2,13 +2,15 @@
   <div class="settings">
     <v-container>
       <v-row>
-        <v-col cols="12" lg="4" md="4">
-          <SettingsTab></SettingsTab>
+        <v-col  cols="12" lg="4" md="4">
+          <SettingsTab @change_content="change_content" :currentContent="currentContent"></SettingsTab>
         </v-col>
         <v-col cols="12" lg="8" md="8">
-       <component  :is="component"></component>
+       <component  :currentContent="currentContent" @change_content="change_content" :is="component"></component>
         </v-col>
       </v-row>
+      <AccountsRecords v-if="currentContent===2"></AccountsRecords>
+      <DeviceManagment v-if="currentContent===1"></DeviceManagment>
     </v-container>
   </div>
 </template>
@@ -18,17 +20,18 @@ import SettingsTab from '@/components/elements/settings/SettingsTab'
 import PrivateInformation from '@/components/elements/settings/PrivateInformation'
 import Security from '@/components/elements/settings/Security'
 import Verification from '@/components/elements/settings/Verification'
-
-
+import AccountsRecords from "../../components/elements/settings/components/AccountsRecords";
+import DeviceManagment from "../../components/elements/settings/components/DeviceManagment";
 import {mapGetters} from "vuex";
 export default {
   data(){
     return{
       currentComponent:'',
+      currentContent:0,
     }
   },
   components:{
-    SettingsTab,PrivateInformation,Security,Verification
+    SettingsTab,PrivateInformation,Security,Verification, AccountsRecords,DeviceManagment
   },
   computed:{
     ...mapGetters({selections:'data/settings/selections',componentHandler:'data/settings/componentHandler'}),
@@ -39,6 +42,11 @@ export default {
       } catch (e) {
         return null;
       }
+    }
+  },
+  methods:{
+    change_content(val){
+     this.currentContent=val
     }
   },
   mounted() {},

@@ -1,5 +1,6 @@
 <template>
-  <div class="settingsTab">
+  <div>
+  <div class="settingsTab" v-if="currentContent===0">
     <p class="text-h6 ml-4">{{ $t("settings_page") }}</p>
     <div class="content ma-4">
       <div
@@ -34,6 +35,7 @@
       ></v-switch>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -42,6 +44,9 @@ import config from "~/config/config.json";
 
 export default {
   name: "settingsTab",
+  props:{
+    currentContent:{}
+  },
   data() {
     return {
       start_gradient: config.themes.dark.start_gradient,

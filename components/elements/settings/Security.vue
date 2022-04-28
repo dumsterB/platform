@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="privateInformation">
+    <div class="privateInformation" v-if="currentContent===0">
       <p class="text-h6">{{ $t("security") }}</p>
       <v-card class="mainCard pa-5">
         <div class="list-item d-flex">
@@ -76,8 +76,8 @@
         </div>
         <br />
         <v-divider class="mt-2 mb-2"></v-divider>
-        <h4>{{ $t("advanced_security") }}</h4>
-        <v-divider class="mt-2 mb-2"></v-divider>
+        <h4 class="primary--text">{{ $t("advanced_security") }}</h4>
+        <br>
         <div class="list-item d-flex">
           <div>
             <h4>{{ $t("login_verify") }}</h4>
@@ -96,6 +96,48 @@
             style="display: flex; align-items: center"
           ></confirmPassword>
         </div>
+        <h4 class="primary--text">{{ $t("devices_activities") }}</h4>
+        <br>
+        <div class="list-item d-flex">
+          <div>
+            <h4>{{ $t("device_management") }}</h4>
+            <br />
+            <span class="text-gray--text">{{ $t("protect_devices") }}</span>
+          </div>
+          <v-spacer></v-spacer>
+          <v-checkbox
+              class="mr-2"
+              disabled
+              style="align-items: center; display: flex"
+              v-model="VerificationNumberCheckbox"
+              :label="$t('unset')"
+          ></v-checkbox>
+          <v-btn dark elevation="0"  @click="$emit('change_content',1)" :style="customStyle" class="success-btn mt-4">{{
+              $t("manage")
+            }}</v-btn>
+        </div>
+        <v-divider class="mt-2 mb-2"></v-divider>
+        <div class="list-item d-flex">
+          <div>
+            <h4>{{ $t("Account Activity") }}</h4>
+            <br />
+            <span class="text-gray--text">{{ $t("last_logined") }} : 22.22.22</span>
+          </div>
+          <v-spacer></v-spacer>
+          <v-checkbox
+              class="mr-2"
+              disabled
+              style="align-items: center; display: flex"
+              v-model="VerificationNumberCheckbox"
+              :label="$t('unset')"
+          ></v-checkbox>
+          <v-btn dark elevation="0" @click="$emit('change_content',2)"  :style="customStyle" class="success-btn mt-4">{{
+              $t("more")
+            }}</v-btn>
+        </div>
+        <div class="mt-15 d-flex">
+          <p>{{$t('suspicious_activity')}}</p> <span class="primary--text">{{$t('disable_account')}}</span>
+        </div>
       </v-card>
     </div>
   </div>
@@ -107,6 +149,7 @@ import email from "../modals/security/Email";
 import phone from "../modals/security/Phone";
 import confirmPassword from "../modals/security/СonfirmPassword";
 import config from "~/config/config.json";
+
 export default {
   name: "privateInformation",
   components: {
@@ -114,6 +157,10 @@ export default {
     email,
     phone,
     confirmPassword,
+
+  },
+  props:{
+    currentContent:{}
   },
   data() {
     return {
@@ -123,7 +170,12 @@ export default {
       VerificationNumberCheckbox: false,
     };
   },
-  methods: {},
+  methods: {
+    contentHandler(val){
+      this.currentContent=val
+      this.$forceUpdate()
+    }
+  },
   computed: {
     customStyle() {
       return {
