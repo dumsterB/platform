@@ -1,65 +1,65 @@
 <template>
   <div class="page-container">
     <v-row>
-      <v-col :cols="9" class="pt-4">
+      <v-col :lg="9" :md="12" class="pt-4">
         <v-card class="ml-4">
-        <v-row class="justify-start align-center">
-          <v-col :cols="4" class="pt-0 mt-0">
-            <v-autocomplete
-              class="crypto-select ml-4 mt-4"
-              v-model="curr_id"
-              :items="currencies"
-              item-text="name"
-              item-value="id"
-              dense
-              outlined
-              hide-details
-              ><template v-slot:selection="{ item }">
-                <v-chip style="background: transparent !important">
-                  <v-row class="ml-1">
-                    <img height="20" :src="item.logo" alt="" class="mr-2" />
-                    <strong>{{ item.name }}</strong>
-                    <span class="ml-2" style="color: #bfb5ff">
-                      {{ item.symbol }}</span
-                    >
-                  </v-row>
-                </v-chip>
-              </template>
-              <template v-slot:item="{ item }">
-                <div class="d-flex">
-                  <img height="20" :src="item.logo" alt="" />
-                  <div class="d-flex ml-3">
-                    <strong>{{ item.name }}</strong>
-                    <span class="ml-2" style="color: #bfb5ff">
-                      {{ item.symbol }}</span
-                    >
-                  </div>
-                </div></template
-              ></v-autocomplete
-            >
-          </v-col>
-          <v-col :cols="8" class="pt-4">
-            <Indicators
-              v-if="page_state == 0"
-              :currency="curr_code"
-              :price="price"
-              :change="change"
-              :low="low"
-              :high="high"
-            ></Indicators>
-            <Platforms
-              v-if="page_state == 1"
-              :currency="curr_code"
-              :prices="arb_data"
-              @clicked="platform_changed"
-            ></Platforms>
-          </v-col>
-        </v-row>
+          <v-row class="justify-start align-center">
+            <v-col :cols="4" class="pt-0 mt-0">
+              <v-autocomplete
+                class="crypto-select ml-4 mt-4"
+                v-model="curr_id"
+                :items="currencies"
+                item-text="name"
+                item-value="id"
+                dense
+                outlined
+                hide-details
+                ><template v-slot:selection="{ item }">
+                  <v-chip style="background: transparent !important">
+                    <v-row class="ml-1">
+                      <img height="20" :src="item.logo" alt="" class="mr-2" />
+                      <strong>{{ item.name }}</strong>
+                      <span class="ml-2" style="color: #bfb5ff">
+                        {{ item.symbol }}</span
+                      >
+                    </v-row>
+                  </v-chip>
+                </template>
+                <template v-slot:item="{ item }">
+                  <div class="d-flex">
+                    <img height="20" :src="item.logo" alt="" />
+                    <div class="d-flex ml-3">
+                      <strong>{{ item.name }}</strong>
+                      <span class="ml-2" style="color: #bfb5ff">
+                        {{ item.symbol }}</span
+                      >
+                    </div>
+                  </div></template
+                ></v-autocomplete
+              >
+            </v-col>
+            <v-col :cols="8" class="pt-4">
+              <Indicators
+                v-if="page_state == 0"
+                :currency="curr_code"
+                :price="price"
+                :change="change"
+                :low="low"
+                :high="high"
+              ></Indicators>
+              <Platforms
+                v-if="page_state == 1"
+                :currency="curr_code"
+                :prices="arb_data"
+                @clicked="platform_changed"
+              ></Platforms>
+            </v-col>
+          </v-row>
         </v-card>
         <v-row v-if="curr_crypto" class="mt-2 ml-4 mt-4">
-          <v-col :cols="6">
+          <v-col :cols="8">
             <v-row>
-              <v-col :lg="4" class="pl-0 pr-1">
+              <v-col class="pl-0 pr-1">
                 <v-btn
                   large
                   block
@@ -69,7 +69,7 @@
                   >{{ $t("spot_title") }}</v-btn
                 >
               </v-col>
-              <v-col :lg="4" class="pl-0 pr-1">
+              <v-col class="pl-0 pr-1">
                 <v-btn
                   large
                   block
@@ -79,7 +79,7 @@
                   >{{ $t("user_arbitrage") }}</v-btn
                 >
               </v-col>
-              <v-col :lg="4" class="pl-0 pr-0">
+              <v-col class="pl-0 pr-0">
                 <v-btn
                   large
                   block
@@ -90,20 +90,22 @@
                 >
               </v-col>
             </v-row>
+            <v-row v-if="graph_key && page_state != 2">
+              <v-col class="pl-0">
+                <TradeGraph
+                  :width="graphWidth"
+                  :height="graphHeight"
+                  :key_g="graph_key"
+                ></TradeGraph>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col :cols="6"> </v-col>
-        </v-row>
-        <v-row class="ml-4" v-if="graph_key && page_state != 2">
-          <v-col class="d-flex justify-start">
-            <TradeGraph
-              :width="graphWidth"
-              :height="graphHeight"
-              :key_g="graph_key"
-            ></TradeGraph>
+          <v-col class="ml-2" v-if="page_state != 2">
+            <OrderBook :currency="curr_code" :price="price" :change="change" />
           </v-col>
         </v-row>
       </v-col>
-      <v-col :cols="3" class="pt-0">
+      <v-col :lg="3" :md="6" class="pt-0 pl-0">
         <SpotCard
           v-if="page_state == 0"
           :currency="curr_code"
@@ -155,6 +157,7 @@ import TableASession from "~/components/data/TableASession";
 import SpotCard from "~/components/elements/currencies/SpotCard";
 import Platforms from "~/components/elements/currencies/Platforms";
 import Leverage from "~/components/elements/Leverage";
+import OrderBook from "~/components/elements/exchange/OrderBook";
 const model = "data/currency";
 
 export default {
@@ -167,6 +170,7 @@ export default {
     SpotCard,
     TableASession,
     Leverage,
+    OrderBook,
   },
   data() {
     let stocks = JSON.parse(
@@ -177,7 +181,7 @@ export default {
       curr_id: null,
       curr_code: null,
       current: {},
-      graphWidth: parseInt(((window.innerWidth - 330) * 2) / 3),
+      graphWidth: this.initGrpaphWidth(),
       graphHeight: 600,
       selected_platform: "binance",
       base_p: this.$store.state.config.data.base_p,
@@ -336,9 +340,15 @@ export default {
       await this.$refs.trades.reload();
     },
     onResize(event) {
-      this.graphWidth = parseInt(((window.innerWidth - 330) * 2) / 3);
+      this.graphWidth = this.initGrpaphWidth();
     },
-    initGrpaphWidth() {},
+    initGrpaphWidth() {
+      if (window.innerWidth > 1300) {
+        return parseInt(((window.innerWidth - 350) * 1) / 2);
+      } else {
+        return parseInt(((window.innerWidth - 350) * 2) / 3);
+      }
+    },
     platform_changed(platform) {
       this.selected_platform = platform;
     },
@@ -466,6 +476,6 @@ export default {
   background: #000c19 !important;
 }
 html[theme="light"] .menu-curr-buttons:not(.primary) {
-    background: #ffffff !important;;
+  background: #ffffff !important;
 }
 </style>

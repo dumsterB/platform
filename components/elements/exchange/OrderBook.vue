@@ -1,0 +1,154 @@
+<template>
+  <div>
+    <v-card class="px-4 pb-6">
+      <v-btn
+        class="primary--text pt-1 mb-2 font-weight-bold"
+        style="background: transparent; border-top: 4px solid #007bff"
+        elevation="0"
+        >Order Book</v-btn
+      >
+      <v-divider></v-divider>
+      <v-row style="height: 32px"
+        ><v-col
+          ><span class="gray--text" style="font-size: 12px"
+            >Price (USD)</span
+          ></v-col
+        ><v-col class="gray--text" style="font-size: 12px"
+          >Quantity ({{ currency }})</v-col
+        ></v-row
+      ><v-row
+        v-for="(dt, i) in rise_data"
+        :key="i"
+        style="height: 32px; font-size: 14px"
+        :style="`background: linear-gradient(90deg, transparent ${100-dt.perc}%, rgb(1,186,198,0.3) ${dt.perc}%)`"
+      >
+        <v-col :cols="6"
+          ><span style="font-weight: 600">{{ dt.price }}</span></v-col
+        >
+        <v-col :cols="6"
+          ><span>{{ dt.total }}</span></v-col
+        >
+      </v-row>
+      <v-row>
+        <v-col :class="`${diffColor(change)}--text pb-1`"
+          ><v-icon class="pb-2" :color="diffColor(change)">{{
+            change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
+          }}</v-icon>
+          <span style="font-weight: 600; font-size: 28px">{{ change_val }}</span
+          ><span style="font-weight: 400; font-size: 14px">
+            ≈ {{ change }} USD</span
+          >
+        </v-col>
+      </v-row>
+      <v-row
+        v-for="(dt, i) in fall_data"
+        :key="number_d + i"
+        style="height: 32px; font-size: 14px"
+        :style="`background: linear-gradient(90deg, transparent ${100-dt.perc}%, rgb(211,34,98,0.3) ${dt.perc}%)`"
+      >
+        <v-col :cols="6"
+          ><span style="font-weight: 600">{{ dt.price }}</span></v-col
+        >
+        <v-col :cols="6"
+          ><span>{{ dt.total }}</span></v-col
+        >
+      </v-row>
+    </v-card>
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  props: {
+    currency: {
+      type: String,
+      default: "BTC",
+    },
+    change: {
+      type: Number,
+      default: 0.0001,
+    },
+    price: {
+      type: Number,
+      default: 10000,
+    },
+  },
+  components: {},
+  data() {
+    return {
+      number_d: 7,
+      rise_data: [],
+      fall_data: [],
+      interv: null
+    };
+  },
+  computed: {
+    change_val() {
+      return Math.round((this.change / this.price) * 100000) / 100000;
+    },
+    round_val() {
+      let r = this.price;
+      let res = 1;
+      while(r > 1) {
+        r = r / 10;
+        res = res * 10;
+      }
+      return res;
+    }
+  },
+  methods: {
+    diffColor(el) {
+      if (el < 0) {
+        return "red";
+      } else {
+        return "primary";
+      }
+    },
+    fill_data() {
+      let dt = [];
+      for (let i = 0; i < this.number_d; i++) {
+        dt.push({
+          price:
+            Math.round(
+              (this.price + (this.price * (0.5 - Math.random())) / 500) * (1000000 / this.round_val)
+            ) / (1000000 / this.round_val),
+          total:
+            Math.round(
+              ((Math.random() * (2 - Math.random()) * 5000) / this.price) * this.round_val
+            ) / this.round_val,
+        });
+      }
+      dt.sort(function (a, b) {
+        if (a.total > b.total) {
+          return 1;
+        }
+        if (a.total < b.total) {
+          return -1;
+        }
+        return 0;
+      });
+      let lst = dt[dt.length - 1].total;
+      dt.forEach(el => {
+        el.perc = parseInt(100 * el.total / lst);
+      })
+      return dt;
+    },
+  },
+  watch: {
+    price() {
+    //   this.rise_data = this.fill_data();
+    //   this.fall_data = this.fill_data();
+    },
+  },
+  created() {
+    this.interv = setInterval(() => {
+        this.rise_data = this.fill_data();
+        this.fall_data = this.fill_data();
+    }, 1000);
+  },
+};
+</script>
+<style lang="scss" scoped>
+</style>

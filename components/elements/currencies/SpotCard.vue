@@ -1,26 +1,25 @@
 <template>
   <div>
-    <v-card class="ma-2 mr-8 pa-4 elevation-4">
+    <v-card class="ma-2 mr-8 pa-4 elevation-4 spot-card">
       <v-row>
-        <v-col :cols="6">
+        <v-col class="pt-0">
           <v-btn
-            large
             block
-            :class="!buy_sell ? 'green--text' : 'green'"
-            :outlined="buy_sell"
-            dark
+            :class="!buy_sell ? '' : 'green--text'"
+            :style="!buy_sell ? '' : 'border-top: 4px solid green'"
+            style="background: transparent"
             elevation="0"
             @click="buy_sell = true"
             >{{ $t("buy") }}</v-btn
           >
         </v-col>
-        <v-col :cols="6">
+        <v-col class="pt-0">
           <v-btn
-            large
             block
             elevation="0"
-            :class="!buy_sell ? 'red' : 'red--text'"
-            :outlined="!buy_sell"
+            :class="!buy_sell ? 'red--text' : ''"
+            :style="!buy_sell ? 'border-top: 4px solid red' : ''"
+            style="background: transparent"
             @click="buy_sell = false"
             >{{ $t("sell") }}</v-btn
           >
@@ -94,10 +93,11 @@
       <v-row>
         <v-col :cols="12">
           <v-btn
+            large
             :loading="loading"
             :disabled="!amount"
-            large
             block
+            class="rounded-xl"
             @click="trade_run"
             :class="buy_sell ? 'green' : 'red'"
             >{{ buy_sell ? $t("buy") : $t("sell") }}</v-btn
@@ -108,16 +108,16 @@
       <v-row>
         <v-col>
           <v-btn
-            large
             block
-            class="green--text"
+            large
+            class="primary rounded-xl"
             outlined
             @click="depositChanger('deposit_title')"
             >{{ $t("deposit_title") }}</v-btn
           >
         </v-col>
         <v-col>
-          <v-btn large block @click="depositChanger('withdraw')">{{
+          <v-btn block large outlined class="primary--text rounded-xl" @click="depositChanger('withdraw')">{{
             $t("withdraw")
           }}</v-btn>
         </v-col>
@@ -330,4 +330,6 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>
