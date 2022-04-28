@@ -22,7 +22,7 @@
         </v-img>
       </template>
       <template v-slot:[`item.price`]="{ item }">
-        <span>{{ item.price ? "$" + item.price : "no data" }}</span>
+        <span style="font-size: 13px">{{ item.price ? "$" + item.price : "no data" }}</span>
       </template>
       <template v-slot:[`item.action`]="{ item }">
         <div class="d-flex justify-end">
@@ -114,7 +114,7 @@ export default {
         {
           text: this.$t("price"),
           value: "price",
-          width: 100,
+          width: 70,
         },
         {
           text: "",
