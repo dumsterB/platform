@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" width="800">
+    <v-dialog v-model="dialog" width="700">
       <template v-slot:activator="{ on, attrs }">
         <div v-bind="attrs" v-on="on">
           <v-btn dark elevation="0" :style="customStyle" class="success-btn">{{
@@ -8,10 +8,10 @@
           }}</v-btn>
         </div>
       </template>
-      <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
-          {{ $t("s1_basic_verification") }}
-        </v-card-title>
+      <v-card class="pa-4" style="background: #161F49!important;">
+        <div class="text-h5 text-center">
+         <p class="text-center">{{ $t("s1_basic_verification") }}</p>
+        </div>
         <div class="pa-5">
           <h4>{{ $t("document_examples") }}</h4>
           <v-col>
@@ -40,19 +40,45 @@
                 value="id_card"
               ></v-checkbox>
             </v-col>
+            <v-col>
+              <v-checkbox
+                  v-model="CheckboxType"
+                  label="Residence permit"
+                  value="residence"
+              ></v-checkbox>
+            </v-col>
           </v-row>
-          <div>
-            <h4>{{ $t("phote_of_documents") }}</h4>
+          <div v-if="CheckboxType !== 'residence'">
+            <h5>{{ $t("phote_of_documents") }}</h5>
             <br />
-            <p>
+            <li style="list-style: circle">
               <strong>{{ $t("bright_and_clear") }}</strong>
-              {{ $t("good_quality") }}
-            </p>
-            <p>
+             ( {{ $t("good_quality") }} )
+            </li>
+            <li style="list-style: circle">
               <strong> {{ $t("uncut") }}</strong>
               {{ $t("doc_should_be_visible") }}
-            </p>
+            </li>
           </div>
+          <div v-else>
+            <v-row>
+              <v-col>
+                <h3 class="gray--text">{{ $t("we_accept") }}</h3>
+                <p class="mt-4"> <v-icon color="primary">mdi-check</v-icon> {{$t('bank_statements')}}</p>
+                <p class="mt-4"> <v-icon color="primary">mdi-check</v-icon> {{$t('bank_statements')}}</p>
+                <p class="mt-4"> <v-icon color="primary">mdi-check</v-icon> {{$t('bank_statements')}}</p>
+                <p class="mt-4"> <v-icon color="primary">mdi-check</v-icon> {{$t('bank_statements')}}</p>
+              </v-col>
+              <v-col>
+                <h3 class="gray--text">{{ $t("no_accept") }}</h3>
+                <p class="mt-4"> <v-icon color="red">mdi-close</v-icon> {{$t('screenshots')}}</p>
+                <p class="mt-4"> <v-icon color="red">mdi-close</v-icon> {{$t('mobile_bills')}}</p>
+                <p class="mt-4"> <v-icon color="red">mdi-close</v-icon> {{$t('screenshots')}}</p>
+                <p class="mt-4"> <v-icon color="red">mdi-close</v-icon> {{$t('receipts_purchases')}}</p>
+              </v-col>
+            </v-row>
+          </div>
+          <br>
           <div class="text-center" v-if="CheckboxType === 'passport'">
             <div class="selecImage">
               <div
@@ -64,7 +90,8 @@
                   <div>
                     <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                     <br />
-                    <p>{{ $t("choose_photo") }}</p>
+                    <p class="primary--text">{{ $t("upload_document") }}</p>
+                    <p>{{$t('front_side')}}</p>
                   </div>
                 </span>
                 <input
@@ -76,7 +103,7 @@
               </div>
             </div>
           </div>
-          <div v-else>
+          <div v-if="CheckboxType==='id_card'">
             <v-row>
               <v-col>
                 <div class="text-center">
@@ -93,7 +120,8 @@
                         <div>
                           <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                           <br />
-                          <p>{{ $t("choose_photo") }}</p>
+                   <p class="primary--text">{{ $t("upload_document") }}</p>
+                    <p>{{$t('front_side')}}</p>
                         </div>
                       </span>
                       <input
@@ -121,7 +149,8 @@
                         <div>
                           <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                           <br />
-                          <p>{{ $t("choose_photo") }}</p>
+                          <p class="primary--text">{{ $t("upload_document") }}</p>
+                    <p>{{$t('front_side')}}</p>
                         </div>
                       </span>
                       <input
@@ -136,9 +165,32 @@
               </v-col>
             </v-row>
           </div>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialog = false">
+          <div class="text-center" v-if="CheckboxType === 'residence'">
+            <div class="selecImage">
+              <div
+                  class="image-input"
+                  :style="{ 'background-image': `url(${imageData})` }"
+                  @click="chooseImage"
+              >
+                <span v-if="!imageData" class="placeholder text-gray--text">
+                  <div>
+                    <v-icon size="70">mdi-cloud-upload-outline</v-icon>
+                    <br />
+                    <p class="primary--text">{{ $t("upload_document") }}</p>
+                    <p>{{$t('front_side')}}</p>
+                  </div>
+                </span>
+                <input
+                    class="file-input"
+                    ref="fileInput"
+                    type="file"
+                    @input="onSelectFile"
+                />
+              </div>
+            </div>
+          </div>
+          <v-card-actions class="justify-center mt-2 d-flex">
+            <v-btn rounded class="primary" style="width: 150px"  text @click="dialog = false">
               {{ $t("send") }}
             </v-btn>
           </v-card-actions>
@@ -178,7 +230,7 @@ export default {
       end_gradient: config.themes.dark.end_gradient,
       dialog: false,
       imageData: null,
-      CheckboxType: "",
+      CheckboxType: "passport",
       selectCountry: "",
       countries: [
         "Afghanistan",
