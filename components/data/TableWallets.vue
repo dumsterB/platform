@@ -27,7 +27,8 @@
       }"
     >
       <template v-slot:[`item.eqv`]="{ item }">
-        <span class="primary--text font-weight-bold">{{item.eqv}}</span><span class="primary--text"> USD</span>
+        <span class="primary--text font-weight-bold">{{ item.eqv }}</span
+        ><span class="primary--text"> USD</span>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-btn
@@ -112,11 +113,11 @@ export default {
     },
     in_wallets() {
       if (this.zero_bals) {
-        return this.wallets.filter(el => el.balance);
+        return this.wallets.filter((el) => el.balance);
       } else {
         return this.wallets;
       }
-    }
+    },
   },
 
   watch: {
