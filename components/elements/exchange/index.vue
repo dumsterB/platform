@@ -111,7 +111,7 @@
           elevation="0"
           @click="trade_run"
           :loading="loading"
-          >{{ $t(active_btn) }} {{ buy_curr }}</v-btn
+          >{{ loading ? '' : `${$t(active_btn)} ${buy_curr}` }} {{  }}</v-btn
         >
       </div>
     </v-card>
@@ -217,7 +217,7 @@ export default {
     buy_def() {
       if (this.buy) {
         let t_price;
-        if (this.active_btn = "buy") {
+        if (this.active_btn == "buy") {
           t_price = this.price * this.buy;
         } else {
           t_price = this.price * this.buy;
@@ -230,7 +230,7 @@ export default {
     pay_def() {
       if (this.pay) {
         let am;
-        if (this.active_btn = "buy") {
+        if (this.active_btn == "buy") {
           am = this.pay / this.price;
         } else {
           am = this.pay / this.price;
@@ -264,6 +264,7 @@ export default {
       this.loading = true;
       let trade_data = {};
       let usd_c = this.currencies.find((el) => el.symbol == "USD");
+      let curr = this.currency.find((el) => el.symbol == this.buy_curr);
       if (curr && usd_c) {
         trade_data.source_currency_id =
           this.active_btn == "buy" ? usd_c.id : curr.id;
