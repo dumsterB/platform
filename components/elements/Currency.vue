@@ -12,16 +12,15 @@
             :class="backgroundDiffColor(currency.change_p)"
             @click="$router.push(`/currency?id=${currency.id}`)"
           >
-            <v-list-item
-              three-line
-              class="pa-2 rounded-lg d-flex"
-            >
+            <v-list-item three-line class="pa-2 rounded-lg d-flex">
               <v-list-item-content class="pa-1 rounded-lg">
                 <div class="d-flex">
                   <v-img :src="currency.logo" :max-width="32"></v-img>
                   <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
                 </div>
-                <span class="price-text" style="margin-bottom: -4px">${{ currency.price }}</span>
+                <span class="price-text" style="margin-bottom: -4px"
+                  >${{ new Intl.NumberFormat().format(currency.price) }}</span
+                >
               </v-list-item-content>
               <v-list-item-content class="coinList pa-1 flexNone">
                 <div class="star-btn">
@@ -48,13 +47,14 @@
                   >{{ currency.change_p }}%</span
                 >
               </v-list-item-content>
+            </v-list-item-content>
             </v-list-item>
             <v-list-item>
-            <v-list-item-content>
-            <div>
-              <sparklines></sparklines>
-            </div>
-          </v-list-item-content>
+              <v-list-item-content>
+                <div>
+                  <sparklines></sparklines>
+                </div>
+              </v-list-item-content>
             </v-list-item>
           </v-card>
         </v-hover>
@@ -107,8 +107,8 @@ import { mapGetters } from "vuex";
 import config from "~/config/config.json";
 import sparklines from "@/components/elements/currencies/Sparklines";
 export default {
-  components:{
-    sparklines
+  components: {
+    sparklines,
   },
   props: {
     currency: {
@@ -233,7 +233,7 @@ html[theme="light"] {
 }
 .background-failure {
   background: var(--red);
-  background: -webkit-linear-gradient(36deg, var(--red), #000000) ;
+  background: -webkit-linear-gradient(36deg, var(--red), #000000);
   background: linear-gradient(36deg, var(--red), #000000);
   filter: blur(0.3px);
 }

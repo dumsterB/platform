@@ -4,15 +4,20 @@
       <v-list-item three-line>
         <v-list-item-content>
           <v-list-item-title class="text-h5 mb-1">
-            <strong>{{ $t('total_equity') }}</strong>
+            <strong>{{ $t("total_equity") }}</strong>
           </v-list-item-title>
           <br /><br />
           <v-list-item-title class="text-h5 mb-1">
-            <strong v-if="hideBalancer">{{ total_sum_btc }} </strong>
+            <strong v-if="hideBalancer"
+              >{{
+                total_sum ? new Intl.NumberFormat().format(total_sum_btc) : 0
+              }}
+            </strong>
             <strong v-if="!hideBalancer">******</strong> BTC
           </v-list-item-title>
           <p v-if="hideBalancer" class="mt-2 text-gray--text">
-            ≈ {{ total_sum }} USD
+            ≈
+            {{ total_sum ? new Intl.NumberFormat().format(total_sum) : 0 }} USD
           </p>
           <p v-if="!hideBalancer" class="mt-2 text-gray--text">******</p>
         </v-list-item-content>

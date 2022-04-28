@@ -31,7 +31,12 @@
           <span>{{ $t("available_balance_title") }}</span>
         </v-col>
         <v-col :cols="6">
-          <span>{{ av_bal ? av_bal.toFixed(4) : "" }} {{ curr }}</span>
+          <span
+            >{{
+              av_bal ? new Intl.NumberFormat().format(av_bal.toFixed(4)) : ""
+            }}
+            {{ curr }}</span
+          >
         </v-col>
       </v-row>
       <v-row>
@@ -284,7 +289,7 @@ export default {
         title: title,
         text: title,
         color: color,
-        timeout: 2000
+        timeout: 2000,
       });
       await this.fetchWallet();
       this.$emit("reload");

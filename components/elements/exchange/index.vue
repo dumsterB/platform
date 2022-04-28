@@ -5,29 +5,32 @@
     </div>
 
     <v-card class="pa-3" elevation="4">
-      <div class="tabs_exchange">
-        <v-row
-          ><v-col lg="6"
-            ><v-btn
-              block
-              elevation="0"
-              class="btn_exchange"
-              :class="[active_btn == 'buy' ? 'active_btn_exchange' : '']"
-              @click="buyHandler"
-              >{{ $t("buy") }}</v-btn
-            > </v-col
-          ><v-col lg="6"
-            ><v-btn
-              block
-              elevation="0"
-              class="btn_exchange"
-              :class="[active_btn == 'sell' ? 'active_btn_exchange' : '']"
-              @click="sellHandler"
-              >{{ $t("sell") }}</v-btn
-            ></v-col
-          ></v-row
-        >
-      </div>
+      <v-list width="100%" class="pa-0">
+        <v-list-item-group v-model="btn_active" class="d-flex">
+          <v-list-item
+            tag="button"
+            block
+            elevation="0"
+            class="btn_exchange pa-0"
+            :style="customStyle"
+            active-class="active_btn_exchange"
+            @click="buyHandler"
+            >{{ $t("buy") }}</v-list-item
+          >
+
+          <v-list-item
+            tag="button"
+            block
+            elevation="0"
+            class="btn_exchange pa-0"
+            :style="customStyle"
+            active-class="active_btn_exchange"
+            @click="sellHandler"
+            >{{ $t("sell") }}</v-list-item
+          >
+        </v-list-item-group>
+      </v-list>
+
       <div class="chips mt-3 mx-3">
         <v-chip
           :class="[item.active ? 'active_p_chip' : 'p_chip']"
@@ -97,7 +100,8 @@
             `Min ${min_val} ${buy_curr} - Max ${max_val} ${buy_curr}`
           }}</span>
           <h5>
-            Available Balance: {{ balance }}
+            {{ $t("available_balance") }}:
+            {{ new Intl.NumberFormat().format(balance) }}
             {{ active_btn == "buy" ? "USD" : buy_curr }}
           </h5>
         </div>
@@ -111,8 +115,8 @@
           elevation="0"
           @click="trade_run"
           :loading="loading"
-          >{{ loading ? '' : `${$t(active_btn)} ${buy_curr}` }} {{  }}</v-btn
-        >
+          >{{ loading ? "" : `${$t(active_btn)} ${buy_curr}` }} {{
+        }}</v-btn>
       </div>
     </v-card>
     <!-- <v-row class="mt-10 d-flex align-center justify-start">
@@ -159,6 +163,7 @@ export default {
     return {
       start_gradient: config.themes.dark.start_gradient,
       end_gradient: config.themes.dark.end_gradient,
+      primary: config.colors.text.primary,
       link_url: "bc1qu75kr9s9j0hpuf5qugqdastwwhzglz3gfwcz06",
       copied: false,
       loading: false,
@@ -169,6 +174,7 @@ export default {
       pay_checker: true,
       buy_curr: "BTC",
       active_btn: "buy",
+      btn_active: 0,
       min_val: 0.00001,
       max_val: 100,
       chips: [
@@ -253,8 +259,8 @@ export default {
       }
     },
     def_min_max() {
-      this.max_val = Math.round(1000000 * 100000 / this.price) / 100000;
-      this.min_val = Math.round(10 * 100000 / this.price) / 100000;
+      this.max_val = Math.round((1000000 * 100000) / this.price) / 100000;
+      this.min_val = Math.round((10 * 100000) / this.price) / 100000;
     },
     def_price() {
       let curr = this.currency.find((el) => el.symbol == this.buy_curr);
@@ -315,6 +321,7 @@ export default {
       return {
         "--start_gradient": this.start_gradient,
         "--end_gradient": this.end_gradient,
+        "--primary": this.primary,
       };
     },
     ...mapGetters("data/wallet", {
@@ -335,7 +342,7 @@ export default {
         let wl = this.wallets.find((el) => el.currency.symbol == this.buy_curr);
         return wl ? wl.balance : 0;
       }
-    }
+    },
   },
   watch: {
     buy() {
@@ -358,12 +365,12 @@ export default {
       this.def_price();
       this.def_min_max();
       this.pay = 0;
-    }
+    },
   },
   created() {
     this.def_price();
     this.def_min_max();
-  }
+  },
 };
 </script>
 
@@ -376,12 +383,10 @@ export default {
   );
   color: white !important;
 }
-.tabs_exchange {
-  justify-content: space-between;
-  display: flex;
-}
+
 .btn_exchange {
   padding: 10px 10px 10px 0px;
+  justify-content: center;
   margin-top: -7px;
   font-weight: 700;
   font-size: 18px;
@@ -390,9 +395,25 @@ export default {
   background: transparent !important;
 }
 .active_btn_exchange {
-  color: #007bff;
-  border-top: 3px solid #007bff;
-  border-radius: 0px 0px 10px 10px !important;
+  position: relative;
+  padding: 10px 10px 10px 0px;
+  justify-content: center;
+  margin-top: -7px;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  border-top: 3px solid transparent;
+  background: transparent !important;
+}
+.active_btn_exchange::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  min-height: 6px !important;
+  top: -8px;
+  left: 0;
+  background: #007bff !important;
+  border-radius: 0px 0px 4px 4px;
 }
 html[theme="light"] .p_chip {
   background: #eeeeee !important;

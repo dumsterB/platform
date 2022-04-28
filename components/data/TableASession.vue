@@ -32,10 +32,16 @@
         </v-toolbar>
       </template>
       <template v-slot:[`item.amount`]="{ item }">
-        <span>{{ item.amount + " " + item.wallet.currency.symbol }}</span>
+        <span>{{
+          new Intl.NumberFormat().format(item.amount) +
+          " " +
+          item.wallet.currency.symbol
+        }}</span>
       </template>
       <template v-slot:[`item.difference`]="{ item }">
-        <span :style="diffColor(item.difference)">{{ item.difference }}</span>
+        <span :style="diffColor(item.difference)">{{
+          new Intl.NumberFormat().format(item.difference)
+        }}</span>
       </template>
       <template v-slot:[`item.difference_perc`]="{ item }">
         <span :style="diffColor(item.difference)">{{

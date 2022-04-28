@@ -7,8 +7,10 @@
         :items="filtered"
         prepend-inner-icon="mdi-magnify"
         :label="$t('market_search_bar_placeholder')"
+        :placeholder="$t('market_search_bar_placeholder')"
         item-value="id"
         item-text="name"
+        full-width
         dense
         outlined
         solo
@@ -72,11 +74,12 @@
             v-on="on"
           >
             <div class="mr-2">
-              <v-avatar size="35">
-                <img
-                  v-if="userAvatar"
-                  :src="userAvatar"
-                />
+              <v-avatar
+                size="35"
+                :class="hover ? 'avatar' : ''"
+                :style="customStyle"
+              >
+                <img v-if="userAvatar" :src="userAvatar" />
                 <v-icon v-else :color="hover ? 'primary' : 'gray'" class="mr-2"
                   >mdi-account</v-icon
                 >
@@ -128,6 +131,7 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 import LanguageSelect from "~/components/settings/LanguageSelect";
 import ThemeSelect from "~/components/settings/ThemeSelect";
 import Ticker from "./Ticker";
+import config from "~/config/config.json";
 
 export default {
   data() {
@@ -136,6 +140,7 @@ export default {
     );
     return {
       stocks: stocks,
+      primary: config.colors.text.primary,
       user_image: null,
       account_menu: this.initAccountMenu(),
       value: null,
@@ -251,10 +256,9 @@ export default {
     ...mapGetters("config/ws", {
       prices_current: "top_data",
     }),
-    userAvatar () {
+    userAvatar() {
       try {
-        return this.$env("FILE_SERVER_BASE") +
-          this.$auth.user.fs[0]["dir"];
+        return this.$env("FILE_SERVER_BASE") + this.$auth.user.fs[0]["dir"];
       } catch (e) {
         return null;
       }
@@ -298,6 +302,11 @@ export default {
       //   initiales += surname && surname.length > 0 ? surname[0] : "";
       return "User";
     },
+    customStyle() {
+      return {
+        "--primary": this.primary,
+      };
+    },
   },
   mounted() {
     console.log("this.filtered :>> ", this.filtered);
@@ -331,9 +340,21 @@ export default {
   font-size: 12px;
   margin-left: 40px;
 }
+.v-autocomplete__content {
+  width: 262px;
+}
+.avatar {
+  transparent: 223ms linear;
+  border: 2px solid var(--primary) !important;
+}
 
-.global-search .v-input__slot {
+html[theme="dark"] .global-search .v-input__slot {
   background: rgba(154, 154, 154, 0.3) !important;
+  box-shadow: none !important;
+}
+html[theme="light"] .global-search .v-input__slot {
+  background: rgba(255, 255, 255) !important;
+  box-shadow: none !important;
 }
 
 .navLink {

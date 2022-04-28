@@ -18,9 +18,21 @@
               ></apexchart>
             </div>
             <strong class="text-h4"
-              >${{ total_sum ? total_sum.toFixed(4) : "" }}</strong
+              >${{
+                total_sum
+                  ? new Intl.NumberFormat().format(total_sum.toFixed(4))
+                  : ""
+              }}</strong
             >
-            <div>≈ {{ total_sum_btc ? total_sum_btc.toFixed(4) : "" }} BTC</div>
+            <div>
+              ≈
+              {{
+                total_sum_btc
+                  ? new Intl.NumberFormat().format(total_sum_btc.toFixed(4))
+                  : ""
+              }}
+              BTC
+            </div>
           </div>
         </div>
         <div class="mt-10">
@@ -46,7 +58,11 @@
                 <v-list-item-content class="flexNone">
                   <v-list-item-title
                     >${{
-                      coin.balance ? coin.balance.toFixed(4) : ""
+                      coin.balance
+                        ? new Intl.NumberFormat().format(
+                            coin.balance.toFixed(4)
+                          )
+                        : ""
                     }}</v-list-item-title
                   >
                 </v-list-item-content>
@@ -69,7 +85,9 @@
                 <v-list-item-content class="flexNone">
                   <v-list-item-title>
                     ${{
-                      other_sum ? other_sum.toFixed(4) : ""
+                      other_sum
+                        ? new Intl.NumberFormat().format(other_sum.toFixed(4))
+                        : ""
                     }}</v-list-item-title
                   >
                 </v-list-item-content>
@@ -206,7 +224,7 @@ export default {
       let data = this.wallet.map((el) => {
         return {
           balance: el.balance,
-          currency: el.currency ? el.currency.symbol : 'NO DATA',
+          currency: el.currency ? el.currency.symbol : "NO DATA",
           currency_id: el.currency_id,
         };
       });
