@@ -33,10 +33,13 @@ a {
 }
 
 html[theme="light"] .v-application--wrap {
-    background: #eceff1 !important;
+    background: radial-gradient( 100.82% 115.26% at 1.07% -0.59%, rgba(111, 0, 255, 0.05) 0%, rgba(0, 0, 0, 0) 100%), radial-gradient( 100% 100.52% at 0% 10.02%, rgba(0, 122, 255, 0.02) 0%, rgba(0, 122, 255, 0) 100%), -webkit-gradient(linear, left bottom, left top, from(rgba(226, 226, 226, 0.3)), to(rgba(226, 226, 226, 0.3))), #ffffff;
+    background: -o-radial-gradient( 1.07% -0.59%, 100.82% 115.26%, rgba(111, 0, 255, 0.05) 0%, rgba(0, 0, 0, 0) 100%), -o-radial-gradient(0% 10.02%, 100% 100.52%, rgba(0, 122, 255, 0.02) 0%, rgba( 0, 122, 255, 0) 100%), -o-linear-gradient(bottom, rgba(226, 226, 226, 0.3), rgba(226, 226, 226, 0.3)), #ffffff;
+    background: radial-gradient( 100.82% 115.26% at 1.07% -0.59%, rgba(111, 0, 255, 0.05) 0%, rgba(0, 0, 0, 0) 100%), radial-gradient( 100% 100.52% at 0% 10.02%, rgba(0, 122, 255, 0.02) 0%, rgba(0, 122, 255, 0) 100%), linear-gradient(0deg, rgba(226, 226, 226, 0.3), rgba(226, 226, 226, 0.3)), #ffffff;
 }
 
 html .v-application--wrap {
+    background: -o-radial-gradient( 50% 0%, 112.42% 98.89%, rgba(111, 0, 255, 0.2) 0%, rgba(0, 0, 0, 0) 100%), -o-radial-gradient(0% 15.9%, 100% 101.89%, rgba(0, 122, 255, 0.2) 0%, rgba( 0, 122, 255, 0) 100%), #111111;
     background: radial-gradient( 112.42% 98.89% at 50% 0%, rgba(111, 0, 255, 0.2) 0%, rgba(0, 0, 0, 0) 100%), radial-gradient( 100% 101.89% at 0% 15.9%, rgba(0, 122, 255, 0.2) 0%, rgba(0, 122, 255, 0) 100%), #111111;
 }
 
@@ -49,7 +52,7 @@ html .v-application--wrap {
 }
 
 .v-text-field--outlined .v-input__slot {
-    border-radius: 20px !important;
+    border-radius: 10px !important;
 }
 
 .v-application p {
@@ -58,16 +61,17 @@ html .v-application--wrap {
 
 .v-menu__content .v-list {
     background: #000e1d !important;
-    border-radius: 20px !important;
+    border-radius: 10px !important;
 }
 
 :not(.curr-table).v-data-table {
     background: #000e1d !important;
-    border-radius: 20px !important;
+    border-radius: 10px !important;
 }
 
-.v-autocomplete__content.v-menu__content {
-    border-radius: 20px !important;
+.v-autocomplete__content.v-menu__content,
+.v-menu__content {
+    border-radius: 10px !important;
 }
 
 html[theme="light"] :not(.curr-table).v-data-table {
@@ -76,7 +80,7 @@ html[theme="light"] :not(.curr-table).v-data-table {
 
 :not(.app-bar-margins).v-toolbar {
     background: #000e1d !important;
-    border-radius: 20px !important;
+    border-radius: 10px !important;
 }
 
 html[theme="light"] :not(.app-bar-margins).v-toolbar {
@@ -96,17 +100,17 @@ html[theme="light"] .v-sheet {
 }
 
 .v-dialog {
-    border-radius: 20px;
+    border-radius: 10px !important;
 }
 
 .v-card {
     background: #000c19 !important;
-    border-radius: 20px !important;
+    border-radius: 10px !important;
 }
 
 html[theme="light"] .v-card {
     background: #ffffff !important;
-    border-radius: 20px !important;
+    border-radius: 10px !important;
 }
 
 ul,
@@ -128,6 +132,8 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .flexNone {
+    -webkit-box-flex: 0;
+    -ms-flex: none;
     flex: none;
 }
 
@@ -220,6 +226,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .v-item-group.v-bottom-navigation {
+    -webkit-box-shadow: none;
     box-shadow: none;
 }
 
@@ -241,4 +248,52 @@ input[type="number"]::-webkit-inner-spin-button {
 .amount.theme--light.v-text-field--outlined>.v-input__control>.v-input__slot,
 .card_list .theme--light.v-chip:not(.v-chip--active) {
     background: var(--light_text_color) !important;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border: 1px solid transparent;
+    padding: 0;
+    margin: 0;
+}
+
+::-webkit-scrollbar-track {
+    background: #bcbcbc4d;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track:horizontal {
+    background: #bcbcbc4d;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track:vertical {
+    background: #bcbcbc4d;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bcbcbc1a;
+    -webkit-transition: 223ms linear;
+    transition: 223ms linear;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+    background: #bcbcbc1a;
+    -webkit-transition: 223ms linear;
+    transition: 223ms linear;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    background: #bcbcbc1a;
+    -webkit-transition: 223ms linear;
+    transition: 223ms linear;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #bcbcbc;
 }
