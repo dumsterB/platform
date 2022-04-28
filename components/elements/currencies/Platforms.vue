@@ -14,11 +14,20 @@
         large
         :width="100"
         outlined
-        :class="val.clicked ? 'btn-clicked' : ''"
+        :class="val.clicked ? 'primary' : ''"
+        style="border-radius: 20px"
         @click="changeClicked(val)"
       >
         <div>
-          <p class="ma-0">{{ val.name }}</p>
+          <v-img
+            contain
+            tag="img"
+            height="20px"
+            width="80px"
+            :src="val.logo"
+            :alt="val.name"
+            class=""
+          ></v-img>
           <p class="price ma-0">${{ val.price }}</p>
         </div>
       </v-btn>

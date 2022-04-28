@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="ma-2 mr-8 pa-4 elevation-4 rounded-lg">
+    <v-card class="ma-2 mr-8 pa-4 elevation-4">
       <v-row>
         <v-col :cols="6">
           <v-btn
@@ -106,7 +106,7 @@
       </v-row>
       <v-divider class="mt-4 mb-4"></v-divider>
       <v-row>
-        <v-col :cols="6">
+        <v-col>
           <v-btn
             large
             block
@@ -116,7 +116,7 @@
             >{{ $t("deposit_title") }}</v-btn
           >
         </v-col>
-        <v-col :cols="6">
+        <v-col>
           <v-btn large block @click="depositChanger('withdraw')">{{
             $t("withdraw")
           }}</v-btn>

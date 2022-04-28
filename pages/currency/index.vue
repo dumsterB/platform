@@ -1,114 +1,115 @@
 <template>
   <div class="page-container">
-    <v-row class="justify-start align-center">
-      <v-col :cols="6">
-        <v-row>
-          <v-col :cols="8" class="pl-6">
-            <v-row v-if="curr_crypto" class="mt-2 ml-2">
-              <v-col :lg="4" class="pl-0 pr-1">
-                <v-btn
-                  small
-                  block
-                  :class="page_state == 0 ? 'primary' : 'primary--text'"
-                  @click="page_state = 0"
-                  >{{ $t("spot_title") }}</v-btn
-                >
-              </v-col>
-              <v-col :lg="4" class="pl-0 pr-1">
-                <v-btn
-                  small
-                  block
-                  :class="page_state == 1 ? 'primary' : 'primary--text'"
-                  @click="page_state = 1"
-                  >{{ $t("user_arbitrage") }}</v-btn
-                >
-              </v-col>
-              <v-col :lg="4" class="pl-0 pr-0">
-                <v-btn
-                  small
-                  block
-                  :class="page_state == 2 ? 'primary' : 'primary--text'"
-                  @click="page_state = 2"
-                  >{{ $t("leverage") }}</v-btn
-                >
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col :cols="4">
+    <v-row>
+      <v-col :cols="9" class="pt-4">
+        <v-card class="ml-4">
+        <v-row class="justify-start align-center">
+          <v-col :cols="4" class="pt-0 mt-0">
             <v-autocomplete
               class="crypto-select ml-4 mt-4"
               v-model="curr_id"
               :items="currencies"
               item-text="name"
               item-value="id"
-              outlined
               dense
+              outlined
               hide-details
-              :label="$t('cryptocurrency')"
-            ></v-autocomplete>
+              ><template v-slot:selection="{ item }">
+                <v-chip style="background: transparent !important">
+                  <v-row class="ml-1">
+                    <img height="20" :src="item.logo" alt="" class="mr-2" />
+                    <strong>{{ item.name }}</strong>
+                    <span class="ml-2" style="color: #bfb5ff">
+                      {{ item.symbol }}</span
+                    >
+                  </v-row>
+                </v-chip>
+              </template>
+              <template v-slot:item="{ item }">
+                <div class="d-flex">
+                  <img height="20" :src="item.logo" alt="" />
+                  <div class="d-flex ml-3">
+                    <strong>{{ item.name }}</strong>
+                    <span class="ml-2" style="color: #bfb5ff">
+                      {{ item.symbol }}</span
+                    >
+                  </div>
+                </div></template
+              ></v-autocomplete
+            >
+          </v-col>
+          <v-col :cols="8" class="pt-4">
+            <Indicators
+              v-if="page_state == 0"
+              :currency="curr_code"
+              :price="price"
+              :change="change"
+              :low="low"
+              :high="high"
+            ></Indicators>
+            <Platforms
+              v-if="page_state == 1"
+              :currency="curr_code"
+              :prices="arb_data"
+              @clicked="platform_changed"
+            ></Platforms>
           </v-col>
         </v-row>
-      </v-col>
-      <v-col :cols="6" class="mt-3">
-        <Indicators
-          v-if="page_state == 0"
-          :currency="curr_code"
-          :price="price"
-          :change="change"
-          :low="low"
-          :high="high"
-        ></Indicators>
-        <Platforms
-          v-if="page_state == 1"
-          :currency="curr_code"
-          :prices="arb_data"
-          @clicked="platform_changed"
-        ></Platforms>
-      </v-col>
-    </v-row>
-    <v-row v-if="page_state == 2">
-      <v-col>
-        <Leverage :currency="current"></Leverage>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col :lg="8" :md="12">
-        <v-row class="ml-4">
+        </v-card>
+        <v-row v-if="curr_crypto" class="mt-2 ml-4 mt-4">
+          <v-col :cols="6">
+            <v-row>
+              <v-col :lg="4" class="pl-0 pr-1">
+                <v-btn
+                  large
+                  block
+                  class="menu-curr-buttons"
+                  :class="page_state == 0 ? 'primary' : ''"
+                  @click="page_state = 0"
+                  >{{ $t("spot_title") }}</v-btn
+                >
+              </v-col>
+              <v-col :lg="4" class="pl-0 pr-1">
+                <v-btn
+                  large
+                  block
+                  class="menu-curr-buttons"
+                  :class="page_state == 1 ? 'primary' : ''"
+                  @click="page_state = 1"
+                  >{{ $t("user_arbitrage") }}</v-btn
+                >
+              </v-col>
+              <v-col :lg="4" class="pl-0 pr-0">
+                <v-btn
+                  large
+                  block
+                  class="menu-curr-buttons"
+                  :class="page_state == 2 ? 'primary' : ''"
+                  @click="page_state = 2"
+                  >{{ $t("leverage") }}</v-btn
+                >
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col :cols="6"> </v-col>
+        </v-row>
+        <v-row class="ml-4" v-if="graph_key && page_state != 2">
           <v-col class="d-flex justify-start">
             <TradeGraph
-              v-if="graph_key && page_state != 2"
               :width="graphWidth"
               :height="graphHeight"
               :key_g="graph_key"
             ></TradeGraph>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col>
-            <TableTrades
-              v-if="trade_filter && page_state == 0"
-              :prices="prices"
-              :filter="trade_filter"
-              ref="trades"
-            ></TableTrades>
-            <TableASession
-              v-if="as_filter && page_state == 1"
-              :prices="prices"
-              :filter="as_filter"
-              title="table_position"
-              ref="a_session"
-            ></TableASession>
-          </v-col>
-        </v-row>
       </v-col>
-      <v-col :lg="4" :md="6">
+      <v-col :cols="3" class="pt-0">
         <SpotCard
           v-if="page_state == 0"
           :currency="curr_code"
           :price="price"
           @reload="reload_trade"
         ></SpotCard>
-
         <TableAC
           v-if="page_state == 1"
           :currency="curr_code ? curr_code : undefined"
@@ -117,6 +118,28 @@
           @reload="reload"
           class="ml-4"
         ></TableAC>
+      </v-col>
+    </v-row>
+    <v-row v-if="page_state == 2">
+      <v-col>
+        <Leverage :currency="current"></Leverage>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <TableTrades
+          v-if="trade_filter && page_state == 0"
+          :prices="prices"
+          :filter="trade_filter"
+          ref="trades"
+        ></TableTrades>
+        <TableASession
+          v-if="as_filter && page_state == 1"
+          :prices="prices"
+          :filter="as_filter"
+          title="table_position"
+          ref="a_session"
+        ></TableASession>
       </v-col>
     </v-row>
   </div>
@@ -154,7 +177,7 @@ export default {
       curr_id: null,
       curr_code: null,
       current: {},
-      graphWidth: parseInt(((window.innerWidth - 380) * 2) / 3),
+      graphWidth: parseInt(((window.innerWidth - 330) * 2) / 3),
       graphHeight: 600,
       selected_platform: "binance",
       base_p: this.$store.state.config.data.base_p,
@@ -222,17 +245,22 @@ export default {
   },
   watch: {
     curr_id() {
-      this.trade_filter = {
-        trade_status_id: "3",
-        dest_currency_id: this.curr_id,
-      };
-      this.current = this.curr_by_id(this.curr_id) || {};
-      this.curr_code = this.current.symbol;
+      if (this.curr_id) {
+        this.trade_filter = {
+          trade_status_id: "3",
+          dest_currency_id: this.curr_id,
+        };
+        this.current = this.curr_by_id(this.curr_id) || {};
+        this.curr_code = this.current.symbol;
+      }
     },
     curr_code() {
       this.as_filter = {
         "wallet[currency_id]": this.curr_id,
       };
+      (this.price = null), (this.change = null);
+      this.low = null;
+      this.high = null;
       if (this.curr_code && this.page_state == 0) {
         this.spot_sockets();
       }
@@ -308,7 +336,7 @@ export default {
       await this.$refs.trades.reload();
     },
     onResize(event) {
-      this.graphWidth = parseInt(((window.innerWidth - 380) * 2) / 3);
+      this.graphWidth = parseInt(((window.innerWidth - 330) * 2) / 3);
     },
     initGrpaphWidth() {},
     platform_changed(platform) {
@@ -430,8 +458,14 @@ export default {
   },
 };
 </script>
-<style scoped>
-.crypto-select {
-  width: 160px;
+<style>
+.menu-curr-buttons {
+  border-radius: 20px;
+}
+.menu-curr-buttons:not(.primary) {
+  background: #000c19 !important;
+}
+html[theme="light"] .menu-curr-buttons:not(.primary) {
+    background: #ffffff !important;;
 }
 </style>

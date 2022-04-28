@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tt-comp">
     <v-data-table
       :items="currencies"
       :headers="headers"
@@ -201,7 +201,7 @@ export default {
 .curr-table {
   background-color: transparent !important;
 }
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+.tt-comp .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   padding: 0 10px !important;
 }
 </style>

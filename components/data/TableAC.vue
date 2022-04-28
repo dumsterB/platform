@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ac-comp">
     <v-data-table
       :items="list"
       :headers="headers"
@@ -9,12 +9,39 @@
       }"
       class="elevation-4 space rounded-lg pl-4 pr-4"
     >
+      <template v-slot:[`item.name`]="{ item }"
+        ><v-img
+          contain
+          tag="img"
+          height="20px"
+          width="80px"
+          :src="item.logo"
+          :alt="item.name"
+          class=""
+        >
+        </v-img>
+      </template>
+      <template v-slot:[`item.price`]="{ item }">
+        <span>{{ item.price ? "$" + item.price : "no data" }}</span>
+      </template>
       <template v-slot:[`item.action`]="{ item }">
         <div class="d-flex justify-end">
-          <v-btn x-small @click="buy(item)" class="ml-1 green--text" outlined>
+          <v-btn
+            x-small
+            @click="buy(item)"
+            class="ml-1 green--text"
+            style="border-radius: 10px"
+            outlined
+          >
             {{ $t("buy") }}
           </v-btn>
-          <v-btn x-small @click="sell(item)" class="ml-1 red--text" outlined>
+          <v-btn
+            x-small
+            @click="sell(item)"
+            class="ml-1 red--text"
+            style="border-radius: 10px"
+            outlined
+          >
             {{ $t("sell") }}
           </v-btn>
         </div>
@@ -158,7 +185,7 @@ export default {
 .space {
   margin-left: -22px !important;
 }
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+.ac-comp .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   padding: 0 6px !important;
 }
 .v-application--is-ltr .v-data-footer__select {

@@ -1,26 +1,26 @@
 <template>
   <v-row>
     <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
-      <p class="ma-0 pa-0">{{ indicators[0].title }}</p>
-      <p class="ma-0 pa-0" :style="diffColor(change)">
+      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[0].title }}</p>
+      <p class="ma-0 pa-0 font-weight-bold" :class="diffColor(change)">
         {{ price }}
       </p>
     </v-col>
     <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
-      <p class="ma-0 pa-0">{{ indicators[1].title }}</p>
-      <p class="ma-0 pa-0" :style="diffColor(change)">
+      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[1].title }}</p>
+      <p class="ma-0 pa-0 font-weight-bold" :class="diffColor(change)">
         {{ change ? change.toFixed(4) : "" }}
       </p>
     </v-col>
     <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
-      <p class="ma-0 pa-0">{{ indicators[2].title }}</p>
-      <p class="ma-0 pa-0">
+      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[2].title }}</p>
+      <p class="ma-0 pa-0 font-weight-bold" :class="diffColor(change)">
         {{ high }}
       </p>
     </v-col>
     <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
-      <p class="ma-0 pa-0">{{ indicators[3].title }}</p>
-      <p class="ma-0 pa-0">
+      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[3].title }}</p>
+      <p class="ma-0 pa-0  font-weight-bold" :class="diffColor(change)">
         {{ low }}
       </p>
     </v-col>
@@ -67,9 +67,9 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return "color: 'red';";
+        return "red--text";
       } else {
-        return "color: 'green';";
+        return "primary--text";
       }
     },
   },

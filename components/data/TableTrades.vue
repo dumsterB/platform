@@ -97,12 +97,10 @@ export default {
         {
           text: this.$t("Purchased"),
           value: "dest_amount",
-          width: 150,
         },
         {
           text: this.$t("Spent"),
           value: "source_amount",
-          width: 150,
         },
         {
           text: this.$t("table_time"),

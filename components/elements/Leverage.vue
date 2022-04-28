@@ -1,15 +1,15 @@
 <template>
   <div>
     <v-row class="pa-3 pl-6 pr-6"
-      ><v-col
-        ><v-row
+      ><v-col>
+        <!-- <v-row
           ><v-col>
             <v-row class="pl-4 mb-2">
               <v-img class="mr-4" max-width="50" :src="currency.logo"></v-img>
               <span class="mt-3">{{ currency.symbol }}</span></v-row
             >
           </v-col></v-row
-        >
+        > -->
         <v-row>
           <v-col
             cols="12"
