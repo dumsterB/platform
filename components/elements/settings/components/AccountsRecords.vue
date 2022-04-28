@@ -1,13 +1,20 @@
 <template>
   <div>
-    <h2>Device  management</h2>
+    <h2>Account Activity Records</h2>
+    <br>
     <v-card>
       <v-data-table
           :headers="headers"
           :items="desserts"
           :items-per-page="5"
           class="elevation-1"
-      ></v-data-table>
+      >
+        <template v-slot:[`item.fat`]="{ item }">
+          <div class="d-flex">
+            <p style="color: #01BAC6">{{item.name}}</p>
+          </div>
+        </template>
+      </v-data-table>
     </v-card>
   </div>
 </template>
@@ -19,16 +26,15 @@ export default {
     return{
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'Date',
           align: 'start',
           sortable: false,
           value: 'name',
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
+        { text: 'Source', value: 'calories',    sortable: false, },
+        { text: 'Status', value: 'fat',    sortable: false, },
+        { text: 'IP Address', value: 'carbs',    sortable: false, },
+
       ],
       desserts: [
         {
@@ -118,5 +124,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

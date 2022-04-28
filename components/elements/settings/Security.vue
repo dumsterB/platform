@@ -112,7 +112,7 @@
               v-model="VerificationNumberCheckbox"
               :label="$t('unset')"
           ></v-checkbox>
-          <v-btn dark elevation="0"  @click="$emit('change_content',1)" :style="customStyle" class="success-btn mt-4">{{
+          <v-btn dark elevation="0"  @click="$emit('change_content','Device Management')" :style="customStyle" class="success-btn mt-4">{{
               $t("manage")
             }}</v-btn>
         </div>
@@ -131,7 +131,7 @@
               v-model="VerificationNumberCheckbox"
               :label="$t('unset')"
           ></v-checkbox>
-          <v-btn dark elevation="0" @click="$emit('change_content',2)"  :style="customStyle" class="success-btn mt-4">{{
+          <v-btn dark elevation="0" @click="$emit('change_content','Account Activity Records')"  :style="customStyle" class="success-btn mt-4">{{
               $t("more")
             }}</v-btn>
         </div>

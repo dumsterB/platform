@@ -9,8 +9,12 @@
        <component  :currentContent="currentContent" @change_content="change_content" :is="component"></component>
         </v-col>
       </v-row>
-      <AccountsRecords v-if="currentContent===2"></AccountsRecords>
-      <DeviceManagment v-if="currentContent===1"></DeviceManagment>
+      <div v-if="currentContent ==='Device Management' || 'Account Activity Records'">
+        <p class="header-text" @click="currentContent=0">Security > {{currentContent}}</p>
+        <br>
+      <DeviceManagment v-if="currentContent==='Device Management'"></DeviceManagment>
+      <AccountsRecords v-if="currentContent=== 'Account Activity Records'"></AccountsRecords>
+      </div>
     </v-container>
   </div>
 </template>
@@ -52,3 +56,9 @@ export default {
   mounted() {},
 };
 </script>
+<style>
+.header-text{
+  cursor: pointer;
+  color: #9A9A9A;
+}
+</style>

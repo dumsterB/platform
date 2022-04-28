@@ -9,9 +9,9 @@
         :items-per-page="5"
         class="elevation-1"
     >
-      <template v-slot:[`item.fat`]="{ item }">
+      <template v-slot:[`item.actions`]="{ item }">
         <div class="d-flex">
-       <p style="color: #01BAC6">{{item.name}}</p>
+          <a href="" class="primary--text">Delete</a>
         </div>
       </template>
     </v-data-table>
@@ -26,14 +26,15 @@ export default {
     return{
       headers: [
         {
-          text: 'Date',
+          text: 'Device',
           align: 'start',
           sortable: false,
           value: 'name',
         },
-        { text: 'Source', value: 'calories',    sortable: false, },
-        { text: 'Status', value: 'fat',    sortable: false, },
-        { text: 'IP Address', value: 'carbs',    sortable: false, },
+        { text: 'Date', value: 'calories',    sortable: false, },
+        { text: 'Location', value: 'fat',    sortable: false, },
+        { text: 'IP Address', value: 'protein',    sortable: false, },
+        { text: 'Action', value: 'actions',    sortable: false, },
 
       ],
       desserts: [
@@ -124,17 +125,5 @@ export default {
 </script>
 
 <style scoped>
-table th + th { border:none!important; }
-table td + td { border:none!important; }
-table th + th { border:none!important; }
-table td + td { border:none!important; }
-.theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:not(.v-data-table__mobile-row){
-  border: none!important;
-}
-.theme--dark.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
-  border: none!important;
-}
-.theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:last-child, .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:last-child {
-  border: none;
-}
+
 </style>
