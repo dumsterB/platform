@@ -72,8 +72,12 @@
             v-on="on"
           >
             <div class="mr-2">
-              <v-avatar size="40">
-                <v-icon :color="hover ? 'primary' : 'gray'" class="mr-2"
+              <v-avatar size="35">
+                <img
+                  v-if="userAvatar"
+                  :src="userAvatar"
+                />
+                <v-icon v-else :color="hover ? 'primary' : 'gray'" class="mr-2"
                   >mdi-account</v-icon
                 >
               </v-avatar>
@@ -247,13 +251,12 @@ export default {
     ...mapGetters("config/ws", {
       prices_current: "top_data",
     }),
-    userAvatar: function () {
+    userAvatar () {
       try {
-        this.user_image =
-          this.$env("FILE_SERVER_BASE") +
-          this.$store.state.auth.user.fs[0]["dir"];
+        return this.$env("FILE_SERVER_BASE") +
+          this.$auth.user.fs[0]["dir"];
       } catch (e) {
-        this.user_image = "/files/avatar_default.jpg";
+        return null;
       }
     },
     ...mapGetters("data/arbitrage_company", {

@@ -45,12 +45,12 @@ export const actions = {
         commit('set_socket');
         let intr = setInterval(() => {
             if (state.socket.readyState == state.socket.OPEN) {
-                if (state.str_top_subscribes) {
-                    state.socket.send(`{
-                        "method": "subscribe",
-                        "data": [${state.str_top_subscribes}]
-                      }`);
-                }
+                // if (state.str_top_subscribes) {
+                //     state.socket.send(`{
+                //         "method": "subscribe",
+                //         "data": [${state.str_top_subscribes}]
+                //       }`);
+                // }
                 if (state.str_page_subscribes) {
                     state.socket.send(`{
                         "method": "subscribe",
