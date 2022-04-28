@@ -24,7 +24,9 @@
             <div>
               <v-card-subtitle
                 ><p class="mr-6 mt-1">
-                  <strong>${{ coin.price }}</strong>
+                  <strong
+                    >${{ new Intl.NumberFormat().format(coin.price) }}</strong
+                  >
                 </p></v-card-subtitle
               >
             </div>

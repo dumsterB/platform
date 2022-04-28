@@ -30,7 +30,6 @@
 
         <v-list v-if="currencies" class="mt-4 mr-4 mb-4 ml-4 market-list">
           <v-list-item
-            
             class=""
             disabled
             v-for="(cur, i) in currencies"
@@ -40,12 +39,17 @@
               <v-img v-bind:src="cur.logo"></v-img>
             </v-list-item-avatar>
             <v-list-item-content v-text="cur.name"></v-list-item-content>
-            <span>{{prices[cur.symbol] ? '$' : ''}}</span><v-list-item-content
-              v-text="prices[cur.symbol]"
-            ></v-list-item-content>
+            <span>{{ prices[cur.symbol] ? "$" : "" }}</span
+            ><v-list-item-content>{{
+              prices[cur.symbol]
+                ? new Intl.NumberFormat().format(prices[cur.symbol])
+                : 0
+            }}</v-list-item-content>
           </v-list-item>
         </v-list>
-        <div v-else class="message-available"><span>{{$t('no_coins_available')}}</span></div>
+        <div v-else class="message-available">
+          <span>{{ $t("no_coins_available") }}</span>
+        </div>
       </div>
     </v-card>
   </v-hover>

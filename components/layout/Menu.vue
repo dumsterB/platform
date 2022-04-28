@@ -62,6 +62,7 @@
             :key="i"
             nuxt
             :to="item.to"
+            :style="customStyle"
             class="menu-list-item primary--text"
             active-class="active-list-item"
           >
@@ -86,12 +87,10 @@
                     </v-hover>
                   </v-list-item-action>
                   <v-list-item-content>
-                    <v-hover open-delay="223" close-delay="223">
-                      <v-list-item-title v-text="$t(item.title)" />
-                    </v-hover>
+                    <v-list-item-title v-text="$t(item.title)" />
                   </v-list-item-content>
                 </template>
-                <span>{{$t(item.title)}}</span>
+                <span>{{ $t(item.title) }}</span>
               </v-tooltip>
             </template>
           </v-list-item>
@@ -108,6 +107,7 @@ export default {
   data: function () {
     return {
       icon_color: config.colors.icon_color,
+      primary: config.themes.dark.primary,
       style_panel_left_minimal: false,
       permanent: true,
       menu_active: 0,
@@ -122,6 +122,11 @@ export default {
     ...mapGetters({
       menu: "config/menu/getAllMenu",
     }),
+    customStyle() {
+      return {
+        "--primary": this.primary,
+      };
+    },
   },
   mounted() {},
   watch: {},
@@ -131,13 +136,28 @@ export default {
 .v-navigation-drawer__border {
   display: none;
 }
+.active-list-item {
+  position: relative;
+}
+.active-list-item::after {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 8px;
+  background: var(--primary) !important;
+  left: 0;
+  border-radius: 0px 5px 5px 0px;
+}
 .active-list-item::before {
   background: transparent;
 }
 .active-list-item .v-list-item__title {
   font-size: 16px !important;
   font-weight: 600 !important;
-  color: var(--v-primary-base) !important;
+  color: var(--primary) !important;
+}
+.active-list-item > div > .icon_color--text {
+  color: var(--primary) !important;
 }
 .menu-list-item .v-list-item__title {
   font-size: 14px;
@@ -149,7 +169,10 @@ export default {
   color: #848484;
 }
 html[theme="dark"] {
-  .active-list-item {
+  .active-list-item .v-list-item__title {
+    color: white !important;
+  }
+  .active-list-item > div > .icon_color--text {
     color: white !important;
   }
 }

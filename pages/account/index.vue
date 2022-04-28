@@ -3,13 +3,7 @@
     <v-row>
       <v-col class="pt-0">
         <div
-          class="
-            d-flex
-            mr-6
-            mdc-form-field--space-between
-            justify-content-beetween
-            currencyNavbar
-          "
+          class="d-flex mr-6 mdc-form-field--space-between justify-content-beetween currencyNavbar"
         >
           <div>
             <p class="text-h6 ml-10">{{ $t("markets") }}</p>
@@ -92,7 +86,7 @@ export default {
       currencies_full: "list",
     }),
     ...mapGetters("data/default", {
-      default_gate_all: "default_gate_all"
+      default_gate_all: "default_gate_all",
     }),
     currencies() {
       let c_f = this.currencies_full;
@@ -193,7 +187,10 @@ export default {
     },
     init_currs() {
       let me = this;
-      let data = me.prices && me.prices.length ? me.prices : this.$store.getters["config/default/gate_all"];
+      let data =
+        me.prices && me.prices.length
+          ? me.prices
+          : this.$store.getters["config/default/gate_all"];
       let currs = me.currencies.map((el) => {
         let res = {
           id: el.id,

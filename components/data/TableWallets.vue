@@ -27,7 +27,9 @@
       }"
     >
       <template v-slot:[`item.eqv`]="{ item }">
-        <span class="primary--text font-weight-bold">{{ item.eqv }}</span
+        <span class="primary--text font-weight-bold">{{
+          new Intl.NumberFormat().format(item.eqv)
+        }}</span
         ><span class="primary--text"> USD</span>
       </template>
       <template v-slot:[`item.actions`]="{ item }">

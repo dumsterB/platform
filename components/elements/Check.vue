@@ -10,45 +10,65 @@
                   <p class="text-white--text">{{ $t("total_equity") }}</p>
                   <p class="text-h6">
                     <strong class="primary--text"
-                    >{{ main_currency ? totalEquity : total_equity_usdt }}
-                      {{ main_currency ? "BTC" : "USD" }}</strong
-                    >
-                  </p>
-                  <p class="text-white--text">
-                    ≈ {{ main_currency ? total_equity_usdt : totalEquity }}
-                    {{ main_currency ? "USD" : "BTC" }}
-                  </p>
-                </v-col>
-                <v-col cols="12">
-                  <p class="text-white--text">{{ $t("available_balance") }}</p>
-                  <p class="text-h6">
-                    <strong  class="primary--text"
-                    >{{
-                        main_currency ? available_balance : available_balance_usdt
+                      >{{
+                        main_currency
+                          ? new Intl.NumberFormat().format(totalEquity)
+                          : new Intl.NumberFormat().format(total_equity_usdt)
                       }}
                       {{ main_currency ? "BTC" : "USD" }}</strong
                     >
                   </p>
                   <p class="text-white--text">
                     ≈
-                    {{ main_currency ? available_balance_usdt : available_balance }}
+                    {{
+                      main_currency
+                        ? new Intl.NumberFormat().format(total_equity_usdt)
+                        : new Intl.NumberFormat().format(totalEquity)
+                    }}
+                    {{ main_currency ? "USD" : "BTC" }}
+                  </p>
+                </v-col>
+                <v-col cols="12">
+                  <p class="text-white--text">{{ $t("available_balance") }}</p>
+                  <p class="text-h6">
+                    <strong class="primary--text"
+                      >{{
+                        main_currency
+                          ? new Intl.NumberFormat().format(available_balance)
+                          : new Intl.NumberFormat().format(
+                              available_balance_usdt
+                            )
+                      }}
+                      {{ main_currency ? "BTC" : "USD" }}</strong
+                    >
+                  </p>
+                  <p class="text-white--text">
+                    ≈
+                    {{
+                      main_currency
+                        ? new Intl.NumberFormat().format(available_balance_usdt)
+                        : new Intl.NumberFormat().format(available_balance)
+                    }}
                     {{ main_currency ? "USD" : "BTC" }}
                   </p>
                 </v-col>
               </v-row>
-
             </v-col>
             <v-col cols="2">
               <div class="d-flex">
                 <v-btn
-                    :class="tgl ? 'historyChip primary' : 'historyChip primary--text'"
-                    @click="history_tgl"
-                    outlined
-                    x-small
-                ><div>
-                  <v-icon x-small>mdi-history</v-icon
-                  ><span class="history-btn-cl">{{ $t("history_button") }}</span>
-                </div>
+                  :class="
+                    tgl ? 'historyChip primary' : 'historyChip primary--text'
+                  "
+                  @click="history_tgl"
+                  outlined
+                  x-small
+                  ><div>
+                    <v-icon x-small>mdi-history</v-icon
+                    ><span class="history-btn-cl">{{
+                      $t("history_button")
+                    }}</span>
+                  </div>
                 </v-btn>
               </div>
             </v-col>

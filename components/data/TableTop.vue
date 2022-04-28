@@ -28,7 +28,9 @@
       </template>
       <template v-slot:[`item.change`]="{ item }">
         <div class="" v-if="item.change && item.price">
-          <span style="font-size: 14px">${{ item.price }}</span>
+          <span style="font-size: 14px"
+            >${{ new Intl.NumberFormat().format(item.price) }}</span
+          >
           <span
             style="font-size: 10px"
             :class="diffColor(item.change)"
@@ -37,9 +39,9 @@
             <v-icon :class="diffColor(item.change)" size="small">{{
               item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ item.change }}
+            {{ new Intl.NumberFormat().format(item.change) }}
             <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
-              >( %{{ item.percent }} )</span
+              >(%{{ item.percent }})</span
             >
           </span>
         </div>
@@ -78,7 +80,9 @@
       </template>
       <template v-slot:[`item.volume`]="{ item }">
         <div class="ml-4" v-if="item.change && item.price">
-          <span style="font-size: 14px">${{ item.price }}</span>
+          <span style="font-size: 14px"
+            >${{ new Intl.NumberFormat().format(item.price) }}</span
+          >
           <span
             style="font-size: 10px"
             :class="diffColor(item.change)"
@@ -87,9 +91,9 @@
             <v-icon :class="diffColor(item.change)" size="small">{{
               item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ item.change }}
+            <!-- {{ item.change }} -->
             <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
-              >( %{{ item.percent }} )</span
+              >(%{{ item.percent }})</span
             >
           </span>
         </div>
@@ -99,7 +103,9 @@
       </template>
       <template v-slot:[`item.cap`]="{ item }">
         <div class="" v-if="item.change && item.price">
-          <span style="font-size: 14px">${{ item.price }}</span>
+          <span style="font-size: 14px"
+            >${{ new Intl.NumberFormat().format(item.price) }}</span
+          >
           <span
             style="font-size: 10px"
             :class="diffColor(item.change)"
@@ -108,9 +114,9 @@
             <v-icon :class="diffColor(item.change)" size="small">{{
               item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ item.change }}
+            {{ new Intl.NumberFormat().format(item.change) }}
             <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
-              >( %{{ item.percent }} )</span
+              >(%{{ item.percent }})</span
             >
           </span>
         </div>

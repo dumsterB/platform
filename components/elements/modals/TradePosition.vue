@@ -14,7 +14,7 @@
     <v-card-text>
       <v-container class="d-flex justify-lg-space-between font-weight-medium">
         <span>{{ $t("marketplace_price") }}</span>
-        <span>{{ price }} USD</span>
+        <span>{{ new Intl.NumberFormat().format(price) }} USD</span>
       </v-container>
       <v-container class="d-flex justify-lg-space-between">
         <span>{{ `${$t("available_balance")}` }}</span>
@@ -133,12 +133,18 @@ export default {
       if (this.action === "Sell") {
         if (this.userWallet.currency) {
           return (
-            this.userWallet.balance + " " + this.userWallet.currency.symbol
+            new Intl.NumberFormat().format(this.userWallet.balance) +
+            " " +
+            this.userWallet.currency.symbol
           );
         }
       } else {
         if (this.wl.currency) {
-          return this.wl.balance + " " + this.wl.currency.symbol;
+          return (
+            new Intl.NumberFormat().format(this.wl.balance) +
+            " " +
+            this.wl.currency.symbol
+          );
         }
       }
     },
@@ -237,7 +243,7 @@ export default {
         title: title,
         text: title,
         color: color,
-        timeout: 2000
+        timeout: 2000,
       });
       this.fetchWallet();
       setTimeout(() => {
