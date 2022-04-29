@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-card class="px-4 pb-6">
+      <div class="mb-6">
       <v-btn
         class="primary--text pt-1 mb-2 font-weight-bold"
         style="background: transparent; border-top: 4px solid #007bff"
@@ -53,6 +54,7 @@
           ><span>{{ dt.total }}</span></v-col
         >
       </v-row>
+      </div>
     </v-card>
   </div>
 </template>

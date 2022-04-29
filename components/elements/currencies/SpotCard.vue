@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h3 class="ml-4 mb-2">Spot</h3>
     <v-card class="ma-2 mr-8 pa-4 elevation-4 spot-card">
       <v-row>
         <v-col class="pt-0">
@@ -26,11 +27,11 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col :cols="6">
-          <span>{{ $t("available_balance_title") }}</span>
+        <v-col :cols="6" class="pb-0">
+          <span class="small_text">{{ $t("available_balance_title") }}</span>
         </v-col>
-        <v-col :cols="6">
-          <span
+        <v-col :cols="6" class="pb-0 text-right">
+          <span class="small_text"
             >{{
               av_bal ? new Intl.NumberFormat().format(av_bal.toFixed(4)) : ""
             }}
@@ -39,37 +40,35 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col :cols="6" class="mt-2">
-          <span>{{ $t("price") }}</span>
-        </v-col>
-        <v-col :cols="6">
+        <v-col :cols="12" class="pb-0">
+          <span class="small_text">{{ $t("price") }}</span>
           <v-text-field
             v-model="price"
             outlined
             dense
             hide-details
             readonly
+            class="mt-2 border-rad"
             suffix="USD"
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
-        <v-col :cols="6" class="mt-2">
-          <span>{{ $t("amount") }}</span>
-        </v-col>
-        <v-col :cols="6">
+        <v-col :cols="12" class="pb-0">
+          <span class="small_text">{{ $t("amount") }}</span>
           <v-text-field
             v-model="amount"
             outlined
             dense
             hide-details
             :suffix="currency"
+            class="mt-2"
             type="number"
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
-        <v-col :cols="12">
+        <v-col :cols="12" class="pb-0">
           <v-slider
             hide-details
             max="100"
@@ -79,11 +78,17 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col :cols="6" class="mt-2">
-          <span>{{ $t("total") }}</span>
+        <v-col :cols="6" class="pb-2 pt-0">
+          <span class="small_text gray--text">0%</span>
         </v-col>
-        <v-col :cols="6">
+        <v-col :cols="6" class="pb-2 pt-0 text-right">
+          <span class="small_text gray--text">100%</span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col :cols="12">
           <span>
+            <span class="small_text">{{ $t("total") }}</span>
             <v-text-field
               v-model="t_price"
               outlined
@@ -91,12 +96,13 @@
               hide-details
               suffix="USD"
               type="number"
+              class="mt-2"
             ></v-text-field>
           </span>
         </v-col>
       </v-row>
       <v-row>
-        <v-col :cols="12">
+        <v-col :cols="12" class="my-2">
           <v-btn
             large
             :loading="loading"
@@ -105,7 +111,7 @@
             class="rounded-xl"
             @click="trade_run"
             :class="buy_sell ? 'green' : 'red'"
-            >{{ buy_sell ? $t("buy") : $t("sell") }}</v-btn
+            >{{ loading ? '' : buy_sell ? $t("buy") : $t("sell") }}</v-btn
           >
         </v-col>
       </v-row>
@@ -125,6 +131,32 @@
           <v-btn block large outlined class="primary--text rounded-xl" @click="depositChanger('withdraw')">{{
             $t("withdraw")
           }}</v-btn>
+        </v-col>
+      </v-row>
+      <v-row class="to_small_text">
+        <v-col :cols="6" class="pb-0">
+          <span class="gray--text">{{'USD'}}</span> <span class="ml-4 gray--text">{{ $t("Available") }}</span>
+        </v-col>
+        <v-col :cols="6" class="pb-0 text-right">
+          <span class=""
+            >{{
+              usd_bal ? new Intl.NumberFormat().format(usd_bal.toFixed(4)) : ""
+            }}
+            <span class="gray--text">{{ 'USD' }}</span></span
+          >
+        </v-col>
+      </v-row>
+      <v-row class="mb-2 to_small_text">
+        <v-col :cols="6">
+          <span class="gray--text">{{currency}}</span> <span class="ml-4 gray--text">{{ $t("Available") }}</span>
+        </v-col>
+        <v-col :cols="6" class="text-right">
+          <span class=""
+            >{{
+              curr_bal ? new Intl.NumberFormat().format(curr_bal.toFixed(4)) : ""
+            }}
+            <span class="gray--text">{{ currency }}</span></span
+          >
         </v-col>
       </v-row>
     </v-card>
@@ -172,17 +204,26 @@ export default {
     ...mapGetters("data/currency", {
       currencies: "list",
     }),
-    av_bal() {
-      let usd_bal;
-      if (this.buy_sell) {
-        usd_bal = this.wallet.find((el) => el.currency.symbol == "USD");
-      } else {
-        usd_bal = this.wallet.find((el) => el.currency.symbol == this.currency);
-      }
-      if (usd_bal) {
-        return usd_bal.balance;
+    usd_bal() {
+      let bal = this.wallet.find((el) => el.currency.symbol == "USD");
+      if (bal) {
+        return bal.balance;
       }
       return 0;
+    },
+    curr_bal() {
+      let bal = this.wallet.find((el) => el.currency.symbol == this.currency);
+      if (bal) {
+        return bal.balance;
+      }
+      return 0;
+    },
+    av_bal() {
+      if (this.buy_sell) {
+        return this.usd_bal;
+      } else {
+        return this.curr_bal;
+      }
     },
     curr() {
       if (this.buy_sell) {
@@ -336,5 +377,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
+.small_text {
+  font-size: 14px;
+}
+.to_small_text {
+  font-size: 13px;
+}
 </style>

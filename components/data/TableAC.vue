@@ -1,5 +1,6 @@
 <template>
   <div class="ac-comp">
+    <h3 class="ml-2 mb-2">Arbitrage</h3>
     <v-data-table
       :items="list"
       :headers="headers"
@@ -7,7 +8,7 @@
       :footer-props="{
         'items-per-page-options': [5, 10, 20],
       }"
-      class="elevation-4 space rounded-lg pl-4 pr-4"
+      class="elevation-4 space rounded-lg pl-4 pr-4 ml-0"
     >
       <template v-slot:[`item.name`]="{ item }"
         ><v-img
