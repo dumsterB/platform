@@ -11,8 +11,8 @@
       ></v-text-field>
       <v-checkbox
         v-model="zero_bals"
-        class="ml-2"
-        style="margin-top: -1px"
+        class="ml-2 d-inline"
+        style="margin-top: -1px; width: 100%"
         :label="zero_bals ? $t('open_zero_balances') : $t('hide_zero_balances')"
       ></v-checkbox>
     </div>
