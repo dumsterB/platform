@@ -166,7 +166,7 @@ export default {
       }
     },
     handlerSelection(currency) {
-      console.log(currency.name);
+      // console.log(currency.name);
       this.star_selection = !this.star_selection;
     },
   },

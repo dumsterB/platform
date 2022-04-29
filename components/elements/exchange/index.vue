@@ -282,7 +282,7 @@ export default {
         trade_data.exchange_rate =
           this.active_btn == "buy" ? 1 / this.price : this.price;
       }
-      console.log("trade_data", trade_data);
+      // console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });
       let title, color;
       if (rs.data && rs.data.trade_status_id != 3) {

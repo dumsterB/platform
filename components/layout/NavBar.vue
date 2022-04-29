@@ -214,12 +214,12 @@ export default {
           });
         }
       }
-      console.log("selected", v);
+      // console.log("selected", v);
     },
     prices_current(v) {
       let me = this;
       let json_d = Object.assign({}, v);
-      console.log("MARQUE DATA", json_d);
+      // console.log("MARQUE DATA", json_d);
       me.stocks.forEach((st) => {
         if (json_d && json_d.method == `shares_all.${st.key}@kline_1d`) {
           let data = json_d.data ? json_d.data.data || [] : [];
@@ -309,7 +309,7 @@ export default {
     },
   },
   mounted() {
-    console.log("this.filtered :>> ", this.filtered);
+    // console.log("this.filtered :>> ", this.filtered);
     window.addEventListener("scroll", (e) => {
       if (window.pageYOffset > 60) {
         document.getElementById("app-bar-id").style.display = "none";

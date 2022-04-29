@@ -172,7 +172,7 @@ export default {
         }
       });
       me.arb_companies = arb_companies;
-      console.log("me.arb_companies", me.arb_companies);
+      // console.log("me.arb_companies", me.arb_companies);
     },
     async reload() {
       await this.$refs.a_session.reload();

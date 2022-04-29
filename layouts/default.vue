@@ -81,7 +81,7 @@ export default {
     },
     notification_socket() {
       let user_id = this.$auth.user.id;
-      console.log("user_id", user_id);
+      // console.log("user_id", user_id);
       let cntx = "platform";
       let ws_query = `${this.$env(
         "WS_STORE_SERVER"
@@ -102,7 +102,7 @@ export default {
     notification_listener(event) {
       if (event.data) {
         let json_d = JSON.parse(event.data);
-        console.log("notification_listener", json_d);
+        // console.log("notification_listener", json_d);
         if (json_d && json_d.method == "notification") {
           let data = json_d.data;
           if (data) {

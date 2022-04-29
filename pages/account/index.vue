@@ -101,7 +101,7 @@ export default {
       wallets: "list",
     }),
     innerwidth() {
-      console.log("window.innerWidth", window.innerWidth);
+      // console.log("window.innerWidth", window.innerWidth);
       return window.innerWidth;
     },
     ...mapGetters("config/ws", {
@@ -257,7 +257,7 @@ export default {
   async created() {
     this.init_currs();
     let subscr_obj = this.wallets_subscribe_definer();
-    console.log("subscr_obj", subscr_obj);
+    // console.log("subscr_obj", subscr_obj);
     this.subscr = `"${this.base_p}_all@ticker_10s"`;
     if (subscr_obj.str) {
       this.subscr += `, ${subscr_obj.str}`;
