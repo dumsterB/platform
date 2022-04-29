@@ -28,7 +28,7 @@
             :alt="val.name"
             class=""
           ></v-img>
-          <p class="price ma-0">${{ val.price }}</p>
+          <p class="price ma-0">{{ val.price ? '$' + val.price : 'no data' }}</p>
         </div>
       </v-btn>
     </v-col>

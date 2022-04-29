@@ -137,7 +137,7 @@ export default {
 
     resetList(prices) {
       this.list = this.ac.map((el) => {
-        let fnd = prices.find((e) => e && e.company == el.name);
+        let fnd = prices ? prices.find((e) => e && e.company == el.name) : null;
         let pr = 0;
         if (fnd && fnd.price) pr = fnd.price;
         el.price = pr;
@@ -178,6 +178,7 @@ export default {
   },
   async created() {
     // this.create({ data: {} });
+    this.resetList();
   },
 };
 </script>

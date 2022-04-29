@@ -680,11 +680,138 @@ export const state = () => ({
             "price": 4.579,
             "change": 0.229
         }
+    ],
+    com_all: [
+        {
+            "share": "GBP",
+            "exchange": "FOREX",
+            "high": 0.7853,
+            "low": 0.7845,
+            "time": "2022-04-25T23:59:00.000Z",
+            "interval": 86400000,
+            "close": 0.785,
+            "open": 0.7846
+        },
+        {
+            "share": "EUR",
+            "exchange": "FOREX",
+            "high": 0.9337,
+            "low": 0.9328,
+            "time": "2022-04-25T23:59:00.000Z",
+            "interval": 86400000,
+            "close": 0.9333,
+            "open": 0.9332
+        },
+        {
+            "share": "RUB",
+            "exchange": "FOREX",
+            "high": 75.275,
+            "low": 74.4,
+            "time": "2022-04-25T22:45:00.000Z",
+            "interval": 86400000,
+            "close": 75.025,
+            "open": 75.148
+        },
+        {
+            "share": "SMDS",
+            "exchange": "LSE",
+            "high": 331.846,
+            "low": 321.3,
+            "time": "2022-04-25T15:35:00.000Z",
+            "interval": 86400000,
+            "close": 327.2,
+            "open": 321.8
+        },
+        {
+            "share": "FERG",
+            "exchange": "LSE",
+            "high": 10515,
+            "low": 10085,
+            "time": "2022-04-25T15:35:00.000Z",
+            "interval": 86400000,
+            "close": 10205,
+            "open": 10365
+        },
+        {
+            "share": "BARC",
+            "exchange": "LSE",
+            "high": 146.7,
+            "low": 143.14,
+            "time": "2022-04-25T15:35:00.000Z",
+            "interval": 86400000,
+            "close": 144.18,
+            "open": 144.42
+        },
+        {
+            "share": "AAPL",
+            "exchange": "US",
+            "high": 162.84,
+            "low": 158.46,
+            "time": "2022-04-25T20:00:00.000Z",
+            "interval": 86400000,
+            "close": 162.88,
+            "open": 161.07
+        },
+        {
+            "share": "BABA",
+            "exchange": "US",
+            "high": 86.17,
+            "low": 81.8,
+            "time": "2022-04-25T20:03:00.000Z",
+            "interval": 86400000,
+            "close": 85.84,
+            "open": 82.7
+        },
+        {
+            "share": "BNR",
+            "exchange": "F",
+            "high": 73.62,
+            "low": 73.62,
+            "time": "2022-04-25T06:18:00.000Z",
+            "interval": 86400000,
+            "close": 73.62,
+            "open": 73.62
+        },
+        {
+            "share": "DB1",
+            "exchange": "F",
+            "high": 161.5,
+            "low": 161.05,
+            "time": "2022-04-25T11:55:00.000Z",
+            "interval": 86400000,
+            "close": 161.5,
+            "open": 161.5
+        },
+        {
+            "share": "R6C0",
+            "exchange": "XETRA",
+            "high": 25.45,
+            "low": 24.575,
+            "time": "2022-04-25T15:35:00.000Z",
+            "interval": 86400000,
+            "close": 24.62,
+            "open": 25.39
+        },
+        {
+            "share": "PEP",
+            "exchange": "XETRA",
+            "high": 161.66,
+            "low": 157.84,
+            "time": "2022-04-25T15:35:00.000Z",
+            "interval": 86400000,
+            "close": 160.7,
+            "open": 160.28
+        }
     ]
 })
 
 export const getters = {
     gate_all(state) {
         return state.gate_all;
+    },
+    get_val: (state) => (base) =>  {
+        let fnd = state.gate_all.find(el => el.base == base);
+        let fnd1 = state.com_all.find(el => el.share == base);
+        return fnd1 ? fnd1 : fnd;
     },
 };

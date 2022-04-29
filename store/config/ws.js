@@ -66,10 +66,11 @@ export const actions = {
                 let fnd = state.page_subscribes.find(el => el == json_d.method);
                 if (fnd) {
                     commit('set_page_data', json_d);
-                }
-                fnd = state.top_subscribes.find(el => el == json_d.method);
-                if (fnd) {
-                    commit('set_top_data', json_d);
+                } else {
+                    fnd = state.top_subscribes.find(el => el == json_d.method);
+                    if (fnd) {
+                        commit('set_top_data', json_d);
+                    }
                 }
             }
         };

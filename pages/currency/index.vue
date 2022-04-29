@@ -213,6 +213,9 @@ export default {
     ...mapGetters("config/ws", {
       prices_current: "page_data",
     }),
+    ...mapGetters("config/default", {
+      get_val: "get_val",
+    }),
     currencies() {
       let c_f = this.currencies_full;
       if (!this.curr_crypto) {
@@ -361,6 +364,10 @@ export default {
         for (let i = 0; i < 2; i++) {
           let curr = wall[p_arr[i]];
           let cr = curr.symbol;
+          let dt = me.get_val(cr);
+          if (dt) {
+            me.price_update(dt);
+          }
           if (curr.currency_type.key == "CRYPTO") {
             let st = `${me.base_p}_${cr}-USD@ticker_10s`;
             let fnd = arr.find((el) => el == st);
@@ -431,6 +438,10 @@ export default {
       let obj = me.trades_subscribe_definer();
       this.unsubscribe();
       me.arr_subscr = obj.arr;
+      let dt = me.get_val(me.curr_code);
+      if (dt) {
+        me.price_update(dt);
+      }
       if (this.curr_crypto) {
         me.arr_subscr.push(`${me.base_p}_${me.curr_code}-USD@ticker_5s`);
         me.arr_subscr.push(`${me.base_p}_${me.curr_code}-USD@kline_1d`);

@@ -104,6 +104,9 @@ export default {
     ...mapGetters("config/ws", {
       prices_current: "page_data",
     }),
+    ...mapGetters("config/default", {
+      get_val: "get_val"
+    }),
     spot_title() {
       return this.$t("spot_account");
     },
@@ -208,6 +211,10 @@ export default {
       let arr = [];
       this.wallets.forEach((wall, i) => {
         let cr = wall.currency.symbol;
+        let dt = me.get_val(cr);
+        if (dt) {
+          me.price_update(dt);
+        }
         if (wall.currency.currency_type.key == "CRYPTO") {
           str += `"${me.base_p}_${cr}-USD@ticker_10s"`;
           arr.push(`${me.base_p}_${cr}-USD@ticker_10s`);
