@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="privateInformation" v-if="currentContent===0">
+    <div class="privateInformation" v-if="currentContent === 0">
       <p class="text-h6">{{ $t("security") }}</p>
       <v-card class="mainCard pa-5">
         <div class="list-item d-flex">
@@ -77,7 +77,7 @@
         <br />
         <v-divider class="mt-2 mb-2"></v-divider>
         <h4 class="primary--text">{{ $t("advanced_security") }}</h4>
-        <br>
+        <br />
         <div class="list-item d-flex">
           <div>
             <h4>{{ $t("login_verify") }}</h4>
@@ -97,7 +97,7 @@
           ></confirmPassword>
         </div>
         <h4 class="primary--text">{{ $t("devices_activities") }}</h4>
-        <br>
+        <br />
         <div class="list-item d-flex">
           <div>
             <h4>{{ $t("device_management") }}</h4>
@@ -106,37 +106,50 @@
           </div>
           <v-spacer></v-spacer>
           <v-checkbox
-              class="mr-2"
-              disabled
-              style="align-items: center; display: flex"
-              v-model="VerificationNumberCheckbox"
-              :label="$t('unset')"
+            class="mr-2"
+            disabled
+            style="align-items: center; display: flex"
+            v-model="VerificationNumberCheckbox"
+            :label="$t('unset')"
           ></v-checkbox>
-          <v-btn dark elevation="0"  @click="$emit('change_content','Device Management')" :style="customStyle" class="success-btn mt-4">{{
-              $t("manage")
-            }}</v-btn>
+          <v-btn
+            dark
+            elevation="0"
+            @click="$emit('change_content', 'Device Management')"
+            :style="customStyle"
+            class="success-btn mt-4"
+            >{{ $t("manage") }}</v-btn
+          >
         </div>
         <v-divider class="mt-2 mb-2"></v-divider>
         <div class="list-item d-flex">
           <div>
             <h4>{{ $t("Account Activity") }}</h4>
             <br />
-            <span class="text-gray--text">{{ $t("last_logined") }} : 22.22.22</span>
+            <span class="text-gray--text"
+              >{{ $t("last_logined") }} : 22.22.22</span
+            >
           </div>
           <v-spacer></v-spacer>
           <v-checkbox
-              class="mr-2"
-              disabled
-              style="align-items: center; display: flex"
-              v-model="VerificationNumberCheckbox"
-              :label="$t('unset')"
+            class="mr-2"
+            disabled
+            style="align-items: center; display: flex"
+            v-model="VerificationNumberCheckbox"
+            :label="$t('unset')"
           ></v-checkbox>
-          <v-btn dark elevation="0" @click="$emit('change_content','Account Activity Records')"  :style="customStyle" class="success-btn mt-4">{{
-              $t("more")
-            }}</v-btn>
+          <v-btn
+            dark
+            elevation="0"
+            @click="$emit('change_content', 'Account Activity Records')"
+            :style="customStyle"
+            class="success-btn mt-4"
+            >{{ $t("more") }}</v-btn
+          >
         </div>
         <div class="mt-15 d-flex">
-          <p>{{$t('suspicious_activity')}}</p> <span class="primary--text ml-2">{{$t('disable_account')}}</span>
+          <p>{{ $t("suspicious_activity") }}</p>
+          <span class="primary--text ml-2">{{ $t("disable_account") }}</span>
         </div>
       </v-card>
     </div>
@@ -157,56 +170,43 @@ export default {
     email,
     phone,
     confirmPassword,
-
   },
-  props:{
-    currentContent:{}
+  props: {
+    currentContent: {},
   },
   data() {
     return {
-      btn_bg: config.colors.text.btn_bg,
-      start_gradient: config.themes.dark.start_gradient,
-      end_gradient: config.themes.dark.end_gradient,
+      primary: config.colors.text.primary,
       VerificationNumberCheckbox: false,
     };
   },
   methods: {
-    contentHandler(val){
-      this.currentContent=val
-      this.$forceUpdate()
-    }
+    contentHandler(val) {
+      this.currentContent = val;
+      this.$forceUpdate();
+    },
   },
   computed: {
     customStyle() {
       return {
-        "--btn_bg": this.btn_bg,
-        "--start_gradient": this.start_gradient,
-        "--end_gradient": this.end_gradient,
+        "--primary": this.primary,
       };
     },
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .success-btn {
-  background: linear-gradient(
-    94.9deg,
-    var(--start_gradient) 4.26%,
-    var(--end_gradient) 95.87%
-  );
+  background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
   color: white !important;
+  border-radius: 16px;
 }
 .outlined-btn {
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border: solid 2px transparent;
-  color: primary;
-  background-image: linear-gradient(var(--btn_bg), var(--btn_bg)),
-    linear-gradient(
-      94.9deg,
-      var(--start_gradient) 4.26%,
-      var(--end_gradient) 95.87%
-    );
+  background: transparent !important;
+  border: solid 2px var(--primary) !important;
+  color: var(--primary);
+  border-radius: 16px;
 }
 </style>

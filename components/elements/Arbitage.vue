@@ -34,6 +34,7 @@
           <div class="ma-8 mb-1 mt-1">
             <v-btn
               class="primary white--text text-none"
+              style="border-radius: 16px"
               block
               @click="trade_now(coin)"
               >{{ $t("trade_now") }}</v-btn

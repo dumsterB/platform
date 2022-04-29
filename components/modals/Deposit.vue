@@ -494,13 +494,10 @@ html[theme="dark"] .credit-card-add {
 }
 
 .success-btn {
-  background: linear-gradient(
-    94.9deg,
-    var(--start_gradient) 4.26%,
-    var(--end_gradient) 95.87%
-  );
+  background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px !important;
+  border-radius: 16px;
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
@@ -509,6 +506,7 @@ html[theme="dark"] .credit-card-add {
 .theme--dark.v-btn.v-btn--disabled.v-btn--has-bg,
 .theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
   background-color: var(--primary) !important;
+  opacity: 0.7;
 }
 .paymentMethod {
   display: flex;

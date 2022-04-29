@@ -33,7 +33,7 @@
           elevation="0"
           large
           rounded
-          class="success-btn-half mr-6"
+          class="outlined-btn mr-6"
           :style="customStyle"
           color="white"
           @click="depositChanger('deposit_title')"
@@ -45,7 +45,7 @@
           large
           rounded
           :style="customStyle"
-          class="outlined-btn primary--text"
+          class="success-btn-half"
           @click="depositChanger('withdraw')"
         >
           {{ $t("withdraw") }}
@@ -74,9 +74,7 @@ export default {
   },
   data() {
     return {
-      btn_bg: config.colors.text.btn_bg,
-      start_gradient: config.themes.dark.start_gradient,
-      end_gradient: config.themes.dark.end_gradient,
+      primary: config.colors.text.primary,
       hideBalancer: false,
       dialog: false,
       action: "",
@@ -85,9 +83,7 @@ export default {
   computed: {
     customStyle() {
       return {
-        "--btn_bg": this.btn_bg,
-        "--start_gradient": this.start_gradient,
-        "--end_gradient": this.end_gradient,
+        "--primary": this.primary,
       };
     },
   },
@@ -111,28 +107,19 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .outlined-btn {
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border: solid 2px transparent;
-  background-image: linear-gradient(var(--btn_bg), var(--btn_bg)),
-    linear-gradient(
-      94.9deg,
-      var(--start_gradient) 4.26%,
-      var(--end_gradient) 95.87%
-    );
-  border-radius: 12px;
+  background: transparent !important;
+  border: solid 2px var(--primary) !important;
+  color: var(--primary);
+  border-radius: 16px;
   width: 150px;
 }
 .success-btn-half {
-  background: linear-gradient(
-    94.9deg,
-    var(--start_gradient) 4.26%,
-    var(--end_gradient) 95.87%
-  );
+  background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 12px;
+  border-radius: 16px;
   width: 150px;
 }
 </style>

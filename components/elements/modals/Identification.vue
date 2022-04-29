@@ -8,9 +8,9 @@
           }}</v-btn>
         </div>
       </template>
-      <v-card class="pa-4" style="background: #161F49!important;">
+      <v-card class="pa-4" style="background: #161f49 !important">
         <div class="text-h5 text-center">
-         <p class="text-center">{{ $t("s1_basic_verification") }}</p>
+          <p class="text-center">{{ $t("s1_basic_verification") }}</p>
         </div>
         <div class="pa-5">
           <h4>{{ $t("document_examples") }}</h4>
@@ -42,9 +42,9 @@
             </v-col>
             <v-col>
               <v-checkbox
-                  v-model="CheckboxType"
-                  label="Residence permit"
-                  value="residence"
+                v-model="CheckboxType"
+                label="Residence permit"
+                value="residence"
               ></v-checkbox>
             </v-col>
           </v-row>
@@ -53,7 +53,7 @@
             <br />
             <li style="list-style: circle">
               <strong>{{ $t("bright_and_clear") }}</strong>
-             ( {{ $t("good_quality") }} )
+              ( {{ $t("good_quality") }} )
             </li>
             <li style="list-style: circle">
               <strong> {{ $t("uncut") }}</strong>
@@ -64,21 +64,43 @@
             <v-row>
               <v-col>
                 <h3 class="gray--text">{{ $t("we_accept") }}</h3>
-                <p class="mt-4"> <v-icon color="primary">mdi-check</v-icon> {{$t('bank_statements')}}</p>
-                <p class="mt-4"> <v-icon color="primary">mdi-check</v-icon> {{$t('bank_statements')}}</p>
-                <p class="mt-4"> <v-icon color="primary">mdi-check</v-icon> {{$t('bank_statements')}}</p>
-                <p class="mt-4"> <v-icon color="primary">mdi-check</v-icon> {{$t('bank_statements')}}</p>
+                <p class="mt-4">
+                  <v-icon color="primary">mdi-check</v-icon>
+                  {{ $t("bank_statements") }}
+                </p>
+                <p class="mt-4">
+                  <v-icon color="primary">mdi-check</v-icon>
+                  {{ $t("bank_statements") }}
+                </p>
+                <p class="mt-4">
+                  <v-icon color="primary">mdi-check</v-icon>
+                  {{ $t("bank_statements") }}
+                </p>
+                <p class="mt-4">
+                  <v-icon color="primary">mdi-check</v-icon>
+                  {{ $t("bank_statements") }}
+                </p>
               </v-col>
               <v-col>
                 <h3 class="gray--text">{{ $t("no_accept") }}</h3>
-                <p class="mt-4"> <v-icon color="red">mdi-close</v-icon> {{$t('screenshots')}}</p>
-                <p class="mt-4"> <v-icon color="red">mdi-close</v-icon> {{$t('mobile_bills')}}</p>
-                <p class="mt-4"> <v-icon color="red">mdi-close</v-icon> {{$t('screenshots')}}</p>
-                <p class="mt-4"> <v-icon color="red">mdi-close</v-icon> {{$t('receipts_purchases')}}</p>
+                <p class="mt-4">
+                  <v-icon color="red">mdi-close</v-icon> {{ $t("screenshots") }}
+                </p>
+                <p class="mt-4">
+                  <v-icon color="red">mdi-close</v-icon>
+                  {{ $t("mobile_bills") }}
+                </p>
+                <p class="mt-4">
+                  <v-icon color="red">mdi-close</v-icon> {{ $t("screenshots") }}
+                </p>
+                <p class="mt-4">
+                  <v-icon color="red">mdi-close</v-icon>
+                  {{ $t("receipts_purchases") }}
+                </p>
               </v-col>
             </v-row>
           </div>
-          <br>
+          <br />
           <div class="text-center" v-if="CheckboxType === 'passport'">
             <div class="selecImage">
               <div
@@ -91,7 +113,7 @@
                     <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                     <br />
                     <p class="primary--text">{{ $t("upload_document") }}</p>
-                    <p>{{$t('front_side')}}</p>
+                    <p>{{ $t("front_side") }}</p>
                   </div>
                 </span>
                 <input
@@ -103,7 +125,7 @@
               </div>
             </div>
           </div>
-          <div v-if="CheckboxType==='id_card'">
+          <div v-if="CheckboxType === 'id_card'">
             <v-row>
               <v-col>
                 <div class="text-center">
@@ -120,8 +142,10 @@
                         <div>
                           <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                           <br />
-                   <p class="primary--text">{{ $t("upload_document") }}</p>
-                    <p>{{$t('front_side')}}</p>
+                          <p class="primary--text">
+                            {{ $t("upload_document") }}
+                          </p>
+                          <p>{{ $t("front_side") }}</p>
                         </div>
                       </span>
                       <input
@@ -149,8 +173,10 @@
                         <div>
                           <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                           <br />
-                          <p class="primary--text">{{ $t("upload_document") }}</p>
-                    <p>{{$t('front_side')}}</p>
+                          <p class="primary--text">
+                            {{ $t("upload_document") }}
+                          </p>
+                          <p>{{ $t("front_side") }}</p>
                         </div>
                       </span>
                       <input
@@ -168,29 +194,35 @@
           <div class="text-center" v-if="CheckboxType === 'residence'">
             <div class="selecImage">
               <div
-                  class="image-input"
-                  :style="{ 'background-image': `url(${imageData})` }"
-                  @click="chooseImage"
+                class="image-input"
+                :style="{ 'background-image': `url(${imageData})` }"
+                @click="chooseImage"
               >
                 <span v-if="!imageData" class="placeholder text-gray--text">
                   <div>
                     <v-icon size="70">mdi-cloud-upload-outline</v-icon>
                     <br />
                     <p class="primary--text">{{ $t("upload_document") }}</p>
-                    <p>{{$t('front_side')}}</p>
+                    <p>{{ $t("front_side") }}</p>
                   </div>
                 </span>
                 <input
-                    class="file-input"
-                    ref="fileInput"
-                    type="file"
-                    @input="onSelectFile"
+                  class="file-input"
+                  ref="fileInput"
+                  type="file"
+                  @input="onSelectFile"
                 />
               </div>
             </div>
           </div>
           <v-card-actions class="justify-center mt-2 d-flex">
-            <v-btn rounded class="primary" style="width: 150px"  text @click="dialog = false">
+            <v-btn
+              rounded
+              class="primary"
+              style="width: 150px"
+              text
+              @click="dialog = false"
+            >
               {{ $t("send") }}
             </v-btn>
           </v-card-actions>
@@ -226,8 +258,7 @@ export default {
   },
   data() {
     return {
-      start_gradient: config.themes.dark.start_gradient,
-      end_gradient: config.themes.dark.end_gradient,
+      primary: config.colors.text.primary,
       dialog: false,
       imageData: null,
       CheckboxType: "passport",
@@ -479,8 +510,7 @@ export default {
   computed: {
     customStyle() {
       return {
-        "--start_gradient": this.start_gradient,
-        "--end_gradient": this.end_gradient,
+        "--primary": this.primary,
       };
     },
   },
@@ -489,12 +519,10 @@ export default {
 
 <style scoped>
 .success-btn {
-  background: linear-gradient(
-    94.9deg,
-    var(--start_gradient) 4.26%,
-    var(--end_gradient) 95.87%
-  );
+  background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
   color: white !important;
+  border-radius: 16px;
 }
 .selecImage {
   display: flex;

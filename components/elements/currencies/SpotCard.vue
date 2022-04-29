@@ -1,31 +1,33 @@
 <template>
   <div>
     <h3 class="ml-4 mb-2">Spot</h3>
-    <v-card class="ma-2 mr-8 pa-4 elevation-4 spot-card">
-      <v-row>
-        <v-col class="pt-0">
-          <v-btn
-            block
-            :class="!buy_sell ? '' : 'green--text'"
-            :style="!buy_sell ? '' : 'border-top: 4px solid green'"
-            style="background: transparent"
-            elevation="0"
-            @click="buy_sell = true"
-            >{{ $t("buy") }}</v-btn
-          >
-        </v-col>
-        <v-col class="pt-0">
-          <v-btn
-            block
-            elevation="0"
-            :class="!buy_sell ? 'red--text' : ''"
-            :style="!buy_sell ? 'border-top: 4px solid red' : ''"
-            style="background: transparent"
-            @click="buy_sell = false"
-            >{{ $t("sell") }}</v-btn
-          >
-        </v-col>
-      </v-row>
+    <v-card class="ma-2 mr-8 pa-4 pt-0 elevation-4 spot-card">
+      <v-list-item-group class="d-flex">
+        <v-list-item
+          tagh="button"
+          block
+          class="justify-center text-uppercase icon_color--text"
+          :class="!buy_sell ? '' : 'green_gradi'"
+          :style="!buy_sell ? '' : customStyle"
+          style="background: transparent"
+          elevation="0"
+          @click="buy_sell = true"
+        >
+          {{ $t("buy") }}
+        </v-list-item>
+        <v-list-item
+          tagh="button"
+          block
+          elevation="0"
+          class="justify-center text-uppercase icon_color--text"
+          :class="!buy_sell ? 'red_gradi' : ''"
+          :style="!buy_sell ? customStyle : ''"
+          style="background: transparent"
+          @click="buy_sell = false"
+        >
+          {{ $t("sell") }}
+        </v-list-item>
+      </v-list-item-group>
       <v-row>
         <v-col :cols="6" class="pb-0">
           <span class="small_text">{{ $t("available_balance_title") }}</span>
@@ -110,8 +112,9 @@
             block
             class="rounded-xl"
             @click="trade_run"
-            :class="buy_sell ? 'green' : 'red'"
-            >{{ loading ? '' : buy_sell ? $t("buy") : $t("sell") }}</v-btn
+            :style="customStyle"
+            :class="buy_sell ? 'green_btn' : 'red_btn'"
+            >{{ loading ? "" : buy_sell ? $t("buy") : $t("sell") }}</v-btn
           >
         </v-col>
       </v-row>
@@ -121,39 +124,50 @@
           <v-btn
             block
             large
-            class="primary rounded-xl"
+            class="success-btn"
+            :style="customStyle"
             outlined
             @click="depositChanger('deposit_title')"
             >{{ $t("deposit_title") }}</v-btn
           >
         </v-col>
         <v-col>
-          <v-btn block large outlined class="primary--text rounded-xl" @click="depositChanger('withdraw')">{{
-            $t("withdraw")
-          }}</v-btn>
+          <v-btn
+            block
+            large
+            outlined
+            class="outlined-btn"
+            :style="customStyle"
+            @click="depositChanger('withdraw')"
+            >{{ $t("withdraw") }}</v-btn
+          >
         </v-col>
       </v-row>
       <v-row class="to_small_text">
         <v-col :cols="6" class="pb-0">
-          <span class="gray--text">{{'USD'}}</span> <span class="ml-4 gray--text">{{ $t("Available") }}</span>
+          <span class="gray--text">{{ "USD" }}</span>
+          <span class="ml-4 gray--text">{{ $t("Available") }}</span>
         </v-col>
         <v-col :cols="6" class="pb-0 text-right">
           <span class=""
             >{{
               usd_bal ? new Intl.NumberFormat().format(usd_bal.toFixed(4)) : ""
             }}
-            <span class="gray--text">{{ 'USD' }}</span></span
+            <span class="gray--text">{{ "USD" }}</span></span
           >
         </v-col>
       </v-row>
       <v-row class="mb-2 to_small_text">
         <v-col :cols="6">
-          <span class="gray--text">{{currency}}</span> <span class="ml-4 gray--text">{{ $t("Available") }}</span>
+          <span class="gray--text">{{ currency }}</span>
+          <span class="ml-4 gray--text">{{ $t("Available") }}</span>
         </v-col>
         <v-col :cols="6" class="text-right">
           <span class=""
             >{{
-              curr_bal ? new Intl.NumberFormat().format(curr_bal.toFixed(4)) : ""
+              curr_bal
+                ? new Intl.NumberFormat().format(curr_bal.toFixed(4))
+                : ""
             }}
             <span class="gray--text">{{ currency }}</span></span
           >
@@ -171,6 +185,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Deposit from "@/components/modals/Deposit";
+import config from "~/config/config.json";
 
 export default {
   props: {
@@ -195,6 +210,11 @@ export default {
       loading: false,
       action: null,
       dialog: false,
+      start_blue_gradient: config.colors.start_blue_gradient,
+      end_blue_gradient: config.colors.end_blue_gradient,
+      start_red_gradient: config.colors.start_red_gradient,
+      end_red_gradient: config.colors.end_red_gradient,
+      primary: config.colors.text.primary,
     };
   },
   computed: {
@@ -231,6 +251,15 @@ export default {
       } else {
         return this.currency;
       }
+    },
+    customStyle() {
+      return {
+        "--start_blue_gradient": this.start_blue_gradient,
+        "--end_blue_gradient": this.end_blue_gradient,
+        "--start_red_gradient": this.start_red_gradient,
+        "--end_red_gradient": this.end_red_gradient,
+        "--primary": this.primary,
+      };
     },
   },
   methods: {
@@ -382,5 +411,87 @@ export default {
 }
 .to_small_text {
   font-size: 13px;
+}
+.green_gradi {
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  text-fill-color: transparent !important;
+  position: relative !important;
+}
+.green_gradi:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  min-height: 6px !important;
+  top: -0px;
+  left: 0;
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  ) !important;
+  border-radius: 0px 0px 4px 4px;
+}
+.red_gradi {
+  background: linear-gradient(
+    163.28deg,
+    var(--start_red_gradient) 0%,
+    var(--end_red_gradient) 85.7%
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  text-fill-color: transparent !important;
+  position: relative !important;
+}
+.red_gradi::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  min-height: 6px !important;
+  top: -0px;
+  left: 0;
+  background: linear-gradient(
+    163.28deg,
+    var(--start_red_gradient) 0%,
+    var(--end_red_gradient) 85.7%
+  ) !important;
+  border-radius: 0px 0px 4px 4px;
+}
+.green_btn {
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  );
+  color: white !important;
+  border-radius: 16px !important;
+}
+.red_btn {
+  background: linear-gradient(
+    163.28deg,
+    var(--start_red_gradient) 0%,
+    var(--end_red_gradient) 85.7%
+  );
+  color: white !important;
+  border-radius: 16px !important;
+}
+.outlined-btn {
+  background: transparent !important;
+  border: solid 2px var(--primary) !important;
+  color: var(--primary);
+  border-radius: 16px;
+}
+.success-btn {
+  background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
+  color: white !important;
+  border-radius: 16px;
 }
 </style>

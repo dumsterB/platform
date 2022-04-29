@@ -248,7 +248,6 @@ export default {
     },
     async copyURL() {
       try {
-        //*TODO - документация обещает, что navigator.clipboard будет работать при https соеденении. Иначе нужен иной способ
         await navigator.clipboard.writeText(this.link_url);
         this.copied = true;
         setTimeout(() => {
@@ -376,12 +375,13 @@ export default {
 
 <style scoped lang="scss">
 .success-btn {
-  background: linear-gradient(
-    94.9deg,
-    var(--start_gradient) 4.26%,
-    var(--end_gradient) 95.87%
-  );
+  background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
   color: white !important;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
 }
 
 .btn_exchange {
@@ -442,7 +442,7 @@ html[theme="light"] .p_chip {
   font-size: 13px;
 }
 </style>
-<style>
+<style lang="scss">
 .buy-sell-comp .v-input__slot {
   border-radius: 20px;
   background: #161f49 !important;
@@ -461,7 +461,6 @@ html[theme="light"] .buy-sell-comp .v-input__slot {
   font-weight: 600 !important;
 }
 .buy-sell-comp .v-text-field__suffix {
-  color: #57a8ff;
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;

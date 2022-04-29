@@ -58,8 +58,7 @@ export default {
   name: "securityModal",
   data() {
     return {
-      start_gradient: config.themes.dark.start_gradient,
-      end_gradient: config.themes.dark.end_gradient,
+      primary: config.colors.text.primary,
     };
   },
   props: {
@@ -75,8 +74,7 @@ export default {
   computed: {
     customStyle() {
       return {
-        "--start_gradient": this.start_gradient,
-        "--end_gradient": this.end_gradient,
+        "--primary": this.primary,
       };
     },
   },
@@ -85,11 +83,9 @@ export default {
 
 <style scoped>
 .success-btn {
-  background: linear-gradient(
-    94.9deg,
-    var(--start_gradient) 4.26%,
-    var(--end_gradient) 95.87%
-  );
+   background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
   color: white !important;
+  border-radius: 16px;
 }
 </style>
