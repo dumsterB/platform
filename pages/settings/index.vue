@@ -10,8 +10,8 @@
         </v-col>
       </v-row>
       <div v-if="currentContent ==='Device Management' || 'Account Activity Records'">
-        <p class="header-text" @click="currentContent=0">Security > {{currentContent}}</p>
-        <br>
+        <!-- <p class="header-text" @click="currentContent=0">Security > {{currentContent}}</p>
+        <br> -->
       <DeviceManagment v-if="currentContent==='Device Management'"></DeviceManagment>
       <AccountsRecords v-if="currentContent=== 'Account Activity Records'"></AccountsRecords>
       </div>
