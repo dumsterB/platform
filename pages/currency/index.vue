@@ -450,7 +450,7 @@ export default {
         me.arr_subscr.push(`shares_${me.curr_code}.${me.ex_type}@kline_1d`);
       }
       this.subscribe(Object.assign([], me.arr_subscr));
-      console.log("me.str_subscr", me.str_subscr);
+      // console.log("me.str_subscr", me.str_subscr);
     },
     arbitrage_sockets() {
       let me = this;

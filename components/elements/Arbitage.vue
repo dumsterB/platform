@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-if="curr_company" class="pa-3 pl-6 pr-6">
+    <v-row v-if="curr_company" class="pa-3">
       <v-col
         cols="12"
         xl="3"
@@ -10,10 +10,10 @@
         v-for="(coin, i) in currs"
         :key="i"
       >
-        <v-card elevation="1" max-width="500" min-height="130" class="pb-4">
-          <div class="justify-space-between d-flex pa-3">
+        <v-card elevation="1" max-width="280" max-height="160" class="pa-4">
+          <div class="justify-space-between d-flex pa-0 mb-8">
             <div>
-              <v-card-subtitle class="d-flex"
+              <v-card-subtitle class="d-flex pa-0"
                 ><img height="30" :src="coin.logo" alt="" />
                 <p class="ml-2 mt-1 curr_name">
                   <strong>{{ coin.symbol }}</strong>
@@ -22,8 +22,8 @@
             </div>
 
             <div>
-              <v-card-subtitle
-                ><p class="mr-6 mt-1">
+              <v-card-subtitle class="pa-0"
+                ><p class="ma-0">
                   <strong
                     >${{ new Intl.NumberFormat().format(coin.price) }}</strong
                   >
@@ -31,7 +31,7 @@
               >
             </div>
           </div>
-          <div class="ma-8 mb-1 mt-1">
+          <div class="ma-0">
             <v-btn
               class="primary white--text text-none"
               style="border-radius: 16px"
@@ -223,7 +223,7 @@ export default {
         }
       });
       me.arb_companies = arb_companies;
-      console.log("me.arb_companies", me.arb_companies);
+      // console.log("me.arb_companies", me.arb_companies);
     },
     trade_now(coin) {
       this.arb_companies = [];

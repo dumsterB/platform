@@ -34,21 +34,31 @@
       </template>
       <template v-slot:[`item.dest_amount`]="{ item }">
         <span>{{
-          `${item.dest_amount ? item.dest_amount.toFixed(4) : ""} ${
-            item.dest_currency.symbol
-          }`
+          `${
+            item.dest_amount
+              ? new Intl.NumberFormat().format(item.dest_amount.toFixed(4))
+              : ""
+          } ${item.dest_currency.symbol}`
         }}</span>
       </template>
       <template v-slot:[`item.source_amount`]="{ item }">
         <span>{{
-          `${item.source_amount} ${item.source_currency.symbol}`
+          `${new Intl.NumberFormat().format(item.source_amount)} ${
+            item.source_currency.symbol
+          }`
         }}</span>
       </template>
       <template v-slot:[`item.current_cost`]="{ item }">
-        <span>{{ `${item.current_cost} ${item.source_currency.symbol}` }}</span>
+        <span>{{
+          `${new Intl.NumberFormat().format(item.current_cost)} ${
+            item.source_currency.symbol
+          }`
+        }}</span>
       </template>
       <template v-slot:[`item.difference`]="{ item }">
-        <span :style="diffColor(item.difference)">{{ item.difference }}</span>
+        <span :style="diffColor(item.difference)">{{
+          new Intl.NumberFormat().format(item.difference)
+        }}</span>
       </template>
       <template v-slot:[`item.difference_perc`]="{ item }">
         <span :style="diffColor(item.difference)">{{
@@ -60,6 +70,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import config from "~/config/config.json";
 const model = "data/trade";
 
 export default {
@@ -78,6 +89,10 @@ export default {
   },
   data() {
     return {
+      start_blue_gradient: config.colors.start_blue_gradient,
+      end_blue_gradient: config.colors.end_blue_gradient,
+      start_red_gradient: config.colors.start_red_gradient,
+      end_red_gradient: config.colors.end_red_gradient,
       page_size_current: this.page_size,
       search: "",
       list: [],
@@ -92,6 +107,14 @@ export default {
     ...mapGetters(model, {
       trades: "list",
     }),
+    customStyle() {
+      return {
+        "--start_blue_gradient": this.start_blue_gradient,
+        "--end_blue_gradient": this.end_blue_gradient,
+        "--start_red_gradient": this.start_red_gradient,
+        "--end_red_gradient": this.end_red_gradient,
+      };
+    },
     headers() {
       return [
         {
@@ -139,7 +162,7 @@ export default {
       return conf;
     },
     async paging(val) {
-      console.log("paging", val);
+      // console.log("paging", val);
       this.page_size_current = val.itemsPerPage;
       await this.rel(val);
     },
@@ -183,9 +206,17 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return "color: red;";
+        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
       } else {
-        return "color: green;";
+        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
       }
     },
   },

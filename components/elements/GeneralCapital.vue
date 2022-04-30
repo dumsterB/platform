@@ -98,11 +98,11 @@ export default {
   },
   watch: {
     dialog(newVal, oldVal) {
-      console.log(newVal, oldVal);
+      // console.log(newVal, oldVal);
     },
   },
   mounted() {
-    console.log(this.dialog);
+    // console.log(this.dialog);
   },
 };
 </script>

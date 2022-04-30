@@ -76,7 +76,7 @@ export default {
   watch: {
     currency() {
       let me = this;
-      console.log("this.currency", this.currency);
+      // console.log("this.currency", this.currency);
       let socket = global.socket;
       // socket.send(`{
       //     "method": "subscribe",

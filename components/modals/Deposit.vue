@@ -389,7 +389,7 @@ export default {
           order_data.order_type_id = 1;
         }
         order_data.order_method_id = 1;
-        console.log("order_data", order_data);
+        // console.log("order_data", order_data);
         let rs = await this.order_create({ data: order_data });
         let title, color;
         if (rs.data && rs.data.order_status_id != 3) {

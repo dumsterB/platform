@@ -93,13 +93,21 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
-              <a v-if="!more" class="ma-3" @click="view_more">{{
-                $t("view_more")
-              }}</a>
+              <a
+                v-if="!more"
+                class="mt-3 mb-3 ml-auto mr--auto"
+                style="text-align: center"
+                @click="view_more"
+                >{{ $t("view_more") }}</a
+              >
             </div>
-            <a v-if="more" class="ma-3" @click="view_back">{{
-              $t("go_back")
-            }}</a>
+            <a
+              v-if="more"
+              class="mt-3 mb-3 ml-auto mr--auto"
+              style="text-align: center"
+              @click="view_back"
+              >{{ $t("go_back") }}</a
+            >
           </v-card>
         </div>
       </div>

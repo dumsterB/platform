@@ -69,15 +69,15 @@ export default {
     credit: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   computed: {
-    ...mapGetters('data/arbitrage_company', {
+    ...mapGetters("data/arbitrage_company", {
       companies: "list",
     }),
     model() {
-      return this.credit ? 'data/credit_session' : 'data/arbitrage_session'
-    }
+      return this.credit ? "data/credit_session" : "data/arbitrage_session";
+    },
   },
   methods: {
     changeClicked(i) {
@@ -96,8 +96,11 @@ export default {
         ? ac.id
         : this.item.arbitrage_company_id;
       // code
-      console.log("as_data", as_data);
-      let rs = await this.$store.dispatch(`${this.model}/replace`, { data: as_data, id: as_data.id });
+      // console.log("as_data", as_data);
+      let rs = await this.$store.dispatch(`${this.model}/replace`, {
+        data: as_data,
+        id: as_data.id,
+      });
       let title, color;
       if (rs.data && rs.data.status_id != 2) {
         title = this.$t("not_enough_balance");
@@ -119,7 +122,7 @@ export default {
         title: title,
         text: title,
         color: color,
-        timeout: 2000
+        timeout: 2000,
       });
       this.$emit("reload");
       setTimeout(() => {

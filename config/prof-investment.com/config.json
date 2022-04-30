@@ -79,6 +79,12 @@
         "border": "#d8d8d8",
         "box_shadow": "#0000000d",
         "icon_color": "#9a9a9a",
-        "payment_card_box_shadow": "#ffffff4d"
+        "payment_card_box_shadow": "#ffffff4d",
+        "white": "#FFFFFF",
+        "black": "#000000",
+        "start_red_gradient": "#E20000",
+        "end_red_gradient": "#FF0099",
+        "start_blue_gradient": "#00AFD6",
+        "end_blue_gradient": "#01BAC6"
     }
 }

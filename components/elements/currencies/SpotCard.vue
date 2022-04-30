@@ -322,7 +322,7 @@ export default {
       let pay = this.buy_sell ? this.t_price : this.amount;
       let buy = this.buy_sell ? this.amount : this.t_price;
       if (!this.buy_sell) buy = parseFloat(this.t_price) * this.price;
-      console.log(pay, buy, this.t_price, this.price);
+      // console.log(pay, buy, this.t_price, this.price);
       let wall = this.wallet.find((el) => el.currency.symbol == pay_curr);
       if (wall) {
         trade_data.wallet_id = wall.id;
@@ -336,7 +336,7 @@ export default {
       }
       trade_data.exchange_rate = 1 / this.price;
       if (!this.buy_sell) trade_data.exchange_rate = this.price;
-      console.log("trade_data", trade_data);
+      // console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });
       let title, color;
       if (rs.data && rs.data.trade_status_id != 3) {
@@ -440,9 +440,9 @@ export default {
 }
 .red_gradi {
   background: linear-gradient(
-    163.28deg,
-    var(--start_red_gradient) 0%,
-    var(--end_red_gradient) 85.7%
+    176.35deg,
+    var(--start_red_gradient) 0.47%,
+    var(--end_red_gradient) 97%
   ) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
@@ -458,9 +458,9 @@ export default {
   top: -0px;
   left: 0;
   background: linear-gradient(
-    163.28deg,
-    var(--start_red_gradient) 0%,
-    var(--end_red_gradient) 85.7%
+    176.35deg,
+    var(--start_red_gradient) 0.47%,
+    var(--end_red_gradient) 97%
   ) !important;
   border-radius: 0px 0px 4px 4px;
 }

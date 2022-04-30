@@ -413,7 +413,7 @@ export default {
             }
           )
           .then((rsp) => {
-            console.log("FILE SAVE RESP", rsp);
+            // console.log("FILE SAVE RESP", rsp);
           })
           .catch(function (e) {
             console.log("== == !! UPLOAD FAIL", e);
@@ -427,18 +427,18 @@ export default {
         {}
       );
       this.$auth.setUser(rs.data.data);
-      console.log("rs", rs);
+      // console.log("rs", rs);
       setTimeout(() => {
         this.loading = false;
       }, 500);
     },
   },
   mounted() {
-    console.log("user_data", this.$auth.user);
+    // console.log("user_data", this.$auth.user);
     if (this.$auth.user.fs && this.$auth.user.fs.length > 0) {
       this.image_data =
         this.$env("FILE_SERVER_BASE") + this.$auth.user.fs[0].dir;
-      console.log(this.image_data);
+      // console.log(this.image_data);
     }
   },
   computed: {

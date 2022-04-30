@@ -11,7 +11,7 @@
       class="elevation-1 ma-4 ml-8 mt-8"
     >
       <template v-slot:top>
-        <v-toolbar flat dense>
+        <v-toolbar flat dense class="pt-4 mb-10">
           <v-toolbar-title>{{ $t(title) }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
@@ -83,6 +83,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import config from "~/config/config.json";
 const model = "data/trade";
 
 export default {
@@ -101,11 +102,23 @@ export default {
   },
   data() {
     return {
+      start_blue_gradient: config.colors.start_blue_gradient,
+      end_blue_gradient: config.colors.end_blue_gradient,
+      start_red_gradient: config.colors.start_red_gradient,
+      end_red_gradient: config.colors.end_red_gradient,
       perpage: 3,
       search: "",
     };
   },
   computed: {
+    customStyle() {
+      return {
+        "--start_blue_gradient": this.start_blue_gradient,
+        "--end_blue_gradient": this.end_blue_gradient,
+        "--start_red_gradient": this.start_red_gradient,
+        "--end_red_gradient": this.end_red_gradient,
+      };
+    },
     headers() {
       return [
         {
@@ -116,27 +129,27 @@ export default {
         {
           text: this.$t("column_value"),
           value: "close",
-          width: 200,
+          width: 150,
         },
         {
           text: this.$t("column_change"),
           value: "change",
-          width: 200,
+          width: 150,
         },
         {
           text: this.$t("column_change") + " %",
           value: "change_perc",
-          width: 200,
+          width: 150,
         },
         {
           text: this.$t("column_open"),
           value: "open",
-          width: 200,
+          width: 150,
         },
         {
           text: this.$t("column_low"),
           value: "low",
-          width: 200,
+          width: 150,
         },
         {
           text: this.$t("column_high"),
@@ -149,9 +162,17 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return "color: red;";
+        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
       } else {
-        return "color: green;";
+        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
       }
     },
     handleClick(value) {

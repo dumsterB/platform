@@ -105,7 +105,7 @@ export default {
       prices_current: "page_data",
     }),
     ...mapGetters("config/default", {
-      get_val: "get_val"
+      get_val: "get_val",
     }),
     spot_title() {
       return this.$t("spot_account");
@@ -140,7 +140,7 @@ export default {
       } else {
         this.order_filter = null;
       }
-      console.log("this.order_filter", this.order_filter);
+      // console.log("this.order_filter", this.order_filter);
       this.is_history = this.is_spot_order || this.is_fiat_order;
     },
     spot_history(tg) {
@@ -202,7 +202,7 @@ export default {
           me.spot_total_equity = me.spot_available_balance;
           me.fiat_total_equity = me.fiat_available_balance;
         }
-        console.log("sums", sum_t, sum_spot, sum_fiat);
+        // console.log("sums", sum_t, sum_spot, sum_fiat);
       }
     },
     wallets_subscribe_definer() {
@@ -253,11 +253,11 @@ export default {
       let me = this;
       let obj = me.wallets_subscribe_definer();
       let btc_sub = `${me.base_p}_BTC-USD@ticker_10s`;
-      let finder = obj.arr.find(el => el == btc_sub);
+      let finder = obj.arr.find((el) => el == btc_sub);
       let arr = Object.assign([], obj.arr);
       if (!finder) {
         arr.unshift(btc_sub);
-      }      
+      }
       this.subscribe(arr);
     },
   },

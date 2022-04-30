@@ -1,6 +1,6 @@
 <template>
   <div class="ac-comp">
-    <h3 class="ml-2 mb-2">Arbitrage</h3>
+    <h3 class="ml-2 mb-2">{{ $t("user_arbitrage") }}</h3>
     <v-data-table
       :items="list"
       :headers="headers"
@@ -23,25 +23,25 @@
         </v-img>
       </template>
       <template v-slot:[`item.price`]="{ item }">
-        <span style="font-size: 13px">{{ item.price ? "$" + item.price : "no data" }}</span>
+        <span style="font-size: 13px">{{
+          item.price ? "$" + item.price : "no data"
+        }}</span>
       </template>
       <template v-slot:[`item.action`]="{ item }">
         <div class="d-flex justify-end">
           <v-btn
             x-small
             @click="buy(item)"
-            class="ml-1 green--text"
-            style="border-radius: 10px"
-            outlined
+            class="ml-1 green_btn text-capitalize"
+            :style="customStyle"
           >
             {{ $t("buy") }}
           </v-btn>
           <v-btn
             x-small
             @click="sell(item)"
-            class="ml-1 red--text"
-            style="border-radius: 10px"
-            outlined
+            class="ml-1 red_btn text-capitalize"
+            :style="customStyle"
           >
             {{ $t("sell") }}
           </v-btn>
@@ -64,6 +64,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import TradePosition from "~/components/elements/modals/TradePosition.vue";
+import config from "~/config/config.json";
 const modelCompanies = "data/arbitrage_company";
 const modelCurrencies = "data/currency";
 
@@ -89,6 +90,10 @@ export default {
   },
   data() {
     return {
+      start_blue_gradient: config.colors.start_blue_gradient,
+      end_blue_gradient: config.colors.end_blue_gradient,
+      start_red_gradient: config.colors.start_red_gradient,
+      end_red_gradient: config.colors.end_red_gradient,
       dialog: false,
       perpage: 10,
       list: [],
@@ -99,6 +104,14 @@ export default {
     };
   },
   computed: {
+    customStyle() {
+      return {
+        "--start_blue_gradient": this.start_blue_gradient,
+        "--end_blue_gradient": this.end_blue_gradient,
+        "--start_red_gradient": this.start_red_gradient,
+        "--end_red_gradient": this.end_red_gradient,
+      };
+    },
     ...mapGetters(modelCompanies, {
       ac: "list",
     }),
@@ -144,14 +157,6 @@ export default {
         return el;
       });
     },
-    diffColor(diff) {
-      let nm = parseFloat(diff);
-      if (nm < 0) {
-        return "color: 'red';";
-      } else {
-        return "color: 'green';";
-      }
-    },
     buy(item) {
       this.action = "Buy";
       this.dialog = true;
@@ -192,5 +197,23 @@ export default {
 }
 .v-application--is-ltr .v-data-footer__select {
   margin: 0;
+}
+.green_btn {
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  );
+  color: white !important;
+  border-radius: 16px !important;
+}
+.red_btn {
+  background: linear-gradient(
+    163.28deg,
+    var(--start_red_gradient) 0%,
+    var(--end_red_gradient) 85.7%
+  );
+  color: white !important;
+  border-radius: 16px !important;
 }
 </style>

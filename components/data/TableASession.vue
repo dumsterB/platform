@@ -53,12 +53,12 @@
           <v-btn
             name="closeOrder"
             @click="toggleModal(item)"
-            class="green--text"
-            :value="item"
+            :style="customStyle"
+            class="green_btn text-capitalize"
+            :value="item.start_dt"
             :disabled="item.status.key != 'OPEN'"
-            outlined
           >
-            <v-icon>{{ "mdi-close" }}</v-icon>
+            {{ $t("close") }}
           </v-btn>
         </v-row>
       </template>
@@ -76,6 +76,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import ClosePosition from "~/components/elements/modals/ClosePosition";
+import config from "~/config/config.json";
 const model = "data/arbitrage_session";
 
 export default {
@@ -98,6 +99,10 @@ export default {
   },
   data() {
     return {
+      start_blue_gradient: config.colors.start_blue_gradient,
+      end_blue_gradient: config.colors.end_blue_gradient,
+      start_red_gradient: config.colors.start_red_gradient,
+      end_red_gradient: config.colors.end_red_gradient,
       dialog: false,
       page_size_current: this.page_size,
       search: "",
@@ -110,6 +115,14 @@ export default {
     };
   },
   computed: {
+    customStyle() {
+      return {
+        "--start_blue_gradient": this.start_blue_gradient,
+        "--end_blue_gradient": this.end_blue_gradient,
+        "--start_red_gradient": this.start_red_gradient,
+        "--end_red_gradient": this.end_red_gradient,
+      };
+    },
     ...mapGetters(model, {
       arbitrage_sessions: "list",
     }),
@@ -129,6 +142,7 @@ export default {
           text: this.$t("table_time"),
           value: "created_at",
         },
+
         {
           text: this.$t("amount"),
           value: "amount",
@@ -217,7 +231,7 @@ export default {
       this.list = list;
     },
     async paging(val) {
-      console.log("paging", val);
+      // console.log("paging", val);
       this.page_size_current = val.itemsPerPage;
       await this.rel(val);
     },
@@ -246,9 +260,17 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return "color: red;";
+        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
       } else {
-        return "color: green;";
+        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
       }
     },
   },
@@ -270,3 +292,15 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.green_btn {
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  ) !important;
+  color: white !important;
+  border-radius: 20px !important;
+}
+</style>
