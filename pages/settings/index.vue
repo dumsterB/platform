@@ -1,12 +1,15 @@
 <template>
   <div class="settings">
     <v-container>
-      <v-row>
-        <v-col  cols="12" lg="4" md="4">
+      <v-row no-gutters>
+        <v-col  cols="12" lg="3" md="3">
           <SettingsTab @change_content="change_content" :currentContent="currentContent"></SettingsTab>
         </v-col>
-        <v-col cols="12" lg="8" md="8">
+        <v-col cols="12" lg="7" md="7">
        <component  :currentContent="currentContent" @change_content="change_content" :is="component"></component>
+        </v-col>
+        <v-col cols="12" lg="2" md="2">
+          <SwitcherNatification class="ml-2"></SwitcherNatification>
         </v-col>
       </v-row>
       <div v-if="currentContent ==='Device Management' || 'Account Activity Records'">
@@ -26,6 +29,7 @@ import Security from '@/components/elements/settings/Security'
 import Verification from '@/components/elements/settings/Verification'
 import AccountsRecords from "../../components/elements/settings/components/AccountsRecords";
 import DeviceManagment from "../../components/elements/settings/components/DeviceManagment";
+import SwitcherNatification from "../../components/elements/settings/components/SwitcherNatification";
 import {mapGetters} from "vuex";
 export default {
   data(){
@@ -35,7 +39,7 @@ export default {
     }
   },
   components:{
-    SettingsTab,PrivateInformation,Security,Verification, AccountsRecords,DeviceManagment
+    SettingsTab,PrivateInformation,Security,Verification,AccountsRecords,DeviceManagment,SwitcherNatification
   },
   computed:{
     ...mapGetters({selections:'data/settings/selections',componentHandler:'data/settings/componentHandler'}),
@@ -60,5 +64,10 @@ export default {
 .header-text{
   cursor: pointer;
   color: #9A9A9A;
+}
+@media (min-width: 1264px){
+  .container {
+    max-width: 1500px!important;
+  }
 }
 </style>

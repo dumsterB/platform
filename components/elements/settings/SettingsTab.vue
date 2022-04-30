@@ -22,17 +22,6 @@
           </p>
         </v-card>
       </div>
-      <p class="text-h6 mt-6 success_text--text">
-        {{ $t("settings_notification") }}
-      </p>
-      <p class="text-gray--text">
-        {{ $t("settings_notification_description") }}
-      </p>
-      <v-switch
-        v-model="switcher"
-        :label="!switcher ? `${$t('on')}` : `${$t('off')}`"
-        color="success"
-      ></v-switch>
     </div>
   </div>
   </div>
@@ -51,7 +40,6 @@ export default {
     return {
       start_gradient: config.themes.dark.start_gradient,
       end_gradient: config.themes.dark.end_gradient,
-      switcher: "",
     };
   },
   computed: {
