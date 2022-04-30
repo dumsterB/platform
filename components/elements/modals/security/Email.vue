@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on, attrs }">
         <div v-bind="attrs" v-on="on">
           <v-btn dark elevation="0" :style="customStyle" class="success-btn">{{
-            $t("change")
+            $t("remove")
           }}</v-btn>
         </div>
       </template>

@@ -38,7 +38,7 @@
               elevation="0"
               :style="customStyle"
               class="outlined-btn primary--text"
-              >{{ $t("deleteText") }}</v-btn
+              >{{ $t("change") }}</v-btn
             >
           </div>
           <phone
