@@ -216,16 +216,16 @@ export default {
           me.price_update(dt);
         }
         if (wall.currency.currency_type.key == "CRYPTO") {
-          str += `"${me.base_p}_${cr}-USD@ticker_10s"`;
-          arr.push(`${me.base_p}_${cr}-USD@ticker_10s`);
+          str += `"${me.base_p}:${cr}-USD@ticker_10s"`;
+          arr.push(`${me.base_p}:${cr}-USD@ticker_10s`);
           if (i < this.wallets.length - 1) {
             str += ",";
           }
         } else {
           let ex_t = wall.currency.exchange_type.key;
           if (cr != "USD") {
-            str += `"shares_${cr}.${ex_t}@kline_1d"`;
-            arr.push(`shares_${cr}.${ex_t}@kline_1d`);
+            str += `"shares:${cr}.${ex_t}@kline_1d"`;
+            arr.push(`shares:${cr}.${ex_t}@kline_1d`);
             if (i < this.wallets.length - 1) {
               str += ",";
             }
@@ -252,7 +252,7 @@ export default {
     async init() {
       let me = this;
       let obj = me.wallets_subscribe_definer();
-      let btc_sub = `${me.base_p}_BTC-USD@ticker_10s`;
+      let btc_sub = `${me.base_p}:BTC-USD@ticker_10s`;
       let finder = obj.arr.find((el) => el == btc_sub);
       let arr = Object.assign([], obj.arr);
       if (!finder) {

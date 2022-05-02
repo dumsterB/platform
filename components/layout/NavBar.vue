@@ -221,7 +221,7 @@ export default {
       let json_d = Object.assign({}, v);
       // console.log("MARQUE DATA", json_d);
       me.stocks.forEach((st) => {
-        if (json_d && json_d.method == `shares_all.${st.key}@kline_1d`) {
+        if (json_d && json_d.method == `shares:all.${st.key}@kline_1d`) {
           let data = json_d.data ? json_d.data.data || [] : [];
           data.forEach((dtm) => {
             let dt = dtm;
@@ -322,7 +322,7 @@ export default {
     let me = this;
     me.subscrp = [];
     me.stocks.forEach((element, i) => {
-      me.subscrp.push(`shares_all.${element.key}@kline_1d`);
+      me.subscrp.push(`shares:all.${element.key}@kline_1d`);
     });
     this.subscribe(Object.assign([], me.subscrp));
   },

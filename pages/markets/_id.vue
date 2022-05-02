@@ -59,7 +59,7 @@ export default {
     prices_current(v) {
       let me = this;
       let json_d = Object.assign({}, v);
-      if (json_d && json_d.method == `${me.item.name}_all@ticker_10s`) {
+      if (json_d && json_d.method == `${me.item.name}:all@ticker_10s`) {
         let data = json_d.data ? json_d.data.data || [] : [];
         let currencies = [];
         me.currs.forEach((el) => {
@@ -94,7 +94,7 @@ export default {
   created() {
     this.item = this.companyById(parseInt(this.$route.params.id));
     if (this.item) {
-      this.subscribe([`${this.item.name}_all@ticker_10s`]);
+      this.subscribe([`${this.item.name}:all@ticker_10s`]);
     }
   },
   destroyed() {
