@@ -124,32 +124,26 @@ export default {
         {
           text: this.$t("column_name"),
           value: "name",
-          width: 200,
         },
         {
           text: this.$t("column_value"),
           value: "close",
-          width: 150,
         },
         {
           text: this.$t("column_change"),
           value: "change",
-          width: 150,
         },
         {
           text: this.$t("column_change") + " %",
           value: "change_perc",
-          width: 150,
         },
         {
           text: this.$t("column_open"),
           value: "open",
-          width: 150,
         },
         {
           text: this.$t("column_low"),
           value: "low",
-          width: 150,
         },
         {
           text: this.$t("column_high"),

@@ -3,14 +3,14 @@
     <v-row v-if="curr_company" class="pa-3">
       <v-col
         cols="12"
-        xl="3"
-        md="6"
-        lg="4"
+        xl="2"
+        md="4"
+        lg="3"
         sm="12"
         v-for="(coin, i) in currs"
         :key="i"
       >
-        <v-card elevation="1" max-width="280" max-height="160" class="pa-4">
+        <v-card elevation="1" max-height="160" class="pa-4">
           <div class="justify-space-between d-flex pa-0 mb-8">
             <div>
               <v-card-subtitle class="d-flex pa-0"
@@ -23,9 +23,9 @@
 
             <div>
               <v-card-subtitle class="pa-0"
-                ><p class="ma-0">
+                ><p class="ma-0 mt-1">
                   <strong
-                    >${{ new Intl.NumberFormat().format(coin.price) }}</strong
+                    >{{ coin.price ? '$' + new Intl.NumberFormat().format(coin.price) : 'no data' }}</strong
                   >
                 </p></v-card-subtitle
               >
@@ -123,7 +123,7 @@ export default {
       sel_currency: {},
       arb_companies: [],
       prices_all: [],
-      cur_len: 7,
+      cur_len: 11,
       prices: [],
       need_curr: null,
       curr_company: true,
