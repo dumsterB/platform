@@ -86,7 +86,7 @@ export default {
     let send_arr = [];
     for (let prop in me.fav_currs) {
       me.fav_currs[prop].forEach((element, i) => {
-        send_arr.push(`${prop}:${element}-USD@ticker_5s`);
+        send_arr.push(`${prop}_${element}-USD@ticker_5s`);
       });
     }
     me.subscribe(Object.assign([], send_arr));
@@ -103,7 +103,7 @@ export default {
       let json_d = Object.assign({}, v);
       for (let prop in me.fav_currs) {
         me.fav_currs[prop].forEach((curr) => {
-          if (json_d && json_d.method == `${prop}:${curr}-USD@ticker_5s`) {
+          if (json_d && json_d.method == `${prop}_${curr}-USD@ticker_5s`) {
             let data = json_d.data ? json_d.data.data || [] : [];
             if (!me.prices[prop]) me.prices[prop] = {};
             me.prices[prop][curr] = data[0] ? data[0].price : 1;
