@@ -96,12 +96,12 @@ export default {
     prices_current(v) {
       let me = this;
       let json_d = Object.assign({}, v);
-      if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
+      if (json_d && json_d.method == `${me.base_p}:all@ticker_10s`) {
         let data = json_d.data ? json_d.data.data || [] : [];
         me.define_prices(data);
       } else if (me.need_curr) {
         let curr = me.need_curr.symbol;
-        if (json_d && json_d.method == `all_${curr}-USD@ticker_5s`) {
+        if (json_d && json_d.method == `all:${curr}-USD@ticker_5s`) {
           let data = json_d.data ? json_d.data.data || [] : [];
           me.define_arb_companies(data);
           me.define_prices(data);
@@ -128,11 +128,11 @@ export default {
     update_subscr(curr) {
       let me = this;
       if (this.need_curr) {
-        me.del_subscribe(`all_${this.need_curr.symbol}-USD@ticker_5s`);
+        me.del_subscribe(`all:${this.need_curr.symbol}-USD@ticker_5s`);
       }
       this.need_curr = curr;
       setTimeout(() => {
-        me.add_subscribe(`all_${curr.symbol}-USD@ticker_5s`);
+        me.add_subscribe(`all:${curr.symbol}-USD@ticker_5s`);
       }, 100);
     },
     define_prices(data) {
@@ -225,7 +225,7 @@ export default {
   },
   async created() {
     let me = this;
-    this.subscribe([`${me.base_p}_all@ticker_10s`]);
+    this.subscribe([`${me.base_p}:all@ticker_10s`]);
     me.update_subscr(me.currency);
   },
   destroyed() {
