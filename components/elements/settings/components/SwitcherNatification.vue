@@ -1,10 +1,10 @@
 <template>
 <div>
-  <p class="text-h6 mt-6">
+  <p class="text-h6 mb-4">
     {{ $t("settings_notification") }}
   </p>
-  <v-card style="width: 100%" height="150" class="pa-2">
-  <p class="text-gray--text">
+  <v-card style="width: 100%" class="pa-6">
+  <p class="text-gray--text" style="font-size: 14px">
     {{ $t("settings_notification_description") }}
   </p>
     <div class="d-flex ml-2">
@@ -12,6 +12,7 @@
       <v-switch
           v-model="switcher"
           color="success"
+          hide-details
       ></v-switch>
       <h2 class="ml-2 mt-3">OFF</h2>
     </div>

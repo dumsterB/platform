@@ -9,8 +9,8 @@
         :key="item.text"
       >
         <v-card
-          :style="customStyle"
-          :class="item.active ? 'tabs-active tabs-setting' : 'tabs-setting'"
+          :class="item.active ? 'tabs-setting not-global' : 'tabs-setting'"
+          :style="item.active ? 'background: #007BFF !important; color: white' : ''"
         >
           <h3 class="tab-btn text-left ml-3 mt-1 text">{{ $t(item.title) }}</h3>
           <p class="text-left ml-3 mt-1" v-if="item.text !== 'unverified'">
@@ -59,13 +59,6 @@ export default {
     text2() {
       return this.$t("password_and_2mfa");
     },
-
-    customStyle() {
-      return {
-        "--start_gradient": this.start_gradient,
-        "--end_gradient": this.end_gradient,
-      };
-    },
   },
   methods: {
     ...mapMutations({ changeActive: "data/settings/changeActive" }),
@@ -78,7 +71,6 @@ export default {
 
 <style scoped>
 .tabs-setting {
-  width: 320px;
   height: 80px !important;
   text-align: center;
   cursor: pointer;
@@ -88,10 +80,5 @@ export default {
   margin-top: 10px;
   padding: 8px;
   filter: drop-shadow(20px 20px 100px rgba(0, 0, 0, 0.5));
-}
-.tabs-active {
-  background: #007bff !important;
-  filter: drop-shadow(20px 20px 100px rgba(0, 0, 0, 0.5));
-  color: white;
 }
 </style>

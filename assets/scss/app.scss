@@ -107,7 +107,7 @@ html[theme="light"] .v-sheet {
     border-radius: 10px !important;
 }
 
-html[theme="light"] .v-card {
+html[theme="light"] .v-card:not(.not-global) {
     background: #ffffff !important;
     border-radius: 10px !important;
 }
