@@ -56,7 +56,7 @@
             </v-col>
           </v-row>
         </v-card>
-        <v-row v-if="curr_crypto" class="mt-2 ml-4 mt-4">
+        <v-row class="mt-2 ml-4 mt-4">
           <v-col :cols="8">
             <v-row>
               <v-col class="pl-0 pr-1">
@@ -69,7 +69,7 @@
                   >{{ $t("spot_title") }}</v-btn
                 >
               </v-col>
-              <v-col class="pl-0 pr-1">
+              <v-col class="pl-0 pr-1" v-if="curr_crypto">
                 <v-btn
                   large
                   block
@@ -246,6 +246,12 @@ export default {
           return this.curr_code + "USD";
         }
         let kk = !k ? "LSE" : k.tv;
+        if (this.curr_code == 'BABA') {
+          kk = 'NYSE';
+        }
+        if (this.curr_code == 'R6C0') {
+          kk = 'XETR';
+        }
         return kk + ":" + this.curr_code;
       }
     },

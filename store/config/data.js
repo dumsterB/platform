@@ -34,7 +34,7 @@ export const state = () => ({
         {
             name: "Xetra Exchange",
             key: "XETRA",
-            tv: "XETR",
+            tv: "NYSE",
             currency: "EUR",
             list: [],
         },

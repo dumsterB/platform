@@ -117,8 +117,10 @@ export default {
       let me = this;
       if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
         let data = json_d.data ? json_d.data.data || [] : [];
-        me.prices = data.concat(me.com_prices);
-        me.init_currs();
+        if (data.length > 10) {
+          me.prices = data.concat(me.com_prices);
+          me.init_currs();
+        }
         // console.log(json_d.method, currs, data)
       }
       me.subscr_arr.forEach((el) => {

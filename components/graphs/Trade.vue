@@ -123,6 +123,7 @@ export default {
   },
   methods: {
     initTV() {
+      console.log('this.key_g', this.key_g)
       setTimeout(() => {
         let dcr = document.createElement("script");
         dcr.setAttribute("type", "text/javascript");
