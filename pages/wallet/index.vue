@@ -203,16 +203,16 @@ export default {
       this.wallets.forEach((wall, i) => {
         let cr = wall.currency.symbol;
         if (wall.currency.currency_type.key == "CRYPTO") {
-          str += `"${me.base_p}_${cr}-USD@ticker_10s"`;
-          arr.push(`${me.base_p}_${cr}-USD@ticker_10s`);
+          str += `"${me.base_p}:${cr}-USD@ticker_10s"`;
+          arr.push(`${me.base_p}:${cr}-USD@ticker_10s`);
           if (i < this.wallets.length - 1) {
             str += ",";
           }
         } else {
           let ex_t = wall.currency.exchange_type.key;
           if (cr != "USD") {
-            str += `"shares_${cr}.${ex_t}@kline_1d"`;
-            arr.push(`shares_${cr}.${ex_t}@kline_1d`);
+            str += `"shares:${cr}.${ex_t}@kline_1d"`;
+            arr.push(`shares:${cr}.${ex_t}@kline_1d`);
             if (i < this.wallets.length - 1) {
               str += ",";
             }

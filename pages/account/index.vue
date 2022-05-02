@@ -105,7 +105,7 @@ export default {
     prices_current(v) {
       let json_d = Object.assign({}, v);
       let me = this;
-      if (json_d && json_d.method == `${me.base_p}_all@ticker_10s`) {
+      if (json_d && json_d.method == `${me.base_p}:all@ticker_10s`) {
         let data = json_d.data ? json_d.data.data || [] : [];
         me.prices = data.concat(me.com_prices);
         me.init_currs();
@@ -220,8 +220,8 @@ export default {
         if (wall.currency.currency_type.key != "CRYPTO") {
           let ex_t = wall.currency.exchange_type.key;
           if (cr != "USD") {
-            str += `"shares_${cr}.${ex_t}@kline_1d"`;
-            arr.push(`shares_${cr}.${ex_t}@kline_1d`);
+            str += `"shares:${cr}.${ex_t}@kline_1d"`;
+            arr.push(`shares:${cr}.${ex_t}@kline_1d`);
             if (i < this.wallets.length - 1) {
               str += ",";
             }
@@ -238,12 +238,12 @@ export default {
   async created() {
     let subscr_obj = this.wallets_subscribe_definer();
     console.log("subscr_obj", subscr_obj);
-    this.subscr = `"${this.base_p}_all@ticker_10s"`;
+    this.subscr = `"${this.base_p}:all@ticker_10s"`;
     if (subscr_obj.str) {
       this.subscr += `, ${subscr_obj.str}`;
     }
     this.subscr_arr = subscr_obj.arr;
-    this.subscr_arr.push(`${this.base_p}_all@ticker_10s`);
+    this.subscr_arr.push(`${this.base_p}:all@ticker_10s`);
     this.subscribe(Object.assign([], this.subscr_arr));
   },
   mounted() {
@@ -263,7 +263,7 @@ export default {
                   me.waiter[sym] = true;
                   setTimeout(() => {
                     if (me.waiter[sym]) {
-                      me.add_subscribe(`all_${sym}-USD@ticker_10s`);
+                      me.add_subscribe(`all:${sym}-USD@ticker_10s`);
                     }
                   }, 500);
                 },
@@ -274,7 +274,7 @@ export default {
                 "mouseleave",
                 function (event) {
                   me.waiter[sym] = false;
-                  me.del_subscribe(`all_${sym}-USD@ticker_10s`);
+                  me.del_subscribe(`all:${sym}-USD@ticker_10s`);
                 },
                 false
               );

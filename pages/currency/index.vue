@@ -324,7 +324,7 @@ export default {
           let curr = wall[p_arr[i]];
           let cr = curr.symbol;
           if (curr.currency_type.key == "CRYPTO") {
-            let st = `${me.base_p}_${cr}-USD@ticker_10s`;
+            let st = `${me.base_p}:${cr}-USD@ticker_10s`;
             let fnd = arr.find((el) => el == st);
             if (!fnd) {
               str += `"${st}"`;
@@ -334,7 +334,7 @@ export default {
           } else {
             let ex_t = curr.exchange_type.key;
             if (cr != "USD") {
-              let st = `shares_${cr}.${ex_t}@kline_1d`;
+              let st = `shares:${cr}.${ex_t}@kline_1d`;
               let fnd = arr.find((el) => el == st);
               if (!fnd) {
                 str += `"${st}"`;
@@ -394,11 +394,11 @@ export default {
       this.unsubscribe();
       me.arr_subscr = obj.arr;
       if (this.curr_crypto) {
-        me.arr_subscr.push(`${me.base_p}_${me.curr_code}-USD@ticker_5s`);
-        me.arr_subscr.push(`${me.base_p}_${me.curr_code}-USD@kline_1d`);
+        me.arr_subscr.push(`${me.base_p}:${me.curr_code}-USD@ticker_5s`);
+        me.arr_subscr.push(`${me.base_p}:${me.curr_code}-USD@kline_1d`);
       } else {
         me.ex_type = me.current.exchange_type.key;
-        me.arr_subscr.push(`shares_${me.curr_code}.${me.ex_type}@kline_1d`);
+        me.arr_subscr.push(`shares:${me.curr_code}.${me.ex_type}@kline_1d`);
       }
       this.subscribe(Object.assign([], me.arr_subscr));
       console.log("me.str_subscr", me.str_subscr);
@@ -406,7 +406,7 @@ export default {
     arbitrage_sockets() {
       let me = this;
       this.unsubscribe();
-      me.arr_subscr = [`all_${me.curr_code}-USD@ticker_5s`];
+      me.arr_subscr = [`all:${me.curr_code}-USD@ticker_5s`];
       this.subscribe(Object.assign([], me.arr_subscr));
     },
   },
