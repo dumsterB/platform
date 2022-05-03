@@ -7,6 +7,7 @@
       :items-per-page="perpage"
       :footer-props="{
         'items-per-page-options': [5, 10, 20],
+        'items-per-page-text': $t('items_per_page'),
       }"
       class="elevation-4 space rounded-lg pl-4 pr-4 ml-0"
     >

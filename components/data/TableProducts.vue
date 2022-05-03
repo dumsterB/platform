@@ -6,7 +6,10 @@
       :items-per-page="perpage"
       :search="search"
       :style="customStyle"
-      :footer-props="{ 'items-per-page-options': [3, 5, 10, -1] }"
+      :footer-props="{
+        'items-per-page-options': [3, 5, 10, -1],
+        'items-per-page-text': $t('items_per_page'),
+      }"
       dense
       @click:row="handleClick"
       class="elevation-1 ma-4 ml-8 mt-8"

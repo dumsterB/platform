@@ -31,8 +31,10 @@
         :search="search"
         class="wallet-table mt-2 pa-2"
         @click:row="handleClick"
+        :style="customStyle"
         :footer-props="{
           'items-per-page-options': [5, 10, 20, 50],
+          'items-per-page-text': $t('items_per_page'),
         }"
       >
         <template v-slot:[`item.currency.symbol`]="{ item }">
@@ -78,6 +80,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import Deposit from "@/components/modals/Deposit";
+import config from "~/config/config.json";
 export default {
   name: "TableTransactions",
   components: {
@@ -93,6 +96,7 @@ export default {
   },
   data() {
     return {
+      primary: config.colors.text.primary,
       dialog: false,
       dialogDelete: false,
       search: "",
@@ -140,6 +144,11 @@ export default {
       } else {
         return this.wallets;
       }
+    },
+    customStyle() {
+      return {
+        "--primary": this.primary,
+      };
     },
   },
 

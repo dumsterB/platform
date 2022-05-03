@@ -13,6 +13,7 @@
       @pagination="paging"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
+        'items-per-page-text': $t('items_per_page'),
       }"
     >
       <template v-slot:top>
