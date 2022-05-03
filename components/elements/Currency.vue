@@ -80,6 +80,7 @@
     </v-tooltip>
     <v-card
       v-else
+      max-width="400"
       class="currecyCard rounded-lg light-card"
       :elevation="hover ? 18 : 8"
       v-bind="attrs"

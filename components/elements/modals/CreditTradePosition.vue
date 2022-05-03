@@ -95,7 +95,7 @@
     </v-card-text>
     <v-card-actions class="c-actions">
       <v-btn color="green" type="submit" text :loading="loading" @click="save">
-        {{ action === "Sell" ? $t("sell") : $t("buy") }}
+        {{ loading ? '' : action === "Sell" ? $t("sell") : $t("buy") }}
       </v-btn>
     </v-card-actions>
   </v-card>

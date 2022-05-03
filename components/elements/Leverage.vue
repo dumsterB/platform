@@ -159,16 +159,18 @@ export default {
       data.forEach((element) => {
         if (element && element.price) {
           let comp = me.ac.find((el) => el.name == element.company);
-          let wallet = me.wallet_full.find(
-            (el) => el.currency_id == me.currency.id
-          );
-          arb_companies.push({
-            currency: me.currency,
-            wallet: wallet || {},
-            company: comp,
-            action: wallet ? "Both" : "Buy",
-            price: element.price,
-          });
+          if (comp) {
+            let wallet = me.wallet_full.find(
+              (el) => el.currency_id == me.currency.id
+            );
+            arb_companies.push({
+              currency: me.currency,
+              wallet: wallet || {},
+              company: comp,
+              action: wallet ? "Both" : "Buy",
+              price: element.price,
+            });
+          }
         }
       });
       me.arb_companies = arb_companies;

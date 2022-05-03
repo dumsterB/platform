@@ -36,8 +36,9 @@ export default {
     MarketItem,
   },
   data() {
+    let cp = JSON.parse(JSON.stringify(this.$store.getters["config/default/arb_data"]));
     return {
-      prices: {},
+      prices: cp,
       interv: null,
     };
   },
