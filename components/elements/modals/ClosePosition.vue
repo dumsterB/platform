@@ -36,7 +36,7 @@
         @click="save"
         type="submit"
       >
-        {{ $t("ok") }}
+        {{ loading ? '' : $t("ok") }}
       </v-btn>
     </v-card-actions>
   </v-card>

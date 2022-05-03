@@ -203,6 +203,9 @@ export default {
     ...mapGetters("data/currency", {
       currencies: "list",
     }),
+    ...mapGetters("config/default", {
+      get_val: "get_val",
+    }),
   },
   methods: {
     ...mapActions(wallet, {
@@ -243,10 +246,8 @@ export default {
           if (fnd && fnd.price) {
             element.balance =
               parseFloat(element.balance) * parseFloat(fnd.price);
-            this.total_sum += element.balance;
-          } else {
-            this.total_sum += element.balance;
           }
+          this.total_sum += element.balance;
         });
         let fnd_btc = this.prices.find((el) => el && el.base == "BTC");
         if (fnd_btc) {

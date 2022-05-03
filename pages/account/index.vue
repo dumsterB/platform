@@ -72,7 +72,7 @@ export default {
       companies: [],
       base_p: this.$store.state.config.data.base_p,
       waiter: {},
-      prices: [],
+      prices: this.$store.getters["config/default/gate_all"],
       search: "",
       f_currs: [],
       subscr: "",
@@ -84,9 +84,6 @@ export default {
   computed: {
     ...mapGetters(model, {
       currencies_full: "list",
-    }),
-    ...mapGetters("data/default", {
-      default_gate_all: "default_gate_all",
     }),
     currencies() {
       let c_f = this.currencies_full;
@@ -189,10 +186,7 @@ export default {
     },
     init_currs() {
       let me = this;
-      let data =
-        me.prices && me.prices.length
-          ? me.prices
-          : this.$store.getters["config/default/gate_all"];
+      let data = me.prices;
       let currs = me.currencies.map((el) => {
         let res = {
           id: el.id,
@@ -306,7 +300,7 @@ export default {
           clearInterval(int);
         }, 400);
       }
-    }, 1000);
+    }, 100);
   },
   destroyed() {
     window.removeEventListener("resize", this.onResize);

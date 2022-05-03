@@ -24,9 +24,11 @@
             <div>
               <v-card-subtitle class="pa-0"
                 ><p class="ma-0 mt-1">
-                  <strong
-                    >{{ coin.price ? '$' + new Intl.NumberFormat().format(coin.price) : 'no data' }}</strong
-                  >
+                  <strong>{{
+                    coin.price
+                      ? "$" + new Intl.NumberFormat().format(coin.price)
+                      : "no data"
+                  }}</strong>
                 </p></v-card-subtitle
               >
             </div>
@@ -65,6 +67,14 @@
             >
           </v-col></v-row
         >
+        <div v-if="isLoading" class="loader-arbitrage">
+          <v-progress-circular
+            :size="50"
+            :width="5"
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
+        </div>
         <v-row>
           <v-col
             cols="12"
@@ -127,6 +137,7 @@ export default {
       prices: [],
       need_curr: null,
       curr_company: true,
+      isLoading: true,
       base_p: this.$store.state.config.data.base_p,
       arb_ses_filter: {
         status_id: 1,
@@ -153,6 +164,7 @@ export default {
       } else if (me.need_curr) {
         let curr = me.need_curr.symbol;
         if (json_d && json_d.method == `all:${curr}-USD@ticker_5s`) {
+          me.isLoading = false;
           let data = json_d.data ? json_d.data.data || [] : [];
           me.define_arb_companies(data);
           me.define_prices(data);
@@ -210,16 +222,18 @@ export default {
       data.forEach((element) => {
         if (element && element.price) {
           let comp = me.ac.find((el) => el.name == element.company);
-          let wallet = me.wallet_full.find(
-            (el) => el.currency_id == me.sel_currency.id
-          );
-          arb_companies.push({
-            currency: me.sel_currency,
-            wallet: wallet || {},
-            company: comp,
-            action: wallet ? "Both" : "Buy",
-            price: element.price,
-          });
+          if (comp) {
+            let wallet = me.wallet_full.find(
+              (el) => el.currency_id == me.sel_currency.id
+            );
+            arb_companies.push({
+              currency: me.sel_currency,
+              wallet: wallet || {},
+              company: comp,
+              action: wallet ? "Both" : "Buy",
+              price: element.price,
+            });
+          }
         }
       });
       me.arb_companies = arb_companies;
@@ -247,6 +261,9 @@ export default {
     }),
     ...mapGetters("config/ws", {
       prices_current: "page_data",
+    }),
+    ...mapGetters("config/default", {
+      gate_all: "gate_all",
     }),
     currs() {
       let res = [];
@@ -291,6 +308,8 @@ export default {
     }),
   },
   async created() {
+    let data = Object.assign([], this.gate_all);
+    this.define_prices(data);
     this.init();
   },
   destroyed() {
@@ -302,5 +321,9 @@ export default {
 <style>
 .op_t_title {
   font-size: 22px;
+}
+.loader-arbitrage {
+  padding-top: 100px;
+  text-align: center;
 }
 </style>

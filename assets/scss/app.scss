@@ -60,12 +60,12 @@ html .v-application--wrap {
 }
 
 .v-menu__content .v-list {
-    background: #000e1d !important;
+    background: #000c19 !important;
     border-radius: 10px !important;
 }
 
 :not(.curr-table).v-data-table {
-    background: #000e1d !important;
+    background: #000c19 !important;
     border-radius: 10px !important;
 }
 
@@ -79,7 +79,7 @@ html[theme="light"] :not(.curr-table).v-data-table {
 }
 
 :not(.app-bar-margins).v-toolbar {
-    background: #000e1d !important;
+    background: #000c19 !important;
     border-radius: 10px !important;
 }
 
@@ -143,6 +143,14 @@ input[type="number"]::-webkit-inner-spin-button {
     text-align: center;
 }
 
+.light-card {
+    background: #161F49 !important;
+}
+
+html[theme="light"] .light-card {
+    background: #ffffff !important;
+}
+
 #dir-rtl[dir="rtl"] {
     .items-nav-bar a {
         margin-right: 20px !important;
@@ -191,11 +199,6 @@ input[type="number"]::-webkit-inner-spin-button {
     .v-data-footer .v-input {
         margin-right: 15px !important;
     }
-}
-
-.v-btn:before {
-    opacity: 0 !important;
-    background-color: transparent !important;
 }
 
 .v-ripple__container {

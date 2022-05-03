@@ -5,7 +5,7 @@ const crudModule = createCRUD({
   state: {
     currencies: {
       "binance": ["ETH", "BTC", "XRP", "LUNA", "BCH"],
-      "kraken": ["DOT", "ADA", "SOL", "LUNA", "TRX"],
+      "kraken": ["DOT", "ADA", "AVAX", "ATOM", "FLOW"],
       "gate": ["ETH", "BTC", "XRP", "LUNA", "BCH"],
       "kucoin": ["ETH", "BTC", "XRP", "LUNA", "BCH"],
       "bybit": ["ETH", "BTC", "XRP", "DOT", "EOS"],

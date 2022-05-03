@@ -307,7 +307,7 @@ export default {
     },
     prices_current(v) {
       let me = this;
-      let json_d = Object.assign({}, v);
+      let json_d = JSON.parse(JSON.stringify(v));
       me.arr_subscr.forEach((el) => {
         if (json_d && json_d.method == el) {
           let data = json_d.data ? json_d.data.data || [] : [];
@@ -361,7 +361,7 @@ export default {
     platform_changed(platform) {
       this.selected_platform = platform;
     },
-    trades_subscribe_definer() {
+    trades_subscribe_definer(bool) {
       let me = this;
       let str = "";
       let arr = [];
@@ -440,7 +440,6 @@ export default {
     },
     spot_sockets() {
       let me = this;
-      let socket = global.socket;
       let obj = me.trades_subscribe_definer();
       this.unsubscribe();
       me.arr_subscr = obj.arr;

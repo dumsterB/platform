@@ -34,6 +34,7 @@
             @click="buy(item)"
             class="ml-1 green_btn text-capitalize"
             :style="customStyle"
+            :disabled="!item.price"
           >
             {{ $t("buy") }}
           </v-btn>
@@ -42,6 +43,7 @@
             @click="sell(item)"
             class="ml-1 red_btn text-capitalize"
             :style="customStyle"
+            :disabled="!item.price"
           >
             {{ $t("sell") }}
           </v-btn>

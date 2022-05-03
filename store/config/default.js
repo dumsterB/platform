@@ -802,14 +802,54 @@ export const state = () => ({
             "close": 160.7,
             "open": 160.28
         }
-    ]
+    ],
+    arb_data: {
+        "bybit": {
+            "BTC": 38206,
+            "ETH": 2818.15,
+            "EOS": 2.073,
+            "XRP": 0.6153,
+            "DOT": 14.88
+        },
+        "binance": {
+            "BTC": 38223.9,
+            "ETH": 2819.8,
+            "XRP": 0.6152,
+            "BCH": 285.1,
+            "LUNA": 83.19
+        },
+        "gate": {
+            "XRP": 0.61551,
+            "LUNA": 83.1904,
+            "ETH": 2819.3,
+            "BCH": 285.83,
+            "BTC": 38232
+        },
+        "kraken": {
+            "ADA": 0.788884,
+            "ATOM": 18.2693,
+            "DOT": 14.8948,
+            "FLOW": 4.599,
+            "AVAX": 60.42
+        },
+        "kucoin": {
+            "BCH": 284.97,
+            "BTC": 38220.9,
+            "ETH": 2820.05,
+            "LUNA": 83.1865,
+            "XRP": 0.61507
+        }
+    }
 })
 
 export const getters = {
     gate_all(state) {
         return state.gate_all;
     },
-    get_val: (state) => (base) =>  {
+    arb_data(state) {
+        return state.arb_data;
+    },
+    get_val: (state) => (base) => {
         let fnd = state.gate_all.find(el => el.base == base);
         let fnd1 = state.com_all.find(el => el.share == base);
         return fnd1 ? fnd1 : fnd;

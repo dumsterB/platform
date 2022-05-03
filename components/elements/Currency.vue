@@ -47,7 +47,6 @@
                   >{{ currency.change_p }}%</span
                 >
               </v-list-item-content>
-            </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
@@ -79,24 +78,41 @@
         ></v-progress-circular>
       </div>
     </v-tooltip>
-    <v-card v-else class="currecyCard" elevation="8">
-      <v-list-item
-        three-line
-        class="pa-2 rounded-lg"
-        @click="$router.push(`/currency?id=${currency.id}`)"
-      >
-        <v-list-item-content class="pa-1">
+    <v-card
+      v-else
+      max-width="400"
+      class="currecyCard rounded-lg light-card"
+      :elevation="hover ? 18 : 8"
+      v-bind="attrs"
+      v-on="on"
+      :style="customStyles"
+      :class="backgroundDiffColor(currency.change_p)"
+      @click="$router.push(`/currency?id=${currency.id}`)"
+    >
+      <v-list-item three-line class="pa-2 rounded-lg d-flex">
+        <v-list-item-content class="pa-1 rounded-lg">
           <div class="d-flex">
-            <v-img :src="currency.logo" :max-width="20"></v-img>
+            <v-img :src="currency.logo" :max-width="32"></v-img>
             <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
           </div>
-          <span class="price-text">${{ currency.price }}</span>
+          <span class="price-text-sm" style="margin-bottom: -4px"
+            >${{ new Intl.NumberFormat().format(currency.price) }}</span
+          >
         </v-list-item-content>
         <v-list-item-content class="coinList pa-1 flexNone">
-          <div class="chip">24H</div>
+          <div class="star-btn pt-1">
+            <v-btn small rounded class="elevation-0" color="rgba(255, 255, 255, 0.15)"> 24H </v-btn>
+          </div>
           <span :style="customStyles" :class="diffColor(currency.change_p)"
             >{{ currency.change_p }}%</span
           >
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-content>
+          <div style="min-width: 200px">
+            <sparklines></sparklines>
+          </div>
         </v-list-item-content>
       </v-list-item>
     </v-card>
@@ -204,6 +220,10 @@ export default {
 .price-text {
   font-size: 20px;
   font-weight: 700;
+}
+.price-text-sm {
+  font-size: 16px;
+  font-weight: 600;
 }
 .star_btn:hover {
   background: none;

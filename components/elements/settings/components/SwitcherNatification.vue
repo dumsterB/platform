@@ -8,13 +8,13 @@
     {{ $t("settings_notification_description") }}
   </p>
     <div class="d-flex ml-2">
-      <h2 class="mr-2 mt-3">ON</h2>
+      <h2 class="mr-2 mt-3">OFF</h2>
       <v-switch
           v-model="switcher"
           color="success"
           hide-details
       ></v-switch>
-      <h2 class="ml-2 mt-3">OFF</h2>
+      <h2 class="ml-2 mt-3">ON</h2>
     </div>
 
   </v-card>
