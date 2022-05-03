@@ -29,7 +29,14 @@
               @reload="reload"
           /></v-col> </v-row></v-col
     ></v-row>
-    <v-row class="pl-8"> </v-row>
+    <div v-if="isLoading" class="loader-leverage">
+      <v-progress-circular
+        :size="50"
+        :width="5"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+    </div>
     <v-row>
       <v-col>
         <TableCreditSession
@@ -74,6 +81,7 @@ export default {
       cur_len: 8,
       prices: [],
       need_curr: null,
+      isLoading: true,
       base_p: this.$store.state.config.data.base_p,
       arb_ses_filter: {
         status_id: 1,
@@ -100,6 +108,7 @@ export default {
       } else if (me.need_curr) {
         let curr = me.need_curr.symbol;
         if (json_d && json_d.method == `all:${curr}-USD@ticker_5s`) {
+          me.isLoading = false;
           let data = json_d.data ? json_d.data.data || [] : [];
           me.define_arb_companies(data);
           me.define_prices(data);
@@ -237,5 +246,10 @@ export default {
 <style>
 .op_t_title {
   font-size: 22px;
+}
+.loader-leverage {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
 }
 </style>

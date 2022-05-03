@@ -171,6 +171,11 @@ export default {
         }
       }
     },
+    curr_company(v) {
+      if (v) {
+        this.isLoading = true;
+      }
+    }
   },
   methods: {
     ...mapActions(wallet, {
@@ -323,7 +328,8 @@ export default {
   font-size: 22px;
 }
 .loader-arbitrage {
-  padding-top: 100px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   text-align: center;
 }
 </style>
