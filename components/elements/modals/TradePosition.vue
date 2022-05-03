@@ -53,7 +53,7 @@
         :loading="loadingSell"
         @click="save('Sell')"
       >
-        {{ $t("sell") }}
+        {{ loadingSell ? '' : $t("sell") }}
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn
@@ -64,7 +64,7 @@
         :loading="loading"
         @click="save('Buy')"
       >
-        {{ $t("buy") }}
+        {{ loading ? '' : $t("buy") }}
       </v-btn>
     </v-card-actions>
     <v-card-actions v-else class="c-actions">

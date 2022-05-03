@@ -358,7 +358,6 @@ export default {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  text-fill-color: transparent !important;
   position: relative !important;
 }
 .green_gradi:after {
@@ -384,7 +383,6 @@ export default {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  text-fill-color: transparent !important;
   position: relative !important;
 }
 .red_gradi::after {

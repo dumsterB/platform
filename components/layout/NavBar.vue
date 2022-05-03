@@ -70,7 +70,16 @@
         <v-hover v-slot="{ hover }">
           <div
             flat
-            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
+            class="
+              account-menu
+              d-flex
+              flex-columns
+              align-center
+              mt-2
+              py-2
+              pr-2
+              pl-4
+            "
             v-on="on"
           >
             <div class="mr-2">
@@ -108,11 +117,30 @@
         ></v-list-item>
       </v-list>
     </v-menu>
-    <v-hover v-slot="{ hover }">
-      <v-icon class="mt-2 icon-bell" :color="hover ? 'primary' : 'gray'">{{
-        is_nots ? "mdi-bell-badge-outline" : "mdi-bell-outline"
-      }}</v-icon>
-    </v-hover>
+    <v-menu
+      transition="slide-y-transition"
+      bottom
+      right
+      :offset-y="true"
+      content-class="elevation-1"
+      :close-on-content-click="false"
+      hide-details
+    >
+      <template v-slot:activator="{ on }">
+        <v-hover v-slot="{ hover }">
+          <v-icon
+            v-on="on"
+            class="mt-2 icon-bell"
+            :color="hover ? 'primary' : 'gray'"
+            >{{
+              is_nots ? "mdi-bell-badge-outline" : "mdi-bell-outline"
+            }}</v-icon
+          >
+        </v-hover>
+      </template>
+      <NotHistory></NotHistory>
+    </v-menu>
+
     <template v-slot:extension>
       <!-- <v-col class="ma-0 pa-0"> <Ticker /> </v-col> -->
       <v-row>
@@ -131,6 +159,7 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 import LanguageSelect from "~/components/settings/LanguageSelect";
 import ThemeSelect from "~/components/settings/ThemeSelect";
 import Ticker from "./Ticker";
+import NotHistory from "./NotHistory";
 import config from "~/config/config.json";
 
 export default {
@@ -250,6 +279,7 @@ export default {
     LanguageSelect,
     ThemeSelect,
     Ticker,
+    NotHistory
   },
 
   computed: {
@@ -344,7 +374,6 @@ export default {
   width: 262px;
 }
 .avatar {
-  transparent: 223ms linear;
   border: 2px solid var(--primary) !important;
 }
 
