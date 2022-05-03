@@ -144,7 +144,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .light-card {
-    background: #161F49 !important;
+    background: #161f49 !important;
 }
 
 html[theme="light"] .light-card {
@@ -311,4 +311,8 @@ html[theme="light"] .light-card {
 
 .v-btn>.v-btn__content .v-icon {
     color: var(--primary);
+}
+
+.v-input .v-label {
+    letter-spacing: -1px !important;
 }

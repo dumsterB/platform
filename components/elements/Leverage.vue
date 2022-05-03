@@ -38,6 +38,7 @@
           :filter="arb_ses_filter"
           ref="a_session"
           @get_prices="update_subscr"
+          title="open_positions"
         ></TableCreditSession>
       </v-col>
     </v-row>

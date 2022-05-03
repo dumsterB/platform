@@ -2,56 +2,69 @@
   <div class="prod-table">
     <v-card>
       <v-card-title class="pb-1">
-       <div class="d-flex " style="width: 100%">
-       <h3 class="mr-4 mt-2">{{$t('my_wallet')}}</h3>
-         <v-checkbox
-             v-model="zero_bals"
-             class="ml-2 mt-2"
-             :label="zero_bals ? $t('open_zero_balances') : $t('hide_zero_balances')"
-         ></v-checkbox>
-         <v-spacer></v-spacer>
-         <v-text-field
-             v-model="search"
-             append-icon="mdi-magnify"
-             :label="$t('market_search_bar_placeholder')"
-             outlined
-             filled
-             dense
-             hide-details
-         ></v-text-field>
-       </div>
+        <div class="d-flex" style="width: 100%">
+          <h3 style="letter-spacing: -2px" class="mr-2 mt-2">
+            {{ $t("my_wallet") }}
+          </h3>
+          <v-checkbox
+            v-model="zero_bals"
+            class="ml-2 mt-2 font-weight-regular"
+            :label="
+              zero_bals ? $t('open_zero_balances') : $t('hide_zero_balances')
+            "
+          ></v-checkbox>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            :label="$t('market_search_bar_placeholder')"
+            outlined
+            filled
+            dense
+            hide-details
+            class="ml-4"
+          ></v-text-field>
+        </div>
       </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="in_wallets"
-      :search="search"
-      class="wallet-table mt-2 pa-2"
-      @click:row="handleClick"
-      :footer-props="{
-        'items-per-page-options': [5, 10, 20, 50],
-      }"
-    >
-      <template v-slot:[`item.eqv`]="{ item }">
-        <span class="primary--text font-weight-bold">{{
-          new Intl.NumberFormat().format(item.eqv)
-        }}</span
-        ><span class="primary--text"> USD</span>
-      </template>
-      <template v-slot:[`item.actions`]="{ item }">
-        <v-btn
-          v-if="item.currency.currency_type.key == 'FIAT'"
-          elevation="0"
-          class="primary"
-          rounded
-          block
-          @click="depositChanger(item)"
-          >{{ $t("deposit_title") }}</v-btn
-        >
-      </template>
-      <template v-slot:no-data>
-        <p>No data</p>
-      </template>
-    </v-data-table>
+      <v-data-table
+        :headers="headers"
+        :items="in_wallets"
+        :search="search"
+        class="wallet-table mt-2 pa-2"
+        @click:row="handleClick"
+        :footer-props="{
+          'items-per-page-options': [5, 10, 20, 50],
+        }"
+      >
+        <template v-slot:[`item.currency.symbol`]="{ item }">
+          <span class="gray--text font-weight-bold">{{
+            item.currency.symbol
+          }}</span>
+        </template>
+        <template v-slot:[`item.balance`]="{ item }">
+          <span>{{ new Intl.NumberFormat().format(item.balance) }}</span>
+        </template>
+
+        <template v-slot:[`item.eqv`]="{ item }">
+          <span class="primary--text font-weight-bold">{{
+            new Intl.NumberFormat().format(item.eqv)
+          }}</span
+          ><span class="primary--text"> USD</span>
+        </template>
+        <template v-slot:[`item.actions`]="{ item }">
+          <v-btn
+            v-if="item.currency.currency_type.key == 'FIAT'"
+            elevation="0"
+            class="primary"
+            rounded
+            block
+            @click="depositChanger(item)"
+            >{{ $t("deposit_title") }}</v-btn
+          >
+        </template>
+        <template v-slot:no-data>
+          <p>No data</p>
+        </template>
+      </v-data-table>
     </v-card>
     <Deposit
       :dialog="dialog"
@@ -165,7 +178,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .wallet-table {
   background: #000c19;
   box-shadow: 20px 20px 100px rgba(0, 0, 0, 0.07);

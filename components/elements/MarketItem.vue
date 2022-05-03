@@ -15,14 +15,14 @@
               @click.prevent.stop="togglerFavorite"
               size="40"
               v-if="isFavorite"
-              color="yellow"
+              color="primary"
               >mdi-star</v-icon
             >
             <v-icon
               @click.prevent.stop="togglerFavorite"
               size="35"
               v-if="!isFavorite"
-              class="yellow--text"
+              class="primary--text"
               >mdi-star-outline</v-icon
             >
           </v-btn>
@@ -39,12 +39,14 @@
               <v-img v-bind:src="cur.logo"></v-img>
             </v-list-item-avatar>
             <v-list-item-content v-text="cur.name"></v-list-item-content>
-            <v-col class="text-right"><span>{{ prices[cur.symbol] ? "$" : "" }}</span
-            >{{
-              prices[cur.symbol]
-                ? new Intl.NumberFormat().format(prices[cur.symbol])
-                : ''
-            }}</v-col>
+            <v-col class="text-right"
+              ><span>{{ prices[cur.symbol] ? "$" : "" }}</span
+              >{{
+                prices[cur.symbol]
+                  ? new Intl.NumberFormat().format(prices[cur.symbol])
+                  : ""
+              }}</v-col
+            >
           </v-list-item>
         </v-list>
         <div v-else class="message-available">

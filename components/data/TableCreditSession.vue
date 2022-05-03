@@ -18,7 +18,7 @@
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title class="font-weight-bold">{{
-            $t("open_positions")
+            $t(title)
           }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
@@ -33,6 +33,13 @@
             ></v-text-field>
           </div>
         </v-toolbar>
+      </template>
+      <template v-slot:[`item.arbitrage_company.logo`]="{ item }">
+        <img
+          :src="item.arbitrage_company.logo"
+          :alt="item.arbitrage_company.name"
+          height="20"
+        />
       </template>
       <template v-slot:[`item.session_start_type.name`]="{ item }">
         <span :style="diffAction(item.session_start_type.name)">{{
@@ -159,13 +166,11 @@ export default {
       return [
         {
           text: this.$t("name_table"),
-          value: "arbitrage_company.name",
-          // width: 80,
+          value: "arbitrage_company.logo",
         },
         {
           text: this.$t("table_position"),
           value: "session_start_type.name",
-          // width: 100,
         },
         {
           text: this.$t("table_time"),
@@ -174,37 +179,30 @@ export default {
         {
           text: this.$t("self_amount"),
           value: "self_amount",
-          // width: 100,
         },
         {
           text: this.$t("amount"),
           value: "amount",
-          // width: 100,
         },
         {
           text: this.$t("table_buy_price"),
           value: "start_exchange_rate",
-          // width: 120,
         },
         {
           text: this.$t("table_current_price"),
           value: "current_cost",
-          // width: 130,
         },
         {
           text: `${this.$t("table_profit_loss")} $`,
           value: "difference",
-          // width: 116,
         },
         {
           text: `${this.$t("table_profit_loss")} %`,
           value: "difference_perc",
-          // width: 128,
         },
         {
           text: this.$t("table_close"),
           value: "action",
-          // width: 80,
         },
       ];
     },

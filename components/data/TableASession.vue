@@ -34,6 +34,21 @@
           </div>
         </v-toolbar>
       </template>
+      <template v-slot:[`item.arbitrage_company.logo`]="{ item }">
+        <img
+          :src="item.arbitrage_company.logo"
+          :alt="item.arbitrage_company.name"
+          height="20"
+        />
+      </template>
+      <template v-slot:[`item.session_start_type.name`]="{ item }">
+        <span :style="diffAction(item.session_start_type.name)">{{
+          item.session_start_type.name
+        }}</span>
+      </template>
+      <template v-slot:[`item.created_at`]="{ item }">
+        <span>{{ new Date(item.created_at).toLocaleString() }}</span>
+      </template>
       <template v-slot:[`item.amount`]="{ item }">
         <span>{{
           new Intl.NumberFormat().format(item.amount) +
@@ -135,13 +150,11 @@ export default {
       return [
         {
           text: this.$t("name_table"),
-          value: "arbitrage_company.name",
-          // width: 80,
+          value: "arbitrage_company.logo",
         },
         {
           text: this.$t("table_position"),
           value: "session_start_type.name",
-          // width: 100,
         },
         {
           text: this.$t("table_time"),
@@ -151,32 +164,26 @@ export default {
         {
           text: this.$t("amount"),
           value: "amount",
-          // width: 100,
         },
         {
           text: this.$t("table_buy_price"),
           value: "start_exchange_rate",
-          // width: 120,
         },
         {
           text: this.$t("table_current_price"),
           value: "current_cost",
-          // width: 130,
         },
         {
           text: `${this.$t("table_profit_loss")} $`,
           value: "difference",
-          // width: 116,
         },
         {
           text: `${this.$t("table_profit_loss")} %`,
           value: "difference_perc",
-          // width: 128,
         },
         {
           text: this.$t("table_close"),
           value: "action",
-          // width: 80,
         },
       ];
     },
@@ -265,6 +272,21 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
+        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
+      } else {
+        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
+      }
+    },
+    diffAction(diff) {
+      if (diff === "Sell") {
         return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
         -webkit-background-clip: text !important;
         -webkit-text-fill-color: transparent !important;

@@ -95,9 +95,6 @@
           /></v-col> </v-row
       ></v-col>
     </v-row>
-    <v-row class="pl-8"
-      ><v-col class="op_t_title">{{ $t("open_positions") }}</v-col></v-row
-    >
     <v-row>
       <v-col>
         <TableASession
@@ -106,6 +103,7 @@
           :filter="arb_ses_filter"
           ref="a_session"
           @get_prices="update_subscr"
+          title="open_positions"
         ></TableASession>
       </v-col>
     </v-row>

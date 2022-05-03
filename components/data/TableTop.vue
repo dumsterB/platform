@@ -5,6 +5,7 @@
       :headers="headers"
       :items-per-page="20"
       class="ma-4 ml-8 curr-table"
+      :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
       }"
@@ -130,6 +131,7 @@
 <script>
 import { mapGetters } from "vuex";
 import sparklines from "@/components/elements/currencies/Sparklines.vue";
+import config from "~/config/config.json";
 export default {
   props: {
     price: {},
@@ -139,6 +141,7 @@ export default {
   },
   data() {
     return {
+      primary: config.colors.text.primary,
       list: [],
       value: [423, 446, 975, 510, 990, 610, 860],
     };
@@ -198,6 +201,11 @@ export default {
         { text: "Market Cap", value: "cap", sortable: false },
         { text: "Invest", value: "action", sortable: false },
       ];
+    },
+    customStyle() {
+      return {
+        "--primary": this.primary,
+      };
     },
   },
   mounted() {},

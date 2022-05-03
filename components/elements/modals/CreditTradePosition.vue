@@ -110,7 +110,7 @@
         :loading="loading"
         :disabled="!amount"
         block
-        class="rounded-xl mb-8"
+        class="rounded-xl ma-0"
         @click="save"
         :style="customStyle"
         :class="action !== 'Sell' ? 'green_btn' : 'red_btn'"

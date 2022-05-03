@@ -30,6 +30,9 @@
           </div>
         </v-toolbar>
       </template>
+      <template v-slot:[`item.name`]="{ item }">
+        <span class="primary--text font-weight-bold">{{ item.name }}</span>
+      </template>
       <template v-slot:[`item.close`]="{ item }">
         <span
           >{{ new Intl.NumberFormat().format(item.close) + " "
