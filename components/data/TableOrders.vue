@@ -11,13 +11,14 @@
       :loading="loading"
       :server-items-length="totalLength"
       @pagination="paging"
+      :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
       }"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>{{
+          <v-toolbar-title class="font-weight-bold">{{
             `${$t("deposit")}, ${$t("withdraw")}`
           }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
@@ -85,6 +86,7 @@ export default {
       end_blue_gradient: config.colors.end_blue_gradient,
       start_red_gradient: config.colors.start_red_gradient,
       end_red_gradient: config.colors.end_red_gradient,
+      primary: config.colors.text.primary,
       page_size_current: this.page_size,
       search: "",
       totalLength: -1,
@@ -102,6 +104,7 @@ export default {
         "--end_blue_gradient": this.end_blue_gradient,
         "--start_red_gradient": this.start_red_gradient,
         "--end_red_gradient": this.end_red_gradient,
+        "--primary": this.primary,
       };
     },
     headers() {

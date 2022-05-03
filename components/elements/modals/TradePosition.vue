@@ -132,19 +132,16 @@ export default {
     balance() {
       if (this.action === "Sell") {
         if (this.userWallet.currency) {
-          return (
-            new Intl.NumberFormat().format(this.userWallet.balance) +
-            " " +
+          return `${new Intl.NumberFormat().format(this.userWallet.balance)} ${
             this.userWallet.currency.symbol
-          );
+          }`;
         }
       } else {
         if (this.wl.currency) {
-          return (
-            new Intl.NumberFormat().format(this.wl.balance) +
-            " " +
+          return;
+          `${new Intl.NumberFormat().format(this.wl.balance)} ${
             this.wl.currency.symbol
-          );
+          }`;
         }
       }
     },

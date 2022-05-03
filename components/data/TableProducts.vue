@@ -5,6 +5,7 @@
       :headers="headers"
       :items-per-page="perpage"
       :search="search"
+      :style="customStyle"
       :footer-props="{ 'items-per-page-options': [3, 5, 10, -1] }"
       dense
       @click:row="handleClick"
@@ -12,7 +13,9 @@
     >
       <template v-slot:top>
         <v-toolbar flat dense class="pt-4 mb-10">
-          <v-toolbar-title>{{ $t(title) }}</v-toolbar-title>
+          <v-toolbar-title class="font-weight-bold">{{
+            $t(title)
+          }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">
@@ -106,6 +109,7 @@ export default {
       end_blue_gradient: config.colors.end_blue_gradient,
       start_red_gradient: config.colors.start_red_gradient,
       end_red_gradient: config.colors.end_red_gradient,
+      primary: config.colors.text.primary,
       perpage: 3,
       search: "",
     };
@@ -117,6 +121,7 @@ export default {
         "--end_blue_gradient": this.end_blue_gradient,
         "--start_red_gradient": this.start_red_gradient,
         "--end_red_gradient": this.end_red_gradient,
+        "--primary": this.primary,
       };
     },
     headers() {

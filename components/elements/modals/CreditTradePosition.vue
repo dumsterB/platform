@@ -1,5 +1,35 @@
 <template>
-  <v-card :height="height ? height : undefined" :min-height="572">
+  <v-card
+    :height="height ? height : undefined"
+    :min-height="572"
+    class="ma-0 pa-0 card"
+  >
+    <v-list-item-group class="d-flex list_group">
+      <v-list-item
+        tag="button"
+        block
+        class="justify-center text-uppercase icon_color--text ml-6 mr-6"
+        :class="action == 'Sell' ? '' : 'green_gradi'"
+        :style="customStyle"
+        style="background: transparent"
+        elevation="0"
+        @click="action = 'Buy'"
+      >
+        {{ $t("buy") }}
+      </v-list-item>
+      <v-list-item
+        tag="button"
+        block
+        elevation="0"
+        class="justify-center text-uppercase icon_color--text ml-6 mr-6"
+        :class="action === 'Sell' ? 'red_gradi' : ''"
+        :style="customStyle"
+        style="background: transparent"
+        @click="action = 'Sell'"
+      >
+        {{ $t("sell") }}
+      </v-list-item>
+    </v-list-item-group>
     <v-card-title class="d-flex">
       <v-img
         contain
@@ -11,43 +41,24 @@
       >
       </v-img>
     </v-card-title>
-    <v-card-text>
-      <v-row class="mb-0">
-        <v-col :cols="6">
-          <v-btn
-            block
-            :class="action == 'Sell' ? 'green--text' : 'green'"
-            :outlined="action == 'Sell'"
-            dark
-            elevation="0"
-            @click="action = 'Buy'"
-            >{{ $t("buy") }}</v-btn
-          >
-        </v-col>
-        <v-col :cols="6">
-          <v-btn
-            block
-            elevation="0"
-            :class="action == 'Sell' ? 'red' : 'red--text'"
-            :outlined="action == 'Sell'"
-            @click="action = 'Sell'"
-            >{{ $t("sell") }}</v-btn
-          >
-        </v-col>
-      </v-row>
+    <v-card-text class="pb-0 mb-0">
       <v-container class="d-flex justify-lg-space-between font-weight-medium">
-        <span>{{ $t("marketplace_price") }}</span>
-        <span>{{ price }} USD</span>
+        <span :style="customStyle" class="card_text">{{
+          $t("marketplace_price")
+        }}</span>
+        <span :style="customStyle" class="card_text">{{ price }} USD</span>
       </v-container>
       <v-container class="d-flex justify-lg-space-between">
-        <span>{{ `${$t("available_balance")}` }}</span>
-        <span>{{ balance }}</span>
+        <span :style="customStyle" class="card_text">{{
+          `${$t("available_balance")}`
+        }}</span>
+        <span :style="customStyle" class="card_text">{{ balance }}</span>
       </v-container>
       <v-container>
         <v-row class="pl-3 mb-0 mt-0 justify-space-between">
           <v-btn
             small
-            class="mr-0 mb-2 pl-1 pr-1"
+            class="mr-0 mb-2 pl-1 pr-1 rounded-pill"
             v-for="(item, i) in credit_vars"
             :key="i"
             :class="credit_x == item ? 'primary' : 'primary--text'"
@@ -76,7 +87,7 @@
           type="number"
         ></v-text-field>
       </v-container>
-      <v-container>
+      <v-container class="pb-0 mb-0">
         <v-text-field
           :label="action == 'Buy' ? $t('total') : $t('choose_amount')"
           v-model="amount"
@@ -93,20 +104,35 @@
         ></v-text-field>
       </v-container>
     </v-card-text>
-    <v-card-actions class="c-actions">
-      <v-btn color="green" type="submit" text :loading="loading" @click="save">
-        {{ action === "Sell" ? $t("sell") : $t("buy") }}
-      </v-btn>
+    <v-card-actions>
+      <v-btn
+        large
+        :loading="loading"
+        :disabled="!amount"
+        block
+        class="rounded-xl mb-8"
+        @click="save"
+        :style="customStyle"
+        :class="action !== 'Sell' ? 'green_btn' : 'red_btn'"
+        >{{ loading ? "" : action !== "Sell" ? $t("buy") : $t("sell") }}</v-btn
+      >
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import config from "~/config/config.json";
 export default {
   name: "TradePosition",
   data() {
     return {
+      start_blue_gradient: config.colors.start_blue_gradient,
+      end_blue_gradient: config.colors.end_blue_gradient,
+      start_red_gradient: config.colors.start_red_gradient,
+      end_red_gradient: config.colors.end_red_gradient,
+      white: config.colors.white,
+      black: config.colors.black,
       amount: "",
       action: "Buy",
       am_ch: true,
@@ -159,14 +185,30 @@ export default {
       if (this.action === "Sell") {
         if (this.userWallet.currency) {
           return (
-            this.userWallet.balance + " " + this.userWallet.currency.symbol
+            new Intl.NumberFormat().format(this.userWallet.balance) +
+            " " +
+            this.userWallet.currency.symbol
           );
         }
       } else {
         if (this.wl.currency) {
-          return this.wl.balance + " " + this.wl.currency.symbol;
+          return (
+            new Intl.NumberFormat().format(this.wl.balance) +
+            " " +
+            this.wl.currency.symbol
+          );
         }
       }
+    },
+    customStyle() {
+      return {
+        "--start_blue_gradient": this.start_blue_gradient,
+        "--end_blue_gradient": this.end_blue_gradient,
+        "--start_red_gradient": this.start_red_gradient,
+        "--end_red_gradient": this.end_red_gradient,
+        "--white": this.white,
+        "--black": this.black,
+      };
     },
   },
   watch: {
@@ -280,7 +322,7 @@ export default {
         title: title,
         text: title,
         color: color,
-        timeout: 2000
+        timeout: 2000,
       });
       this.fetchWallet();
       setTimeout(() => {
@@ -306,16 +348,98 @@ export default {
   width: inherit;
   border-bottom: dotted 1px;
 }
-.c-actions {
-  position: absolute;
-  margin: 12px;
-  bottom: 0;
-  right: 0;
+
+.green_gradi {
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  text-fill-color: transparent !important;
+  position: relative !important;
 }
-.c-actions-sell {
+.green_gradi:after {
   position: absolute;
-  margin: 12px;
-  bottom: 0;
+  content: "";
+  width: 100%;
+  min-height: 6px !important;
+  top: -9px;
   left: 0;
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  ) !important;
+  border-radius: 0px 0px 4px 4px;
+}
+.red_gradi {
+  background: linear-gradient(
+    176.35deg,
+    var(--start_red_gradient) 0.47%,
+    var(--end_red_gradient) 97%
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  text-fill-color: transparent !important;
+  position: relative !important;
+}
+.red_gradi::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  min-height: 6px !important;
+  top: -9px;
+  left: 0;
+  background: linear-gradient(
+    176.35deg,
+    var(--start_red_gradient) 0.47%,
+    var(--end_red_gradient) 97%
+  ) !important;
+  border-radius: 0px 0px 4px 4px;
+}
+.green_btn {
+  width: 100%;
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  );
+  color: white !important;
+  border-radius: 16px !important;
+}
+.red_btn {
+  width: 100%;
+  background: linear-gradient(
+    163.28deg,
+    var(--start_red_gradient) 0%,
+    var(--end_red_gradient) 85.7%
+  );
+  color: white !important;
+  border-radius: 16px !important;
+}
+.list_group {
+  height: 66px !important;
+  position: relative !important;
+}
+.list_group::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  background: #bcbcbc1a;
+}
+.card {
+  border: 1px solid #bcbcbc1a;
+}
+html[theme="dark"] .card_text {
+  color: var(--white) !important;
+}
+html[theme="light"] .card_text {
+  color: var(--black) !important;
 }
 </style>

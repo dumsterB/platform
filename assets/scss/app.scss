@@ -21,6 +21,7 @@ a {
     text-decoration: none;
     display: block;
 }
+
 button,
 select,
 a {
@@ -303,4 +304,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .theme--light.v-sheet.v-card:not(.v-sheet--outlined) {
     box-shadow: none !important;
+}
+
+.v-btn>.v-btn__content .v-icon {
+    color: var(--primary);
 }

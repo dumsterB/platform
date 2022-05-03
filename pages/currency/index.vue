@@ -246,11 +246,11 @@ export default {
           return this.curr_code + "USD";
         }
         let kk = !k ? "LSE" : k.tv;
-        if (this.curr_code == 'BABA') {
-          kk = 'NYSE';
+        if (this.curr_code == "BABA") {
+          kk = "NYSE";
         }
-        if (this.curr_code == 'R6C0') {
-          kk = 'XETR';
+        if (this.curr_code == "R6C0") {
+          kk = "XETR";
         }
         return kk + ":" + this.curr_code;
       }

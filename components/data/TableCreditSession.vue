@@ -10,13 +10,16 @@
       class="elevation-1 ma-4 ml-8"
       :server-items-length="totalLength"
       @pagination="paging"
+      :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
       }"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>{{ $t(title) }}</v-toolbar-title>
+          <v-toolbar-title class="font-weight-bold">{{
+            $t("open_positions")
+          }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">
@@ -30,6 +33,17 @@
             ></v-text-field>
           </div>
         </v-toolbar>
+      </template>
+      <template v-slot:[`item.session_start_type.name`]="{ item }">
+        <span :style="diffAction(item.session_start_type.name)">{{
+          item.session_start_type.name
+        }}</span>
+      </template>
+      <template v-slot:[`item.created_at`]="{ item }">
+        <span>{{ new Date(item.created_at).toLocaleString() }}</span>
+      </template>
+      <template v-slot:[`item.self_amount`]="{ item }">
+        <span>{{ new Intl.NumberFormat().format(item.self_amount) }}</span>
       </template>
       <template v-slot:[`item.amount`]="{ item }">
         <span>{{
@@ -102,6 +116,7 @@ export default {
       end_blue_gradient: config.colors.end_blue_gradient,
       start_red_gradient: config.colors.start_red_gradient,
       end_red_gradient: config.colors.end_red_gradient,
+      primary: config.colors.text.primary,
       dialog: false,
       page_size_current: this.page_size,
       search: "",
@@ -114,12 +129,27 @@ export default {
     };
   },
   computed: {
+    // formatedDate(createDate) {
+    //   const date = new Date(createDate);
+    //   const minutes =
+    //     date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+    //   const newsItemDate =
+    //     date.getDate() < 10
+    //       ? `0${date.getDate()}.0${
+    //           date.getMonth() + 1
+    //         }.${date.getFullYear()} ${date.getHours()}:${minutes}`
+    //       : `${date.getDate()}.0${
+    //           date.getMonth() + 1
+    //         }.${date.getFullYear()} ${date.getHours()}:${minutes}`;
+    //   return newsItemDate;
+    // },
     customStyle() {
       return {
         "--start_blue_gradient": this.start_blue_gradient,
         "--end_blue_gradient": this.end_blue_gradient,
         "--start_red_gradient": this.start_red_gradient,
         "--end_red_gradient": this.end_red_gradient,
+        "--primary": this.primary,
       };
     },
     ...mapGetters(model, {
@@ -263,6 +293,21 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
+        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
+      } else {
+        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;`;
+      }
+    },
+    diffAction(diff) {
+      if (diff === "Sell") {
         return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
         -webkit-background-clip: text !important;
         -webkit-text-fill-color: transparent !important;

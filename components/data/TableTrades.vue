@@ -17,7 +17,9 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>{{ $t("recent_trades") }}</v-toolbar-title>
+          <v-toolbar-title class="font-weight-bold">{{
+            $t("recent_trades")
+          }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">

@@ -29,9 +29,7 @@
               @reload="reload"
           /></v-col> </v-row></v-col
     ></v-row>
-    <v-row class="pl-8"
-      ><v-col class="op_t_title">{{ $t("open_positions") }}</v-col></v-row
-    >
+    <v-row class="pl-8"> </v-row>
     <v-row>
       <v-col>
         <TableCreditSession

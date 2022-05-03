@@ -10,13 +10,16 @@
       class="elevation-1 ma-4 ml-8"
       :server-items-length="totalLength"
       @pagination="paging"
+      :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
       }"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>{{ $t(title) }}</v-toolbar-title>
+          <v-toolbar-title class="font-weight-bold">{{
+            $t(title)
+          }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">
@@ -103,6 +106,7 @@ export default {
       end_blue_gradient: config.colors.end_blue_gradient,
       start_red_gradient: config.colors.start_red_gradient,
       end_red_gradient: config.colors.end_red_gradient,
+      primary: config.colors.text.primary,
       dialog: false,
       page_size_current: this.page_size,
       search: "",
@@ -121,6 +125,7 @@ export default {
         "--end_blue_gradient": this.end_blue_gradient,
         "--start_red_gradient": this.start_red_gradient,
         "--end_red_gradient": this.end_red_gradient,
+        "--primary": this.primary,
       };
     },
     ...mapGetters(model, {
