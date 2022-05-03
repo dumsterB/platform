@@ -73,6 +73,9 @@ export default {
         el.price = pr;
         return el;
       });
+      list = list.filter(el => {
+        return el.price;
+      })
       if (!this.first) {
         this.first = true;
         list.forEach((el, i) => {

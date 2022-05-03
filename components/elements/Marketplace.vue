@@ -1,5 +1,5 @@
 <template>
-  <v-card tag="section" class="mx-auto ml-4 mr-4 mb-4">
+  <v-card tag="section" class="mx-auto ml-4 mr-4 mb-4 pa-3 light-card">
     <div class="d-flex align-center">
       <v-card-title class="text-uppercase" tag="h2">{{
         `${item.name}`

@@ -1,16 +1,16 @@
 <template>
   <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
     <v-card
-      class="pl-0 pr-0 mb-2 ml-2 mr-2 rounded-lg"
+      class="pl-0 pr-0 mb-2 ml-2 mr-2 rounded-lg light-card"
       :width="380"
       :elevation="hover ? 18 : 8"
     >
       <div style="cursor: pointer" @click="handlerOpenMarketPage">
         <div class="d-flex justify-space-between">
-          <v-card-title class="text-uppercase ml-4">{{
+          <v-card-title class="text-uppercase ml-4 pb-0">{{
             `${item.name}`
           }}</v-card-title>
-          <v-btn fab icon class="ma-5 pa-1">
+          <v-btn fab icon class="ma-5 pa-1 mb-1">
             <v-icon
               @click.prevent.stop="togglerFavorite"
               size="40"
@@ -28,23 +28,23 @@
           </v-btn>
         </div>
 
-        <v-list v-if="currencies" class="mt-4 mr-4 mb-4 ml-4 market-list">
+        <v-list v-if="currencies" class="mt-0 mr-4 mb-4 ml-4 market-list">
           <v-list-item
             class=""
             disabled
             v-for="(cur, i) in currencies"
             :key="i"
           >
-            <v-list-item-avatar>
+            <v-list-item-avatar size="32">
               <v-img v-bind:src="cur.logo"></v-img>
             </v-list-item-avatar>
             <v-list-item-content v-text="cur.name"></v-list-item-content>
-            <span>{{ prices[cur.symbol] ? "$" : "" }}</span
-            ><v-list-item-content>{{
+            <v-col class="text-right"><span>{{ prices[cur.symbol] ? "$" : "" }}</span
+            >{{
               prices[cur.symbol]
                 ? new Intl.NumberFormat().format(prices[cur.symbol])
-                : 0
-            }}</v-list-item-content>
+                : ''
+            }}</v-col>
           </v-list-item>
         </v-list>
         <div v-else class="message-available">
