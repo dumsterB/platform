@@ -301,12 +301,6 @@ input[type="number"]::-webkit-inner-spin-button {
     background-color: transparent !important;
 }
 
-.v-data-table>.v-data-table__wrapper>table>tbody>tr>td,
-.v-data-table>.v-data-table__wrapper>table>thead>tr>td,
-.v-data-table>.v-data-table__wrapper>table>tfoot>tr>td {
-    font-size: 12px !important;
-}
-
 .theme--light.v-sheet.v-card:not(.v-sheet--outlined) {
     box-shadow: none !important;
 }

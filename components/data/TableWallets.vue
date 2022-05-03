@@ -1,22 +1,22 @@
 <template>
   <div class="prod-table">
     <v-card>
-      <v-card-title>
+      <v-card-title class="pb-1">
        <div class="d-flex " style="width: 100%">
-       <h2 class="mt-4">{{$t('my_wallet')}}</h2>
+       <h3 class="mr-4 mt-2">{{$t('my_wallet')}}</h3>
          <v-checkbox
              v-model="zero_bals"
-             class="ml-2 mt-4 "
-             style="margin-top: -1px;"
+             class="ml-2 mt-2"
              :label="zero_bals ? $t('open_zero_balances') : $t('hide_zero_balances')"
          ></v-checkbox>
          <v-spacer></v-spacer>
          <v-text-field
              v-model="search"
              append-icon="mdi-magnify"
-             label="Search"
+             :label="$t('market_search_bar_placeholder')"
              outlined
              filled
+             dense
              hide-details
          ></v-text-field>
        </div>
@@ -43,6 +43,7 @@
           elevation="0"
           class="primary"
           rounded
+          block
           @click="depositChanger(item)"
           >{{ $t("deposit_title") }}</v-btn
         >
