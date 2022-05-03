@@ -1,21 +1,26 @@
 <template>
   <div class="prod-table">
-    <div class="d-flex" style="max-width: 500px !important">
-      <v-text-field
-        dense
-        v-model="search"
-        append-icon="mdi-magnify"
-        outlined
-        :label="$t('market_search_bar_placeholder')"
-        hide-details
-      ></v-text-field>
-      <v-checkbox
-        v-model="zero_bals"
-        class="ml-2 d-inline"
-        style="margin-top: -1px; width: 100%"
-        :label="zero_bals ? $t('open_zero_balances') : $t('hide_zero_balances')"
-      ></v-checkbox>
-    </div>
+    <v-card>
+      <v-card-title>
+       <div class="d-flex " style="width: 100%">
+       <h2 class="mt-4">{{$t('my_wallet')}}</h2>
+         <v-checkbox
+             v-model="zero_bals"
+             class="ml-2 mt-4 "
+             style="margin-top: -1px;"
+             :label="zero_bals ? $t('open_zero_balances') : $t('hide_zero_balances')"
+         ></v-checkbox>
+         <v-spacer></v-spacer>
+         <v-text-field
+             v-model="search"
+             append-icon="mdi-magnify"
+             label="Search"
+             outlined
+             filled
+             hide-details
+         ></v-text-field>
+       </div>
+      </v-card-title>
     <v-data-table
       :headers="headers"
       :items="in_wallets"
@@ -36,7 +41,8 @@
         <v-btn
           v-if="item.currency.currency_type.key == 'FIAT'"
           elevation="0"
-          class="success_text--text"
+          class="primary"
+          rounded
           @click="depositChanger(item)"
           >{{ $t("deposit_title") }}</v-btn
         >
@@ -45,6 +51,7 @@
         <p>No data</p>
       </template>
     </v-data-table>
+    </v-card>
     <Deposit
       :dialog="dialog"
       @depositChanger="close"
