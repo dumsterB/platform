@@ -115,7 +115,11 @@
           <v-btn
             dark
             elevation="0"
-            @click="$emit('change_content', 'Device Management')"
+            @click="
+              $router.push({
+                path: '/settings/devices',
+              })
+            "
             :style="customStyle"
             class="success-btn mt-4"
             >{{ $t("manage") }}</v-btn
@@ -141,7 +145,11 @@
           <v-btn
             dark
             elevation="0"
-            @click="$emit('change_content', 'Account Activity Records')"
+            @click="
+              $router.push({
+                path: '/settings/activity',
+              })
+            "
             :style="customStyle"
             class="success-btn mt-4"
             >{{ $t("more") }}</v-btn

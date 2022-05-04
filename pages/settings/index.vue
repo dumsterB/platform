@@ -19,20 +19,6 @@
           <SwitcherNatification class="ml-2"></SwitcherNatification>
         </v-col>
       </v-row>
-      <div
-        v-if="
-          currentContent === 'Device Management' || 'Account Activity Records'
-        "
-      >
-        <!-- <p class="header-text" @click="currentContent=0">Security > {{currentContent}}</p>
-        <br> -->
-        <DeviceManagment
-          v-if="currentContent === 'Device Management'"
-        ></DeviceManagment>
-        <AccountsRecords
-          v-if="currentContent === 'Account Activity Records'"
-        ></AccountsRecords>
-      </div>
     </v-container>
   </div>
 </template>
@@ -42,8 +28,6 @@ import SettingsTab from "@/components/elements/settings/SettingsTab";
 import PrivateInformation from "@/components/elements/settings/PrivateInformation";
 import Security from "@/components/elements/settings/Security";
 import Verification from "@/components/elements/settings/Verification";
-import AccountsRecords from "../../components/elements/settings/components/AccountsRecords";
-import DeviceManagment from "../../components/elements/settings/components/DeviceManagment";
 import SwitcherNatification from "../../components/elements/settings/components/SwitcherNatification";
 import { mapGetters } from "vuex";
 export default {
@@ -58,8 +42,6 @@ export default {
     PrivateInformation,
     Security,
     Verification,
-    AccountsRecords,
-    DeviceManagment,
     SwitcherNatification,
   },
   computed: {
