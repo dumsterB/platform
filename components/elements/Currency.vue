@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
           <v-card
-            class="currecyCard rounded-lg"
+            class="currecyCard mainBorderRadius"
             :elevation="hover ? 18 : 8"
             v-bind="attrs"
             v-on="on"
@@ -12,8 +12,8 @@
             :class="backgroundDiffColor(currency.change_p)"
             @click="$router.push(`/currency?id=${currency.id}`)"
           >
-            <v-list-item three-line class="pa-2 rounded-lg d-flex">
-              <v-list-item-content class="pa-1 rounded-lg">
+            <v-list-item three-line class="pa-2 mainBorderRadius d-flex">
+              <v-list-item-content class="pa-1 mainBorderRadius">
                 <div class="d-flex">
                   <v-img :src="currency.logo" :max-width="32"></v-img>
                   <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
@@ -81,7 +81,7 @@
     <v-card
       v-else
       max-width="400"
-      class="currecyCard rounded-lg light-card"
+      class="currecyCard mainBorderRadius light-card"
       :elevation="hover ? 18 : 8"
       v-bind="attrs"
       v-on="on"
@@ -89,8 +89,8 @@
       :class="backgroundDiffColor(currency.change_p)"
       @click="$router.push(`/currency?id=${currency.id}`)"
     >
-      <v-list-item three-line class="pa-2 rounded-lg d-flex">
-        <v-list-item-content class="pa-1 rounded-lg">
+      <v-list-item three-line class="pa-2 mainBorderRadius d-flex">
+        <v-list-item-content class="pa-1 mainBorderRadius">
           <div class="d-flex">
             <v-img :src="currency.logo" :max-width="32"></v-img>
             <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
@@ -101,7 +101,14 @@
         </v-list-item-content>
         <v-list-item-content class="coinList pa-1 flexNone">
           <div class="star-btn pt-1">
-            <v-btn small rounded class="elevation-0" color="rgba(255, 255, 255, 0.15)"> 24H </v-btn>
+            <v-btn
+              small
+              
+              class="elevation-0 mainBorderRadius"
+              color="rgba(255, 255, 255, 0.15)"
+            >
+              24H
+            </v-btn>
           </div>
           <span :style="customStyles" :class="diffColor(currency.change_p)"
             >{{ currency.change_p }}%</span
@@ -210,7 +217,7 @@ export default {
   padding: 1px;
   text-align: center;
   font-size: 13px;
-  border-radius: 20px;
+  border-radius: 10px;
   width: 5px !important;
 }
 .currecyCard {
@@ -235,7 +242,7 @@ html[theme="light"] {
     padding: 1px;
     text-align: center;
     font-size: 13px;
-    border-radius: 20px;
+    border-radius: 10px;
     width: 5px !important;
   }
   .background-failure {

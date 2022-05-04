@@ -2,7 +2,7 @@
   <div class="prod-table">
     <v-card>
       <v-card-title class="pb-1">
-        <div class="d-flex" style="width: 100%">
+        <div class="d-flex align-baseline" style="width: 100%">
           <h3 style="letter-spacing: -2px" class="mr-2 mt-2">
             {{ $t("my_wallet") }}
           </h3>
@@ -13,16 +13,19 @@
               zero_bals ? $t('open_zero_balances') : $t('hide_zero_balances')
             "
           ></v-checkbox>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            :label="$t('market_search_bar_placeholder')"
-            outlined
-            filled
-            dense
-            hide-details
-            class="ml-4"
-          ></v-text-field>
+
+          <div style="position: absolute; right: 16px">
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              :label="$t('market_search_bar_placeholder')"
+              outlined
+              filled
+              dense
+              hide-details
+              class="ml-4"
+            ></v-text-field>
+          </div>
         </div>
       </v-card-title>
       <v-data-table
@@ -56,8 +59,7 @@
           <v-btn
             v-if="item.currency.currency_type.key == 'FIAT'"
             elevation="0"
-            class="primary"
-            rounded
+            class="primary mainBorderRadius"
             block
             @click="depositChanger(item)"
             >{{ $t("deposit_title") }}</v-btn
@@ -191,7 +193,7 @@ export default {
 .wallet-table {
   background: #000c19;
   box-shadow: 20px 20px 100px rgba(0, 0, 0, 0.07);
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .prod-table tr {
   cursor: pointer;

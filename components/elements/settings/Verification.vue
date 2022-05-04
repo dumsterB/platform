@@ -26,7 +26,9 @@
                   {{ $t("daily_withdrawal_limit") }}
                 </p>
                 <p class="success_text--text">100BTC</p>
-                <v-btn elevation="0" disabled>{{ $t("verify_now") }}</v-btn>
+                <v-btn class="success-btn" elevation="0" disabled>{{
+                  $t("verify_now")
+                }}</v-btn>
               </v-card>
             </v-col>
           </v-row>
@@ -48,12 +50,32 @@
 
 <script>
 import identification from "@/components/elements/modals/Identification";
+import config from "~/config/config.json";
 export default {
   name: "privateInformation",
   components: {
     identification,
   },
+  data() {
+    return {
+      primary: config.colors.text.primary,
+    };
+  },
+  computed: {
+    customStyle() {
+      return {
+        "--primary": this.primary,
+      };
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.success-btn {
+  background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
+  color: white !important;
+  border-radius: 10px;
+}
+</style>

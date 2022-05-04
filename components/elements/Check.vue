@@ -55,7 +55,7 @@
               </v-row>
             </v-col>
             <v-col cols="2">
-              <div class="d-flex">
+              <div>
                 <v-btn
                   :class="
                     tgl ? 'historyChip primary' : 'historyChip primary--text'
@@ -63,7 +63,7 @@
                   @click="history_tgl"
                   outlined
                   x-small
-                  ><div>
+                  ><div class="d-flex">
                     <v-icon x-small>mdi-history</v-icon
                     ><span class="history-btn-cl">{{
                       $t("history_button")
@@ -117,6 +117,6 @@ export default {
   position: absolute;
   right: 5px;
   background: transparent !important;
-  border-radius: 20px !important;
+  border-radius: 10px !important;
 }
 </style>

@@ -2,7 +2,7 @@
   <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
     <v-card
       :elevation="hover ? 18 : 8"
-      class="mx-auto rounded-lg"
+      class="mx-auto mainBorderRadius"
       min-height="450"
     >
       <v-img class="white--text align-end" height="200px" :src="item.image_url">

@@ -239,7 +239,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .v-dialog {
-  border-radius: 35px;
+  border-radius: 10px;
 }
 
 html[theme="dark"] .card_data {
@@ -260,7 +260,7 @@ html[theme="light"] .card_data {
   text-transform: inherit;
   color: white !important;
   background-color: var(--primary) !important;
-  border-radius: 16px;
+  border-radius: 10px;
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
@@ -289,7 +289,7 @@ html[theme="light"] .card_data {
   position: relative;
   height: 600px;
   background: transparent !important;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: none;
 }
 .card_item {
@@ -299,7 +299,7 @@ html[theme="light"] .card_data {
   background: var(--primary) !important;
   color: var(--white);
   box-shadow: inset -8px -6px 80px var(--payment_card_box_shadow);
-  border-radius: 20px;
+  border-radius: 10px;
   font-weight: 400;
   font-size: 24px;
   line-height: 28px;

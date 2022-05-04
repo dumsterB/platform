@@ -6,13 +6,16 @@
         <div class="selecImage">
           <div
             class="image-input"
-            :style="`background-image: url(${
-              imageData ? imageData : image_data
-            }); background-size: 200px;`"
+            :style="
+              (`background-image: url(${
+                imageData ? imageData : image_data
+              }); background-size: 200px;`,
+              customStyle)
+            "
             @click="chooseImage"
           >
             <span v-if="!imageData" class="placeholder text-gray--text">
-              <v-icon color="#000C19" size="50">mdi-camera</v-icon>
+              <v-icon color="item_bg" size="50">mdi-camera</v-icon>
             </span>
             <input
               class="file-input"
@@ -111,11 +114,10 @@
         </v-container>
         <v-card-actions class="text-center d-flex justify-center">
           <v-btn
-            class="mr-4 success-btn ml-2 mb-4"
+            class="mr-4 success-btn ml-2 mb-4 mainBorderRadius"
             :style="customStyle"
             @click="validate"
             elevation="0"
-            rounded
             width="300"
             large
             dark
@@ -137,6 +139,8 @@ export default {
   data() {
     return {
       primary: config.colors.text.primary,
+      blue_dark: config.colors.blue_dark,
+      success: config.themes.dark.success,
       rules: [
         (value) =>
           !value ||
@@ -453,6 +457,8 @@ export default {
     customStyle() {
       return {
         "--primary": this.primary,
+        "--blue_dark": this.blue_dark,
+        "--success": this.success,
       };
     },
 
@@ -493,12 +499,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .success-btn {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
 }
 .selecImage {
   display: flex;
@@ -513,8 +519,14 @@ export default {
   cursor: pointer;
   border-radius: 50% !important;
   background-size: cover;
-  background: #004fa3;
+
   background-position: center center;
+}
+html[theme="dark"] .image-input {
+  background: var(--blue_dark);
+}
+html[theme="light"] .image-input {
+  background: var(--success);
 }
 
 .placeholder {

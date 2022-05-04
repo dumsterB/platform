@@ -1,6 +1,6 @@
 <template>
   <v-row class="ma-4">
-    <v-col class="pl-4 rounded" md="4" lg="2">
+    <v-col class="pl-4 mainBorderRadius" md="4" lg="2">
       <h3 style="font-weight: 400">{{ $t("general_questions") }}</h3>
       <v-list-item-group
         class="mt-4"
@@ -59,7 +59,7 @@
       <v-list style="margin-top: 50px">
         <v-list-item v-for="(item, i) in tutorials" :key="i">
           <v-list-item-content class="pb-1 mb-2" style="cursor: pointer">
-            <v-img class="rounded-xl" :src="item.img"></v-img>
+            <v-img class="mainBorderRadius" :src="item.img"></v-img>
             <v-list-item-title
               class="mt-2"
               v-text="item.title"

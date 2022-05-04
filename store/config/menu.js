@@ -28,13 +28,13 @@ export const state = () => ({
       to: "/arbitrage",
       badge_color: "primary",
     },
-    {
-      icon: "mdi-web",
-      title: "user_trading",
-      key: "trading",
-      to: "/trading",
-      badge_color: "primary",
-    },
+    // {
+    //   icon: "mdi-web",
+    //   title: "user_trading",
+    //   key: "trading",
+    //   to: "/trading",
+    //   badge_color: "primary",
+    // },
     {
       icon: "mdi-clipboard-text-multiple-outline",
       title: "user_news",

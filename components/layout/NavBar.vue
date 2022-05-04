@@ -17,6 +17,7 @@
         chips
         clearable
         hide-selected
+        hide-no-data
         class="ml-2 global-search"
         ><template v-slot:selection="{ attr, on, item, selected }">
           <v-chip
@@ -70,16 +71,7 @@
         <v-hover v-slot="{ hover }">
           <div
             flat
-            class="
-              account-menu
-              d-flex
-              flex-columns
-              align-center
-              mt-2
-              py-2
-              pr-2
-              pl-4
-            "
+            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
             v-on="on"
           >
             <div class="mr-2">
@@ -279,7 +271,7 @@ export default {
     LanguageSelect,
     ThemeSelect,
     Ticker,
-    NotHistory
+    NotHistory,
   },
 
   computed: {
@@ -382,8 +374,13 @@ html[theme="dark"] .global-search .v-input__slot {
   box-shadow: none !important;
 }
 html[theme="light"] .global-search .v-input__slot {
-  background: rgba(255, 255, 255) !important;
+  // background: rgba(255, 255, 255) !important;
+  background: rgba(154, 154, 154, 0.3) !important;
   box-shadow: none !important;
+}
+
+.global-search fieldset {
+  border: none !important;
 }
 
 .navLink {

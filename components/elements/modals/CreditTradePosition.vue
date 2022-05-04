@@ -56,7 +56,7 @@
         <v-row class="pl-3 mb-0 mt-0 justify-space-between">
           <v-btn
             small
-            class="mr-0 mb-2 pl-1 pr-1 rounded-pill"
+            class="mr-0 mb-2 pl-1 pr-1 mainBorderRadius"
             v-for="(item, i) in credit_vars"
             :key="i"
             :class="credit_x == item ? 'primary' : 'primary--text'"
@@ -108,7 +108,7 @@
         :loading="loading"
         :disabled="!amount"
         block
-        class="rounded-xl ma-0 mb-8"
+        class="mainBorderRadius ma-0 mb-8"
         @click="save"
         :style="customStyle"
         :class="action !== 'Sell' ? 'green_btn' : 'red_btn'"
@@ -405,7 +405,7 @@ export default {
     var(--end_blue_gradient) 85.7%
   );
   color: white !important;
-  border-radius: 16px !important;
+  border-radius: 10px !important;
 }
 .red_btn {
   width: 100%;
@@ -415,7 +415,7 @@ export default {
     var(--end_red_gradient) 85.7%
   );
   color: white !important;
-  border-radius: 16px !important;
+  border-radius: 10px !important;
 }
 .list_group {
   height: 66px !important;
