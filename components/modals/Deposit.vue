@@ -33,7 +33,7 @@
               <v-btn
                 value="bankCard"
                 class="paymentMethod_checkbox mainBorderRadius pl-8 pr-8"
-                activeClass="primary paymentMethod_checkbox_active"
+                active-class="primary paymentMethod_checkbox_active"
                 :style="customStyle"
               >
                 <v-icon class="mr-4">mdi-credit-card-multiple-outline</v-icon>
@@ -45,7 +45,7 @@
               <v-btn
                 value="crypto"
                 class="paymentMethod_checkbox mainBorderRadius pl-8 pr-8"
-                activeClass="primary paymentMethod_checkbox_active"
+                active-class="primary paymentMethod_checkbox_active"
                 :style="customStyle"
               >
                 <v-icon class="mr-4">mdi-currency-btc</v-icon>
@@ -524,7 +524,7 @@ html[theme="light"] .paymentMethod {
     filter: drop-shadow(20px 20px 100px var(--light_drop_shadow));
     &_active > span > div > p,
     &_active > span > i {
-      color: var(--light_text_color);
+      color: var(--light_text_color) !important;
     }
   }
 }
@@ -534,7 +534,7 @@ html[theme="dark"] .paymentMethod {
     filter: drop-shadow(20px 20px 100px var(--dark_drop_shadow));
     &_active > span > div > p,
     &_active > span > i {
-      color: var(--light_text_color);
+      color: var(--light_text_color) !important;
     }
   }
 }
