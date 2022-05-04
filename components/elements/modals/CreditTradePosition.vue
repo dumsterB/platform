@@ -1,9 +1,5 @@
 <template>
-  <v-card
-    :height="height ? height : undefined"
-    :min-height="572"
-    class="ma-0 pa-0 card"
-  >
+  <v-card class="ma-0 pa-0 card">
     <v-list-item-group class="d-flex list_group">
       <v-list-item
         tag="button"
@@ -46,7 +42,9 @@
         <span :style="customStyle" class="card_text">{{
           $t("marketplace_price")
         }}</span>
-        <span :style="customStyle" class="card_text">{{ price }} USD</span>
+        <span :style="customStyle" class="card_text"
+          >{{ new Intl.NumberFormat().format(price) }} USD</span
+        >
       </v-container>
       <v-container class="d-flex justify-lg-space-between">
         <span :style="customStyle" class="card_text">{{
@@ -110,7 +108,7 @@
         :loading="loading"
         :disabled="!amount"
         block
-        class="rounded-xl ma-0"
+        class="rounded-xl ma-0 mb-8"
         @click="save"
         :style="customStyle"
         :class="action !== 'Sell' ? 'green_btn' : 'red_btn'"
@@ -169,10 +167,10 @@ export default {
         return {};
       },
     },
-    height: {
-      type: Number,
-      default: 500,
-    },
+    // height: {
+    //   type: Number,
+    //   default: 500,
+    // },
   },
   computed: {
     ...mapGetters("data/credit_session", {
@@ -436,8 +434,10 @@ export default {
 }
 html[theme="dark"] .card_text {
   color: var(--white) !important;
+  letter-spacing: -1px;
 }
 html[theme="light"] .card_text {
   color: var(--black) !important;
+  letter-spacing: -1px;
 }
 </style>

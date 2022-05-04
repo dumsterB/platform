@@ -1,5 +1,31 @@
 <template v-slot:[`item.action`]="{ item }">
-  <v-card :height="height ? height : undefined">
+  <v-card class="ma-0 pa-0 card">
+    <v-list-item-group class="d-flex list_group">
+      <v-list-item
+        tag="button"
+        block
+        class="justify-center text-uppercase icon_color--text ml-6 mr-6"
+        :class="action == 'Sell' ? '' : 'green_gradi'"
+        :style="customStyle"
+        style="background: transparent"
+        elevation="0"
+        @click="action = 'Buy'"
+      >
+        {{ $t("buy") }}
+      </v-list-item>
+      <v-list-item
+        tag="button"
+        block
+        elevation="0"
+        class="justify-center text-uppercase icon_color--text ml-6 mr-6"
+        :class="action === 'Sell' ? 'red_gradi' : ''"
+        :style="customStyle"
+        style="background: transparent"
+        @click="action = 'Sell'"
+      >
+        {{ $t("sell") }}
+      </v-list-item>
+    </v-list-item-group>
     <v-card-title class="d-flex">
       <v-img
         contain
@@ -11,77 +37,81 @@
       >
       </v-img>
     </v-card-title>
-    <v-card-text>
+    <v-card-text class="pb-0 mb-0">
       <v-container class="d-flex justify-lg-space-between font-weight-medium">
-        <span>{{ $t("marketplace_price") }}</span>
-        <span>{{ new Intl.NumberFormat().format(price) }} USD</span>
+        <span :style="customStyle" class="card_text">{{
+          $t("marketplace_price")
+        }}</span>
+        <span :style="customStyle" class="card_text"
+          >{{ new Intl.NumberFormat().format(price) }} USD</span
+        >
       </v-container>
       <v-container class="d-flex justify-lg-space-between">
-        <span>{{ `${$t("available_balance")}` }}</span>
-        <span>{{ balance }}</span>
+        <span :style="customStyle" class="card_text">{{
+          `${$t("available_balance")}`
+        }}</span>
+        <span :style="customStyle" class="card_text">{{ balance }}</span>
       </v-container>
       <v-container>
         <v-text-field
-          :label="`${$t('choose_amount')}`"
+          :label="action == 'Buy' ? $t('choose_amount') : $t('total')"
           v-model="amount_usd"
           outlined
           dense
-          suffix="USD"
+          :readonly="action == 'Sell'"
+          :suffix="action == 'Buy' ? `${price * amount_usd} USD` : 'USD'"
           hide-details
           type="number"
         ></v-text-field>
       </v-container>
       <v-container>
         <v-text-field
-          :label="`${$t('total')}`"
+          :label="action == 'Buy' ? $t('total') : $t('choose_amount')"
           v-model="amount"
           outlined
           dense
-          :suffix="tradeItem.symbol"
+          :readonly="action == 'Buy'"
+          :suffix="
+            action == 'Sell'
+              ? `${price * amount} ${tradeItem.symbol}`
+              : tradeItem.symbol
+          "
           :error-messages="err_m"
           type="number"
         ></v-text-field>
       </v-container>
     </v-card-text>
-    <v-card-actions v-if="action == 'Both'">
+    <v-card-actions>
       <v-btn
-        v-if="userWallet && userWallet.balance"
-        class="c-actions-sell"
-        color="red "
-        type="submit"
-        text
-        :loading="loadingSell"
-        @click="save('Sell')"
-      >
-        {{ loadingSell ? '' : $t("sell") }}
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn
-        class="c-actions"
-        color="green "
-        type="submit"
-        text
+        large
         :loading="loading"
-        @click="save('Buy')"
+        :disabled="!amount"
+        block
+        class="rounded-xl ma-0 mb-8"
+        @click="save"
+        :style="customStyle"
+        :class="action !== 'Sell' ? 'green_btn' : 'red_btn'"
+        >{{ loading ? "" : action !== "Sell" ? $t("buy") : $t("sell") }}</v-btn
       >
-        {{ loading ? '' : $t("buy") }}
-      </v-btn>
-    </v-card-actions>
-    <v-card-actions v-else class="c-actions">
-      <v-btn color="green" type="submit" text :loading="loading" @click="save">
-        {{ loading ? '' : action === "Sell" ? $t("sell") : $t("buy") }}
-      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import config from "~/config/config.json";
 export default {
   name: "TradePosition",
   data() {
     return {
+      start_blue_gradient: config.colors.start_blue_gradient,
+      end_blue_gradient: config.colors.end_blue_gradient,
+      start_red_gradient: config.colors.start_red_gradient,
+      end_red_gradient: config.colors.end_red_gradient,
+      white: config.colors.white,
+      black: config.colors.black,
       amount: "",
+      action: "Buy",
       am_ch: true,
       amusd_ch: true,
       amount_usd: "",
@@ -101,10 +131,10 @@ export default {
     price: {
       default: null,
     },
-    action: {
-      type: String,
-      default: "",
-    },
+    // action: {
+    //   type: String,
+    //   default: "",
+    // },
     userWallet: {
       type: Object,
       default: () => {
@@ -117,10 +147,10 @@ export default {
         return {};
       },
     },
-    height: {
-      type: Number,
-      default: 400,
-    },
+    // height: {
+    //   type: Number,
+    //   default: 400,
+    // },
   },
   computed: {
     ...mapGetters("data/arbitrage_session", {
@@ -132,21 +162,47 @@ export default {
     balance() {
       if (this.action === "Sell") {
         if (this.userWallet.currency) {
-          return `${new Intl.NumberFormat().format(this.userWallet.balance)} ${
+          return (
+            new Intl.NumberFormat().format(this.userWallet.balance) +
+            " " +
             this.userWallet.currency.symbol
-          }`;
+          );
         }
       } else {
         if (this.wl.currency) {
-          return;
-          `${new Intl.NumberFormat().format(this.wl.balance)} ${
+          return (
+            new Intl.NumberFormat().format(this.wl.balance) +
+            " " +
             this.wl.currency.symbol
-          }`;
+          );
         }
       }
     },
+    customStyle() {
+      return {
+        "--start_blue_gradient": this.start_blue_gradient,
+        "--end_blue_gradient": this.end_blue_gradient,
+        "--start_red_gradient": this.start_red_gradient,
+        "--end_red_gradient": this.end_red_gradient,
+        "--white": this.white,
+        "--black": this.black,
+      };
+    },
   },
   watch: {
+    action() {
+      this.amount = null;
+      this.amount_usd = null;
+    },
+    price() {
+      if (this.action == "Buy") {
+        this.am_ch = false;
+        this.amount = parseFloat(this.amount_usd) / this.price;
+      } else {
+        this.amusd_ch = false;
+        this.amount_usd = parseFloat(this.amount) * this.price;
+      }
+    },
     amount() {
       this.err_m = null;
       if (this.amount && this.am_ch) {
@@ -181,7 +237,7 @@ export default {
         return false;
       }
       if (act == "Buy") {
-        let ttl = parseFloat(this.amount) * this.price;
+        let ttl = parseFloat(this.amount_usd);
         if (!this.wl.balance || ttl > this.wl.balance) {
           this.err_m = [this.$t("not_enough_balance")];
           return false;
@@ -209,6 +265,7 @@ export default {
         return;
       }
       this[load] = true;
+
       let as_data = {
         amount: this.amount,
         arbitrage_company_id: this.tradePlatform.id,
@@ -257,10 +314,84 @@ export default {
   async created() {
     this.wl = this.wallet.find((el) => el.currency.symbol == "USD") || {};
   },
+  async mounted() {
+    console.log("this.action :>> ", this.action);
+    console.log("this.balance :>> ", this.balance);
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.green_gradi {
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  position: relative !important;
+}
+.green_gradi:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  min-height: 6px !important;
+  top: -9px;
+  left: 0;
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  ) !important;
+  border-radius: 0px 0px 4px 4px;
+}
+.red_gradi {
+  background: linear-gradient(
+    176.35deg,
+    var(--start_red_gradient) 0.47%,
+    var(--end_red_gradient) 97%
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  position: relative !important;
+}
+.red_gradi::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  min-height: 6px !important;
+  top: -9px;
+  left: 0;
+  background: linear-gradient(
+    176.35deg,
+    var(--start_red_gradient) 0.47%,
+    var(--end_red_gradient) 97%
+  ) !important;
+  border-radius: 0px 0px 4px 4px;
+}
+.green_btn {
+  width: 100%;
+  background: linear-gradient(
+    163.28deg,
+    var(--start_blue_gradient) 0%,
+    var(--end_blue_gradient) 85.7%
+  );
+  color: white !important;
+  border-radius: 16px !important;
+}
+.red_btn {
+  width: 100%;
+  background: linear-gradient(
+    163.28deg,
+    var(--start_red_gradient) 0%,
+    var(--end_red_gradient) 85.7%
+  );
+  color: white !important;
+  border-radius: 16px !important;
+}
 .dotsLine {
   display: inline;
   width: inherit;
@@ -277,5 +408,28 @@ export default {
   margin: 12px;
   bottom: 0;
   left: 0;
+}
+.list_group {
+  height: 66px !important;
+  position: relative !important;
+}
+.list_group::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  background: #bcbcbc1a;
+}
+.card {
+  border: 1px solid #bcbcbc1a;
+}
+html[theme="dark"] .card_text {
+  color: var(--white) !important;
+  letter-spacing: -1px;
+}
+html[theme="light"] .card_text {
+  color: var(--black) !important;
+  letter-spacing: -1px;
 }
 </style>
