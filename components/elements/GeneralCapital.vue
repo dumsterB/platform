@@ -124,10 +124,10 @@ export default {
 }
 @media (max-width: 1000px) {
   .gc-card{
-    width: 280px!important;
+    width: 100%!important;
   }
   .button_media{
-    width: 110px;
+    width: 120px;
   }
 }
 </style>

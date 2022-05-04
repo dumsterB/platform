@@ -6,7 +6,7 @@
         <SnackBar />
         <Menu />
         <NavBar dir="ltr" />
-        <v-main fluid class="mb-16">
+        <v-main fluid class="mb-16 main_content">
           <v-container fluid class="layout_default__content">
             <nuxt />
           </v-container>
@@ -179,4 +179,10 @@ div {
   margin-top: 10px;
   padding-top: 0px;
 }
+@media (max-width: 1000px) {
+  .main_content{
+    padding: 85px 0px 0px 60px!important;
+  }
+}
+
 </style>

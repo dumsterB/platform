@@ -200,6 +200,7 @@ export default {
   background: #000c19;
   box-shadow: 20px 20px 100px rgba(0, 0, 0, 0.07);
   border-radius: 20px;
+  width: 100%;
 }
 .prod-table tr {
   cursor: pointer;
