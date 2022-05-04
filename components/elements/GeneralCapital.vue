@@ -33,7 +33,7 @@
           elevation="0"
           large
           rounded
-          class="outlined-btn mr-6"
+          class="outlined-btn button_media mr-6"
           :style="customStyle"
           color="white"
           @click="depositChanger('deposit_title')"
@@ -45,7 +45,7 @@
           large
           rounded
           :style="customStyle"
-          class="success-btn-half"
+          class="success-btn-half button_media"
           @click="depositChanger('withdraw')"
         >
           {{ $t("withdraw") }}
@@ -121,5 +121,13 @@ export default {
   color: white !important;
   border-radius: 16px;
   width: 150px;
+}
+@media (max-width: 1000px) {
+  .gc-card{
+    width: 280px!important;
+  }
+  .button_media{
+    width: 110px;
+  }
 }
 </style>
