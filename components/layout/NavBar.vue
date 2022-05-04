@@ -397,7 +397,11 @@ html[theme="light"] .global-search .v-input__slot {
 .icon-bell {
   cursor: pointer;
 }
-
+@media(max-width: 1000px){
+  .app-bar-margins {
+    margin-right: 0px!important;
+  }
+}
 html[theme="light"] {
   .account-menu {
     background: transparent !important;
