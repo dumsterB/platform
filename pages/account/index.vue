@@ -115,6 +115,7 @@ export default {
       if (json_d && json_d.method == `${me.base_p}:all@ticker_10s`) {
         let data = json_d.data ? json_d.data.data || [] : [];
         if (data.length > 10) {
+          me.set_gate_all(Object.assign([], data));
           me.prices = data.concat(me.com_prices);
           me.init_currs();
         }
@@ -168,6 +169,9 @@ export default {
       subscribe: "set_page_subscribe",
       add_subscribe: "add_page_subscribe",
       del_subscribe: "del_page_subscribe",
+    }),
+    ...mapMutations("config/default", {
+      set_gate_all: "set_gate_all"
     }),
     search_f() {
       let me = this;

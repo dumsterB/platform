@@ -855,3 +855,9 @@ export const getters = {
         return fnd1 ? fnd1 : fnd;
     },
 };
+
+export const mutations = {
+    set_gate_all(state, data) {
+        state.gate_all = data;
+    },
+};

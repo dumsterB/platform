@@ -1,7 +1,7 @@
 export const state = () => ({
     preload_models: ["currency", "arbitrage_company", "wallet", "countries"],
     themes: ["Dark", "Light"],
-    base_p: "gate",
+    base_p: "binance",
     exchanges: [
         {
             name: "Forex",
