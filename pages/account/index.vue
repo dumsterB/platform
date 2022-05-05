@@ -10,7 +10,7 @@
           </div>
           <div class="d-flex mb-4">
             <p elevation="0" class="mr-4 mt-2">
-              <v-icon>mdi-filter</v-icon> {{ $t("filters") }}
+              <!-- <v-icon>mdi-filter</v-icon> {{ $t("filters") }} -->
             </p>
             <!-- <v-text-field
               :label="$t('market_search_bar_placeholder')"

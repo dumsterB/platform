@@ -5,9 +5,9 @@
       :headers="headers"
       :items-per-page="page_size_current"
       :search="search"
-      sort-by="created_at"
       :loading="loading"
-      :sort-desc="true"
+      @update:sort-by="custom_sort"
+      @update:sort-desc="custom_sort"
       class="elevation-1 ma-4 ml-8"
       :server-items-length="totalLength"
       @pagination="paging"
@@ -132,18 +132,20 @@ export default {
           text: this.$t("table_time"),
           value: "created_at",
         },
-
         {
           text: this.$t("table_current_price"),
           value: "current_cost",
+          sortable: false
         },
         {
           text: this.$t("table_profit_loss"),
           value: "difference",
+          sortable: false
         },
         {
           text: `${this.$t("table_profit_loss")} %`,
           value: "difference_perc",
+          sortable: false
         },
       ];
     },
@@ -164,6 +166,27 @@ export default {
       }
       return conf;
     },
+    async custom_sort(items) {
+      if (typeof items == "boolean") {
+        this.config.params.dir = items ? "desc" : "asc";
+      } else {
+        console.log(items, this.config.params.sort);
+        if (this.config.params.sort && items == this.config.params.sort) {
+          return;
+        }
+        if (items) {
+          this.config.params.sort = items;
+          this.config.params.dir = "asc";
+        }
+      }
+      this.loading = true;
+      let res = await this.fetchList({ config: this.config });
+      let meta = res.meta;
+      this.totalLength = meta.total ? meta.total : res.data.length;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    },
     async paging(val) {
       // console.log("paging", val);
       this.page_size_current = val.itemsPerPage;
@@ -176,6 +199,8 @@ export default {
       }
       this.config.params.page = val ? val.page : 1;
       this.config.params.per_page = this.page_size_current;
+      this.config.params.sort = "created_at";
+      this.config.params.dir = "desc";
       this.loading = true;
       let res = await this.fetchList({ config: this.config });
       let meta = res.meta;

@@ -28,7 +28,7 @@
           </div>
         </div>
       </template>
-      <template v-slot:[`item.change`]="{ item }">
+      <template v-slot:[`item.percent`]="{ item }">
         <div class="" v-if="item.change && item.price">
           <span style="font-size: 14px"
             >${{ new Intl.NumberFormat().format(item.price) }}</span
@@ -153,7 +153,7 @@ export default {
       } else {
         return "primary--text";
       }
-    },
+    }
   },
   computed: {
     ...mapGetters("data/currency", {
@@ -163,7 +163,7 @@ export default {
       let currency_full = this.currencies_full.filter(
         (item) => item.currency_type && item.currency_type.key === "CRYPTO"
       );
-      return currency_full.map((el) => {
+      currency_full = currency_full.map((el) => {
         let determine = this.price.find((ell) => ell.base == el.symbol);
         if (determine) {
           let percent = (
@@ -176,6 +176,10 @@ export default {
         }
         return el;
       });
+      currency_full = currency_full.filter((el) => {
+        return el.price;
+      });
+      return currency_full;
     },
     headers() {
       return [
@@ -186,10 +190,9 @@ export default {
         },
         {
           text: this.$t("change"),
-          value: "change",
+          value: "percent",
           width: 140,
           align: "start",
-          sortable: false,
         },
         {
           text: "24H Chart",
