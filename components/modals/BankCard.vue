@@ -141,6 +141,8 @@ export default {
       payment_card_box_shadow: config.colors.payment_card_box_shadow,
       primary: config.themes.dark.primary,
       white: config.themes.light.item_bg,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       showCVV: false,
       card_number: "",
       exp_date: "",
@@ -214,6 +216,8 @@ export default {
         "--primary": this.primary,
         "--payment_card_box_shadow": this.payment_card_box_shadow,
         "--white": this.white,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
       };
     },
     getCardType() {
@@ -251,7 +255,8 @@ html[theme="light"] .card_data {
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
 }
-.success-btn {
+
+html[theme="dark"] .success-btn {
   width: 100% !important;
   font-weight: 700;
   font-size: 18px;
@@ -262,13 +267,34 @@ html[theme="light"] .card_data {
   background-color: var(--primary) !important;
   border-radius: 10px;
   &:disabled {
-    opacity: 0.7;
     cursor: not-allowed;
+    background: linear-gradient(
+        0deg,
+        var(--dark_disabled),
+        var(--dark_disabled)
+      ),
+      var(--primary) !important;
   }
 }
-.theme--dark.v-btn.v-btn--disabled.v-btn--has-bg,
-.theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
+html[theme="light"] .success-btn {
+  width: 100% !important;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -1px;
+  text-transform: inherit;
+  color: white !important;
   background-color: var(--primary) !important;
+  border-radius: 10px;
+  &:disabled {
+    cursor: not-allowed;
+    background: linear-gradient(
+        0deg,
+        var(--light_disabled),
+        var(--light_disabled)
+      ),
+      var(--primary) !important;
+  }
 }
 .v-subheader {
   height: 32px;

@@ -8,7 +8,7 @@
       :loading="loading"
       @update:sort-by="custom_sort"
       @update:sort-desc="custom_sort"
-      class="elevation-1 ma-4 ml-8"
+      class="elevation-1 ma-4 mr-1"
       :server-items-length="totalLength"
       @pagination="paging"
       :style="customStyle"
@@ -123,6 +123,8 @@ export default {
       end_blue_gradient: config.colors.end_blue_gradient,
       blue: config.colors.text.blue,
       red: config.colors.text.red,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       dialog: false,
       page_size_current: this.page_size,
       search: "",
@@ -139,6 +141,8 @@ export default {
       return {
         "--start_blue_gradient": this.start_blue_gradient,
         "--end_blue_gradient": this.end_blue_gradient,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
       };
     },
     ...mapGetters(model, {
@@ -323,13 +327,52 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.green_btn {
-  background: linear-gradient(
-    163.28deg,
-    var(--start_blue_gradient) 0%,
-    var(--end_blue_gradient) 85.7%
-  ) !important;
-  color: white !important;
-  border-radius: 10px !important;
+html[theme="dark"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+}
+html[theme="light"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
 }
 </style>

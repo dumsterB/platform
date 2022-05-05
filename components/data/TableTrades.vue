@@ -8,7 +8,7 @@
       :loading="loading"
       @update:sort-by="custom_sort"
       @update:sort-desc="custom_sort"
-      class="elevation-1 ma-4 ml-8"
+      class="elevation-1 ma-8 ml-4"
       :server-items-length="totalLength"
       @pagination="paging"
       :page.sync="page"
