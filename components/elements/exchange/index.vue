@@ -109,8 +109,8 @@
         <v-btn
           block
           large
-          rounded
-          class="success-btn mb-3"
+          
+          class="success-btn mb-3 mainBorderRadius"
           :style="customStyle"
           elevation="0"
           @click="trade_run"
@@ -378,7 +378,7 @@ export default {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
@@ -444,9 +444,9 @@ html[theme="light"] .p_chip {
 </style>
 <style lang="scss">
 .buy-sell-comp .v-input__slot {
-  border-radius: 20px;
+  border-radius: 10px;
   background: #161f49 !important;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 html[theme="light"] .buy-sell-comp .v-input__slot {
   background: linear-gradient(

@@ -329,6 +329,6 @@ export default {
     var(--end_blue_gradient) 85.7%
   ) !important;
   color: white !important;
-  border-radius: 20px !important;
+  border-radius: 10px !important;
 }
 </style>

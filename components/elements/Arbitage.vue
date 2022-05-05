@@ -36,7 +36,7 @@
           <div class="ma-0">
             <v-btn
               class="primary white--text text-none"
-              style="border-radius: 16px"
+              style="border-radius: 10px"
               block
               @click="trade_now(coin)"
               >{{ $t("trade_now") }}</v-btn
@@ -173,7 +173,7 @@ export default {
       if (v) {
         this.isLoading = true;
       }
-    }
+    },
   },
   methods: {
     ...mapActions(wallet, {

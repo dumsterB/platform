@@ -24,14 +24,18 @@
     </v-row>
     <v-row class="mb-0 pb-0">
       <v-col :lg="6" style="height: 100vh">
-        <div class="background_image">
-        </div>
+        <div class="background_image"></div>
       </v-col>
       <v-col class="px-4 pt-8" :style="customStyle">
         <div v-if="!reg_log" class="reg_block">
           <v-row
             ><v-col cols="2">
-              <p v-if="steper == 1" class="primary--text" @click="steper = 0" style="cursor: pointer">
+              <p
+                v-if="steper == 1"
+                class="primary--text"
+                @click="steper = 0"
+                style="cursor: pointer"
+              >
                 <v-icon class="primary--text">mdi-arrow-left</v-icon>
                 Back
               </p>
@@ -118,7 +122,7 @@
                       :loading="reg_loader"
                       @click="reg_start"
                     >
-                      {{ reg_loader ? '' : $t("to_continue") }}
+                      {{ reg_loader ? "" : $t("to_continue") }}
                     </v-btn>
                   </div>
                 </v-form>
@@ -176,7 +180,7 @@
                       :loading="reg_loader"
                       @click="reg_end"
                     >
-                      {{ reg_loader ? '' : $t("to_continue") }}
+                      {{ reg_loader ? "" : $t("to_continue") }}
                     </v-btn>
                   </div>
                 </v-form>
@@ -250,7 +254,7 @@
                   color="primary"
                   type="submit"
                 >
-                  {{ log_loader ? '' : $t("signin") }}
+                  {{ log_loader ? "" : $t("signin") }}
                 </v-btn>
               </div>
             </v-form>
@@ -494,7 +498,7 @@ html[theme="light"] .v-menu__content .v-list {
   margin-right: 200px;
 }
 .reg_block .v-btn {
-  border-radius: 15px;
+  border-radius: 10px;
 }
 .login_block {
   margin-top: 150px;
@@ -502,6 +506,6 @@ html[theme="light"] .v-menu__content .v-list {
   margin-left: 100px;
 }
 .login_block .v-btn {
-  border-radius: 15px;
+  border-radius: 10px;
 }
 </style>

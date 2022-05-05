@@ -87,7 +87,7 @@
         :loading="loading"
         :disabled="!amount"
         block
-        class="rounded-xl ma-0 mb-8"
+        class="mainBorderRadius ma-0 mb-8"
         @click="save"
         :style="customStyle"
         :class="action !== 'Sell' ? 'green_btn' : 'red_btn'"
@@ -380,7 +380,7 @@ export default {
     var(--end_blue_gradient) 85.7%
   );
   color: white !important;
-  border-radius: 16px !important;
+  border-radius: 10px !important;
 }
 .red_btn {
   width: 100%;
@@ -390,7 +390,7 @@ export default {
     var(--end_red_gradient) 85.7%
   );
   color: white !important;
-  border-radius: 16px !important;
+  border-radius: 10px !important;
 }
 .dotsLine {
   display: inline;

@@ -54,10 +54,9 @@
       <template v-slot:[`item.action`]="{ item }">
         <div class="d-flex">
           <v-btn
-            class="primary"
+            class="primary mainBorderRadius"
             small
             elevation="0"
-            rounded
             @click="
               $router.push({
                 path: `/currency?id=${item.id}`,

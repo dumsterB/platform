@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
     <v-card
-      class="pl-0 pr-0 mb-2 ml-2 mr-2 rounded-lg light-card"
+      class="pl-0 pr-0 mb-2 ml-2 mr-2 mainBorderRadius light-card"
       :width="380"
       :elevation="hover ? 18 : 8"
     >

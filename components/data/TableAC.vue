@@ -9,7 +9,7 @@
         'items-per-page-options': [5, 10, 20],
         'items-per-page-text': $t('items_per_page'),
       }"
-      class="elevation-4 space rounded-lg pl-4 pr-4 ml-0"
+      class="elevation-4 space mainBorderRadius pl-4 pr-4 ml-0"
     >
       <template v-slot:[`item.name`]="{ item }"
         ><v-img
@@ -208,7 +208,7 @@ export default {
     var(--end_blue_gradient) 85.7%
   );
   color: white !important;
-  border-radius: 16px !important;
+  border-radius: 10px !important;
 }
 .red_btn {
   background: linear-gradient(
@@ -217,6 +217,6 @@ export default {
     var(--end_red_gradient) 85.7%
   );
   color: white !important;
-  border-radius: 16px !important;
+  border-radius: 10px !important;
 }
 </style>

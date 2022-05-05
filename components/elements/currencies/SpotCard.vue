@@ -110,7 +110,7 @@
             :loading="loading"
             :disabled="!amount"
             block
-            class="rounded-xl"
+            class="mainBorderRadius"
             @click="trade_run"
             :style="customStyle"
             :class="buy_sell ? 'green_btn' : 'red_btn'"
@@ -471,7 +471,7 @@ export default {
     var(--end_blue_gradient) 85.7%
   );
   color: white !important;
-  border-radius: 16px !important;
+  border-radius: 10px !important;
 }
 .red_btn {
   background: linear-gradient(
@@ -480,18 +480,18 @@ export default {
     var(--end_red_gradient) 85.7%
   );
   color: white !important;
-  border-radius: 16px !important;
+  border-radius: 10px !important;
 }
 .outlined-btn {
   background: transparent !important;
   border: solid 2px var(--primary) !important;
   color: var(--primary);
-  border-radius: 16px;
+  border-radius: 10px;
 }
 .success-btn {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
 }
 </style>

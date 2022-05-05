@@ -217,8 +217,8 @@
           </div>
           <v-card-actions class="justify-center mt-2 d-flex">
             <v-btn
-              rounded
-              class="primary"
+              
+              class="primary mainBorderRadius"
               style="width: 150px"
               text
               @click="dialog = false"
@@ -522,7 +522,7 @@ export default {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
 }
 .selecImage {
   display: flex;

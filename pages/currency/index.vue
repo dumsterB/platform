@@ -486,10 +486,10 @@ export default {
 </script>
 <style>
 .menu-curr-buttons {
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .menu-curr-buttons:not(.primary) {
-  background: #000c19 !important;
+  background: #161f49 !important;
 }
 html[theme="light"] .menu-curr-buttons:not(.primary) {
   background: #ffffff !important;

@@ -32,8 +32,8 @@
             >
               <v-btn
                 value="bankCard"
-                class="paymentMethod_checkbox rounded-xl pl-8 pr-8"
-                activeClass="primary paymentMethod_checkbox_active"
+                class="paymentMethod_checkbox mainBorderRadius pl-8 pr-8"
+                active-class="primary paymentMethod_checkbox_active"
                 :style="customStyle"
               >
                 <v-icon class="mr-4">mdi-credit-card-multiple-outline</v-icon>
@@ -44,8 +44,8 @@
               </v-btn>
               <v-btn
                 value="crypto"
-                class="paymentMethod_checkbox rounded-xl pl-8 pr-8"
-                activeClass="primary paymentMethod_checkbox_active"
+                class="paymentMethod_checkbox mainBorderRadius pl-8 pr-8"
+                active-class="primary paymentMethod_checkbox_active"
                 :style="customStyle"
               >
                 <v-icon class="mr-4">mdi-currency-btc</v-icon>
@@ -442,7 +442,7 @@ export default {
 
 <style scoped lang="scss">
 .card_list {
-  border-radius: 20px !important;
+  border-radius: 10px !important;
 }
 html[theme="light"] .card_list,
 .avatar {
@@ -459,7 +459,7 @@ html[theme="dark"] .card_list,
 }
 .v-card {
   box-shadow: 0px 10px 30px var(--box_shadow);
-  border-radius: 35px !important;
+  border-radius: 10px !important;
 }
 html[theme="dark"] .v-card {
   background: var(--dark_background) !important;
@@ -481,7 +481,7 @@ html[theme="light"] .v-card {
   align-items: center;
   justify-content: space-evenly;
   border: 1px solid;
-  border-radius: 20px;
+  border-radius: 10px;
   cursor: pointer;
 }
 html[theme="light"] .credit-card-add {
@@ -497,7 +497,7 @@ html[theme="dark"] .credit-card-add {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
@@ -524,7 +524,7 @@ html[theme="light"] .paymentMethod {
     filter: drop-shadow(20px 20px 100px var(--light_drop_shadow));
     &_active > span > div > p,
     &_active > span > i {
-      color: var(--light_text_color);
+      color: var(--light_text_color) !important;
     }
   }
 }
@@ -534,7 +534,7 @@ html[theme="dark"] .paymentMethod {
     filter: drop-shadow(20px 20px 100px var(--dark_drop_shadow));
     &_active > span > div > p,
     &_active > span > i {
-      color: var(--light_text_color);
+      color: var(--light_text_color) !important;
     }
   }
 }
