@@ -11,6 +11,7 @@
       class="elevation-1 ma-4 ml-8"
       :server-items-length="totalLength"
       @pagination="paging"
+      :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
         'items-per-page-text': $t('items_per_page'),
@@ -34,6 +35,9 @@
             ></v-text-field>
           </div>
         </v-toolbar>
+      </template>
+      <template v-slot:[`item.created_at`]="{ item }">
+        <span>{{ new Date(item.created_at).toLocaleString() }}</span>
       </template>
       <template v-slot:[`item.dest_amount`]="{ item }">
         <span>{{
@@ -92,10 +96,9 @@ export default {
   },
   data() {
     return {
-      start_blue_gradient: config.colors.start_blue_gradient,
-      end_blue_gradient: config.colors.end_blue_gradient,
-      start_red_gradient: config.colors.start_red_gradient,
-      end_red_gradient: config.colors.end_red_gradient,
+      primary: config.colors.text.primary,
+      blue: config.colors.text.blue,
+      red: config.colors.text.red,
       page_size_current: this.page_size,
       search: "",
       list: [],
@@ -112,10 +115,7 @@ export default {
     }),
     customStyle() {
       return {
-        "--start_blue_gradient": this.start_blue_gradient,
-        "--end_blue_gradient": this.end_blue_gradient,
-        "--start_red_gradient": this.start_red_gradient,
-        "--end_red_gradient": this.end_red_gradient,
+        "--primary": this.primary,
       };
     },
     headers() {
@@ -165,7 +165,6 @@ export default {
       return conf;
     },
     async paging(val) {
-      // console.log("paging", val);
       this.page_size_current = val.itemsPerPage;
       await this.rel(val);
     },
@@ -209,17 +208,9 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.red} !important;`;
       } else {
-        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.blue} !important;`;
       }
     },
   },
