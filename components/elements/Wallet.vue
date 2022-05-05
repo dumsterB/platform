@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="mt-10">
-          <v-card class="mx-auto" elevation="0" tile>
+          <v-card class="mx-auto borderNone" elevation="0" tile>
             <div v-for="(coin, i) of filteredArr" :key="i">
               <v-list-item class="pa-1">
                 <v-list-item-content>

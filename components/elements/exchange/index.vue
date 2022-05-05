@@ -5,7 +5,7 @@
     </div>
 
     <v-card class="pa-3" elevation="4">
-      <v-list width="100%" class="pa-0">
+      <v-list width="100%" class="pa-0 borderNone">
         <v-list-item-group v-model="btn_active" class="d-flex">
           <v-list-item
             tag="button"

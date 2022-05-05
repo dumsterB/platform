@@ -28,7 +28,10 @@
           </v-btn>
         </div>
 
-        <v-list v-if="currencies" class="mt-0 mr-4 mb-4 ml-4 market-list">
+        <v-list
+          v-if="currencies"
+          class="mt-0 mr-4 mb-4 ml-4 market-list borderNone"
+        >
           <v-list-item
             class=""
             disabled

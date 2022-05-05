@@ -18,7 +18,7 @@
       }"
     >
       <template v-slot:top>
-        <v-toolbar flat>
+        <v-toolbar flat class="borderNone">
           <v-toolbar-title class="font-weight-bold">{{
             $t(title)
           }}</v-toolbar-title>
@@ -123,9 +123,8 @@ export default {
     return {
       start_blue_gradient: config.colors.start_blue_gradient,
       end_blue_gradient: config.colors.end_blue_gradient,
-      start_red_gradient: config.colors.start_red_gradient,
-      end_red_gradient: config.colors.end_red_gradient,
-      primary: config.colors.text.primary,
+      blue: config.colors.text.blue,
+      red: config.colors.text.red,
       dialog: false,
       page_size_current: this.page_size,
       search: "",
@@ -156,9 +155,6 @@ export default {
       return {
         "--start_blue_gradient": this.start_blue_gradient,
         "--end_blue_gradient": this.end_blue_gradient,
-        "--start_red_gradient": this.start_red_gradient,
-        "--end_red_gradient": this.end_red_gradient,
-        "--primary": this.primary,
       };
     },
     ...mapGetters(model, {
@@ -315,38 +311,21 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.red} !important;`;
       } else {
-        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.blue} !important;`;
       }
     },
     diffAction(diff) {
       if (diff === "Sell") {
-        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.red} !important;`;
       } else {
-        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.blue} !important;`;
       }
     },
   },
   watch: {
     prices() {
-      // console.log("this.prices", this.prices);
       this.resetList(this.prices);
     },
     filter() {
