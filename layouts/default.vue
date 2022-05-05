@@ -4,7 +4,8 @@
       <LoadingScreen :isLoading="isLoading" />
       <div v-if="!isLoading" class="main-page mb-16">
         <SnackBar />
-        <Menu />
+        <MenuMobile class="menu-mobile"  />
+        <Menu class="menu" />
         <NavBar dir="ltr" />
         <v-main fluid class="mb-16 main_content">
           <v-container fluid class="layout_default__content">
@@ -24,6 +25,7 @@ import Menu from "~/components/layout/Menu";
 import Footer from "~/components/layout/Footer";
 import LoadingScreen from "~/components/layout/LoadingScreen";
 import { mapActions, mapGetters } from "vuex";
+import MenuMobile from "../components/layout/MenuMobile";
 
 export default {
   data() {
@@ -141,6 +143,7 @@ export default {
     }, 500);
   },
   components: {
+    MenuMobile,
     NavBar,
     Menu,
     LoadingScreen,
@@ -179,10 +182,21 @@ div {
   margin-top: 10px;
   padding-top: 0px;
 }
+.menu{
+  display: flex!important;
+}
 @media (max-width: 1000px) {
   .main_content{
-    padding: 85px 0px 0px 60px!important;
+    padding: 150px 0px 0px 0px!important;
+  }
+  .page-container {
+    margin-right: 0px!important;
+  }
+  .menu{
+    display: none!important;
+  }
+  .menu-mobile{
+    display: flex!important;
   }
 }
-
 </style>
