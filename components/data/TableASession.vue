@@ -17,7 +17,7 @@
       }"
     >
       <template v-slot:top>
-        <v-toolbar flat>
+        <v-toolbar flat class="borderNone">
           <v-toolbar-title class="font-weight-bold">{{
             $t(title)
           }}</v-toolbar-title>

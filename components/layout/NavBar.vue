@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app flat class="app-bar-margins" id="app-bar-id">
+  <v-app-bar app flat class="app-bar-margins borderNone" id="app-bar-id">
     <v-spacer></v-spacer>
     <div class="d-flex mt-8" :dir="$dir()">
       <v-autocomplete
