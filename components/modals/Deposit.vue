@@ -281,6 +281,8 @@ export default {
       light_background: config.themes.light.background,
       dark_background: config.themes.dark.background,
       primary: config.themes.dark.primary,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       selectedItem: 1,
       cardDialog: false,
       enteredMoney: "",
@@ -312,6 +314,8 @@ export default {
         "--light_background": this.light_background,
         "--dark_background": this.dark_background,
         "--primary": this.primary,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
       };
     },
   },
@@ -493,21 +497,39 @@ html[theme="dark"] .credit-card-add {
   background: var(--dark_background) !important;
 }
 
-.success-btn {
+html[theme="dark"] .success-btn {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
   border-radius: 10px;
   &:disabled {
-    opacity: 0.7;
     cursor: not-allowed;
+    background: linear-gradient(
+        0deg,
+        var(--dark_disabled),
+        var(--dark_disabled)
+      ),
+      var(--primary) !important;
+    border: none !important;
   }
 }
-.theme--dark.v-btn.v-btn--disabled.v-btn--has-bg,
-.theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
-  background-color: var(--primary) !important;
-  opacity: 0.7;
+html[theme="light"] .success-btn {
+  background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
+  color: white !important;
+  border-radius: 10px;
+  &:disabled {
+    cursor: not-allowed;
+    background: linear-gradient(
+        0deg,
+        var(--light_disabled),
+        var(--light_disabled)
+      ),
+      var(--primary) !important;
+    border: none !important;
+  }
 }
+
 .paymentMethod {
   display: flex;
   justify-content: space-between;

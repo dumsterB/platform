@@ -8,7 +8,7 @@
       :loading="loading"
       @update:sort-by="custom_sort"
       @update:sort-desc="custom_sort"
-      class="elevation-1 ma-4 ml-8"
+      class="elevation-1 ma-8 ml-4"
       :server-items-length="totalLength"
       @pagination="paging"
       :style="customStyle"
@@ -135,17 +135,17 @@ export default {
         {
           text: this.$t("table_current_price"),
           value: "current_cost",
-          sortable: false
+          sortable: false,
         },
         {
           text: this.$t("table_profit_loss"),
           value: "difference",
-          sortable: false
+          sortable: false,
         },
         {
           text: `${this.$t("table_profit_loss")} %`,
           value: "difference_perc",
-          sortable: false
+          sortable: false,
         },
       ];
     },
