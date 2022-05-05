@@ -130,9 +130,8 @@
     <v-row>
       <v-col>
         <TableTrades
-          v-if="trade_filter && page_state == 0"
+          v-if="page_state == 0"
           :prices="prices"
-          :filter="trade_filter"
           ref="trades"
         ></TableTrades>
         <TableASession

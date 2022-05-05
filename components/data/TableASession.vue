@@ -6,11 +6,7 @@
       :items-per-page="page_size_current"
       :search="search"
       :loading="loading"
-      @update:sort-by="custom_sort"
-      @update:sort-desc="custom_sort"
       class="elevation-1 ma-4 mr-1"
-      :server-items-length="totalLength"
-      @pagination="paging"
       :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
@@ -153,10 +149,12 @@ export default {
         {
           text: this.$t("name_table"),
           value: "arbitrage_company.logo",
+          sortable: false
         },
         {
           text: this.$t("table_position"),
           value: "session_start_type.name",
+          sortable: false
         },
         {
           text: this.$t("table_time"),
@@ -186,6 +184,7 @@ export default {
         {
           text: this.$t("table_close"),
           value: "action",
+          sortable: false
         },
       ];
     },
@@ -238,7 +237,7 @@ export default {
           diff_full = -diff_full;
           diff_proc = -diff_proc;
         }
-        element.difference = diff_full.toFixed(3);
+        element.difference = diff_full.toFixed(5);
         element.difference_perc = `${diff_proc.toFixed(3)} %`;
         list.push(element);
       });
@@ -274,8 +273,8 @@ export default {
       if (!this.config || !this.config.params) {
         this.config = { params: {} };
       }
-      this.config.params.page = val ? val.page : 1;
-      this.config.params.per_page = this.page_size_current;
+      // this.config.params.page = val ? val.page : 1;
+      // this.config.params.per_page = this.page_size_current;
       this.config.params.sort = "created_at";
       this.config.params.dir = "desc";
       this.loading = true;
@@ -321,6 +320,7 @@ export default {
     },
   },
   async created() {
+    await this.reload();
     // console.log("this.arbitrage_sessions", this.arbitrage_sessions);
   },
 };

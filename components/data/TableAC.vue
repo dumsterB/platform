@@ -141,6 +141,7 @@ export default {
           text: "",
           value: "action",
           width: 100,
+          sortable: false
         },
       ];
     },

@@ -246,11 +246,11 @@ export default {
         let pr_p = 1;
         if (fnd_p && fnd_p.price) pr_p = fnd_p.price;
         let curr_cost = (el.dest_amount * pr_b) / pr_p;
-        el.current_cost = curr_cost.toFixed(4);
+        el.current_cost = curr_cost.toFixed(5);
         let diff = curr_cost - el.source_amount;
         let diff_proc = (diff * 100) / el.source_amount;
-        el.difference = diff.toFixed(4);
-        el.difference_perc = `${diff_proc.toFixed(4)} %`;
+        el.difference = diff.toFixed(5);
+        el.difference_perc = `${diff_proc.toFixed(3)} %`;
         return el;
       });
     },
