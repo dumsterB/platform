@@ -368,7 +368,6 @@ export default {
 <style lang="scss">
 html[theme="dark"] {
   .green_btn {
-    width: 100%;
     background: linear-gradient(
       163.28deg,
       var(--start_blue_gradient) 0%,
@@ -392,7 +391,6 @@ html[theme="dark"] {
 }
 html[theme="light"] {
   .green_btn {
-    width: 100%;
     background: linear-gradient(
       163.28deg,
       var(--start_blue_gradient) 0%,
