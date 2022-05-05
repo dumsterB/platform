@@ -267,7 +267,6 @@
       {{ is_notify_message }}
       <v-btn dark text @click="is_notify = false"> OK</v-btn>
     </v-snackbar>
-    <registration></registration>
   </div>
 </template>
 
@@ -275,7 +274,6 @@
 import LangSelect from "~/components/settings/LanguageSelect";
 import config from "~/config/config.json";
 import { mapGetters } from "vuex";
-import registration from "../registration/index";
 
 export default {
   layout: "auth",
