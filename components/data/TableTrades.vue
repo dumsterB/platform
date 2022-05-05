@@ -4,13 +4,14 @@
       :items="list"
       :headers="headers"
       :items-per-page="page_size_current"
-      :search="search"
+      :search="search_text"
       :loading="loading"
       @update:sort-by="custom_sort"
       @update:sort-desc="custom_sort"
       class="elevation-1 ma-4 ml-8"
       :server-items-length="totalLength"
       @pagination="paging"
+      :page.sync="page"
       :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
@@ -27,7 +28,11 @@
           <div style="max-width: 300px !important">
             <v-text-field
               dense
-              v-model="search"
+              v-model="search_text"
+              @click:append-outer="search"
+              @click:clear="search('clear')"
+              @keydown.enter="search"
+              clearable
               append-icon="mdi-magnify"
               outlined
               :label="$t('market_search_bar_placeholder')"
@@ -100,13 +105,14 @@ export default {
       blue: config.colors.text.blue,
       red: config.colors.text.red,
       page_size_current: this.page_size,
-      search: "",
+      search_text: "",
       list: [],
       interv: null,
       platform: "binance",
       totalLength: -1,
       config: this.f_definer(),
       loading: false,
+      page: 1,
     };
   },
   computed: {
@@ -135,17 +141,17 @@ export default {
         {
           text: this.$t("table_current_price"),
           value: "current_cost",
-          sortable: false
+          sortable: false,
         },
         {
           text: this.$t("table_profit_loss"),
           value: "difference",
-          sortable: false
+          sortable: false,
         },
         {
           text: `${this.$t("table_profit_loss")} %`,
           value: "difference_perc",
-          sortable: false
+          sortable: false,
         },
       ];
     },
@@ -166,6 +172,26 @@ export default {
       }
       return conf;
     },
+    async search(pr) {
+      this.config.params["search"] = this.search_text;
+      if (pr == "clear") {
+        delete this.config.params["search"];
+      }
+      this.page_to_1();
+      this.loading = true;
+      let res = await this.fetchList({ config: this.config });
+      let meta = res.meta;
+      this.totalLength = meta.total ? meta.total : res.data.length;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    },
+    page_to_1() {
+      if (this.config && this.config.params) {
+        this.config.params.page = 1;
+      }
+      this.page = 1;
+    },
     async custom_sort(items) {
       if (typeof items == "boolean") {
         this.config.params.dir = items ? "desc" : "asc";
@@ -179,6 +205,7 @@ export default {
           this.config.params.dir = "asc";
         }
       }
+      this.page_to_1();
       this.loading = true;
       let res = await this.fetchList({ config: this.config });
       let meta = res.meta;
