@@ -57,6 +57,13 @@
       >
     </div>
     <v-spacer></v-spacer>
+    <div>
+      <v-btn
+        class="primary white--text mainBorderRadius font-weight-bold text-none mr-8 goToAction"
+      >
+        {{ $t("go_to_website") }}
+      </v-btn>
+    </div>
 
     <v-menu
       transition="slide-y-transition"
@@ -399,5 +406,10 @@ html[theme="light"] {
   .account-menu {
     background: transparent !important;
   }
+}
+.goToAction {
+  font-size: 16px !important;
+  line-height: 20px !important;
+  // letter-spacing: 0 !important;
 }
 </style>

@@ -49,13 +49,13 @@ export const state = () => ({
       to: "/markets",
       badge_color: "primary",
     },
-    // {
-    //   icon: "mdi-flag-outline",
-    //   title: "user_help",
-    //   key: "user_help",
-    //   to: "/help",
-    //   badge_color: "primary",
-    // },
+    {
+      icon: "mdi-flag-outline",
+      title: "user_help",
+      key: "user_help",
+      to: "/help",
+      badge_color: "primary",
+    },
     // {
     //   icon: "mdi-comment-question-outline",
     //   title: "user_questions",
