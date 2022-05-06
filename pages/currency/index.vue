@@ -494,6 +494,10 @@ export default {
         price: data.close ? 1 / data.close : data.price,
         base: data.base ? data.base : data.share,
       };
+      if (!add_data.price) {
+        let dt = me.get_val(add_data.base);
+        add_data.price = dt.close ? 1 / dt.close : dt.price;
+      }
       let fnd = me.prices.find((el) => el && el.base == add_data.base);
       if (fnd) {
         fnd.price = add_data.price;

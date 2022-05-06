@@ -59,7 +59,15 @@
     <v-spacer></v-spacer>
     <div>
       <v-btn
-        class="primary white--text mainBorderRadius font-weight-bold text-none mr-8 goToAction"
+        class="
+          primary
+          white--text
+          mainBorderRadius
+          font-weight-bold
+          text-none
+          mr-8
+          goToAction
+        "
       >
         {{ $t("go_to_website") }}
       </v-btn>
@@ -78,7 +86,16 @@
         <v-hover v-slot="{ hover }">
           <div
             flat
-            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
+            class="
+              account-menu
+              d-flex
+              flex-columns
+              align-center
+              mt-2
+              py-2
+              pr-2
+              pl-4
+            "
             v-on="on"
           >
             <div class="mr-2">
@@ -246,7 +263,7 @@ export default {
     },
     prices_current(v) {
       let me = this;
-      let json_d = Object.assign({}, v);
+      let json_d = JSON.parse(JSON.stringify(v));
       // console.log("MARQUE DATA", json_d);
       me.stocks.forEach((st) => {
         if (json_d && json_d.method == `shares:all.${st.key}@kline_1d`) {
@@ -255,6 +272,10 @@ export default {
             let dt = dtm;
             if (Array.isArray(dtm)) {
               dt = dtm[0];
+            }
+            if (!dt.close) {
+              let pdt = me.get_val(dt.share);
+              dt.close = pdt.close;
             }
             let change = (dt.close - dt.open).toFixed(4);
             let ch_pr = ((change * 100) / dt.close).toFixed(4);
@@ -284,6 +305,9 @@ export default {
   computed: {
     ...mapGetters("config/ws", {
       prices_current: "top_data",
+    }),
+    ...mapGetters("config/default", {
+      get_val: "get_val",
     }),
     userAvatar() {
       try {

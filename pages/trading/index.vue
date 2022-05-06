@@ -31,6 +31,9 @@ export default {
     ...mapGetters("data/currency", {
       full_currency: "list",
     }),
+    ...mapGetters("config/default", {
+      get_val: "get_val",
+    }),
     ...mapGetters("config/ws", {
       prices_current: "page_data",
     }),
@@ -44,7 +47,7 @@ export default {
   watch: {
     prices_current(v) {
       let me = this;
-      let json_d = Object.assign({}, v);
+      let json_d = JSON.parse(JSON.stringify(v));
       me.stocks.forEach((st) => {
         if (json_d && json_d.method == `shares:all.${st.key}@kline_1d`) {
           let data = json_d.data ? json_d.data.data || [] : [];
@@ -56,6 +59,10 @@ export default {
             }
             let curr = me.products.find((el) => el.symbol == dt.share);
             if (curr) {
+              if (!dt.close) {
+                let pdt = me.get_val(curr.symbol);
+                dt.close = pdt.close;
+              }
               let p_d = {
                 currency_type: curr.currency_type,
                 name: curr.name,
