@@ -34,6 +34,7 @@
       <div class="chips mt-3 mx-3">
         <v-chip
           :class="[item.active ? 'active_p_chip' : 'p_chip']"
+          :style="customStyle"
           class="pl-4 pr-4"
           x-small
           v-for="(item, i) of chips"
@@ -403,6 +404,7 @@ export default {
   text-transform: uppercase;
   border-top: 3px solid transparent;
   background: transparent !important;
+  color: var(--primary) !important;
 }
 .active_btn_exchange::after {
   position: absolute;
@@ -411,11 +413,14 @@ export default {
   min-height: 6px !important;
   top: -8px;
   left: 0;
-  background: #007bff !important;
+  background: var(--primary) !important;
   border-radius: 0px 0px 4px 4px;
 }
 html[theme="light"] .p_chip {
   background: #eeeeee !important;
+  padding: 12px;
+  justify-content: space-between;
+  display: flex;
   color: #9a9a9a;
 }
 .p_chip {
@@ -426,12 +431,13 @@ html[theme="light"] .p_chip {
   color: #ffffff;
 }
 .active_p_chip {
-  background: #007bff !important;
+  background: var(--primary) !important;
   padding: 12px;
   justify-content: space-between;
   display: flex;
   color: #ffffff;
 }
+
 .chips {
   justify-content: space-between;
   display: flex;
@@ -444,7 +450,7 @@ html[theme="light"] .p_chip {
 <style lang="scss">
 .buy-sell-comp .v-input__slot {
   border-radius: 10px;
-  background: #161f49 !important;
+  background: #001935 !important;
   border-radius: 10px;
 }
 html[theme="light"] .buy-sell-comp .v-input__slot {

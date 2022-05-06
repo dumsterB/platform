@@ -339,3 +339,15 @@ html[theme="light"] .light-card {
 .borderNone {
     border: none !important;
 }
+
+.theme--dark.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+    background: #161f49 !important;
+    opacity: 0.5 !important;
+    color: inherit !important;
+    transition: 223ms linear;
+}
+
+.theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+    opacity: 0.8 !important;
+    transition: 223ms linear;
+}

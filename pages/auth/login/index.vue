@@ -5,7 +5,7 @@
         <v-row>
           <v-spacer></v-spacer>
           <img
-            style="height: 60px; margin-right: 20px"
+            style="height: 60px; margin-right: 20px; z-index: 1"
             :src="config.logo"
             :alt="$t('logoPic')"
           />
