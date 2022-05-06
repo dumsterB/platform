@@ -45,7 +45,43 @@
           :filter="arb_ses_filter"
           ref="a_session"
           @get_prices="update_subscr"
-          title="open_positions"
+          ><template v-slot:header
+            ><v-list max-width="600" min-width="480" class="pa-0 borderNone">
+              <v-list-item-group v-model="as_mode_active" class="d-flex"
+                ><v-list-item
+                  tag="button"
+                  block
+                  elevation="0"
+                  class="btn_tbl pa-0"
+                  active-class="active_btn_tbl primary--text"
+                  @click="as_filter_update('1')"
+                  >{{ $t("Open Trades") }}</v-list-item
+                >
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-list-item
+                  tag="button"
+                  block
+                  elevation="0"
+                  class="btn_tbl pa-0"
+                  active-class="active_btn_tbl primary--text"
+                  @click="as_filter_update('2')"
+                  >{{ $t("Orders History") }}</v-list-item
+                >
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-list-item
+                  tag="button"
+                  block
+                  elevation="0"
+                  class="btn_tbl pa-0"
+                  active-class="active_btn_tbl primary--text"
+                  @click="as_filter_update('1')"
+                  >{{ $t("Trade History") }}</v-list-item
+                ><v-divider
+                  class="mx-4"
+                  inset
+                  vertical
+                ></v-divider></v-list-item-group
+            ></v-list> </template
         ></TableCreditSession>
       </v-col>
     </v-row>
@@ -85,8 +121,9 @@ export default {
       isLoading: true,
       base_p: this.$store.state.config.data.base_p,
       arb_ses_filter: {
-        status_id: 1,
+        status_id: "1",
       },
+      as_mode_active: 0,
     };
   },
   watch: {
@@ -133,6 +170,11 @@ export default {
       add_subscribe: "add_page_subscribe",
       del_subscribe: "del_page_subscribe",
     }),
+    as_filter_update(dt) {
+      this.arb_ses_filter = {
+        status_id: dt,
+      };
+    },
     update_subscr(curr) {
       let me = this;
       if (this.need_curr) {

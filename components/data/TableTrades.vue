@@ -20,10 +20,11 @@
     >
       <template v-slot:top>
         <v-toolbar flat class="borderNone">
-          <v-toolbar-title class="font-weight-bold">{{
+          <!-- <v-toolbar-title class="font-weight-bold">{{
             $t("recent_trades")
-          }}</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
+          }}</v-toolbar-title> -->
+          <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
+          <slot name="header"></slot>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">
             <v-text-field

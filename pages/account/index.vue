@@ -3,7 +3,13 @@
     <v-row>
       <v-col class="pt-0">
         <div
-          class="d-flex mr-6 mdc-form-field--space-between justify-content-beetween currencyNavbar"
+          class="
+            d-flex
+            mr-6
+            mdc-form-field--space-between
+            justify-content-beetween
+            currencyNavbar
+          "
         >
           <div>
             <p class="text-h6 ml-10">{{ $t("markets") }}</p>
@@ -171,7 +177,7 @@ export default {
       del_subscribe: "del_page_subscribe",
     }),
     ...mapMutations("config/default", {
-      set_gate_all: "set_gate_all"
+      set_gate_all: "set_gate_all",
     }),
     search_f() {
       let me = this;
@@ -273,39 +279,38 @@ export default {
     let int = setInterval(() => {
       let test_case = document.getElementById(`ttp-BTC`);
       if (test_case) {
-        setTimeout(() => {
-          me.currencies.forEach((currency) => {
-            let sym = currency.symbol;
-            let test = document.getElementById(`ttp-${sym}`);
-            if (test) {
-              test.addEventListener(
-                "mouseenter",
-                function (event) {
-                  me.companies = [];
-                  me.waiter[sym] = true;
-                  setTimeout(() => {
-                    if (me.waiter[sym]) {
-                      me.add_subscribe(`all:${sym}-USD@ticker_10s`);
-                    }
-                  }, 500);
-                },
-                false
-              );
+        clearInterval(int);
+        me.currencies.forEach((currency) => {
+          let sym = currency.symbol;
+          let test = document.getElementById(`ttp-${sym}`);
+          if (test) {
+            test.addEventListener(
+              "mouseenter",
+              function (event) {
+                me.companies = [];
+                me.waiter[sym] = true;
+                setTimeout(() => {
+                  if (me.waiter[sym]) {
+                    console.log("AAAAAAAAAAAAA", sym);
+                    me.add_subscribe(`all:${sym}-USD@ticker_10s`);
+                  }
+                }, 500);
+              },
+              false
+            );
 
-              test.addEventListener(
-                "mouseleave",
-                function (event) {
-                  me.waiter[sym] = false;
-                  me.del_subscribe(`all:${sym}-USD@ticker_10s`);
-                },
-                false
-              );
-            }
-          });
-          clearInterval(int);
-        }, 400);
+            test.addEventListener(
+              "mouseleave",
+              function (event) {
+                me.waiter[sym] = false;
+                me.del_subscribe(`all:${sym}-USD@ticker_10s`);
+              },
+              false
+            );
+          }
+        });
       }
-    }, 100);
+    }, 200);
   },
   destroyed() {
     window.removeEventListener("resize", this.onResize);

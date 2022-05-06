@@ -134,6 +134,41 @@
           :prices="prices"
           :filter="trade_filter"
           ref="trades"
+          ><template v-slot:header
+            ><v-list max-width="600" min-width="480" class="pa-0 borderNone">
+              <v-list-item-group v-model="trade_mode_active" class="d-flex"
+                ><v-list-item
+                  tag="button"
+                  block
+                  elevation="0"
+                  class="btn_tbl pa-0"
+                  active-class="active_btn_tbl primary--text"
+                  @click="trade_filter_update('1')"
+                  >{{ $t("Open Trades") }}</v-list-item
+                >
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-list-item
+                  tag="button"
+                  block
+                  elevation="0"
+                  class="btn_tbl pa-0"
+                  active-class="active_btn_tbl primary--text"
+                  @click="trade_filter_update('3')"
+                  >{{ $t("Orders History") }}</v-list-item
+                >
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-list-item
+                  tag="button"
+                  block
+                  elevation="0"
+                  class="btn_tbl pa-0"
+                  active-class="active_btn_tbl primary--text"
+                  @click="trade_filter_update('1')"
+                  >{{ $t("Trade History") }}</v-list-item
+                ></v-list-item-group
+              ></v-list
+            >
+            <v-divider class="mx-4" inset vertical></v-divider></template
         ></TableTrades>
         <TableASession
           v-if="as_filter && page_state == 1"
@@ -141,6 +176,41 @@
           :filter="as_filter"
           title="table_position"
           ref="a_session"
+          ><template v-slot:header
+            ><v-list max-width="600" min-width="480" class="pa-0 borderNone">
+              <v-list-item-group v-model="as_mode_active" class="d-flex"
+                ><v-list-item
+                  tag="button"
+                  block
+                  elevation="0"
+                  class="btn_tbl pa-0"
+                  active-class="active_btn_tbl primary--text"
+                  @click="as_filter_update('1')"
+                  >{{ $t("Open Trades") }}</v-list-item
+                >
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-list-item
+                  tag="button"
+                  block
+                  elevation="0"
+                  class="btn_tbl pa-0"
+                  active-class="active_btn_tbl primary--text"
+                  @click="as_filter_update('2')"
+                  >{{ $t("Orders History") }}</v-list-item
+                >
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-list-item
+                  tag="button"
+                  block
+                  elevation="0"
+                  class="btn_tbl pa-0"
+                  active-class="active_btn_tbl primary--text"
+                  @click="as_filter_update('1')"
+                  >{{ $t("Trade History") }}</v-list-item
+                ><v-divider class="mx-4" inset vertical></v-divider></v-list-item-group
+              ></v-list
+            >
+            </template
         ></TableASession>
       </v-col>
     </v-row>
@@ -197,6 +267,8 @@ export default {
       curr_subscr: "",
       trade_filter: null,
       interv: null,
+      trade_mode_active: 0,
+      as_mode_active: 0,
     };
   },
   computed: {
@@ -209,6 +281,9 @@ export default {
     }),
     ...mapGetters("data/trade", {
       trades: "list",
+    }),
+    ...mapGetters("data/arbitrage_session", {
+      as_list: "list",
     }),
     ...mapGetters("config/ws", {
       prices_current: "page_data",
@@ -260,8 +335,7 @@ export default {
     curr_id() {
       if (this.curr_id) {
         this.trade_filter = {
-          trade_status_id: "3",
-          dest_currency_id: this.curr_id,
+          trade_status_id: "1",
         };
         this.current = this.curr_by_id(this.curr_id) || {};
         this.curr_code = this.current.symbol;
@@ -269,7 +343,8 @@ export default {
     },
     curr_code() {
       this.as_filter = {
-        "wallet[currency_id]": this.curr_id,
+        // "wallet[currency_id]": this.curr_id,
+        status_id: "1",
       };
       (this.price = null), (this.change = null);
       this.low = null;
@@ -316,8 +391,11 @@ export default {
               me.price_update(data[0]);
             }
           } else if (me.page_state == 1) {
-            me.arb_data = data;
-            me.prices = data;
+            if (el == `${me.base_p}:all@ticker_10s`) {
+              me.prices = data;
+            } else {
+              me.arb_data = data;
+            }
           }
         }
       });
@@ -360,6 +438,16 @@ export default {
     },
     platform_changed(platform) {
       this.selected_platform = platform;
+    },
+    trade_filter_update(dt) {
+      this.trade_filter = {
+        trade_status_id: dt,
+      };
+    },
+    as_filter_update(dt) {
+      this.as_filter = {
+        status_id: dt,
+      };
     },
     trades_subscribe_definer(bool) {
       let me = this;
@@ -456,7 +544,7 @@ export default {
     arbitrage_sockets() {
       let me = this;
       this.unsubscribe();
-      me.arr_subscr = [`all:${me.curr_code}-USD@ticker_5s`];
+      me.arr_subscr = [`all:${me.curr_code}-USD@ticker_5s`, `${me.base_p}:all@ticker_10s`];
       this.subscribe(Object.assign([], me.arr_subscr));
     },
   },
@@ -481,6 +569,35 @@ export default {
 };
 </script>
 <style>
+.btn_tbl {
+  padding: 10px 10px 10px 0px;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  width: 100px;
+  border-top: 3px solid transparent;
+  background: transparent !important;
+}
+.active_btn_tbl {
+  position: relative;
+  padding: 10px 10px 10px 0px;
+  justify-content: center;
+  margin-top: 0px;
+  font-weight: 700;
+  font-size: 16px;
+  border-top: 3px solid transparent;
+  background: transparent !important;
+}
+.active_btn_tbl::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  min-height: 6px !important;
+  top: -8px;
+  left: 0;
+  background: #007bff !important;
+  border-radius: 0px 0px 4px 4px;
+}
 .menu-curr-buttons {
   border-radius: 10px;
 }
