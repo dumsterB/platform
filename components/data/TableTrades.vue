@@ -280,6 +280,7 @@ export default {
     },
   },
   async created() {
+    await this.rel();
     if (this.prices && this.prices.length > 0) {
       this.resetList(this.prices);
     }
