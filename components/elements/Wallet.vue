@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4">
     <div class="d-flex mdc-form-field--space-between">
-      <p class="text-h6 mx-4">{{ $t("my_wallet") }}</p>
+      <p class="text-h6 mr-4 font-weight-bold">{{ $t("my_wallet") }}</p>
       <a class="mx-4" @click="$router.push('/wallet')">{{ $t("show_all") }}</a>
     </div>
     <v-card class="pa-3" elevation="4">
@@ -19,16 +19,14 @@
             </div>
             <strong class="text-h4"
               >${{
-                total_sum
-                  ? new Intl.NumberFormat().format(total_sum.toFixed(4))
-                  : ""
+                total_sum ? new Intl.NumberFormat().format(total_sum) : ""
               }}</strong
             >
             <div>
               ≈
               {{
                 total_sum_btc
-                  ? new Intl.NumberFormat().format(total_sum_btc.toFixed(4))
+                  ? new Intl.NumberFormat().format(total_sum_btc)
                   : ""
               }}
               BTC
@@ -85,9 +83,7 @@
                 <v-list-item-content class="flexNone">
                   <v-list-item-title>
                     ${{
-                      other_sum
-                        ? new Intl.NumberFormat().format(other_sum.toFixed(4))
-                        : ""
+                      other_sum ? new Intl.NumberFormat().format(other_sum) : ""
                     }}</v-list-item-title
                   >
                 </v-list-item-content>

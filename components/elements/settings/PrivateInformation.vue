@@ -1,6 +1,8 @@
 <template>
   <div class="privateInformation">
-    <p class="text-h6 mb-4">{{ $t("personal_information") }}</p>
+    <p class="text-h6 mb-4 font-weight-bold">
+      {{ $t("personal_information") }}
+    </p>
     <v-card class="mainCard pt-6">
       <div class="text-center">
         <div class="selecImage">
@@ -25,7 +27,7 @@
             />
           </div>
         </div>
-        <p>{{ $t("choose_photo") }}</p>
+        <p class="success--text">{{ $t("choose_photo") }}</p>
       </div>
       <div class="form">
         <v-container>

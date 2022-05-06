@@ -1,27 +1,35 @@
 <template>
-  <v-row>
-    <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
-      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[0].title }}</p>
+  <v-row class="pa-0">
+    <v-col :cols="3" style="text-align: center" class="pa-0">
+      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">
+        {{ indicators[0].title }}
+      </p>
       <p class="ma-0 pa-0 font-weight-bold" :class="diffColor(change)">
-        {{ price }}
+        {{ price ? new Intl.NumberFormat().format(price) : "0" }}
       </p>
     </v-col>
-    <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
-      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[1].title }}</p>
+    <v-col :cols="3" style="text-align: center" class="pa-0">
+      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">
+        {{ indicators[1].title }}
+      </p>
       <p class="ma-0 pa-0 font-weight-bold" :class="diffColor(change)">
-        {{ change ? change.toFixed(4) : "" }}
+        {{ change ? new Intl.NumberFormat().format(change) : "0" }}
       </p>
     </v-col>
-    <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
-      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[2].title }}</p>
+    <v-col :cols="3" style="text-align: center" class="pa-0">
+      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">
+        {{ indicators[2].title }}
+      </p>
       <p class="ma-0 pa-0 font-weight-bold" :class="diffColor(change)">
-        {{ high }}
+        {{ high ? new Intl.NumberFormat().format(high) : "0" }}
       </p>
     </v-col>
-    <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
-      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[3].title }}</p>
-      <p class="ma-0 pa-0  font-weight-bold" :class="diffColor(change)">
-        {{ low }}
+    <v-col :cols="3" style="text-align: center" class="pa-0">
+      <p class="ma-0 pa-0 gray--text" style="font-size: 12px">
+        {{ indicators[3].title }}
+      </p>
+      <p class="ma-0 pa-0 font-weight-bold" :class="diffColor(change)">
+        {{ low ? new Intl.NumberFormat().format(low) : "0" }}
       </p>
     </v-col>
   </v-row>

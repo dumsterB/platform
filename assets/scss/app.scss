@@ -317,7 +317,10 @@ html[theme="light"] .light-card {
 }
 
 .v-sheet.v-card:not(.v-sheet--outlined),
-.v-application .elevation-1 {
+.v-application .elevation-1,
+.v-btn--is-elevated,
+.v-btn,
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)>.v-input__control>.v-input__slot {
     box-shadow: none !important;
 }
 
@@ -335,4 +338,16 @@ html[theme="light"] .light-card {
 
 .borderNone {
     border: none !important;
+}
+
+.theme--dark.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+    background: #161f49 !important;
+    opacity: 0.5 !important;
+    color: inherit !important;
+    transition: 223ms linear;
+}
+
+.theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+    opacity: 0.8 !important;
+    transition: 223ms linear;
 }

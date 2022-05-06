@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="text-h6 mb-4">
+    <p class="text-h6 mb-4 font-weight-bold">
       {{ $t("settings_notification") }}
     </p>
     <v-card style="width: 100%" class="pa-4">

@@ -146,30 +146,30 @@
       <v-row class="to_small_text">
         <v-col :cols="6" class="pb-0">
           <span class="gray--text">{{ "USD" }}</span>
-          <span class="ml-4 gray--text">{{ $t("Available") }}</span>
+          <span class="ml-0 gray--text">{{ $t("Available") }}</span>
         </v-col>
         <v-col :cols="6" class="pb-0 text-right">
-          <span class=""
+          <span class="ma-0 pa-0"
             >{{
               usd_bal ? new Intl.NumberFormat().format(usd_bal.toFixed(4)) : ""
             }}
-            <span class="gray--text">{{ "USD" }}</span></span
+            <span class="gray--text ma-0 pa-0">{{ "USD" }}</span></span
           >
         </v-col>
       </v-row>
       <v-row class="mb-2 to_small_text">
         <v-col :cols="6">
           <span class="gray--text">{{ currency }}</span>
-          <span class="ml-4 gray--text">{{ $t("Available") }}</span>
+          <span class="ml-0 gray--text">{{ $t("Available") }}</span>
         </v-col>
         <v-col :cols="6" class="text-right">
-          <span class=""
+          <span class="ma-0 pa-0"
             >{{
               curr_bal
                 ? new Intl.NumberFormat().format(curr_bal.toFixed(4))
                 : ""
             }}
-            <span class="gray--text">{{ currency }}</span></span
+            <span class="gray--text ma-0 pa-0">{{ currency }}</span></span
           >
         </v-col>
       </v-row>

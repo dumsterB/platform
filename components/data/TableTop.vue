@@ -24,7 +24,9 @@
             style="cursor: pointer"
           >
             <strong>{{ item.name }}</strong>
-            <span class="ml-2" style="color: #bfb5ff"> {{ item.symbol }}</span>
+            <span class="ml-2 success--text font-weight-bold">
+              {{ item.symbol }}</span
+            >
           </div>
         </div>
       </template>
@@ -147,7 +149,7 @@ export default {
       } else {
         return "primary--text";
       }
-    }
+    },
   },
   computed: {
     ...mapGetters("data/currency", {

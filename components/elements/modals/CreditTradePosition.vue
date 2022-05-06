@@ -37,8 +37,10 @@
       >
       </v-img>
     </v-card-title>
-    <v-card-text class="pb-0 mb-0">
-      <v-container class="d-flex justify-lg-space-between font-weight-medium">
+    <v-card-text class="pa-0 mb-0">
+      <v-container
+        class="d-flex justify-lg-space-between font-weight-medium pt-0"
+      >
         <span :style="customStyle" class="card_text">{{
           $t("marketplace_price")
         }}</span>
@@ -46,14 +48,14 @@
           >{{ new Intl.NumberFormat().format(price) }} USD</span
         >
       </v-container>
-      <v-container class="d-flex justify-lg-space-between">
+      <v-container class="d-flex justify-lg-space-between pt-0">
         <span :style="customStyle" class="card_text">{{
           `${$t("available_balance")}`
         }}</span>
         <span :style="customStyle" class="card_text">{{ balance }}</span>
       </v-container>
       <v-container>
-        <v-row class="pl-3 mb-0 mt-0 justify-space-between">
+        <v-row class="px-3 mb-0 mt-0 justify-space-between">
           <v-btn
             small
             class="mr-0 mb-2 pl-1 pr-1 mainBorderRadius"
@@ -73,7 +75,7 @@
           ></v-slider>
         </v-row>
       </v-container>
-      <v-container>
+      <v-container class="pt-0">
         <v-text-field
           :label="action == 'Buy' ? $t('choose_amount') : $t('total')"
           v-model="amount_usd"
@@ -85,7 +87,7 @@
           type="number"
         ></v-text-field>
       </v-container>
-      <v-container class="pb-0 mb-0">
+      <v-container class="pb-0 pt-0 mb-0">
         <v-text-field
           :label="action == 'Buy' ? $t('total') : $t('choose_amount')"
           v-model="amount"
@@ -102,13 +104,13 @@
         ></v-text-field>
       </v-container>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions class="px-3 pb-3 pt-0">
       <v-btn
         large
         :loading="loading"
         :disabled="!amount"
         block
-        class="mainBorderRadius ma-0 mb-8"
+        class="mainBorderRadius ma-0"
         @click="save"
         :style="customStyle"
         :class="action !== 'Sell' ? 'green_btn' : 'red_btn'"

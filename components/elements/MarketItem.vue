@@ -7,7 +7,7 @@
     >
       <div style="cursor: pointer" @click="handlerOpenMarketPage">
         <div class="d-flex justify-space-between">
-          <v-card-title class="text-uppercase ml-4 pb-0">{{
+          <v-card-title class="text-uppercase ml-4 pb-0 font-weight-bold">{{
             `${item.name}`
           }}</v-card-title>
           <v-btn fab icon class="ma-5 pa-1 mb-1">

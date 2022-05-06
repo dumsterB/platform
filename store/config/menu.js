@@ -16,9 +16,9 @@ export const state = () => ({
     },
     {
       icon: "mdi-wallet-travel",
-      title: "user_commodities",
-      key: "commodities",
-      to: "/commodities",
+      title: "trading",
+      key: "trading",
+      to: "/trading",
       badge_color: "primary",
     },
     {

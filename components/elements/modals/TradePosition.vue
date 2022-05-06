@@ -38,7 +38,9 @@
       </v-img>
     </v-card-title>
     <v-card-text class="pb-0 mb-0">
-      <v-container class="d-flex justify-lg-space-between font-weight-medium">
+      <v-container
+        class="d-flex justify-lg-space-between font-weight-medium pt-0"
+      >
         <span :style="customStyle" class="card_text">{{
           $t("marketplace_price")
         }}</span>
@@ -46,13 +48,13 @@
           >{{ new Intl.NumberFormat().format(price) }} USD</span
         >
       </v-container>
-      <v-container class="d-flex justify-lg-space-between">
+      <v-container class="d-flex justify-lg-space-between pt-0">
         <span :style="customStyle" class="card_text">{{
           `${$t("available_balance")}`
         }}</span>
         <span :style="customStyle" class="card_text">{{ balance }}</span>
       </v-container>
-      <v-container>
+      <v-container class="pt-0">
         <v-text-field
           :label="action == 'Buy' ? $t('choose_amount') : $t('total')"
           v-model="amount_usd"
@@ -64,7 +66,7 @@
           type="number"
         ></v-text-field>
       </v-container>
-      <v-container>
+      <v-container class="pb-0 pt-0 mb-0">
         <v-text-field
           :label="action == 'Buy' ? $t('total') : $t('choose_amount')"
           v-model="amount"
@@ -77,7 +79,7 @@
         ></v-text-field>
       </v-container>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions class="px-3 pb-3 pt-0">
       <v-btn
         large
         :loading="loading"
