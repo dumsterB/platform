@@ -319,7 +319,8 @@ html[theme="light"] .light-card {
 .v-sheet.v-card:not(.v-sheet--outlined),
 .v-application .elevation-1,
 .v-btn--is-elevated,
-.v-btn {
+.v-btn,
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)>.v-input__control>.v-input__slot {
     box-shadow: none !important;
 }
 

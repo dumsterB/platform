@@ -43,9 +43,9 @@
         >
       </div>
       <div class="justify-center text-center">
-        <div class="justify-space-between d-flex">
+        <div class="justify-space-between d-flex text-left">
           <v-col class="pb-1">
-            <span class="small_text">{{ $t("Choose the crypto") }}:</span>
+            <span class="small_text pl-1">{{ $t("choose_crypto") }}:</span>
             <v-autocomplete
               v-model="buy_curr"
               :items="currency"
@@ -64,7 +64,7 @@
             </v-autocomplete>
           </v-col>
           <v-col class="pb-1">
-            <span class="small_text">{{ $t("Get") }}:</span>
+            <span class="small_text pl-1">{{ $t("Get") }}:</span>
             <span class="d-flex mr-2">
               <v-text-field
                 v-model="buy"
@@ -78,9 +78,9 @@
             </span>
           </v-col>
         </div>
-        <div class="justify-space-between d-flex">
+        <div class="justify-space-between d-flex text-left">
           <v-col class="mt-0 pt-0">
-            <span class="small_text">{{ $t("Pay") }}:</span>
+            <span class="small_text pl-1">{{ $t("Pay") }}:</span>
             <span class="d-flex mr-2">
               <v-text-field
                 v-model="pay"
