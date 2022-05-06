@@ -1,12 +1,12 @@
 <template>
   <div>
-    <v-row v-if="curr_company" class="pa-3">
+    <v-row v-if="curr_company" class="pa-1">
       <v-col
-        cols="12"
-        xl="2"
+        cols="6"
+        xl="6"
         md="4"
         lg="3"
-        sm="12"
+        sm="6"
         v-for="(coin, i) in currs"
         :key="i"
       >
@@ -14,8 +14,8 @@
           <div class="justify-space-between d-flex pa-0 mb-8">
             <div>
               <v-card-subtitle class="d-flex pa-0"
-                ><img height="30" :src="coin.logo" alt="" />
-                <p class="ml-2 mt-1 curr_name">
+                ><img height="25" :src="coin.logo" alt="" />
+                <p class="ml-1 mt-1 curr_name">
                   <strong>{{ coin.symbol }}</strong>
                 </p></v-card-subtitle
               >
@@ -24,7 +24,7 @@
             <div>
               <v-card-subtitle class="pa-0"
                 ><p class="ma-0 mt-1">
-                  <strong>{{
+                  <strong >{{
                     coin.price
                       ? "$" + new Intl.NumberFormat().format(coin.price)
                       : "no data"
