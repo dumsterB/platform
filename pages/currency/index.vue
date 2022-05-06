@@ -210,10 +210,12 @@
                   active-class="active_btn_tbl primary--text"
                   @click="as_filter_update('1')"
                   >{{ $t("Trade History") }}</v-list-item
-                ><v-divider class="mx-4" inset vertical></v-divider></v-list-item-group
-              ></v-list
-            >
-            </template
+                ><v-divider
+                  class="mx-4"
+                  inset
+                  vertical
+                ></v-divider></v-list-item-group
+            ></v-list> </template
         ></TableASession>
       </v-col>
     </v-row>
@@ -391,7 +393,9 @@ export default {
           let data = json_d.data ? json_d.data.data || [] : [];
           if (me.page_state == 0) {
             if (data.length > 0) {
-              me.price_update(data[0]);
+              data.forEach((dt) => {
+                me.price_update(dt);
+              });
             }
           } else if (me.page_state == 1) {
             if (el == `${me.base_p}:all@ticker_10s`) {
@@ -455,7 +459,7 @@ export default {
     trades_subscribe_definer(bool) {
       let me = this;
       let str = "";
-      let arr = [];
+      let arr = [`${me.base_p}:all@ticker_10s`];
       this.trades.forEach((wall, i) => {
         let p_arr = ["dest_currency", "source_currency"];
         for (let i = 0; i < 2; i++) {
@@ -465,15 +469,7 @@ export default {
           if (dt) {
             me.price_update(dt);
           }
-          if (curr.currency_type.key == "CRYPTO") {
-            let st = `${me.base_p}:${cr}-USD@ticker_10s`;
-            let fnd = arr.find((el) => el == st);
-            if (!fnd) {
-              str += `"${st}"`;
-              arr.push(st);
-              str += ",";
-            }
-          } else {
+          if (curr.currency_type.key != "CRYPTO") {
             let ex_t = curr.exchange_type.key;
             if (cr != "USD") {
               let st = `shares:${cr}.${ex_t}@kline_1d`;
@@ -547,7 +543,10 @@ export default {
     arbitrage_sockets() {
       let me = this;
       this.unsubscribe();
-      me.arr_subscr = [`all:${me.curr_code}-USD@ticker_5s`, `${me.base_p}:all@ticker_10s`];
+      me.arr_subscr = [
+        `all:${me.curr_code}-USD@ticker_5s`,
+        `${me.base_p}:all@ticker_10s`,
+      ];
       this.subscribe(Object.assign([], me.arr_subscr));
     },
   },

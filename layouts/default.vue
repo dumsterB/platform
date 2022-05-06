@@ -64,14 +64,15 @@ export default {
       if (!lang) {
         lang = this.$i18n.locale;
       }
-      if (theme == "dark") {
-        this.$vuetify.theme.dark = true;
-      }
-      localStorage.setItem("theme", theme);
+      // if (theme == "dark") {
+      //   this.$vuetify.theme.dark = true;
+      // }
+      this.$vuetify.theme.dark = true;
+      // localStorage.setItem("theme", theme);
       localStorage.setItem("language", lang);
       this.$i18n.locale = lang;
       // console.log('this.$i18n', this.$i18n)
-      htmlElement.setAttribute("theme", theme);
+      htmlElement.setAttribute("theme", "dark");
       if (this.$store.state.auth.user) {
         let models = this.$store.state.config.data.preload_models;
         for (let i = 0; i < models.length; i++) {

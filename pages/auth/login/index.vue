@@ -15,7 +15,7 @@
           <span class="top-menu">Blog</span>
           <span class="top-menu">Calculate Profit</span>
           <span class="top-menu">FAQ</span>
-          <v-switch v-model="theme" class="mr-4"></v-switch>
+          <!-- <v-switch v-model="theme" class="mr-4"></v-switch> -->
           <LangSelect style="max-width: 150px; margin-top: 10px" />
           <v-btn class="contact-us">Contact Us</v-btn>
           <v-spacer></v-spacer>
@@ -286,6 +286,7 @@ export default {
         let htmlElement = document.documentElement;
         this.$vuetify.theme.dark = true;
         htmlElement.setAttribute("theme", "dark");
+        // localStorage.setItem("theme", "dark");
       } else {
         let htmlElement = document.documentElement;
         this.$vuetify.theme.dark = false;
@@ -448,6 +449,7 @@ export default {
     let htmlElement = document.documentElement;
     this.$vuetify.theme.dark = true;
     htmlElement.setAttribute("theme", "dark");
+    // localStorage.setItem("theme", "dark");
   },
 };
 </script>

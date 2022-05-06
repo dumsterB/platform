@@ -111,9 +111,9 @@
         <v-list-item style="margin-top: 8px"
           ><language-select style="width: 50px"></language-select
         ></v-list-item>
-        <v-list-item style="margin-top: 8px"
-          ><theme-select style="width: 50px"></theme-select
-        ></v-list-item>
+        <!-- <v-list-item style="margin-top: 8px">
+          <theme-select style="width: 50px"></theme-select>
+        </v-list-item> -->
       </v-list>
     </v-menu>
     <v-menu

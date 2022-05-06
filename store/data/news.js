@@ -12,7 +12,7 @@ export const getters = {
 
 export const actions = {
     async fetchNews(context) {
-        let response = await fetch("https://newsdata.io/api/1/news?apikey=pub_51822fc8b623a4b941303e2c5ba0e6d6d3d8&country=gb,us&language=en&category=top");
+        let response = await fetch("https://newsdata.io/api/1/news?apikey=pub_51822fc8b623a4b941303e2c5ba0e6d6d3d8&country=gb,us&language=en&q=cryptocurrency&category=top");
         let data = await response.json();
         console.log('NEWS', data);
         if (data && data.results) {

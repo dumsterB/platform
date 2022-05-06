@@ -6,12 +6,7 @@
       :items-per-page="page_size_current"
       :search="search_text"
       :loading="loading"
-      @update:sort-by="custom_sort"
-      @update:sort-desc="custom_sort"
       class="elevation-1 ma-8 ml-4"
-      :server-items-length="totalLength"
-      @pagination="paging"
-      :page.sync="page"
       :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
@@ -224,8 +219,8 @@ export default {
       if (!this.config || !this.config.params) {
         this.config = { params: {} };
       }
-      this.config.params.page = val ? val.page : 1;
-      this.config.params.per_page = this.page_size_current;
+      // this.config.params.page = val ? val.page : 1;
+      // this.config.params.per_page = this.page_size_current;
       this.config.params.sort = "created_at";
       this.config.params.dir = "desc";
       this.loading = true;
