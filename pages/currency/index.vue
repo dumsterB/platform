@@ -503,17 +503,19 @@ export default {
       }
       if (add_data.base == me.curr_code) {
         if (me.current.currency_type.key != "CRYPTO" && data.close) {
+          let datka = data;
+          console.log("datka", datka);
           if (me.ex_type == "FOREX") {
-            me.price = data.close;
-            let open = data.open;
+            me.price = Math.round(10000000 / datka.close) / 10000000;
+            let open = Math.round(10000000 / datka.open) / 10000000;
             me.change = me.price - open;
-            me.low = data.low;
-            me.high = data.high;
+            me.low = Math.round(10000000 / datka.low) / 10000000;
+            me.high = Math.round(10000000 / datka.high) / 10000000;
           } else {
-            me.price = data.close;
-            me.change = data.close - data.open;
-            me.low = Math.round(100000 * data.low) / 100000;
-            me.high = Math.round(100000 * data.high) / 100000;
+            me.price = datka.close;
+            me.change = datka.close - datka.open;
+            me.low = Math.round(100000 * datka.low) / 100000;
+            me.high = Math.round(100000 * datka.high) / 100000;
           }
         } else {
           me.price = data.price;
@@ -528,15 +530,15 @@ export default {
       let obj = me.trades_subscribe_definer();
       this.unsubscribe();
       me.arr_subscr = obj.arr;
-      let dt = me.get_val(me.curr_code);
-      if (dt) {
-        me.price_update(dt);
-      }
       if (this.curr_crypto) {
         me.arr_subscr.push(`${me.base_p}:${me.curr_code}-USD@ticker_5s`);
       } else {
         me.ex_type = me.current.exchange_type.key;
         me.arr_subscr.push(`shares:${me.curr_code}.${me.ex_type}@kline_1d`);
+      }
+      let dt = me.get_val(me.curr_code);
+      if (dt) {
+        me.price_update(dt);
       }
       this.subscribe(Object.assign([], me.arr_subscr));
       // console.log("me.str_subscr", me.str_subscr);
