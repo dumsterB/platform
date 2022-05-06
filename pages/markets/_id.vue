@@ -67,9 +67,9 @@ export default {
           let fnd = data.find((e) => e && e.base == el.symbol);
           if (fnd && fnd.price) {
             res.price = fnd.price;
-            res.change = fnd.change;
+            res.change = fnd.change_24h;
             res.change_p = (
-              (parseFloat(fnd.change) * 100) /
+              (parseFloat(fnd.change_24h) * 100) /
               parseFloat(fnd.price)
             ).toFixed(4);
             currencies.push(res);

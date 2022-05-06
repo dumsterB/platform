@@ -29,7 +29,7 @@
         </div>
       </template>
       <template v-slot:[`item.percent`]="{ item }">
-        <div class="" v-if="item.change && item.price">
+        <div class="" v-if="item.price">
           <span style="font-size: 14px"
             >${{ new Intl.NumberFormat().format(item.price) }}</span
           >
@@ -80,22 +80,19 @@
         </div>
       </template>
       <template v-slot:[`item.volume`]="{ item }">
-        <div class="ml-4" v-if="item.change && item.price">
+        <div class="ml-4" v-if="item.volume">
           <span style="font-size: 14px"
-            >${{ new Intl.NumberFormat().format(item.price) }}</span
+            >${{ new Intl.NumberFormat().format(item.volume) }}</span
           >
           <span
             style="font-size: 10px"
-            :class="diffColor(item.change)"
+            :class="diffColor(item.volume_change)"
             class="d-flex"
           >
-            <v-icon :class="diffColor(item.change)" size="small">{{
-              item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
+            <v-icon :class="diffColor(item.volume_change)" size="small">{{
+              item.volume_change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            <!-- {{ item.change }} -->
-            <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
-              >(%{{ item.percent }})</span
-            >
+            {{ item.volume_change }}
           </span>
         </div>
         <div v-else class="ml-4">
@@ -103,21 +100,21 @@
         </div>
       </template>
       <template v-slot:[`item.cap`]="{ item }">
-        <div class="" v-if="item.change && item.price">
+        <div class="" v-if="item.market_cap">
           <span style="font-size: 14px"
-            >${{ new Intl.NumberFormat().format(item.price) }}</span
+            >${{ new Intl.NumberFormat().format(item.market_cap) }}</span
           >
           <span
             style="font-size: 10px"
-            :class="diffColor(item.change)"
+            :class="diffColor(item.market_cap_change)"
             class="d-flex"
           >
-            <v-icon :class="diffColor(item.change)" size="small">{{
-              item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
+            <v-icon :class="diffColor(item.market_cap_change)" size="small">{{
+              item.market_cap_change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ new Intl.NumberFormat().format(item.change) }}
+            {{ new Intl.NumberFormat().format(item.market_cap_change) }}
             <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
-              >(%{{ item.percent }})</span
+              >(%{{ item.market_cap_change }})</span
             >
           </span>
         </div>
@@ -167,11 +164,15 @@ export default {
         let determine = this.price.find((ell) => ell.base == el.symbol);
         if (determine) {
           let percent = (
-            (parseFloat(determine.change) * 100) /
+            (parseFloat(determine.change_24h) * 100) /
             parseFloat(determine.price)
           ).toFixed(2);
           el.price = determine.price;
-          el.change = determine.change;
+          el.change = determine.change_24h;
+          el.volume_change = el.volume ? determine.volume_24h - el.volume : 0;
+          el.volume = determine.volume_24h;
+          el.market_cap_change = el.market_cap ? determine.market_cap - el.market_cap : 0;
+          el.market_cap = determine.market_cap;
           el.percent = percent;
         }
         return el;
