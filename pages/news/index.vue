@@ -2,12 +2,14 @@
   <div>
     <v-row>
       <v-col>
-        <v-row class="ml-4 mr-4">
+        <v-row class="ml-2 mr-2">
           <v-col
             class="d-flex justify-center mt-4"
             :xl="3"
             :lg="4"
             :md="6"
+            :sm="6"
+            :cols="12"
             v-for="article in news"
             :key="article.articleId"
           >
