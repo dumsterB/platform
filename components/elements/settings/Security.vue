@@ -6,7 +6,7 @@
         <div class="list-item d-flex">
           <div>
             <h4 class="">{{ $t("security_keys") }}</h4>
-            <span class="text-gray--text">{{ $t("protect_key") }}</span>
+            <span style="font-size: 12px" class="text-gray--text">{{ $t("protect_key") }}</span>
           </div>
           <v-spacer></v-spacer>
           <div style="align-items: center; display: flex">
@@ -23,19 +23,20 @@
         <div class="list-item d-flex">
           <div>
             <h4>{{ $t("phone_num_verify") }}</h4>
-            <span class="text-gray--text">{{ $t("protect_account") }}</span>
+            <span style="font-size: 12px" class=" text-gray--text">{{ $t("protect_account") }}</span>
           </div>
           <v-spacer></v-spacer>
-          <v-checkbox
+<!--          <v-checkbox
             class="mr-2"
             style="align-items: center; display: flex"
             disabled
             v-model="VerificationNumberCheckbox"
             :label="$t('unset')"
-          ></v-checkbox>
+          ></v-checkbox>-->
           <div style="align-items: center; display: flex">
             <v-btn
               elevation="0"
+              small
               :style="customStyle"
               class="outlined-btn primary--text"
               >{{ $t("change") }}</v-btn
@@ -47,32 +48,35 @@
           ></phone>
         </div>
         <v-divider class="mt-2 mb-2"></v-divider>
-        <div class="list-item d-flex">
-          <div>
+        <div class="d-flex">
+          <div style="width: 100%">
             <h4>{{ $t("email_verify") }}</h4>
             <br />
-            <span class="text-gray--text">{{ $t("protect_email") }}</span>
+            <span style="font-size: 12px" class="text-gray--text">{{ $t("protect_email") }}</span>
           </div>
           <v-spacer></v-spacer>
-          <v-checkbox
+<!--          <v-checkbox
             class="mr-2"
             disabled
             style="align-items: center; display: flex"
             v-model="VerificationNumberCheckbox"
             :label="$t('unset')"
-          ></v-checkbox>
+          ></v-checkbox>-->
           <div style="align-items: center; display: flex">
             <v-btn
               elevation="0"
               :style="customStyle"
+              small
               class="outlined-btn primary--text"
+
               >{{ $t("deleteText") }}</v-btn
             >
+            <email
+                style="align-items: center; display: flex"
+                class="ml-2"
+            ></email>
           </div>
-          <email
-            style="align-items: center; display: flex"
-            class="ml-2"
-          ></email>
+
         </div>
         <br />
         <v-divider class="mt-2 mb-2"></v-divider>
@@ -82,7 +86,7 @@
           <div>
             <h4>{{ $t("login_verify") }}</h4>
             <br />
-            <span class="text-gray--text">{{ $t("protect_login") }}</span>
+            <span style="font-size: 12px" class="text-gray--text">{{ $t("protect_login") }}</span>
           </div>
           <v-spacer></v-spacer>
           <v-checkbox
@@ -102,7 +106,7 @@
           <div>
             <h4>{{ $t("device_management") }}</h4>
             <br />
-            <span class="text-gray--text">{{ $t("protect_devices") }}</span>
+            <span style="font-size: 12px" class="text-gray--text">{{ $t("protect_devices") }}</span>
           </div>
           <v-spacer></v-spacer>
           <v-checkbox
@@ -126,7 +130,7 @@
           <div>
             <h4>{{ $t("Account Activity") }}</h4>
             <br />
-            <span class="text-gray--text"
+            <span style="font-size: 12px" class="text-gray--text"
               >{{ $t("last_logined") }} : 22.22.22</span
             >
           </div>
@@ -149,7 +153,7 @@
         </div>
         <div class="mt-15 d-flex">
           <p>{{ $t("suspicious_activity") }}</p>
-          <span class="primary--text ml-2">{{ $t("disable_account") }}</span>
+          <span  style="font-size: 12px" class="primary--text ml-2">{{ $t("disable_account") }}</span>
         </div>
       </v-card>
     </div>
