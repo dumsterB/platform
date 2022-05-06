@@ -1,7 +1,7 @@
 <template>
   <div class="pt-2 buy-sell-comp">
-    <div class="mx-4 d-flex mdc-form-field--space-between">
-      <p class="text-h6">{{ $t("exchange") }}</p>
+    <div class="mr-4 d-flex mdc-form-field--space-between">
+      <p class="text-h6 font-weight-bold">{{ $t("exchange") }}</p>
     </div>
 
     <v-card class="pa-3" elevation="4">
@@ -109,7 +109,6 @@
         <v-btn
           block
           large
-          
           class="success-btn mb-3 mainBorderRadius"
           :style="customStyle"
           elevation="0"

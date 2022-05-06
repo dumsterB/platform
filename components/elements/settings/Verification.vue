@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="privateInformation">
-      <p class="text-h6">{{ $t("verification") }}</p>
+      <p class="text-h6 font-weight-bold">{{ $t("verification") }}</p>
       <v-card class="mainCard pa-5">
         <v-container>
           <v-row>

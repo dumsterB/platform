@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="settingsTab" v-if="currentContent === 0">
-      <p class="text-h6 ml-4">{{ $t("settings_page") }}</p>
+      <p class="text-h6 ml-4 font-weight-bold">{{ $t("settings_page") }}</p>
       <div class="content ma-4">
         <div
           @click="tabHandler(item)"

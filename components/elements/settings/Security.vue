@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="privateInformation" v-if="currentContent === 0">
-      <p class="text-h6">{{ $t("security") }}</p>
+      <p class="text-h6 font-weight-bold">{{ $t("security") }}</p>
       <v-card class="mainCard pa-5">
         <div class="list-item d-flex">
           <div>

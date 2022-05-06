@@ -6,7 +6,7 @@
           class="d-flex mr-6 mdc-form-field--space-between justify-content-beetween currencyNavbar"
         >
           <div>
-            <p class="text-h6 ml-10">{{ $t("markets") }}</p>
+            <p class="text-h6 ml-10 font-weight-bold">{{ $t("markets") }}</p>
           </div>
           <div class="d-flex mb-4">
             <p elevation="0" class="mr-4 mt-2">
@@ -38,7 +38,7 @@
     <v-row>
       <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
         <div class="mt-4">
-          <p class="text-h6 ml-10">{{ $t("Top") }}</p>
+          <p class="text-h6 ml-10 font-weight-bold">{{ $t("Top") }}</p>
           <TableTop :price="prices"></TableTop>
         </div>
       </v-col>
@@ -171,7 +171,7 @@ export default {
       del_subscribe: "del_page_subscribe",
     }),
     ...mapMutations("config/default", {
-      set_gate_all: "set_gate_all"
+      set_gate_all: "set_gate_all",
     }),
     search_f() {
       let me = this;

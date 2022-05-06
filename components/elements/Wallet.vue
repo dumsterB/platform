@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4">
     <div class="d-flex mdc-form-field--space-between">
-      <p class="text-h6 mx-4">{{ $t("my_wallet") }}</p>
+      <p class="text-h6 mr-4 font-weight-bold">{{ $t("my_wallet") }}</p>
       <a class="mx-4" @click="$router.push('/wallet')">{{ $t("show_all") }}</a>
     </div>
     <v-card class="pa-3" elevation="4">
