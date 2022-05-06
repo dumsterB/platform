@@ -59,7 +59,7 @@
           outlined
           dense
           :readonly="action == 'Sell'"
-          :suffix="action == 'Buy' ? `${price * amount_usd} USD` : 'USD'"
+          :suffix="'USD'"
           hide-details
           type="number"
         ></v-text-field>
@@ -71,11 +71,7 @@
           outlined
           dense
           :readonly="action == 'Buy'"
-          :suffix="
-            action == 'Sell'
-              ? `${price * amount} ${tradeItem.symbol}`
-              : tradeItem.symbol
-          "
+          :suffix="tradeItem.symbol"
           :error-messages="err_m"
           type="number"
         ></v-text-field>

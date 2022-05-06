@@ -427,17 +427,14 @@ export default {
           } else {
             me.price = data.close;
             me.change = data.close - data.open;
-            me.low = data.low;
-            me.high = data.high;
+            me.low = Math.round(100000 * data.low) / 100000;
+            me.high = Math.round(100000 * data.high) / 100000;
           }
         } else {
-          if (data.low) {
-            me.low = Math.round(1000 * data.low) / 1000;
-            me.high = Math.round(1000 * data.high) / 1000;
-          } else {
-            me.price = data.price;
-            me.change = data.change;
-          }
+          me.price = data.price;
+          me.change = data.change_24h;
+          me.low = data.low_24h;
+          me.high = data.high_24h;
         }
       }
     },
@@ -452,7 +449,6 @@ export default {
       }
       if (this.curr_crypto) {
         me.arr_subscr.push(`${me.base_p}:${me.curr_code}-USD@ticker_5s`);
-        me.arr_subscr.push(`${me.base_p}:${me.curr_code}-USD@kline_1d`);
       } else {
         me.ex_type = me.current.exchange_type.key;
         me.arr_subscr.push(`shares:${me.curr_code}.${me.ex_type}@kline_1d`);
