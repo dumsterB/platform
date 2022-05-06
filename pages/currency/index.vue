@@ -85,7 +85,7 @@
                   >{{ $t("user_arbitrage") }}</v-btn
                 >
               </v-col>
-              <v-col class="pl-0 pr-0">
+              <v-col class="pl-0 pr-0" v-if="curr_crypto">
                 <v-btn
                   large
                   block
