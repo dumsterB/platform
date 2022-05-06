@@ -1,6 +1,7 @@
 <template>
   <v-row>
     <v-col>
+      <h2 class="ml-5">{{$t('market')}}</h2>
       <v-row class="ml-4 mr-4">
         <v-col
           class="d-flex justify-center mt-4"
@@ -10,6 +11,7 @@
           v-for="(company, i) in companies"
           :key="i"
         >
+
           <MarketItem
             :item="company"
             :prices="prices[company.name]"
