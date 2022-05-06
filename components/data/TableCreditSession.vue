@@ -165,6 +165,10 @@ export default {
     headers() {
       return [
         {
+          text: this.$t("id"),
+          value: "identifier",
+        },
+        {
           text: this.$t("name_table"),
           value: "arbitrage_company.logo",
           sortable: false,
@@ -178,6 +182,7 @@ export default {
           text: this.$t("table_time"),
           value: "created_at",
         },
+        
         {
           text: this.$t("self_amount"),
           value: "self_amount",

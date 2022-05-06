@@ -123,6 +123,10 @@ export default {
     headers() {
       return [
         {
+          text: this.$t("id"),
+          value: "identifier",
+        },
+        {
           text: this.$t("Purchased"),
           value: "dest_amount",
         },
@@ -134,6 +138,7 @@ export default {
           text: this.$t("table_time"),
           value: "created_at",
         },
+        
         {
           text: this.$t("table_current_price"),
           value: "current_cost",
