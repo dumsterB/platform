@@ -122,7 +122,7 @@ export default {
   my_wallet: "Mein Wallet",
   user_forex: "Devisen",
   user_commodities: "Waren",
-  user_arbitrage: "Arbitrage",
+  user_arbitrage: "Krypto arbitrage",
   user_trading: "Automatischer Handel",
   user_dashboard: "Startseite",
   user_investment: "Meine investition",
@@ -553,5 +553,5 @@ export default {
   cvv_rules_number: "Der CVV darf nur aus Ziffern bestehen.",
   self_amount: "Selbstbetrag",
   leverage: "Leverage",
-  no_coins_available: "Münzen sind derzeit nicht verfügbar"
+  no_coins_available: "Münzen sind derzeit nicht verfügbar",
 };

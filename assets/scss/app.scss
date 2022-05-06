@@ -317,7 +317,9 @@ html[theme="light"] .light-card {
 }
 
 .v-sheet.v-card:not(.v-sheet--outlined),
-.v-application .elevation-1 {
+.v-application .elevation-1,
+.v-btn--is-elevated,
+.v-btn {
     box-shadow: none !important;
 }
 

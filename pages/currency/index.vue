@@ -4,7 +4,7 @@
       <v-col :lg="9" :md="12" class="pt-4">
         <v-card class="ml-4">
           <v-row class="justify-start align-center">
-            <v-col :cols="4" class="pt-0 mt-0">
+            <v-col :cols="4" class="pa-0 ma-0 mb-4">
               <v-autocomplete
                 class="crypto-select ml-4 mt-4"
                 v-model="curr_id"
@@ -15,11 +15,14 @@
                 outlined
                 hide-details
                 ><template v-slot:selection="{ item }">
-                  <v-chip style="background: transparent !important">
-                    <v-row class="ml-1">
+                  <v-chip
+                    class="ma-0 pa-0"
+                    style="background: transparent !important"
+                  >
+                    <v-row class="ma-0 pa-0">
                       <img height="20" :src="item.logo" alt="" class="mr-2" />
                       <strong>{{ item.name }}</strong>
-                      <span class="ml-2" style="color: #bfb5ff">
+                      <span class="ml-2 icon_color--text font-weight-bold">
                         {{ item.symbol }}</span
                       >
                     </v-row>
@@ -30,7 +33,7 @@
                     <img height="20" :src="item.logo" alt="" />
                     <div class="d-flex ml-3">
                       <strong>{{ item.name }}</strong>
-                      <span class="ml-2" style="color: #bfb5ff">
+                      <span class="ml-2 icon_color--text font-weight-bold">
                         {{ item.symbol }}</span
                       >
                     </div>
@@ -38,7 +41,7 @@
                 ></v-autocomplete
               >
             </v-col>
-            <v-col :cols="8" class="pt-4">
+            <v-col :cols="8" class="pa-0 ma-0">
               <Indicators
                 v-if="page_state == 0"
                 :currency="curr_code"
@@ -56,7 +59,10 @@
             </v-col>
           </v-row>
         </v-card>
-        <v-row class="mt-2 ml-4 mt-4">
+        <v-row class="mt-2 ml-1 mt-4">
+          <v-col class="ma-0" v-if="page_state != 2">
+            <OrderBook :currency="curr_code" :price="price" :change="change" />
+          </v-col>
           <v-col :cols="8">
             <v-row>
               <v-col class="pl-0 pr-1">
@@ -99,9 +105,6 @@
                 ></TradeGraph>
               </v-col>
             </v-row>
-          </v-col>
-          <v-col class="ml-2" v-if="page_state != 2">
-            <OrderBook :currency="curr_code" :price="price" :change="change" />
           </v-col>
         </v-row>
       </v-col>
@@ -493,5 +496,8 @@ export default {
 }
 html[theme="light"] .menu-curr-buttons:not(.primary) {
   background: #ffffff !important;
+}
+.crypto-select fieldset {
+  border: none !important;
 }
 </style>

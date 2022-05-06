@@ -111,7 +111,7 @@ export default {
   my_wallet: "My wallet",
   user_forex: "Forex",
   user_commodities: "Commodities",
-  user_arbitrage: "Arbitrage",
+  user_arbitrage: "Crypto arbitrage",
   user_trading: "Automatic trading",
   user_dashboard: "Dashboard",
   user_investment: "My investment",

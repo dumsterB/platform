@@ -120,7 +120,7 @@ export default {
   my_wallet: "Мой кошелек",
   user_forex: "Форекс",
   user_commodities: "Товары",
-  user_arbitrage: "Арбитраж",
+  user_arbitrage: "Крипто арбитраж",
   user_trading: "Авто трейд",
   user_dashboard: "Главная",
   user_investment: "Мои инвестиции",
@@ -546,10 +546,9 @@ export default {
   card_rules_number: "Номер карты может состоять только из чисел.",
   cvv_rules_number: "CVV может состоять только из цифр.",
   self_amount: "Собственная сумма",
-  leverage:'Leverage',
+  leverage: "Leverage",
   no_coins_available: "На данный момент монеты недоступны",
-  fingertips:"Торговля на кончиках ваших пальцев",
-  remember_me:"Запомнить меня",
-  forgot_password:'Забыли пароль?'
-
+  fingertips: "Торговля на кончиках ваших пальцев",
+  remember_me: "Запомнить меня",
+  forgot_password: "Забыли пароль?",
 };
