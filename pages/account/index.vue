@@ -1,5 +1,6 @@
 <template>
   <div class="page-container">
+    <div class="account">
     <v-row>
       <v-col class="pt-0">
         <div
@@ -23,15 +24,21 @@
             ></v-text-field> -->
           </div>
         </div>
-        <v-row class="ml-3 mr-3">
-          <v-col v-for="(curr, i) in f_currs" :key="i">
+        <v-row class="ml-3 mr-3" style="width: 100%">
+          <div>
+          </div>
+          <carousel>
+            <v-col v-for="(curr, i) in f_currs"  :key="i">
             <Currency
               :currency="curr"
+               style="width: 100%"
               :companies="companies"
               :tooltip="true"
               :id="`ttp-${curr.symbol}`"
+              class="currency"
             />
-          </v-col>
+            </v-col>
+          </carousel>
         </v-row>
       </v-col>
     </v-row>
@@ -47,6 +54,62 @@
         <Wallet ref="wallet" :prices="prices"></Wallet>
       </v-col>
     </v-row>
+    </div>
+    <div class="account-mobile">
+        <div>
+          <v-col class="pt-0">
+            <div
+                class="d-flex mr-6 mdc-form-field--space-between justify-content-beetween currencyNavbar"
+            >
+              <div>
+                <p class="text-h6 ml-10">{{ $t("markets") }}</p>
+              </div>
+              <div class="d-flex mb-4">
+                <p elevation="0" class="mr-4 mt-2">
+                  <v-icon>mdi-filter</v-icon> {{ $t("filters") }}
+                </p>
+                <!-- <v-text-field
+                  :label="$t('market_search_bar_placeholder')"
+                  v-model="search"
+                  solo
+                  outlined
+                  class="searchCurrency"
+                  dense
+                  prepend-inner-icon="mdi-magnify"
+                ></v-text-field> -->
+              </div>
+            </div>
+            <v-row class="ml-3 mr-3" style="width: 100%">
+              <carousel>
+                <v-col v-for="(curr, i) in f_currs"  :key="i">
+                  <Currency
+                      :currency="curr"
+                      style="width: 100%"
+                      :companies="companies"
+                      :tooltip="true"
+                      :id="`ttp-${curr.symbol}`"
+                      class="currency"
+                  />
+                </v-col>
+              </carousel>
+            </v-row>
+            <div class="">
+              <Wallet ref="wallet" :prices="prices"></Wallet>
+            </div>
+          </v-col>
+        </div>
+        <div>
+          <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
+            <div class="mt-4">
+              <p class="text-h6 ml-5">{{ $t("Top") }}</p>
+              <TableTop :price="prices"></TableTop>
+            </div>
+          </v-col>
+          <v-col :cols="12" :md="4" :lg="4" :sm="12" :xs="12">
+            <Exchange :currency="currs" @reload="reload_wallet"></Exchange>
+          </v-col>
+        </div>
+      </div>
   </div>
 
 </template>
@@ -58,6 +121,7 @@ import Wallet from "../../components/elements/Wallet";
 import Exchange from "../../components/elements/exchange";
 import TableTop from "../../components/data/TableTop";
 const model = "data/currency";
+import carousel from 'v-owl-carousel'
 
 export default {
   components: {
@@ -65,6 +129,7 @@ export default {
     Wallet,
     Exchange,
     TableTop,
+    carousel
   },
   data() {
     let mi = parseInt(window.innerWidth / 280);
@@ -312,5 +377,17 @@ export default {
 <style>
 .currencyNavbar .v-input__control {
   width: 40% !important;
+}
+.account-mobile{
+  display: none!important;
+}
+
+@media (max-width: 1000px) {
+  .account-mobile{
+    display: block!important;
+  }
+  .account{
+    display: none!important;
+  }
 }
 </style>

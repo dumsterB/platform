@@ -90,6 +90,7 @@
                 size="35"
                 :class="hover ? 'avatar' : ''"
                 :style="customStyle"
+                class="mr-5"
               >
                 <img v-if="userAvatar" :src="userAvatar" />
                 <v-icon v-else :color="hover ? 'primary' : 'gray'" class="mr-2"
@@ -145,7 +146,7 @@
     </v-menu>
     <template v-slot:extension>
       <div class="d-block mt-10">
-        <div class=" ml-2" :dir="$dir()">
+        <div class="mobile-search ml-2" :dir="$dir()">
           <v-autocomplete
               v-model="value"
               :items="filtered"
@@ -470,6 +471,9 @@ html[theme="light"] .global-search .v-input__slot {
   margin-top: 1px!important;
 }
 .actions-mobile{
+  display: none!important;
+}
+.mobile-search{
   display: none!important;
 }
 @media(max-width: 1000px){

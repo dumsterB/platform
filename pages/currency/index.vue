@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div class="page-container" >
     <v-row>
       <v-col :lg="9" :md="12" class="pt-4">
         <v-card class="ml-4">

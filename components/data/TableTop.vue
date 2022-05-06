@@ -4,7 +4,7 @@
       :items="currencies"
       :headers="headers"
       :items-per-page="20"
-      class="ma-4 ml-8 curr-table"
+      class="ma-1 ml-2 curr-table"
       :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],

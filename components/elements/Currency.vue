@@ -124,7 +124,7 @@ import config from "~/config/config.json";
 import sparklines from "@/components/elements/currencies/Sparklines";
 export default {
   components: {
-    sparklines,
+    sparklines
   },
   props: {
     currency: {
@@ -186,7 +186,9 @@ export default {
       this.star_selection = !this.star_selection;
     },
   },
-  mounted() {},
+  mounted() {
+
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -277,5 +279,15 @@ html[theme="light"] {
 .back-success {
   color: var(--green);
   font-weight: 600;
+}
+.currecyCard{
+  width: 300px!important;
+  height: 200px!important;
+}
+@media(max-width: 1000px){
+  .currecyCard{
+    width: 200px!important;
+    height: 180px!important;
+  }
 }
 </style>
