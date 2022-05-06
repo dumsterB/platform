@@ -494,10 +494,7 @@ export default {
         price: data.close ? 1 / data.close : data.price,
         base: data.base ? data.base : data.share,
       };
-      if (!add_data.price) {
-        let dt = me.get_val(add_data.base);
-        add_data.price = dt.close ? 1 / dt.close : dt.price;
-      }
+
       let fnd = me.prices.find((el) => el && el.base == add_data.base);
       if (fnd) {
         fnd.price = add_data.price;
@@ -505,13 +502,13 @@ export default {
         me.prices.push(add_data);
       }
       if (add_data.base == me.curr_code) {
-        if (me.current.currency_type.key != "CRYPTO") {
+        if (me.current.currency_type.key != "CRYPTO" && data.close) {
           if (me.ex_type == "FOREX") {
-            me.price = Math.round(10000000 / data.close) / 10000000;
-            let open = Math.round(10000000 / data.open) / 10000000;
+            me.price = data.close;
+            let open = data.open;
             me.change = me.price - open;
-            me.low = Math.round(10000000 / data.low) / 10000000;
-            me.high = Math.round(10000000 / data.high) / 10000000;
+            me.low = data.low;
+            me.high = data.high;
           } else {
             me.price = data.close;
             me.change = data.close - data.open;
