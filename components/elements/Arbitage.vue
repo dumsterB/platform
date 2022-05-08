@@ -24,7 +24,7 @@
             <div>
               <v-card-subtitle class="pa-0"
                 ><p class="ma-0 mt-1">
-                  <strong >{{
+                  <strong>{{
                     coin.price
                       ? "$" + new Intl.NumberFormat().format(coin.price)
                       : "no data"
@@ -173,7 +173,7 @@ export default {
       if (v) {
         this.isLoading = true;
       }
-    }
+    },
   },
   methods: {
     ...mapActions(wallet, {
