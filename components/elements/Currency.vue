@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+
+    </div>
+
+  <div>
     <v-tooltip v-if="tooltip" bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
@@ -117,11 +122,13 @@
       </v-list-item>
     </v-card>
   </div>
+  </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import config from "~/config/config.json";
 import sparklines from "@/components/elements/currencies/Sparklines";
+
 export default {
   components: {
     sparklines
@@ -280,14 +287,5 @@ html[theme="light"] {
   color: var(--green);
   font-weight: 600;
 }
-.currecyCard{
-  width: 300px!important;
-  height: 200px!important;
-}
-@media(max-width: 1000px){
-  .currecyCard{
-    width: 200px!important;
-    height: 180px!important;
-  }
-}
+
 </style>

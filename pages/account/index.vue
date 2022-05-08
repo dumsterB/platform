@@ -25,20 +25,16 @@
           </div>
         </div>
         <v-row class="ml-3 mr-3" style="width: 100%">
-          <div>
-          </div>
-          <carousel>
             <v-col v-for="(curr, i) in f_currs"  :key="i">
-            <Currency
-              :currency="curr"
-               style="width: 100%"
-              :companies="companies"
-              :tooltip="true"
-              :id="`ttp-${curr.symbol}`"
-              class="currency"
-            />
+              <Currency
+                  :currency="curr"
+                  style="width: 100%"
+                  :companies="companies"
+                  :tooltip="true"
+                  :id="`ttp-${curr.symbol}`"
+                  class="currency"
+              />
             </v-col>
-          </carousel>
         </v-row>
       </v-col>
     </v-row>
@@ -80,7 +76,6 @@
               </div>
             </div>
             <v-row class="ml-3 mr-3" style="width: 100%">
-              <carousel>
                 <v-col v-for="(curr, i) in f_currs"  :key="i">
                   <Currency
                       :currency="curr"
@@ -91,7 +86,16 @@
                       class="currency"
                   />
                 </v-col>
-              </carousel>
+              <v-col v-for="(curr, i) in f_currs"  :key="i">
+                <Currency
+                    :currency="curr"
+                    style="width: 100%"
+                    :companies="companies"
+                    :tooltip="true"
+                    :id="`ttp-${curr.symbol}`"
+                    class="currency"
+                />
+              </v-col>
             </v-row>
             <div class="">
               <Wallet ref="wallet" :prices="prices"></Wallet>

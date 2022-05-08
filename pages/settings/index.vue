@@ -8,15 +8,16 @@
             :currentContent="currentContent"
           ></SettingsTab>
         </v-col>
-        <v-col cols="12" lg="7" md="7" class="pr-4">
+        <v-col cols="12" lg="7" md="7" class="pr-1 pl-1">
           <component
+            class=""
             :currentContent="currentContent"
             @change_content="change_content"
             :is="component"
           ></component>
         </v-col>
-        <v-col cols="12" lg="2" md="2">
-          <SwitcherNatification class="ml-2"></SwitcherNatification>
+        <v-col cols="12" lg="2" md="2" class="pl-2 pr-2">
+          <SwitcherNatification ></SwitcherNatification>
         </v-col>
       </v-row>
       <div

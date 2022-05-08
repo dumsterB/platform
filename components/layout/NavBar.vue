@@ -145,8 +145,9 @@
       <NotHistory></NotHistory>
     </v-menu>
     <template v-slot:extension>
-      <div class="d-block mt-10">
-        <div class="mobile-search ml-2" :dir="$dir()">
+      <v-row>
+        <v-col cols="12" >
+        <div class="mobile-search ml-2 mt-5" :dir="$dir()">
           <v-autocomplete
               v-model="value"
               :items="filtered"
@@ -202,14 +203,15 @@
             </template></v-autocomplete
           >
         </div>
-      <v-row class="row">
+
+
+        </v-col>
         <v-col class="ma-0 pa-0">
           <marquee id="marquee">
             {{ mar_str }}
           </marquee>
         </v-col>
       </v-row>
-      </div>
     </template>
   </v-app-bar>
   </div>

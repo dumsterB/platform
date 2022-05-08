@@ -13,12 +13,12 @@
           "
           >
             <div>
-              <p class="text-h6 ml-10">{{ $t("arbitrage_page") }}</p>
+              <p class="text-h6 ml-5">{{ $t("arbitrage_page") }}</p>
             </div>
             </div>
           </v-col>
         </v-row>
-      <Arbitage></Arbitage>
+      <Arbitage class="ml-1 mr-1"></Arbitage>
       </div>
   </div>
 </template>

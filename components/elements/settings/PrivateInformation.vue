@@ -24,7 +24,7 @@
         </div>
         <p>{{ $t("choose_photo") }}</p>
       </div>
-      <div class="form">
+      <div class="form ml-2 mr-2">
         <v-container>
           <v-row>
             <v-col cols="12" md="6" sm="6" lg="6">

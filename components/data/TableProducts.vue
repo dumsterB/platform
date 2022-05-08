@@ -12,7 +12,7 @@
       }"
       dense
       @click:row="handleClick"
-      class="elevation-1 ma-4 ml-8 mt-8"
+      class="elevation-1 mr-1 ml-1 mt-5"
     >
       <template v-slot:top>
         <v-toolbar flat dense class="pt-4 mb-10">
