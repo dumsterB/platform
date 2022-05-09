@@ -1,7 +1,7 @@
 <template>
   <v-row class="ma-4">
     <v-col class="pl-4 mainBorderRadius" md="4" lg="2">
-      <h3 style="font-weight: 400">{{ $t("general_questions") }}</h3>
+      <h3 style="font-weight: 400">{{ $t("categories") }}</h3>
       <v-list-item-group
         class="mt-4"
         dense
@@ -22,7 +22,7 @@
     </v-col>
     <v-col md="8" lg="7">
       <h2 class="gradient" :style="customStyle">
-        {{ $t("user_help") }}
+        {{ $t("help_center") }}
       </h2>
       <v-expansion-panels class="mt-4">
         <v-text-field

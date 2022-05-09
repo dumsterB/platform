@@ -31,8 +31,7 @@
           </div>
           <v-spacer></v-spacer>
           <v-checkbox
-            checked
-            class="mr-2"
+            class="mr-12"
             style="align-items: center; display: flex"
             v-model="VerificationNumberCheckbox"
             :label="cutValue(phone)"
@@ -60,8 +59,7 @@
           </div>
           <v-spacer></v-spacer>
           <v-checkbox
-            checked
-            class="mr-2"
+            class="mr-12"
             style="align-items: center; display: flex"
             v-model="VerificationEmailCheckbox"
             :label="cutValue(email)"

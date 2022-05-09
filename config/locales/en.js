@@ -117,6 +117,7 @@ export default {
   user_investment: "My investment",
   user_news: "News",
   user_help: "Help",
+  help_center: "Help center",
   user_questions: "Questions",
   user_payment_method: "Payment method",
   user_settings: "Settings",
@@ -467,6 +468,7 @@ export default {
   other_information: "Other information",
   all: "All",
   category: "Category",
+  categories: "Categories",
   new_to_late: "New to late",
   late_to_new: "Late to new",
   latest_posts: "Latest posts",
@@ -532,7 +534,7 @@ export default {
   self_amount: "Self amount",
   leverage: "Leverage",
   no_coins_available: "Coins are currently unavailable",
-  fingertips:"Trading at your fingertips",
-  remember_me:"Remember me",
-  forgot_password:'Forgot password?'
+  fingertips: "Trading at your fingertips",
+  remember_me: "Remember me",
+  forgot_password: "Forgot password?",
 };

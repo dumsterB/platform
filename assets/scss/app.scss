@@ -69,6 +69,14 @@ html .v-application--wrap {
     border-radius: 10px !important;
 }
 
+.theme--dark.v-expansion-panels .v-expansion-panel {
+    background: #1c1838 !important;
+    border-radius: 10px !important;
+    &::before {
+        box-shadow: none;
+    }
+}
+
 .v-autocomplete__content.v-menu__content,
 .v-menu__content {
     border-radius: 10px !important;
