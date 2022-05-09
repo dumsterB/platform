@@ -12,7 +12,7 @@
             :class="backgroundDiffColor(currency.change_p)"
             @click="$router.push(`/currency?id=${currency.id}`)"
           >
-            <v-list-item three-line class="pa-2 mainBorderRadius d-flex">
+            <v-list-item three-line class="pa-2 px-4 mainBorderRadius d-flex">
               <v-list-item-content class="pa-1 mainBorderRadius">
                 <div class="d-flex">
                   <v-img :src="currency.logo" :max-width="32"></v-img>
@@ -22,21 +22,21 @@
                   >${{ new Intl.NumberFormat().format(currency.price) }}</span
                 >
               </v-list-item-content>
-              <v-list-item-content class="coinList pa-1 flexNone">
+              <v-list-item-content class="coinList pa-1 pr-0 flexNone">
                 <div class="star-btn">
                   <v-btn icon>
                     <v-icon
                       @click.prevent.stop="handlerSelection"
                       size="30"
                       v-if="star_selection"
-                      color="yellow"
+                      color="primary"
                       >mdi-star</v-icon
                     >
                     <v-icon
                       @click.prevent.stop="handlerSelection"
                       size="25"
                       v-if="!star_selection"
-                      class="yellow--text"
+                      class="primary--text"
                       >mdi-star-outline</v-icon
                     >
                   </v-btn>
@@ -103,7 +103,6 @@
           <div class="star-btn pt-1">
             <v-btn
               small
-              
               class="elevation-0 mainBorderRadius"
               color="rgba(255, 255, 255, 0.15)"
             >
@@ -272,7 +271,8 @@ html[theme="light"] {
   filter: blur(0.3px);
 }
 .star-btn {
-  text-align: center;
+  text-align: right;
+  margin: 0 -2px 0 0;
   width: 40px;
 }
 

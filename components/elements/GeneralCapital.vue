@@ -1,25 +1,28 @@
 <template>
   <div>
-    <v-card class="pa-3 gc-card" elevation="1">
-      <v-list-item three-line>
-        <v-list-item-content>
-          <v-list-item-title class="text-h5 mb-1">
+    <v-card class="pa-6 gc-card" elevation="1">
+      <v-list-item three-line class="pa-0">
+        <v-list-item-content class="pa-0">
+          <v-list-item-title class="mb-4">
             <strong>{{ $t("total_equity") }}</strong>
           </v-list-item-title>
           <br /><br />
-          <v-list-item-title class="text-h5 mb-1">
-            <strong v-if="hideBalancer"
+          <v-list-item-title class="text-h5 mb-2">
+            <strong class="font-weight-bold" v-if="hideBalancer"
               >{{
                 total_sum ? new Intl.NumberFormat().format(total_sum_btc) : 0
               }}
             </strong>
-            <strong v-if="!hideBalancer">******</strong> BTC
+            <strong class="font-weight-bold" v-if="!hideBalancer"
+              >******</strong
+            >
+            BTC
           </v-list-item-title>
-          <p v-if="hideBalancer" class="mt-2 text-gray--text">
+          <p v-if="hideBalancer" class="mb-6 text-gray--text">
             ≈
             {{ total_sum ? new Intl.NumberFormat().format(total_sum) : 0 }} USD
           </p>
-          <p v-if="!hideBalancer" class="mt-2 text-gray--text">******</p>
+          <p v-if="!hideBalancer" class="mb-6 text-gray--text">******</p>
         </v-list-item-content>
 
         <v-icon v-if="!hideBalancer" @click="hideBalance">mdi-eye</v-icon>
@@ -28,7 +31,7 @@
         >
       </v-list-item>
 
-      <v-card-actions class="justify-space-between">
+      <v-card-actions class="justify-space-between pa-0">
         <v-btn
           elevation="0"
           large

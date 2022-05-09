@@ -48,6 +48,7 @@
             v-if="is_history"
             :prices="prices"
             :filter="trade_filter"
+            title="recent_trades"
           ></TableTrades>
         </div>
       </v-col>

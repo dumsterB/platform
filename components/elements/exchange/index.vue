@@ -30,7 +30,7 @@
           >
         </v-list-item-group>
       </v-list>
-
+      <v-divider class="divider_border" :style="customStyle"></v-divider>
       <div class="chips mt-3 mx-3">
         <v-chip
           :class="[item.active ? 'active_p_chip' : 'p_chip']"
@@ -46,7 +46,9 @@
       <div class="justify-center text-center">
         <div class="justify-space-between d-flex text-left">
           <v-col class="pb-1">
-            <span class="small_text pl-1">{{ $t("choose_crypto") }}:</span>
+            <span class="small_text pl-1 icon_color--text"
+              >{{ $t("choose_crypto") }}:</span
+            >
             <v-autocomplete
               v-model="buy_curr"
               :items="currency"
@@ -58,6 +60,22 @@
               dense
               hide-details
             >
+              <template v-slot:selection="{ item }">
+                <v-chip
+                  class="ma-0 pa-0"
+                  style="background: transparent !important"
+                >
+                  <v-row class="ma-0 pa-0">
+                    <img
+                      height="20"
+                      :src="item.logo"
+                      :alt="item.name"
+                      class="mr-2"
+                    />
+                    <strong>{{ item.name }}</strong>
+                  </v-row>
+                </v-chip>
+              </template>
               <template v-slot:item="{ item }">
                 <img height="20" width="20" :src="item.logo" />
                 <p class="ml-4 mt-3">{{ item.name }}</p>
@@ -65,14 +83,16 @@
             </v-autocomplete>
           </v-col>
           <v-col class="pb-1">
-            <span class="small_text pl-1">{{ $t("Get") }}:</span>
+            <span class="small_text pl-1 icon_color--text"
+              >{{ $t("Get") }}:</span
+            >
             <span class="d-flex mr-2">
               <v-text-field
                 v-model="buy"
                 solo
                 dense
                 hide-details
-                class="value-field elevation-0"
+                class="value-field elevation-0 success--text"
                 type="number"
                 :suffix="buy_curr"
               ></v-text-field>
@@ -81,26 +101,28 @@
         </div>
         <div class="justify-space-between d-flex text-left">
           <v-col class="mt-0 pt-0">
-            <span class="small_text pl-1">{{ $t("Pay") }}:</span>
+            <span class="small_text pl-1 icon_color--text"
+              >{{ $t("Pay") }}:</span
+            >
             <span class="d-flex mr-2">
               <v-text-field
                 v-model="pay"
                 solo
                 dense
                 hide-details
-                class="value-field elevation-0"
+                class="value-field elevation-0 success--text"
                 type="number"
                 suffix="USD"
               ></v-text-field>
             </span>
           </v-col>
         </div>
-        <v-divider></v-divider>
+        <v-divider class="divider" :style="customStyle"></v-divider>
         <div class="text-left ml-2">
-          <span class="small_text">{{
+          <span class="small_text accent--text">{{
             `Min ${min_val} ${buy_curr} - Max ${max_val} ${buy_curr}`
           }}</span>
-          <h5>
+          <h5 class="mt-1">
             {{ $t("available_balance") }}:
             {{ new Intl.NumberFormat().format(balance) }}
             {{ active_btn == "buy" ? "USD" : buy_curr }}
@@ -164,6 +186,8 @@ export default {
       start_gradient: config.themes.dark.start_gradient,
       end_gradient: config.themes.dark.end_gradient,
       primary: config.colors.text.primary,
+      dark_item_bg: config.themes.dark.item_bg,
+      light_item_bg: config.themes.light.item_bg,
       link_url: "bc1qu75kr9s9j0hpuf5qugqdastwwhzglz3gfwcz06",
       copied: false,
       loading: false,
@@ -321,6 +345,8 @@ export default {
         "--start_gradient": this.start_gradient,
         "--end_gradient": this.end_gradient,
         "--primary": this.primary,
+        "--dark_item_bg": this.dark_item_bg,
+        "--light_item_bg": this.light_item_bg,
       };
     },
     ...mapGetters("data/wallet", {
@@ -382,17 +408,19 @@ export default {
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
+  letter-spacing: 0;
 }
 
 .btn_exchange {
   padding: 10px 10px 10px 0px;
   justify-content: center;
   margin-top: -7px;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 18px;
   text-transform: uppercase;
   border-top: 3px solid transparent;
   background: transparent !important;
+  color: #9a9a9a !important;
 }
 .active_btn_exchange {
   position: relative;
@@ -444,13 +472,14 @@ html[theme="light"] .p_chip {
 }
 .small_text {
   font-weight: 300;
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 14px;
 }
 </style>
 <style lang="scss">
 .buy-sell-comp .v-input__slot {
   border-radius: 10px;
-  background: #001935 !important;
+  background: #161f49 !important;
   border-radius: 10px;
 }
 html[theme="light"] .buy-sell-comp .v-input__slot {
@@ -472,5 +501,19 @@ html[theme="light"] .buy-sell-comp .v-input__slot {
 }
 .currency_selector {
   height: 30px !important;
+}
+.divider {
+  border-color: var(--dark_item_bg) !important;
+}
+.divider_border {
+  border-color: #bcbcbc1a !important;
+}
+html[theme="light"] {
+  .divider {
+    border-color: var(--light_item_bg) !important;
+  }
+  .divider_border {
+    border-color: transparent !important;
+  }
 }
 </style>

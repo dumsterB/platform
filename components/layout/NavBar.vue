@@ -59,15 +59,7 @@
     <v-spacer></v-spacer>
     <div>
       <v-btn
-        class="
-          primary
-          white--text
-          mainBorderRadius
-          font-weight-bold
-          text-none
-          mr-8
-          goToAction
-        "
+        class="primary white--text mainBorderRadius font-weight-bold text-none mr-8 goToAction"
       >
         {{ $t("go_to_website") }}
       </v-btn>
@@ -86,16 +78,7 @@
         <v-hover v-slot="{ hover }">
           <div
             flat
-            class="
-              account-menu
-              d-flex
-              flex-columns
-              align-center
-              mt-2
-              py-2
-              pr-2
-              pl-4
-            "
+            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
             v-on="on"
           >
             <div class="mr-2">
@@ -434,6 +417,6 @@ html[theme="light"] {
 .goToAction {
   font-size: 16px !important;
   line-height: 20px !important;
-  // letter-spacing: 0 !important;
+  letter-spacing: 0 !important;
 }
 </style>
