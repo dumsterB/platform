@@ -31,6 +31,7 @@
               hide-details
             ></v-text-field>
           </div>
+          <template v-slot:extension><slot name="header_ext"></slot></template>
         </v-toolbar>
       </template>
       <template v-slot:[`item.arbitrage_company.logo`]="{ item }">

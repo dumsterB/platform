@@ -6,7 +6,7 @@
       :items-per-page="page_size_current"
       :search="search_text"
       :loading="loading"
-      class="elevation-1 ma-8 ml-4"
+      class="elevation-1 ma-4 ml-4"
       :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
@@ -14,7 +14,7 @@
       }"
     >
       <template v-slot:top>
-        <v-toolbar flat class="borderNone">
+        <v-toolbar extended flat class="borderNone">
           <!-- <v-toolbar-title class="font-weight-bold">{{
             $t("recent_trades")
           }}</v-toolbar-title> -->
@@ -35,6 +35,7 @@
               hide-details
             ></v-text-field>
           </div>
+          <template v-slot:extension><slot name="header_ext"></slot></template>
         </v-toolbar>
       </template>
       <template v-slot:[`item.created_at`]="{ item }">

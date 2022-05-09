@@ -37,62 +37,12 @@
         indeterminate
       ></v-progress-circular>
     </div>
-    <v-row>
-      <v-col>
-        <TableCreditSession
-          v-if="arb_ses_filter"
-          :prices="prices_all"
-          :filter="arb_ses_filter"
-          ref="a_session"
-          @get_prices="update_subscr"
-          ><template v-slot:header
-            ><v-list max-width="600" min-width="480" class="pa-0 borderNone">
-              <v-list-item-group v-model="as_mode_active" class="d-flex"
-                ><v-list-item
-                  tag="button"
-                  block
-                  elevation="0"
-                  class="btn_tbl pa-0"
-                  active-class="active_btn_tbl primary--text"
-                  @click="as_filter_update('1')"
-                  >{{ $t("Open Trades") }}</v-list-item
-                >
-                <v-divider class="mx-4" inset vertical></v-divider>
-                <v-list-item
-                  tag="button"
-                  block
-                  elevation="0"
-                  class="btn_tbl pa-0"
-                  active-class="active_btn_tbl primary--text"
-                  @click="as_filter_update('2')"
-                  >{{ $t("Orders History") }}</v-list-item
-                >
-                <v-divider class="mx-4" inset vertical></v-divider>
-                <v-list-item
-                  tag="button"
-                  block
-                  elevation="0"
-                  class="btn_tbl pa-0"
-                  active-class="active_btn_tbl primary--text"
-                  @click="as_filter_update('1')"
-                  >{{ $t("Trade History") }}</v-list-item
-                ><v-divider
-                  class="mx-4"
-                  inset
-                  vertical
-                ></v-divider></v-list-item-group
-            ></v-list> </template
-        ></TableCreditSession>
-      </v-col>
-    </v-row>
-    <v-dialog v-model="dialog" max-width="600px"> </v-dialog>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import TradeCreditPosition from "../../components/elements/modals/CreditTradePosition";
-import TableCreditSession from "~/components/data/TableCreditSession";
 
 const modelCompanies = "data/arbitrage_company";
 const wallet = "data/wallet";
@@ -108,7 +58,6 @@ export default {
   },
   components: {
     TradeCreditPosition,
-    TableCreditSession,
   },
   data() {
     return {
@@ -120,9 +69,6 @@ export default {
       need_curr: null,
       isLoading: true,
       base_p: this.$store.state.config.data.base_p,
-      arb_ses_filter: {
-        status_id: "1",
-      },
       as_mode_active: 0,
     };
   },
@@ -140,10 +86,7 @@ export default {
     prices_current(v) {
       let me = this;
       let json_d = Object.assign({}, v);
-      if (json_d && json_d.method == `${me.base_p}:all@ticker_10s`) {
-        let data = json_d.data ? json_d.data.data || [] : [];
-        me.define_prices(data);
-      } else if (me.need_curr) {
+      if (me.need_curr) {
         let curr = me.need_curr.symbol;
         if (json_d && json_d.method == `all:${curr}-USD@ticker_5s`) {
           me.isLoading = false;
@@ -170,11 +113,6 @@ export default {
       add_subscribe: "add_page_subscribe",
       del_subscribe: "del_page_subscribe",
     }),
-    as_filter_update(dt) {
-      this.arb_ses_filter = {
-        status_id: dt,
-      };
-    },
     update_subscr(curr) {
       let me = this;
       if (this.need_curr) {
@@ -276,9 +214,6 @@ export default {
     }),
   },
   async created() {
-    let me = this;
-    this.subscribe([`${me.base_p}:all@ticker_10s`]);
-    me.update_subscr(me.currency);
   },
   destroyed() {
     this.unsubscribe();

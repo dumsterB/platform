@@ -132,91 +132,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <TableTrades
-          v-if="trade_filter && page_state == 0"
-          :prices="prices"
-          :filter="trade_filter"
-          ref="trades"
-          ><template v-slot:header
-            ><v-list max-width="600" min-width="480" class="pa-0 borderNone">
-              <v-list-item-group v-model="trade_mode_active" class="d-flex"
-                ><v-list-item
-                  tag="button"
-                  block
-                  elevation="0"
-                  class="btn_tbl pa-0"
-                  active-class="active_btn_tbl primary--text"
-                  @click="trade_filter_update('1')"
-                  >{{ $t("Open Trades") }}</v-list-item
-                >
-                <v-divider class="mx-4" inset vertical></v-divider>
-                <v-list-item
-                  tag="button"
-                  block
-                  elevation="0"
-                  class="btn_tbl pa-0"
-                  active-class="active_btn_tbl primary--text"
-                  @click="trade_filter_update('3')"
-                  >{{ $t("Orders History") }}</v-list-item
-                >
-                <v-divider class="mx-4" inset vertical></v-divider>
-                <v-list-item
-                  tag="button"
-                  block
-                  elevation="0"
-                  class="btn_tbl pa-0"
-                  active-class="active_btn_tbl primary--text"
-                  @click="trade_filter_update('1')"
-                  >{{ $t("Trade History") }}</v-list-item
-                ></v-list-item-group
-              ></v-list
-            >
-            <v-divider class="mx-4" inset vertical></v-divider></template
-        ></TableTrades>
-        <TableASession
-          v-if="as_filter && page_state == 1"
-          :prices="prices"
-          :filter="as_filter"
-          title="table_position"
-          ref="a_session"
-          ><template v-slot:header
-            ><v-list max-width="600" min-width="480" class="pa-0 borderNone">
-              <v-list-item-group v-model="as_mode_active" class="d-flex"
-                ><v-list-item
-                  tag="button"
-                  block
-                  elevation="0"
-                  class="btn_tbl pa-0"
-                  active-class="active_btn_tbl primary--text"
-                  @click="as_filter_update('1')"
-                  >{{ $t("Open Trades") }}</v-list-item
-                >
-                <v-divider class="mx-4" inset vertical></v-divider>
-                <v-list-item
-                  tag="button"
-                  block
-                  elevation="0"
-                  class="btn_tbl pa-0"
-                  active-class="active_btn_tbl primary--text"
-                  @click="as_filter_update('2')"
-                  >{{ $t("Orders History") }}</v-list-item
-                >
-                <v-divider class="mx-4" inset vertical></v-divider>
-                <v-list-item
-                  tag="button"
-                  block
-                  elevation="0"
-                  class="btn_tbl pa-0"
-                  active-class="active_btn_tbl primary--text"
-                  @click="as_filter_update('1')"
-                  >{{ $t("Trade History") }}</v-list-item
-                ><v-divider
-                  class="mx-4"
-                  inset
-                  vertical
-                ></v-divider></v-list-item-group
-            ></v-list> </template
-        ></TableASession>
+        <RecentTrades :prices="prices" />
       </v-col>
     </v-row>
   </div>
@@ -226,26 +142,24 @@
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import Indicators from "~/components/elements/currencies/Indicators";
 import TradeGraph from "~/components/graphs/Trade";
-import TableTrades from "~/components/data/TableTrades";
 import TableAC from "~/components/data/TableAC";
-import TableASession from "~/components/data/TableASession";
 import SpotCard from "~/components/elements/currencies/SpotCard";
 import Platforms from "~/components/elements/currencies/Platforms";
 import Leverage from "~/components/elements/Leverage";
 import OrderBook from "~/components/elements/exchange/OrderBook";
+import RecentTrades from "~/components/data/RecentTrades";
 const model = "data/currency";
 
 export default {
   components: {
     Indicators,
     TradeGraph,
-    TableTrades,
     TableAC,
     Platforms,
     SpotCard,
-    TableASession,
     Leverage,
     OrderBook,
+    RecentTrades,
   },
   data() {
     let stocks = JSON.parse(
@@ -272,8 +186,6 @@ export default {
       curr_subscr: "",
       trade_filter: null,
       interv: null,
-      trade_mode_active: 0,
-      as_mode_active: 0,
     };
   },
   computed: {
@@ -403,6 +315,7 @@ export default {
             } else {
               me.arb_data = data;
             }
+          }  else if (me.page_state == 2) {
           }
         }
       });
@@ -446,16 +359,7 @@ export default {
     platform_changed(platform) {
       this.selected_platform = platform;
     },
-    trade_filter_update(dt) {
-      this.trade_filter = {
-        trade_status_id: dt,
-      };
-    },
-    as_filter_update(dt) {
-      this.as_filter = {
-        status_id: dt,
-      };
-    },
+
     trades_subscribe_definer(bool) {
       let me = this;
       let str = "";
@@ -574,35 +478,6 @@ export default {
 };
 </script>
 <style>
-.btn_tbl {
-  padding: 10px 10px 10px 0px;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 14px;
-  width: 100px;
-  border-top: 3px solid transparent;
-  background: transparent !important;
-}
-.active_btn_tbl {
-  position: relative;
-  padding: 10px 10px 10px 0px;
-  justify-content: center;
-  margin-top: 0px;
-  font-weight: 700;
-  font-size: 16px;
-  border-top: 3px solid transparent;
-  background: transparent !important;
-}
-.active_btn_tbl::after {
-  position: absolute;
-  content: "";
-  width: 100%;
-  min-height: 6px !important;
-  top: -8px;
-  left: 0;
-  background: #007bff !important;
-  border-radius: 0px 0px 4px 4px;
-}
 .menu-curr-buttons {
   border-radius: 10px;
 }
