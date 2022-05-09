@@ -94,6 +94,7 @@
           ></v-list
         ><span class="ml-6 label-cl">{{ $t("From") }}</span
         ><v-text-field
+          v-model="start_d"
           dense
           class="date-range-field"
           solo
@@ -103,6 +104,7 @@
         ><span class="mx-4 label-cl">{{ $t("to") }}</span
         ><v-text-field
           dense
+          v-model="end_d"
           class="date-range-field"
           solo
           hide-details
@@ -173,6 +175,7 @@
           ></v-list
         ><span class="ml-6 label-cl">{{ $t("From") }}</span
         ><v-text-field
+          v-model="start_d"
           dense
           class="date-range-field"
           solo
@@ -182,6 +185,7 @@
         ><span class="mx-4 label-cl">{{ $t("to") }}</span
         ><v-text-field
           dense
+          v-model="end_d"
           class="date-range-field"
           solo
           hide-details
@@ -249,6 +253,7 @@
         ><span class="ml-6 label-cl">{{ $t("From") }}</span
         ><v-text-field
           dense
+          v-model="start_d"
           class="date-range-field"
           solo
           hide-details
@@ -257,6 +262,7 @@
         ><span class="mx-4 label-cl">{{ $t("to") }}</span
         ><v-text-field
           dense
+          v-model="end_d"
           class="date-range-field"
           solo
           hide-details
@@ -304,6 +310,8 @@ export default {
         created_at: cr_at_f,
       },
       time_mode_active: 0,
+      start_d: null,
+      end_d: null,
       time_vars: [
         {
           text: "1 Day",
@@ -324,6 +332,14 @@ export default {
       ],
     };
   },
+  watch: {
+    start_d() {
+      this.check_dt();
+    },
+    end_d() {
+      this.check_dt();
+    },
+  },
   methods: {
     trade_filter_update(dt) {
       this.trade_filter = {
@@ -339,6 +355,14 @@ export default {
       this.arb_ses_filter = {
         status_id: dt,
       };
+    },
+    check_dt() {
+      if (this.start_d && this.end_d) {
+        if (moment(this.start_d).unix() > 0 && moment(this.end).unix() > 0) {
+          let mass = [moment(this.start_d), moment(this.end)];
+          this.date_time_filter(mass);
+        }
+      }
     },
     date_time_filter(dts) {
       let dt = dts.map((el) => el.unix());
