@@ -123,6 +123,7 @@ export default {
   user_investment: "Moje inwestycje",
   user_news: "Wiadomości",
   user_help: "Pomoc",
+  help_center: "Centrum pomocy",
   user_questions: "Pytania",
   user_payment_method: "Metoda płatności",
   user_settings: "Ustawienia",
@@ -476,6 +477,7 @@ export default {
   other_information: "Inne informacje",
   all: "Wszystko",
   category: "Kategoria",
+  categories: "Kategorie",
   new_to_late: "Nowy do późna",
   late_to_new: "Spóźniony na nowy",
   latest_posts: "Najnowsze posty",
@@ -540,6 +542,6 @@ export default {
   card_rules_number: "Numer karty może składać się tylko z cyfr.",
   cvv_rules_number: "CVV może składać się tylko z cyfr.",
   self_amount: "Kwota własna",
-  leverage:'Leverage',
-  no_coins_available: "Monety są obecnie niedostępne"
+  leverage: "Leverage",
+  no_coins_available: "Monety są obecnie niedostępne",
 };

@@ -50,9 +50,9 @@ export const state = () => ({
       badge_color: "primary",
     },
     {
-      icon: "mdi-flag-outline",
-      title: "user_help",
-      key: "user_help",
+      icon: "mdi-frequently-asked-questions",
+      title: "popular_faq",
+      key: "popular_faq",
       to: "/help",
       badge_color: "primary",
     },
