@@ -95,6 +95,10 @@ export default {
       type: Number,
       default: 5,
     },
+    title: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
@@ -139,7 +143,7 @@ export default {
           text: this.$t("table_time"),
           value: "created_at",
         },
-        
+
         {
           text: this.$t("table_current_price"),
           value: "current_cost",

@@ -113,7 +113,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import TradePosition from "../../components/elements/modals/TradePosition";
+import TradePosition from "~/components/elements/modals/TradePosition";
 import TableASession from "~/components/data/TableASession";
 import ThemeSelectVue from "../settings/ThemeSelect.vue";
 

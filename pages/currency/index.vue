@@ -3,7 +3,7 @@
     <v-row>
       <v-col :lg="9" :md="12" class="pt-4">
         <v-card class="ml-4">
-          <v-row class="justify-start align-center">
+          <v-row class="justify-start align-center ma-0 pa-0">
             <v-col :cols="4" class="pa-0 ma-0 mb-4">
               <v-autocomplete
                 class="crypto-select ml-4 mt-4"
@@ -64,7 +64,7 @@
             <OrderBook :currency="curr_code" :price="price" :change="change" />
           </v-col>
           <v-col :cols="8">
-            <v-row>
+            <v-row class="pr-2">
               <v-col class="pl-0 pr-1">
                 <v-btn
                   large
@@ -85,7 +85,7 @@
                   >{{ $t("user_arbitrage") }}</v-btn
                 >
               </v-col>
-              <v-col class="pl-0 pr-0" v-if="curr_crypto">
+              <v-col class="pl-0 pr-1" v-if="curr_crypto">
                 <v-btn
                   large
                   block
@@ -108,7 +108,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col :lg="3" :md="6" class="pt-0 pl-0">
+      <v-col :lg="3" :md="6" class="pt-0 pl-0 mt-6">
         <SpotCard
           v-if="page_state == 0"
           :currency="curr_code"
