@@ -149,7 +149,6 @@
   </div>
     <div class="page-container_mobile" >
       <v-row class="pl-5 pr-5">
-          <v-row class="pl-5 pr-5">
             <v-col class="pl-1 pr-1">
               <v-btn
                   block
@@ -177,7 +176,6 @@
               >{{ $t("leverage") }}</v-btn
               >
             </v-col>
-        </v-row>
           <v-card class="mt-5">
             <v-row class="justify-start align-center">
               <v-col :cols="12" class="pt-0 mt-0">
@@ -231,60 +229,55 @@
               </v-col>
             </v-row>
           </v-card>
-        <v-row>
-          <v-col :cols="12" class="mt-5">
-         <v-card>
+         <v-col :cols="12" class="mt-5">
+         <v-card style="background: transparent!important;" elevation="0">
            <v-list width="100%" class="pa-0">
              <v-list-item-group v-model="btn_active" class="d-flex">
                <v-list-item
                    tag="button"
                    block
                    elevation="0"
-                   class="btn_exchange pa-0"
+                   class="btn_exchange pa-0 ml-2 mr-2"
                    :style="customStyle"
-                   active-class="active_btn_exchange"
-                   @click="buyHandler"
-               >{{ $t("buy") }}</v-list-item
-               >
-
+                   active-class="active_btn_exchange "
+               >{{ $t("chart_title") }}</v-list-item>
                <v-list-item
                    tag="button"
                    block
                    elevation="0"
-                   class="btn_exchange pa-0"
+                   class="btn_exchange pa-0 ml-2 mr-2"
+                   :style="customStyle"
+                   active-class="active_btn_exchange "
+               >{{ $t("orderes_book") }}</v-list-item>
+               <v-list-item
+                   tag="button"
+                   block
+                   elevation="0"
+                   class="btn_exchange pa-0 ml-2 mr-2"
                    :style="customStyle"
                    active-class="active_btn_exchange"
-                   @click="sellHandler"
-               >{{ $t("sell") }}</v-list-item
-               >
+               >{{ $t("spot_title") }}</v-list-item>
              </v-list-item-group>
            </v-list>
+           <v-col :cols="12" class="pl-0" v-if="graph_key && page_state != 2">
+                 <TradeGraph
+                     :width="graphWidth"
+                     :height="graphHeight"
+                     :key_g="graph_key"
+                 ></TradeGraph>
+           </v-col>
+           <v-col :cols="12"  v-if="page_state != 2">
+             <OrderBook :currency="curr_code" :price="price" :change="change" />
+           </v-col>
+           <SpotCard
+               v-if="page_state == 0"
+               :currency="curr_code"
+               :price="price"
+               @reload="reload_trade"
+           ></SpotCard>
          </v-card>
-          </v-col>
-        </v-row>
-          <v-row class="mt-2 ml-4 mt-4">
-            <v-col :cols="12">
-              <v-row v-if="graph_key && page_state != 2">
-                <v-col class="pl-0">
-                  <TradeGraph
-                      :width="graphWidth"
-                      :height="graphHeight"
-                      :key_g="graph_key"
-                  ></TradeGraph>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col class="ml-2" v-if="page_state != 2">
-              <OrderBook :currency="curr_code" :price="price" :change="change" />
-            </v-col>
-          </v-row>
-        <v-col :cols="12" class="pt-0 pl-0">
-          <SpotCard
-              v-if="page_state == 0"
-              :currency="curr_code"
-              :price="price"
-              @reload="reload_trade"
-          ></SpotCard>
+         </v-col>
+        <v-col :cols="12">
           <TableAC
               v-if="page_state == 1"
               :currency="curr_code ? curr_code : undefined"
@@ -390,6 +383,13 @@ export default {
     ...mapGetters("config/default", {
       get_val: "get_val",
     }),
+    customStyle() {
+      return {
+        "--start_gradient": this.start_gradient,
+        "--end_gradient": this.end_gradient,
+        "--primary": this.primary,
+      };
+    },
     currencies() {
       let c_f = this.currencies_full;
       if (!this.curr_crypto) {
@@ -670,6 +670,35 @@ html[theme="light"] .menu-curr-buttons:not(.primary) {
 }
 .page-container_mobile{
   display: none;
+}
+.btn_exchange {
+  padding: 10px 10px 10px 0px;
+  justify-content: center;
+  margin-top: -7px;
+  font-weight: 700;
+  font-size: 18px;
+  border-top: 3px solid transparent;
+  background: transparent !important;
+}
+.active_btn_exchange {
+  position: relative;
+  padding: 10px 10px 10px 0px;
+  justify-content: center;
+  margin-top: -7px;
+  font-weight: 700;
+  font-size: 18px;
+  border-top: 3px solid transparent;
+  background: transparent !important;
+}
+.active_btn_exchange::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  min-height: 4px !important;
+  top: -3px;
+  left: 0;
+  background: #007bff !important;
+  border-radius: 0px 0px 4px 4px;
 }
 @media (max-width: 1000px) {
   .page-container_mobile{
