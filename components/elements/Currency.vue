@@ -51,7 +51,7 @@
             <v-list-item>
               <v-list-item-content>
                 <div>
-                  <sparklines></sparklines>
+                  <SmallGraph></SmallGraph>
                 </div>
               </v-list-item-content>
             </v-list-item>
@@ -117,7 +117,7 @@
       <v-list-item>
         <v-list-item-content>
           <div style="min-width: 200px">
-            <sparklines></sparklines>
+            <SmallGraph></SmallGraph>
           </div>
         </v-list-item-content>
       </v-list-item>
@@ -127,10 +127,10 @@
 <script>
 import { mapGetters } from "vuex";
 import config from "~/config/config.json";
-import sparklines from "@/components/elements/currencies/Sparklines";
+import SmallGraph from "~/components/elements/currencies/SmallGraph";
 export default {
   components: {
-    sparklines,
+    SmallGraph,
   },
   props: {
     currency: {
