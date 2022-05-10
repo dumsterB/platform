@@ -8,10 +8,10 @@
       <div class="justify-center">
         <div class="text-center justify-center d-flex pa-4">
           <div>
-            <div>{{ $t("total") }}</div>
+            <div>{{ $t("total")}}</div>
             <div id="chart ">
               <apexchart
-                class="apexchart"
+                class="apexchart ml-4"
                 type="donut"
                 :options="chartOptions"
                 :series="series"

@@ -2,7 +2,7 @@
   <div class="page-container">
     <div class="account">
       <v-row>
-        <v-col class="pt-0">
+        <div class="pt-0">
           <div
             class="d-flex mr-6 mdc-form-field--space-between justify-content-beetween currencyNavbar"
           >
@@ -24,19 +24,32 @@
             ></v-text-field> -->
             </div>
           </div>
-          <v-row class="ml-3 mr-3" style="width: 100%">
+          <v-row class="ml-3 mr-3">
             <v-col v-for="(curr, i) in f_currs" :key="i">
               <Currency
                 :currency="curr"
-                style="width: 100%"
                 :companies="companies"
                 :tooltip="true"
                 :id="`ttp-${curr.symbol}`"
-                class="currency"
               />
             </v-col>
           </v-row>
-        </v-col>
+<!--          <v-row class="ml-3 mr-3 currency-mobile" style="width: 100%">
+              <p></p>
+            <v-col v-for="(curr, i) in f_currs" :key="i">
+              <carousel>
+              <Currency
+                  :currency="curr"
+                  style="width: 100%"
+                  :companies="companies"
+                  :tooltip="true"
+                  :id="`ttp-${curr.symbol}`"
+                  class="currency"
+              />
+              </carousel>
+            </v-col>
+          </v-row>-->
+        </div>
       </v-row>
       <v-row>
         <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
@@ -75,18 +88,8 @@
                 ></v-text-field> -->
             </div>
           </div>
-          <v-row class="ml-3 mr-3" style="width: 100%">
-            <v-col v-for="(curr, i) in f_currs" :key="i">
-              <Currency
-                :currency="curr"
-                style="width: 100%"
-                :companies="companies"
-                :tooltip="true"
-                :id="`ttp-${curr.symbol}`"
-                class="currency"
-              />
-            </v-col>
-            <v-col v-for="(curr, i) in f_currs" :key="i">
+          <v-row class="ml-3 mr-3">
+            <v-col  cols="12"  v-for="(curr, i) in f_currs" :key="i">
               <Currency
                 :currency="curr"
                 style="width: 100%"
@@ -135,7 +138,7 @@ export default {
     carousel,
   },
   data() {
-    let mi = parseInt(window.innerWidth / 280);
+/*    let mi = parseInt(window.innerWidth / 280);*/
     return {
       currs: [],
       companies: [],
@@ -146,7 +149,7 @@ export default {
       f_currs: [],
       subscr: "",
       com_prices: [],
-      max_items: mi,
+      max_items: 5,
       windowWidth: window.innerWidth,
     };
   },
@@ -382,15 +385,28 @@ export default {
   width: 40% !important;
 }
 .account-mobile {
-  display: none !important;
+  display: none;
 }
-
-@media (max-width: 1000px) {
+@media(max-width: 1000px) {
   .account-mobile {
     display: block !important;
   }
   .account {
     display: none !important;
   }
+  .curr-col{
+    margin-left: 40px;
+    margin-right: 40px;
+    padding-right: 20px;
+  }
+  .currency-desktop{
+    display: none!important;
+  }
+  .currency-mobile{
+    display: initial;
+  }
+}
+.currency-mobile{
+  display: none;
 }
 </style>

@@ -109,10 +109,11 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-card-actions class="text-center d-flex justify-center">
+        <v-card-actions  class="text-center mb-5 d-flex justify-center">
           <v-btn
-            class="mr-4 success-btn ml-2 mb-4"
+            class="mr-4 success-btn ml-2 mb-8"
             :style="customStyle"
+            style="margin-top: -40px"
             @click="validate"
             elevation="0"
             rounded

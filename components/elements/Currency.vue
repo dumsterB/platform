@@ -1,15 +1,9 @@
 <template>
-  <div>
-    <div>
-
-    </div>
-
-  <div>
     <v-tooltip v-if="tooltip" bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
           <v-card
-            class="currecyCard rounded-lg"
+            class="currecyCard rounded-lg "
             :elevation="hover ? 18 : 8"
             v-bind="attrs"
             v-on="on"
@@ -85,8 +79,7 @@
     </v-tooltip>
     <v-card
       v-else
-      max-width="400"
-      class="currecyCard rounded-lg light-card"
+      class="currecyCard rounded-lg light-card "
       :elevation="hover ? 18 : 8"
       v-bind="attrs"
       v-on="on"
@@ -121,8 +114,6 @@
         </v-list-item-content>
       </v-list-item>
     </v-card>
-  </div>
-  </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -287,5 +278,8 @@ html[theme="light"] {
   color: var(--green);
   font-weight: 600;
 }
-
+@media(max-width: 1000px){
+  .currency{
+  }
+}
 </style>
