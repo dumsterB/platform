@@ -4,7 +4,8 @@
       {{ $t("faq") }}
     </h2>
     <v-text-field
-      class="mb-4"
+      class="mb-4 global-search"
+      :items="filtered"
       outlined
       dense
       hide-details
@@ -66,12 +67,13 @@
               class="mb-3"
               v-for="(item, i) in questions"
               :key="i"
+              :search="search"
             >
               <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
                 <v-expansion-panel-header
                   >{{ item.question }}
                   <template v-slot:actions>
-                    <v-icon :color="hover ? 'primary' : 'success_text'"
+                    <v-icon :color="hover ? 'primary' : 'success'"
                       >mdi-chevron-down</v-icon
                     >
                   </template>
@@ -105,6 +107,7 @@ export default {
       btn_active: 0,
       catecory_active: 0,
       config: config,
+      search: null,
     };
   },
   methods: {
@@ -135,9 +138,25 @@ export default {
         "--light_item_bg": this.light_item_bg,
       };
     },
+    filtered() {
+      let data = [];
+      let res = [];
+      this.questions.map((el) => data.push(el));
+      data.map((el) => res.push(el));
+      return res;
+    },
+  },
+  watch: {
+    search(v) {
+      let fnd = this.filtered.filter((el) => el.question.includes(v));
+      console.log("selected", v);
+      console.log("fnd :>> ", fnd);
+      console.log("filtered :>> ", this.filtered);
+      return fnd;
+    },
   },
   mounted() {
-    console.log("this.questions :>> ", this.questions);
+    // console.log("filtered :>> ", this.filtered);
   },
 };
 </script>
