@@ -113,7 +113,7 @@
           v-if="page_state == 0"
           :currency="curr_code"
           :price="price"
-          @reload="reload_trade"
+          @reload="reload"
         ></SpotCard>
         <TableAC
           v-if="page_state == 1"
@@ -127,12 +127,12 @@
     </v-row>
     <v-row v-if="page_state == 2">
       <v-col>
-        <Leverage :currency="current"></Leverage>
+        <Leverage :currency="current" @reload="reload"></Leverage>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <RecentTrades :prices="prices" />
+        <RecentTrades :prices="prices" ref="recent_trades" />
       </v-col>
     </v-row>
   </div>
@@ -341,10 +341,7 @@ export default {
       del_subscribe: "del_page_subscribe",
     }),
     async reload() {
-      await this.$refs.a_session.reload();
-    },
-    async reload_trade() {
-      await this.$refs.trades.reload();
+      await this.$refs.recent_trades.reload();
     },
     onResize(event) {
       this.graphWidth = this.initGrpaphWidth();

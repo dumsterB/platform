@@ -196,7 +196,7 @@
       v-if="arb_ses_filter && page_state == 2"
       :prices="prices"
       :filter="arb_ses_filter"
-      ref="a_session"
+      ref="credit_session"
       @get_prices="update_subscr"
       ><template v-slot:header
         ><v-list max-width="600" min-width="480" class="pa-0 borderNone">
@@ -275,6 +275,7 @@
 import TableTrades from "~/components/data/TableTrades";
 import TableASession from "~/components/data/TableASession";
 import TableCreditSession from "~/components/data/TableCreditSession";
+import { mapGetters, mapActions } from "vuex";
 import moment from "moment";
 
 export default {
@@ -341,6 +342,17 @@ export default {
     },
   },
   methods: {
+    async reload() {
+      if (this.page_state == 0) {
+        await this.$refs.trades.reload();
+      }
+      if (this.page_state == 1) {
+        await this.$refs.a_session.reload();
+      }
+      if (this.page_state == 2) {
+        await this.$refs.credit_session.reload();
+      }
+    },
     trade_filter_update(dt) {
       this.trade_filter = {
         trade_status_id: dt,

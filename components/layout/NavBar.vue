@@ -256,9 +256,13 @@ export default {
             if (Array.isArray(dtm)) {
               dt = dtm[0];
             }
-            if (!dt.close) {
+            if (!dt || !dt.close) {
               let pdt = me.get_val(dt.share);
-              dt.close = pdt.close;
+              if (pdt && pdt.close) {
+                dt.close = pdt.close;
+              } else {
+                return;
+              }
             }
             let change = (dt.close - dt.open).toFixed(4);
             let ch_pr = ((change * 100) / dt.close).toFixed(4);

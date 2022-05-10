@@ -260,8 +260,11 @@ export default {
         return el;
       });
     },
-    reload() {
-      this.resetList(this.prices);
+    async reload() {
+      await this.rel();
+      if (this.prices && this.prices.length > 0) {
+        this.resetList(this.prices);
+      }
     },
     diffColor(diff) {
       let nm = parseFloat(diff);
@@ -285,10 +288,7 @@ export default {
     },
   },
   async created() {
-    await this.rel();
-    if (this.prices && this.prices.length > 0) {
-      this.resetList(this.prices);
-    }
+    await this.reload();
   },
 };
 </script>

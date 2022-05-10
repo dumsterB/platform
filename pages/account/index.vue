@@ -291,7 +291,7 @@ export default {
                 me.waiter[sym] = true;
                 setTimeout(() => {
                   if (me.waiter[sym]) {
-                    console.log("AAAAAAAAAAAAA", sym);
+                    // console.log("mouseenter", sym);
                     me.add_subscribe(`all:${sym}-USD@ticker_10s`);
                   }
                 }, 500);

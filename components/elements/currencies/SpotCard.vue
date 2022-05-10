@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 class="ml-4 mb-2">Spot</h3>
-    <v-card class="ma-2 mr-8 pa-4 pt-0 elevation-4 spot-card">
+    <v-card height="694" class="ma-2 mr-8 pa-4 pt-0 elevation-4 spot-card">
       <v-list-item-group class="d-flex">
         <v-list-item
           tagh="button"
@@ -28,6 +28,32 @@
           {{ $t("sell") }}
         </v-list-item>
       </v-list-item-group>
+      <v-list
+        max-width="350"
+        min-width="200"
+        class="pa-0 borderNone pb-3"
+        dense
+      >
+        <v-list-item-group v-model="trade_mode" class="d-flex"
+          ><v-list-item
+            tag="button"
+            block
+            elevation="0"
+            class="btn_trade_mode pa-0 mr-4"
+            active-class="active_btn_trade_mode primary"
+            @click="trade_mode = 0"
+            >{{ "Market" }}</v-list-item
+          ><v-list-item
+            tag="button"
+            block
+            elevation="0"
+            class="btn_trade_mode pa-0"
+            active-class="active_btn_trade_mode primary"
+            @click="trade_mode = 1"
+            >{{ "Limit" }}</v-list-item
+          ></v-list-item-group
+        ></v-list
+      >
       <v-row>
         <v-col :cols="6" class="pb-0">
           <span class="small_text">{{ $t("available_balance_title") }}</span>
@@ -41,7 +67,7 @@
           >
         </v-col>
       </v-row>
-      <v-row>
+      <!-- <v-row>
         <v-col :cols="12" class="pb-0">
           <span class="small_text">{{ $t("price") }}</span>
           <v-text-field
@@ -50,6 +76,19 @@
             dense
             hide-details
             readonly
+            class="mt-2 border-rad"
+            suffix="USD"
+          ></v-text-field>
+        </v-col>
+      </v-row> -->
+      <v-row v-if="trade_mode == 1">
+        <v-col :cols="12" class="pb-0">
+          <span class="small_text">{{ "Limit" }}</span>
+          <v-text-field
+            v-model="limit_price"
+            outlined
+            dense
+            hide-details
             class="mt-2 border-rad"
             suffix="USD"
           ></v-text-field>
@@ -87,7 +126,7 @@
           <span class="small_text gray--text">100%</span>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row v-if="trade_mode == 0">
         <v-col :cols="12">
           <span>
             <span class="small_text">{{ $t("total") }}</span>
@@ -108,7 +147,7 @@
           <v-btn
             large
             :loading="loading"
-            :disabled="!amount"
+            :disabled="btn_disabled"
             block
             class="mainBorderRadius"
             @click="trade_run"
@@ -210,6 +249,8 @@ export default {
       loading: false,
       action: null,
       dialog: false,
+      trade_mode: 0,
+      limit_price: null,
       start_blue_gradient: config.colors.start_blue_gradient,
       end_blue_gradient: config.colors.end_blue_gradient,
       start_red_gradient: config.colors.start_red_gradient,
@@ -226,6 +267,14 @@ export default {
     ...mapGetters("data/currency", {
       currencies: "list",
     }),
+    btn_disabled() {
+      if (this.trade_mode == 0) {
+        return !this.amount
+      }
+      if (this.trade_mode == 1) {
+         return !this.amount || !this.limit_price;
+      }
+    },
     usd_bal() {
       let bal = this.wallet.find((el) => el.currency.symbol == "USD");
       if (bal) {
@@ -338,8 +387,27 @@ export default {
         trade_data.dest_currency_id = curr.id;
         trade_data.dest_amount = parseFloat(buy);
       }
-      trade_data.exchange_rate = 1 / this.price;
-      if (!this.buy_sell) trade_data.exchange_rate = this.price;
+      let ex_rate = 1 / this.price;
+      if (!this.buy_sell) ex_rate = this.price;
+      if (this.trade_mode == 0) {
+        trade_data.exchange_rate = ex_rate;
+      }
+      if (this.trade_mode == 1) {
+        if (this.limit_price > this.price) {
+          let l_p = parseFloat(this.limit_price);
+          if (this.buy_sell) {
+            trade_data.min_exchange_rate = l_p;
+          } else {
+            trade_data.max_exchange_rate = l_p;
+          }
+        } else {
+          if (this.buy_sell) {
+            trade_data.max_exchange_rate = l_p;
+          } else {
+            trade_data.min_exchange_rate = l_p;
+          }
+        }
+      }
       // console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });
       let title, color;
@@ -373,6 +441,10 @@ export default {
     },
   },
   watch: {
+    trade_mode() {
+      this.amount = null;
+      this.limit_price = null;
+    },
     amount() {
       if (this.amount_checker) {
         this.t_price_checker = false;
@@ -410,6 +482,25 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.btn_trade_mode {
+  justify-content: center;
+  font-weight: 400;
+  font-size: 12px;
+  background: #333333 !important;
+  border-radius: 10px;
+  min-height: 24px !important;
+}
+html[theme="light"] .btn_trade_mode {
+  background: #eeeeee !important;
+}
+.active_btn_trade_mode {
+  position: relative;
+  justify-content: center;
+  font-size: 12px;
+}
+.active_btn_trade_mode::after {
+  position: absolute;
+}
 .small_text {
   font-size: 14px;
 }
