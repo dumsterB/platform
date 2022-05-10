@@ -53,7 +53,7 @@ export const state = () => ({
       icon: "mdi-frequently-asked-questions",
       title: "popular_faq",
       key: "popular_faq",
-      to: "/help",
+      to: "/faq",
       badge_color: "primary",
     },
     // {

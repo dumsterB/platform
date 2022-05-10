@@ -15,10 +15,10 @@
     >
       <template v-slot:top>
         <v-toolbar flat class="borderNone">
-          <!-- <v-toolbar-title class="font-weight-bold">{{
-            $t(title)
+          <v-toolbar-title class="font-weight-bold">{{
+            title ? $t(title) : ""
           }}</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider> -->
+          <v-divider v-if="title" class="mx-4" inset vertical></v-divider>
           <slot name="header"></slot>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">
@@ -31,7 +31,7 @@
               hide-details
             ></v-text-field>
           </div>
-          <template v-slot:extension><slot name="header_ext"></slot></template>
+          <!--  <template v-slot:extension><slot name="header_ext"></slot></template> -->
         </v-toolbar>
       </template>
       <template v-slot:[`item.arbitrage_company.logo`]="{ item }">
@@ -155,18 +155,18 @@ export default {
         {
           text: this.$t("name_table"),
           value: "arbitrage_company.logo",
-          sortable: false
+          sortable: false,
         },
         {
           text: this.$t("table_position"),
           value: "session_start_type.name",
-          sortable: false
+          sortable: false,
         },
         {
           text: this.$t("table_time"),
           value: "created_at",
         },
-        
+
         {
           text: this.$t("amount"),
           value: "amount",
@@ -190,7 +190,7 @@ export default {
         {
           text: this.$t("table_close"),
           value: "action",
-          sortable: false
+          sortable: false,
         },
       ];
     },
