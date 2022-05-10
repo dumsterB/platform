@@ -1,6 +1,7 @@
 <template>
+  <v-container class="container_indicator">
   <v-row>
-    <v-col :cols="3" style="text-align: center" class="pt-0 pb-0">
+    <v-col :cols="3" style="text-align: center;" class="pt-0 pb-0">
       <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[0].title }}</p>
       <p class="ma-0 pa-0 font-weight-bold" :class="diffColor(change)">
         {{ price }}
@@ -25,6 +26,7 @@
       </p>
     </v-col>
   </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -102,3 +104,10 @@ export default {
   },
 };
 </script>
+<style>
+@media (max-width: 1000px) {
+  .container_indicator{
+    margin-top: -50px!important;
+  }
+}
+</style>

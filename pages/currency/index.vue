@@ -1,5 +1,7 @@
 <template>
+  <div>
   <div class="page-container" >
+    <p>Desktop</p>
     <v-row>
       <v-col :lg="9" :md="12" class="pt-4">
         <v-card class="ml-4">
@@ -144,6 +146,178 @@
         ></TableASession>
       </v-col>
     </v-row>
+  </div>
+    <div class="page-container_mobile" >
+      <v-row class="pl-5 pr-5">
+          <v-row class="pl-5 pr-5">
+            <v-col class="pl-1 pr-1">
+              <v-btn
+                  block
+                  class="menu-curr-buttons"
+                  :class="page_state == 0 ? 'primary' : ''"
+                  @click="page_state = 0"
+              >{{ $t("spot_title") }}</v-btn
+              >
+            </v-col>
+            <v-col class="pl-1 pr-1" v-if="curr_crypto">
+              <v-btn
+                  block
+                  class="menu-curr-buttons"
+                  :class="page_state == 1 ? 'primary' : ''"
+                  @click="page_state = 1"
+              >{{ $t("user_arbitrage") }}</v-btn
+              >
+            </v-col>
+            <v-col class="pl-1 pr-1">
+              <v-btn
+                  block
+                  class="menu-curr-buttons"
+                  :class="page_state == 2 ? 'primary' : ''"
+                  @click="page_state = 2"
+              >{{ $t("leverage") }}</v-btn
+              >
+            </v-col>
+        </v-row>
+          <v-card class="mt-5">
+            <v-row class="justify-start align-center">
+              <v-col :cols="12" class="pt-0 mt-0">
+                <v-autocomplete
+                    class="crypto-select ml-4 mt-4"
+                    v-model="curr_id"
+                    :items="currencies"
+                    item-text="name"
+                    item-value="id"
+                    dense
+                    outlined
+                    hide-details
+                ><template v-slot:selection="{ item }">
+                  <v-chip style="background: transparent !important">
+                    <v-row class="ml-1 mb-2">
+                      <img height="20" :src="item.logo" alt="" class="mr-2" />
+                      <p>{{ item.name }}</p>
+                      <span class="ml-2" style="color: #bfb5ff">
+                        {{ item.symbol }}</span>
+                    </v-row>
+                  </v-chip>
+                </template>
+                  <template v-slot:item="{ item }">
+                    <div class="d-flex ">
+                      <img height="20" :src="item.logo" alt="" />
+                      <div class="d-flex ml-3 ">
+                        <strong>{{ item.name }}</strong>
+                        <span class="ml-2" style="color: #bfb5ff">
+                        {{ item.symbol }}</span
+                        >
+                      </div>
+                    </div>
+                  </template>
+                </v-autocomplete>
+              </v-col>
+              <v-col :cols="12" class="pt-10">
+                <Indicators
+                    v-if="page_state == 0"
+                    :currency="curr_code"
+                    :price="price"
+                    :change="change"
+                    :low="low"
+                    :high="high"
+                ></Indicators>
+                <Platforms
+                    v-if="page_state == 1"
+                    :currency="curr_code"
+                    :prices="arb_data"
+                    @clicked="platform_changed"
+                ></Platforms>
+              </v-col>
+            </v-row>
+          </v-card>
+        <v-row>
+          <v-col :cols="12" class="mt-5">
+         <v-card>
+           <v-list width="100%" class="pa-0">
+             <v-list-item-group v-model="btn_active" class="d-flex">
+               <v-list-item
+                   tag="button"
+                   block
+                   elevation="0"
+                   class="btn_exchange pa-0"
+                   :style="customStyle"
+                   active-class="active_btn_exchange"
+                   @click="buyHandler"
+               >{{ $t("buy") }}</v-list-item
+               >
+
+               <v-list-item
+                   tag="button"
+                   block
+                   elevation="0"
+                   class="btn_exchange pa-0"
+                   :style="customStyle"
+                   active-class="active_btn_exchange"
+                   @click="sellHandler"
+               >{{ $t("sell") }}</v-list-item
+               >
+             </v-list-item-group>
+           </v-list>
+         </v-card>
+          </v-col>
+        </v-row>
+          <v-row class="mt-2 ml-4 mt-4">
+            <v-col :cols="12">
+              <v-row v-if="graph_key && page_state != 2">
+                <v-col class="pl-0">
+                  <TradeGraph
+                      :width="graphWidth"
+                      :height="graphHeight"
+                      :key_g="graph_key"
+                  ></TradeGraph>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col class="ml-2" v-if="page_state != 2">
+              <OrderBook :currency="curr_code" :price="price" :change="change" />
+            </v-col>
+          </v-row>
+        <v-col :cols="12" class="pt-0 pl-0">
+          <SpotCard
+              v-if="page_state == 0"
+              :currency="curr_code"
+              :price="price"
+              @reload="reload_trade"
+          ></SpotCard>
+          <TableAC
+              v-if="page_state == 1"
+              :currency="curr_code ? curr_code : undefined"
+              :prices="arb_data"
+              :current="current"
+              @reload="reload"
+              class="ml-4"
+          ></TableAC>
+        </v-col>
+      </v-row>
+      <v-row v-if="page_state == 2">
+        <v-col>
+          <Leverage :currency="current"></Leverage>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <TableTrades
+              v-if="trade_filter && page_state == 0"
+              :prices="prices"
+              :filter="trade_filter"
+              ref="trades"
+          ></TableTrades>
+          <TableASession
+              v-if="as_filter && page_state == 1"
+              :prices="prices"
+              :filter="as_filter"
+              title="table_position"
+              ref="a_session"
+          ></TableASession>
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
@@ -493,5 +667,19 @@ export default {
 }
 html[theme="light"] .menu-curr-buttons:not(.primary) {
   background: #ffffff !important;
+}
+.page-container_mobile{
+  display: none;
+}
+@media (max-width: 1000px) {
+  .page-container_mobile{
+    display: block;
+  }
+  .page-container{
+    display: none;
+  }
+  .menu-curr-buttons{
+    height: 50px!important;
+  }
 }
 </style>
