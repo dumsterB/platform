@@ -1,26 +1,27 @@
 export const state = () => ({
     news: [],
     total: 0,
-    next: 0,
 })
 
 export const getters = {
     news: state => {
         return state.news;
+    },
+    article: state => id => {
+        let fnd = state.news.find(el => el.articleId == id);
+        return fnd;
     }
 }
 
 export const actions = {
     async fetchNews(context) {
-        let response = await fetch("https://newsdata.io/api/1/news?apikey=pub_51822fc8b623a4b941303e2c5ba0e6d6d3d8&country=gb,us&language=en&q=cryptocurrency&category=top");
+        let response = await fetch("https://gnews.io/api/v4/search?q=crypto&lang=en&token=b744bb96e141e787268e64f4252b3bbc");
         let data = await response.json();
         console.log('NEWS', data);
-        if (data && data.results) {
-            context.commit('updateNews', data.results)
-            context.commit('updateTotal', data.totalResults)
-            context.commit('updateNext', data.nextPage)
+        if (data && data.articles) {
+            context.commit('updateNews', data.articles)
+            context.commit('updateTotal', data.totalArticles)
         }
-
     }
 }
 

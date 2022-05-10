@@ -5,7 +5,7 @@
       class="mx-auto mainBorderRadius"
       min-height="450"
     >
-      <v-img class="white--text align-end" height="200px" :src="item.image_url">
+      <v-img class="white--text align-end" height="200px" :src="item.image">
       </v-img>
       <v-card-title class="success_text--text description pb-0">{{
         item.title
@@ -48,7 +48,7 @@ export default {
   // },
   computed: {
     formatedDate() {
-      const date = new Date(this.item.pubDate);
+      const date = new Date(this.item.publishedAt);
       const minutes =
         date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
       const newsItemDate =
@@ -63,8 +63,10 @@ export default {
     },
   },
   methods: {
-    handlerOpenArticle: function () {
-      window.open(this.item.link, "_blank").focus();
+    handlerOpenArticle() {
+      this.$router.push({
+        path: `/news/${this.item.articleId}`
+      });
     },
   },
   mounted() {},

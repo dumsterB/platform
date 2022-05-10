@@ -69,17 +69,7 @@
         </div>
       </template>
       <template v-slot:[`item.chart`]="{}">
-        <div class="d-flex">
-          <v-sparkline
-            :value="value"
-            color="#BA68C8"
-            height="100"
-            padding="10"
-            stroke-linecap="round"
-            smooth
-          >
-          </v-sparkline>
-        </div>
+        <SmallGraph> </SmallGraph>
       </template>
       <template v-slot:[`item.volume`]="{ item }">
         <div class="ml-4" v-if="item.volume">
@@ -94,7 +84,12 @@
             <v-icon :class="diffColor(item.volume_change)" size="small">{{
               item.volume_change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ '$' + new Intl.NumberFormat().format(item.volume_change ? item.volume_change : 0) }}
+            {{
+              "$" +
+              new Intl.NumberFormat().format(
+                item.volume_change ? item.volume_change : 0
+              )
+            }}
           </span>
         </div>
         <div v-else class="ml-4">
@@ -114,7 +109,12 @@
             <v-icon :class="diffColor(item.market_cap_change)" size="small">{{
               item.market_cap_change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ '$' + new Intl.NumberFormat().format(item.market_cap_change ? item.market_cap_change : 0) }}
+            {{
+              "$" +
+              new Intl.NumberFormat().format(
+                item.market_cap_change ? item.market_cap_change : 0
+              )
+            }}
           </span>
         </div>
         <div v-else>
@@ -126,14 +126,14 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import sparklines from "@/components/elements/currencies/Sparklines.vue";
+import SmallGraph from "~/components/elements/currencies/SmallGraph";
 import config from "~/config/config.json";
 export default {
   props: {
     price: {},
   },
   components: {
-    sparklines,
+    SmallGraph,
   },
   data() {
     return {
@@ -171,7 +171,9 @@ export default {
           el.change = determine.change_24h;
           el.volume_change = el.volume ? determine.volume_24h - el.volume : 0;
           el.volume = determine.volume_24h;
-          el.market_cap_change = el.market_cap ? determine.market_cap - el.market_cap : 0;
+          el.market_cap_change = el.market_cap
+            ? determine.market_cap - el.market_cap
+            : 0;
           el.market_cap = determine.market_cap;
           el.percent = percent;
         }
@@ -201,7 +203,7 @@ export default {
           sortable: false,
           value: "chart",
         },
-        { text: "24H Volume", value: "volume"},
+        { text: "24H Volume", value: "volume" },
         { text: "Market Cap", value: "market_cap" },
         { text: "Invest", value: "action", sortable: false },
       ];

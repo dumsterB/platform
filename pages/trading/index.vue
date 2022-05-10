@@ -61,7 +61,11 @@ export default {
             if (curr) {
               if (!dt.close) {
                 let pdt = me.get_val(curr.symbol);
-                dt.close = pdt.close;
+                if (pdt && pdt.close) {
+                  dt.close = pdt.close;
+                } else {
+                  return;
+                }
               }
               let p_d = {
                 currency_type: curr.currency_type,
