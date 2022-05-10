@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="px-4 pb-0">
+    <v-card class="px-4" style="padding-bottom: 6px">
       <div class="mb-6">
         <v-list-item-group>
           <v-list-item
@@ -26,15 +26,15 @@
         ><v-row
           v-for="(dt, i) in rise_data"
           :key="i"
-          style="height: 24px; font-size: 12px; margin-bottom: -10px"
+          style="height: 20px; font-size: 12px; margin-bottom: -10px"
           :style="`background: linear-gradient(to right, transparent 0%, transparent ${
             100 - dt.perc
           }%, rgb(1,186,198,0.3) ${100 - dt.perc}%, rgb(1,186,198,0.3) 100%)`"
         >
-          <v-col :cols="6" class="pt-1"
+          <v-col :cols="6" class="pt-0"
             ><span style="font-weight: 600">{{ dt.price }}</span></v-col
           >
-          <v-col :cols="6" class="pt-1"
+          <v-col :cols="6" class="pt-0"
             ><span>{{ dt.total }}</span></v-col
           >
         </v-row>
@@ -54,16 +54,16 @@
         <v-row
           v-for="(dt, i) in fall_data"
           :key="number_d + i"
-          style="height: 24px; font-size: 14px; margin-bottom: -10px"
+          style="height: 20px; font-size: 14px; margin-bottom: -10px"
           :style="`background: linear-gradient(to right, transparent 0%, transparent ${
             100 - dt.perc
           }%, rgb(211,34,98,0.3) ${100 - dt.perc}%, rgb(211,34,98,0.3) 100%)`"
         >
-          <v-col :cols="6" class="pt-1"
-            ><span style="font-weight: 600">{{ dt.price }}</span></v-col
+          <v-col :cols="6" class="pt-0"
+            ><span style="font-weight: 600; font-size: 12px">{{ dt.price }}</span></v-col
           >
-          <v-col :cols="6" class="pt-1"
-            ><span>{{ dt.total }}</span></v-col
+          <v-col :cols="6" class="pt-0"
+            ><span style="font-size: 12px">{{ dt.total }}</span></v-col
           >
         </v-row>
       </div>
