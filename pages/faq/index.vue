@@ -73,7 +73,9 @@
               v-model="search"
               class="mb-3"
               v-if="search ? search : !search"
-              v-for="(item, i) in search ? searchable : filtered"
+              v-for="(item, i) in search
+                ? firstSearch
+                : firstFilteredQuestionsHalf"
               :key="i"
               :value="0"
             >
@@ -93,14 +95,16 @@
             </v-expansion-panel>
           </v-expansion-panels>
         </v-col>
-        <!-- 
+
         <v-col :cols="4" class="mt-12">
           <v-expansion-panels>
             <v-expansion-panel
               v-model="search"
               class="mb-3"
               v-if="search ? search : !search"
-              v-for="(item, i) in search ? searchable : filtered"
+              v-for="(item, i) in search
+                ? secondSearch
+                : secondFilteredQuestionsHalf"
               :key="i"
               :value="0"
             >
@@ -118,10 +122,8 @@
                 {{ item.answer }}
               </v-expansion-panel-content>
             </v-expansion-panel>
-            
           </v-expansion-panels>
         </v-col>
-        -->
       </v-row>
     </v-card>
   </div>
@@ -207,9 +209,28 @@ export default {
       }
       return res;
     },
-    searchable() {
+    firstFilteredQuestionsHalf() {
+      const items = this.filtered;
+      let half = Math.ceil(items.length / 2);
+      let first = items.slice(0, half);
+      return first;
+    },
+    secondFilteredQuestionsHalf() {
+      const items = this.filtered;
+      let half = Math.ceil(items.length / 2);
+      let second = items.slice(half);
+      return second;
+    },
+    firstSearch() {
       let query = this.search;
-      let fnd = this.filtered.filter(
+      let fnd = this.firstFilteredQuestionsHalf.filter(
+        (el) => el.question.includes(query) || el.answer.includes(query)
+      );
+      return fnd;
+    },
+    secondSearch() {
+      let query = this.search;
+      let fnd = this.secondFilteredQuestionsHalf.filter(
         (el) => el.question.includes(query) || el.answer.includes(query)
       );
       return fnd;
@@ -220,6 +241,16 @@ export default {
       let fnd = this.filtered.filter((el) => el.question.includes(v));
       return fnd;
     },
+  },
+  mounted() {
+    console.log(
+      "this.firstFilteredQuestionsHalf :>> ",
+      this.firstFilteredQuestionsHalf
+    );
+    console.log(
+      "this.secondFilteredQuestionsHalf :>> ",
+      this.secondFilteredQuestionsHalf
+    );
   },
 };
 </script>
