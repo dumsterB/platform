@@ -566,4 +566,5 @@ export default {
   trading_and_funding: "Handel und Finanzierung",
   privacy_and_security: "Privatsphäre und Sicherheit",
   create_an_account: "Ein Konto erstellen",
+  similar_questions: "Ähnliche Fragen",
 };

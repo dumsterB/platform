@@ -554,4 +554,5 @@ export default {
   trading_and_funding: "Handel i finansowanie",
   privacy_and_security: "Prywatność i ochrona",
   create_an_account: "Utwórz konto",
+  similar_questions: "Podobne pytania",
 };

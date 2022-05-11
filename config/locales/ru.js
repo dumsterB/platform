@@ -563,4 +563,5 @@ export default {
   trading_and_funding: "Торговля и финансирование",
   privacy_and_security: "Конфиденциальность и безопасность",
   create_an_account: "Завести аккаунт",
+  similar_questions: 'Похожие вопросы',
 };

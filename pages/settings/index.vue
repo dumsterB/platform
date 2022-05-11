@@ -61,6 +61,7 @@ export default {
   },
   methods: {
     change_content(val) {
+      console.log("val :>> ", val);
       this.currentContent = val;
     },
   },

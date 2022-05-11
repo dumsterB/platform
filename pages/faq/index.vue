@@ -1,6 +1,6 @@
 <template>
-  <div class="pa-0 ma-0">
-    <row class="d-flex justify-space-between align-center">
+  <v-container class="pa-0 ma-0">
+    <v-row class="d-flex justify-space-between align-center mb-3">
       <v-col :cols="1">
         <h2 class="text-uppercase font-weight-bold heading">
           {{ $t("faq") }}
@@ -18,7 +18,7 @@
           :label="$t('market_search_bar_placeholder')"
         ></v-text-field>
       </v-col>
-    </row>
+    </v-row>
     <v-card class="mainBorderRadius">
       <v-row>
         <v-col :cols="3" class="px-8">
@@ -67,7 +67,7 @@
             </v-list-item-group>
           </v-list>
         </v-col>
-        <v-col :cols="4" class="mt-12">
+        <v-col :cols="4" class="mt-12" v-if="answer_to_show === null">
           <v-expansion-panels>
             <v-expansion-panel
               v-model="search"
@@ -78,25 +78,21 @@
                 : firstFilteredQuestionsHalf"
               :key="i"
               :value="0"
+              @click="showAnswer(item)"
             >
-              <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
-                <v-expansion-panel-header
-                  >{{ item.question }}
-                  <template v-slot:actions>
-                    <v-icon :color="hover ? 'primary' : 'success'"
-                      >mdi-chevron-down</v-icon
-                    >
-                  </template>
-                </v-expansion-panel-header>
-              </v-hover>
-              <v-expansion-panel-content>
-                {{ item.answer }}
-              </v-expansion-panel-content>
+              <v-expansion-panel-header hide-actions
+                >{{ item.question }}
+              </v-expansion-panel-header>
             </v-expansion-panel>
           </v-expansion-panels>
+          <!--  <v-pagination
+            v-model="page"
+            class="my-4"
+            :length="firstFilteredQuestionsHalf.length / 10"
+          ></v-pagination> -->
         </v-col>
 
-        <v-col :cols="4" class="mt-12">
+        <v-col :cols="4" class="mt-12" v-if="answer_to_show === null">
           <v-expansion-panels>
             <v-expansion-panel
               v-model="search"
@@ -107,32 +103,33 @@
                 : secondFilteredQuestionsHalf"
               :key="i"
               :value="0"
+              @click="showAnswer(item)"
             >
-              <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
-                <v-expansion-panel-header
-                  >{{ item.question }}
-                  <template v-slot:actions>
-                    <v-icon :color="hover ? 'primary' : 'success'"
-                      >mdi-chevron-down</v-icon
-                    >
-                  </template>
-                </v-expansion-panel-header>
-              </v-hover>
-              <v-expansion-panel-content>
-                {{ item.answer }}
-              </v-expansion-panel-content>
+              <v-expansion-panel-header hide-actions
+                >{{ item.question }}
+              </v-expansion-panel-header>
             </v-expansion-panel>
           </v-expansion-panels>
         </v-col>
+        <v-col v-if="answer" :cols="8" class="mt-12">
+          <Answer
+            v-model="answer"
+            :item="answer_to_show"
+            :goBack="goBack"
+            :showAnswer="showAnswer"
+          />
+        </v-col>
       </v-row>
     </v-card>
-  </div>
+  </v-container>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import config from "~/config/config.json";
+import Answer from "./answer.vue";
 export default {
+  components: { Answer },
   name: "faqPage",
   data() {
     return {
@@ -145,8 +142,11 @@ export default {
       active_catecory: "all",
       btn_active: 0,
       catecory_active: 0,
+      answer: 0,
       config: config,
       search: null,
+      page: 1,
+      answer_to_show: null,
     };
   },
   methods: {
@@ -158,6 +158,14 @@ export default {
     },
     categoriesHandler(val) {
       this.active_catecory = val;
+    },
+    showAnswer(val) {
+      this.answer_to_show = val;
+      this.answer = 1;
+    },
+    goBack() {
+      this.answer_to_show = null;
+      this.answer = 0;
     },
   },
   computed: {
@@ -243,14 +251,7 @@ export default {
     },
   },
   mounted() {
-    console.log(
-      "this.firstFilteredQuestionsHalf :>> ",
-      this.firstFilteredQuestionsHalf
-    );
-    console.log(
-      "this.secondFilteredQuestionsHalf :>> ",
-      this.secondFilteredQuestionsHalf
-    );
+    console.log("this.answer :>> ", this.answer);
   },
 };
 </script>

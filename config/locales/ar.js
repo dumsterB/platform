@@ -252,4 +252,5 @@ export default {
   trading_and_funding: "Trading and funding",
   privacy_and_security: "Privacy and security",
   create_an_account: "Create an account",
+  similar_questions: "Similar questions",
 };
