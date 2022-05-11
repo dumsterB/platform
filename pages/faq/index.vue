@@ -1,18 +1,24 @@
 <template>
   <div class="pa-0 ma-0">
-    <h2 class="text-uppercase font-weight-bold mb-4 heading">
-      {{ $t("faq") }}
-    </h2>
-    <v-text-field
-      class="mb-4 global-search"
-      :items="filtered"
-      outlined
-      dense
-      hide-details
-      v-model="search"
-      append-icon="mdi-magnify"
-      :label="$t('market_search_bar_placeholder')"
-    ></v-text-field>
+    <row class="d-flex justify-space-between align-center">
+      <v-col :cols="1">
+        <h2 class="text-uppercase font-weight-bold heading">
+          {{ $t("faq") }}
+        </h2>
+      </v-col>
+      <v-col :cols="4">
+        <v-text-field
+          class="global-search"
+          :items="filtered"
+          outlined
+          dense
+          hide-details
+          v-model="search"
+          prepend-inner-icon="mdi-magnify"
+          :label="$t('market_search_bar_placeholder')"
+        ></v-text-field>
+      </v-col>
+    </row>
     <v-card class="mainBorderRadius">
       <v-row>
         <v-col :cols="3" class="px-8">
@@ -61,13 +67,46 @@
             </v-list-item-group>
           </v-list>
         </v-col>
-        <v-col :cols="4">
+        <v-col :cols="4" class="mt-12">
           <v-expansion-panels>
             <v-expansion-panel
+              v-model="search"
               class="mb-3"
-              v-for="(item, i) in questions"
+              v-if="search ? search : !search"
+              v-for="(item, i) in search
+                ? firstSearch
+                : firstFilteredQuestionsHalf"
               :key="i"
-              :search="search"
+              :value="0"
+            >
+              <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
+                <v-expansion-panel-header
+                  >{{ item.question }}
+                  <template v-slot:actions>
+                    <v-icon :color="hover ? 'primary' : 'success'"
+                      >mdi-chevron-down</v-icon
+                    >
+                  </template>
+                </v-expansion-panel-header>
+              </v-hover>
+              <v-expansion-panel-content>
+                {{ item.answer }}
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+
+        <v-col :cols="4" class="mt-12">
+          <v-expansion-panels>
+            <v-expansion-panel
+              v-model="search"
+              class="mb-3"
+              v-if="search ? search : !search"
+              v-for="(item, i) in search
+                ? secondSearch
+                : secondFilteredQuestionsHalf"
+              :key="i"
+              :value="0"
             >
               <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
                 <v-expansion-panel-header
@@ -118,7 +157,6 @@ export default {
       this.active_btn = "business";
     },
     categoriesHandler(val) {
-      console.log("val :>> ", val);
       this.active_catecory = val;
     },
   },
@@ -142,21 +180,77 @@ export default {
       let data = [];
       let res = [];
       this.questions.map((el) => data.push(el));
-      data.map((el) => res.push(el));
+      if (this.active_catecory === "all") {
+        data.map((el) => res.push(el));
+      } else if (this.active_catecory === "getting_started") {
+        let cat = data.filter((el) => el.category === "getting_started");
+        res.push(...cat);
+      } else if (this.active_catecory === "what_is_arbitrage") {
+        let cat = data.filter((el) => el.category === "what_is_arbitrage");
+        res.push(...cat);
+      } else if (this.active_catecory === "what_is_crypto") {
+        let cat = data.filter((el) => el.category === "what_is_crypto");
+        res.push(...cat);
+      } else if (this.active_catecory === "what_is_leverage") {
+        let cat = data.filter((el) => el.category === "what_is_leverage");
+        res.push(...cat);
+      } else if (this.active_catecory === "managing_my_account") {
+        let cat = data.filter((el) => el.category === "managing_my_account");
+        res.push(...cat);
+      } else if (this.active_catecory === "trading_and_funding") {
+        let cat = data.filter((el) => el.category === "trading_and_funding");
+        res.push(...cat);
+      } else if (this.active_catecory === "privacy_and_security") {
+        let cat = data.filter((el) => el.category === "privacy_and_security");
+        res.push(...cat);
+      } else if (this.active_catecory === "create_an_account") {
+        let cat = data.filter((el) => el.category === "create_an_account");
+        res.push(...cat);
+      }
       return res;
+    },
+    firstFilteredQuestionsHalf() {
+      const items = this.filtered;
+      let half = Math.ceil(items.length / 2);
+      let first = items.slice(0, half);
+      return first;
+    },
+    secondFilteredQuestionsHalf() {
+      const items = this.filtered;
+      let half = Math.ceil(items.length / 2);
+      let second = items.slice(half);
+      return second;
+    },
+    firstSearch() {
+      let query = this.search;
+      let fnd = this.firstFilteredQuestionsHalf.filter(
+        (el) => el.question.includes(query) || el.answer.includes(query)
+      );
+      return fnd;
+    },
+    secondSearch() {
+      let query = this.search;
+      let fnd = this.secondFilteredQuestionsHalf.filter(
+        (el) => el.question.includes(query) || el.answer.includes(query)
+      );
+      return fnd;
     },
   },
   watch: {
     search(v) {
       let fnd = this.filtered.filter((el) => el.question.includes(v));
-      console.log("selected", v);
-      console.log("fnd :>> ", fnd);
-      console.log("filtered :>> ", this.filtered);
       return fnd;
     },
   },
   mounted() {
-    // console.log("filtered :>> ", this.filtered);
+    console.log(
+      "this.firstFilteredQuestionsHalf :>> ",
+      this.firstFilteredQuestionsHalf
+    );
+    console.log(
+      "this.secondFilteredQuestionsHalf :>> ",
+      this.secondFilteredQuestionsHalf
+    );
   },
 };
 </script>
