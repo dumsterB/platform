@@ -1,7 +1,6 @@
 <template>
   <div>
   <div class="page-container" >
-    <p>Desktop</p>
     <v-row>
       <v-col :lg="9" :md="12" class="pt-4">
         <v-card class="ml-4">
@@ -148,7 +147,7 @@
     </v-row>
   </div>
     <div class="page-container_mobile" >
-      <v-row class="pl-3 pr-3">
+      <v-row class="pl-2 pr-2">
             <v-col class="pl-1 pr-1">
               <v-btn
                   block
@@ -199,10 +198,10 @@
                   </v-chip>
                 </template>
                   <template v-slot:item="{ item }">
-                    <div class="d-flex ">
+                    <div class="d-flex">
                       <img height="20" :src="item.logo" alt="" />
                       <div class="d-flex ml-3 ">
-                        <strong>{{ item.name }}</strong>
+                        <strong>{{ item.name }} </strong>
                         <span class="ml-2" style="color: #bfb5ff">
                         {{ item.symbol }}</span
                         >
@@ -211,7 +210,7 @@
                   </template>
                 </v-autocomplete>
               </v-col>
-              <v-col :cols="12" class="pt-10">
+              <v-col :cols="12" class="pt-2">
                 <Indicators
                     v-if="page_state == 0"
                     :currency="curr_code"
@@ -231,13 +230,13 @@
           </v-card>
          <v-col :cols="12" class="mt-5">
          <v-card style="background: transparent!important;" elevation="0">
-           <v-list width="100%" class="pa-0 mr-2">
+           <v-list width="100%" class="pa-0" v-if="page_state !== 2">
              <v-list-item-group class="d-flex">
                <v-list-item
                    tag="button"
                    block
                    elevation="0"
-                   class="btn_exchange pa-0 ml-2 mr-2"
+                   class="btn_exchange pa-0 ml-1 mr-1"
                    :style="customStyle"
                    @click="content_page=1"
                    active-class="active_btn_exchange "
@@ -246,7 +245,7 @@
                    tag="button"
                    block
                    elevation="0"
-                   class="btn_exchange pa-0 ml-2 mr-2"
+                   class="btn_exchange pa-0 ml-1 mr-1"
                    :style="customStyle"
                    @click="content_page=1"
                    active-class="active_btn_exchange "
@@ -255,11 +254,22 @@
                    tag="button"
                    block
                    elevation="0"
-                   class="btn_exchange pa-0 ml-2 mr-2"
+                   class="btn_exchange pa-0 ml-1 mr-1"
                    :style="customStyle"
                    @click="content_page=2"
+                   v-if="page_state!==1"
                    active-class="active_btn_exchange"
                >{{ $t("spot_title") }}</v-list-item>
+               <v-list-item
+                   tag="button"
+                   block
+                   elevation="0"
+                   class="btn_exchange pa-0 ml-1 mr-1"
+                   :style="customStyle"
+                   v-if="page_state == 1"
+                   @click="content_page=2"
+                   active-class="active_btn_exchange"
+               >{{ $t("user_arbitrage") }}</v-list-item>
              </v-list-item-group>
            </v-list>
 <!--           <v-col :cols="12" class="pl-0" v-if="graph_key && page_state != 2">
@@ -290,12 +300,12 @@
            </v-col>
          </v-card>
          </v-col>
-
+        <v-col style="margin-top: -80px" v-if="page_state == 2">
+        <Leverage :currency="current"></Leverage>
+      </v-col>
       </v-row>
-      <v-row v-if="page_state == 2">
-        <v-col>
-          <Leverage :currency="current"></Leverage>
-        </v-col>
+      <v-row >
+
       </v-row>
       <v-row>
         <v-col>

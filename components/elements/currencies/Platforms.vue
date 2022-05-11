@@ -1,12 +1,12 @@
 <template>
   <v-row>
     <v-col
-      class="mt-0"
-      :cols="12"
+      class="mt-0 d-flex ml-5 mr-5"
+      :cols="2"
       :md="2"
       :lg="2"
-      :sm="12"
-      :xs="12"
+      :sm="2"
+      :xs="2"
       v-for="(val, i) in list"
       :key="i"
     >

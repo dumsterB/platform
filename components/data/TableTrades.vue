@@ -8,7 +8,7 @@
       sort-by="created_at"
       :loading="loading"
       :sort-desc="true"
-      class="elevation-1 ma-4 ml-8"
+      class="elevation-1 ma-2 ml-2"
       :server-items-length="totalLength"
       @pagination="paging"
       :footer-props="{

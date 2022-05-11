@@ -1,5 +1,5 @@
 <template>
-  <v-container class="container_indicator">
+  <v-container class="container_indicator mt-1">
   <v-row>
     <v-col :cols="3" style="text-align: center;" class="pt-0 pb-0">
       <p class="ma-0 pa-0 gray--text" style="font-size: 12px">{{ indicators[0].title }}</p>
