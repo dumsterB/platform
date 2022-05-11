@@ -8,12 +8,9 @@
         <div class="selecImage">
           <div
             class="image-input"
-            :style="
-              (`background-image: url(${
-                imageData ? imageData : image_data
-              }); background-size: 200px;`,
-              customStyle)
-            "
+            :style="`background-image: url(${
+              imageData ? imageData : image_data
+            }); background-size: 200px;`"
             @click="chooseImage"
           >
             <span v-if="!imageData" class="placeholder text-gray--text">
@@ -444,7 +441,7 @@ export default {
     if (this.$auth.user.fs && this.$auth.user.fs.length > 0) {
       this.image_data =
         this.$env("FILE_SERVER_BASE") + this.$auth.user.fs[0].dir;
-      // console.log(this.image_data);
+      console.log(this.image_data);
     }
   },
   computed: {
@@ -521,14 +518,7 @@ export default {
   cursor: pointer;
   border-radius: 50% !important;
   background-size: cover;
-
   background-position: center center;
-}
-html[theme="dark"] .image-input {
-  background: var(--blue_dark);
-}
-html[theme="light"] .image-input {
-  background: var(--success);
 }
 
 .placeholder {
@@ -537,7 +527,6 @@ html[theme="light"] .image-input {
   display: flex;
   justify-content: center;
   align-items: center;
-
   font-size: 18px;
 }
 
