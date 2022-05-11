@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 class="ml-4 mb-2">Spot</h3>
-    <v-card class="ma-2 mr-8 pa-4 pt-0 elevation-4 spot-card">
+    <v-card class="ma-2 pa-4 pt-0 elevation-4 spot-card">
       <v-list-item-group class="d-flex">
         <v-list-item
           tagh="button"

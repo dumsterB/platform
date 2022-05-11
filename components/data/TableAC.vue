@@ -1,6 +1,6 @@
 <template>
   <div class="ac-comp">
-    <h3 class="ml-2 mb-2">{{ $t("user_arbitrage") }}</h3>
+    <h3 class="mb-2">{{ $t("user_arbitrage") }}</h3>
     <v-data-table
       :items="list"
       :headers="headers"
@@ -9,7 +9,8 @@
         'items-per-page-options': [5, 10, 20],
         'items-per-page-text': $t('items_per_page'),
       }"
-      class="elevation-4 space rounded-lg pl-4 pr-4 ml-0"
+      class="elevation-4  rounded-lg ma-0 ml-0  ml-0"
+      style="margin-left: 0px!important;"
     >
       <template v-slot:[`item.name`]="{ item }"
         ><v-img
@@ -192,8 +193,8 @@ export default {
 </script>
 
 <style lang="scss">
-.space {
-  margin-left: -22px !important;
+.v-application .ml-8 {
+  margin-left: 15px !important;
 }
 .ac-comp .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   padding: 0 6px !important;

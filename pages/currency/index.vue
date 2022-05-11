@@ -148,7 +148,7 @@
     </v-row>
   </div>
     <div class="page-container_mobile" >
-      <v-row class="pl-5 pr-5">
+      <v-row class="pl-3 pr-3">
             <v-col class="pl-1 pr-1">
               <v-btn
                   block
@@ -176,9 +176,9 @@
               >{{ $t("leverage") }}</v-btn
               >
             </v-col>
-          <v-card class="mt-5">
+          <v-card class="mt-5 ml-2 mr-2">
             <v-row class="justify-start align-center">
-              <v-col :cols="12" class="pt-0 mt-0">
+              <v-col :cols="12" class="pt-0 mt-0 pl-5 pr-5">
                 <v-autocomplete
                     class="crypto-select ml-4 mt-4"
                     v-model="curr_id"
@@ -231,14 +231,15 @@
           </v-card>
          <v-col :cols="12" class="mt-5">
          <v-card style="background: transparent!important;" elevation="0">
-           <v-list width="100%" class="pa-0">
-             <v-list-item-group v-model="btn_active" class="d-flex">
+           <v-list width="100%" class="pa-0 mr-2">
+             <v-list-item-group class="d-flex">
                <v-list-item
                    tag="button"
                    block
                    elevation="0"
                    class="btn_exchange pa-0 ml-2 mr-2"
                    :style="customStyle"
+                   @click="content_page=1"
                    active-class="active_btn_exchange "
                >{{ $t("chart_title") }}</v-list-item>
                <v-list-item
@@ -247,6 +248,7 @@
                    elevation="0"
                    class="btn_exchange pa-0 ml-2 mr-2"
                    :style="customStyle"
+                   @click="content_page=1"
                    active-class="active_btn_exchange "
                >{{ $t("orderes_book") }}</v-list-item>
                <v-list-item
@@ -255,38 +257,40 @@
                    elevation="0"
                    class="btn_exchange pa-0 ml-2 mr-2"
                    :style="customStyle"
+                   @click="content_page=2"
                    active-class="active_btn_exchange"
                >{{ $t("spot_title") }}</v-list-item>
              </v-list-item-group>
            </v-list>
-           <v-col :cols="12" class="pl-0" v-if="graph_key && page_state != 2">
+<!--           <v-col :cols="12" class="pl-0" v-if="graph_key && page_state != 2">
                  <TradeGraph
                      :width="graphWidth"
                      :height="graphHeight"
                      :key_g="graph_key"
                  ></TradeGraph>
-           </v-col>
-           <v-col :cols="12"  v-if="page_state != 2">
+           </v-col>-->
+           <v-col :cols="12"  class="mt-5" v-if="page_state !== 2 && content_page===1">
              <OrderBook :currency="curr_code" :price="price" :change="change" />
            </v-col>
            <SpotCard
-               v-if="page_state == 0"
+               class="mt-5"
+               v-if="page_state === 0 && content_page===2"
                :currency="curr_code"
                :price="price"
                @reload="reload_trade"
            ></SpotCard>
+           <v-col :cols="12">
+             <TableAC
+                 v-if="page_state == 1"
+                 :currency="curr_code ? curr_code : undefined"
+                 :prices="arb_data"
+                 :current="current"
+                 @reload="reload"
+             ></TableAC>
+           </v-col>
          </v-card>
          </v-col>
-        <v-col :cols="12">
-          <TableAC
-              v-if="page_state == 1"
-              :currency="curr_code ? curr_code : undefined"
-              :prices="arb_data"
-              :current="current"
-              @reload="reload"
-              class="ml-4"
-          ></TableAC>
-        </v-col>
+
       </v-row>
       <v-row v-if="page_state == 2">
         <v-col>
@@ -364,6 +368,7 @@ export default {
       curr_subscr: "",
       trade_filter: null,
       interv: null,
+      content_page:1,
     };
   },
   computed: {
