@@ -34,7 +34,7 @@
             class="mr-12"
             style="align-items: center; display: flex"
             v-model="VerificationNumberCheckbox"
-            :label="cutValue(phone)"
+            :label="cutPhoneValue(phone)"
           ></v-checkbox>
           <div style="align-items: center; display: flex">
             <v-btn
@@ -62,7 +62,7 @@
             class="mr-12"
             style="align-items: center; display: flex"
             v-model="VerificationEmailCheckbox"
-            :label="cutValue(email)"
+            :label="cutEmailValue(email)"
           ></v-checkbox>
           <div style="align-items: center; display: flex">
             <v-btn
@@ -172,8 +172,8 @@ export default {
       primary: config.colors.text.primary,
       VerificationNumberCheckbox: true,
       VerificationEmailCheckbox: true,
-      email: this.$auth.user.mail,
-      phone: this.$auth.user.phone,
+      email: this.$auth.user.mail ? this.$auth.user.mail : "",
+      phone: this.$auth.user.phone ? this.$auth.user.phone : "",
     };
   },
   methods: {
@@ -181,8 +181,25 @@ export default {
       this.currentContent = val;
       this.$forceUpdate();
     },
-    cutValue(val) {
-      return val.slice(0, 4) + "***" + val.slice(8, -1);
+    cutPhoneValue(val) {
+      let string = "";
+      if (val !== "") {
+        return (string = `${val.slice(0, 4)}${"***"}${val.slice(8, -1)}`);
+      } else {
+        this.VerificationNumberCheckbox = false;
+        return (string = "");
+      }
+      return string;
+    },
+    cutEmailValue(val) {
+      let string = "";
+      if (val !== "") {
+        return (string = `${val.slice(0, 4)}${"***"}${val.slice(8, -1)}`);
+      } else {
+        this.VerificationEmailCheckbox = false;
+        return (string = "");
+      }
+      return string;
     },
   },
   computed: {
