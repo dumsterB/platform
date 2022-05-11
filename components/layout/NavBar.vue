@@ -1,7 +1,6 @@
 <template>
   <v-app-bar app flat class="app-bar-margins borderNone" id="app-bar-id">
-    <v-spacer></v-spacer>
-    <div class="d-flex mt-8" :dir="$dir()">
+    <div class="d-flex mt-8 mx-4" :dir="$dir()">
       <v-autocomplete
         v-model="value"
         :items="filtered"
@@ -57,14 +56,20 @@
       >
     </div>
     <v-spacer></v-spacer>
-    <div>
-      <v-btn
-        class="primary white--text mainBorderRadius font-weight-bold text-none mr-8 goToAction"
-      >
-        {{ $t("go_to_website") }}
-      </v-btn>
+    <div class="mt-6 mx-4 text-center" style="min-width: 120px">
+      <p class="mb-0 pb-0 title-head">Total Balance</p>
+      <p class="primary--text title-data">
+        $ {{ new Intl.NumberFormat().format(total) }}
+      </p>
     </div>
-
+    <div class="mt-6 mx-4 text-center" style="min-width: 120px">
+      <p class="mb-0 pb-0 title-head">Profitable Orders</p>
+      <p class="primary--text title-data">25/30</p>
+    </div>
+    <div class="mt-6 mx-4 text-center" style="min-width: 120px">
+      <p class="mb-0 pb-0 title-head">Total PLN</p>
+      <p class="primary--text title-data">$ 12 460</p>
+    </div>
     <v-menu
       transition="slide-y-transition"
       bottom
@@ -78,7 +83,16 @@
         <v-hover v-slot="{ hover }">
           <div
             flat
-            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
+            class="
+              account-menu
+              d-flex
+              flex-columns
+              align-center
+              mt-2
+              py-2
+              pr-2
+              pl-4
+            "
             v-on="on"
           >
             <div class="mr-2">
@@ -175,6 +189,9 @@ export default {
       is_nots: true,
       mar_str: "",
       subscrp: [],
+      total: null,
+      balances: {},
+      base_p: this.$store.state.config.data.base_p,
       items: [
         {
           text: "my_wallet",
@@ -196,6 +213,9 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("config/default", {
+      set_val: "set_val",
+    }),
     ...mapActions("data/currency", {
       fetchCurrencies: "fetchList",
     }),
@@ -221,6 +241,19 @@ export default {
         },
       ];
     },
+    wallets_subscribe_definer() {
+      let me = this;
+      let arr = [];
+      this.wallets.forEach((wall, i) => {
+        let cr = wall.currency.symbol;
+        if (wall.currency.currency_type.key == "CRYPTO") {
+          if (wall.balance) {
+            arr.push(`${me.base_p}:${cr}-USD@ticker_30s`);
+          }
+        }
+      });
+      return arr;
+    },
     async auth_logout() {
       this.$auth.logout();
     },
@@ -228,6 +261,17 @@ export default {
   },
 
   watch: {
+    balances(v) {
+      this.total = 0;
+      let fnd = this.wallets.find((el) => el.currency.symbol == "USD");
+      if (fnd) {
+        this.total = fnd.balance;
+      }
+      for (let prop in v) {
+        this.total += v[prop];
+      }
+      // console.log("this.total", this.total);
+    },
     value(v) {
       let fnd = this.filtered.find((el) => el.id == v);
       if (fnd) {
@@ -248,34 +292,44 @@ export default {
       let me = this;
       let json_d = JSON.parse(JSON.stringify(v));
       // console.log("MARQUE DATA", json_d);
-      me.stocks.forEach((st) => {
-        if (json_d && json_d.method == `shares:all.${st.key}@kline_1d`) {
+      me.subscrp.forEach((st) => {
+        if (json_d && json_d.method == st) {
           let data = json_d.data ? json_d.data.data || [] : [];
+          me.set_val(data);
           data.forEach((dtm) => {
             let dt = dtm;
             if (Array.isArray(dtm)) {
               dt = dtm[0];
             }
-            if (!dt || !dt.close) {
-              let pdt = me.get_val(dt.share);
-              if (pdt && pdt.close) {
-                dt.close = pdt.close;
-              } else {
-                return;
-              }
+            if (dt && dt.close) {
+              let change = (dt.close - dt.open).toFixed(4);
+              let ch_pr = ((change * 100) / dt.close).toFixed(4);
+              let color =
+                dt.close - dt.open > 0 ? "primary--text" : "red--text";
+              let share =
+                dt.exchange == "FOREX"
+                  ? `${dt.share}/USD`
+                  : `${dt.exchange} - ${dt.share}`;
+              me.mar_str += `<span class='pr-4'>
+              <span class="font-weight-bold" style="color: #9A9A9A">${share}</span>
+              <span class="font-weight-medium ${color}"> ${dt.close} ${change} (${ch_pr}) </span>
+              </span>`;
             }
-            let change = (dt.close - dt.open).toFixed(4);
-            let ch_pr = ((change * 100) / dt.close).toFixed(4);
-            let color = dt.close - dt.open > 0 ? "primary--text" : "red--text";
-            let share =
-              dt.exchange == "FOREX"
-                ? `${dt.share}/USD`
-                : `${dt.exchange} - ${dt.share}`;
-            me.mar_str += `<span class='pr-4'>
-            <span class="font-weight-bold" style="color: #9A9A9A">${share}</span>
-            <span class="font-weight-medium ${color}"> ${dt.close} ${change} (${ch_pr}) </span>
-            </span>`;
+            let price_data = {
+              price: dt.close ? dt.close : dt.price,
+              base: dt.base ? dt.base : dt.share,
+            };
+            let fnd = me.wallets.find(
+              (wl) => wl.currency.symbol == price_data.base
+            );
+            if (fnd && price_data.price) {
+              if (fnd.currency.currency_type.key == "FIAT") {
+                price_data.price = 1 / price_data.price;
+              }
+              me.balances[fnd.currency.symbol] = price_data.price * fnd.balance;
+            }
           });
+          me.balances = Object.assign({}, me.balances);
         }
       });
       document.getElementById("marquee").innerHTML = me.mar_str;
@@ -290,6 +344,9 @@ export default {
   },
 
   computed: {
+    ...mapGetters("data/wallet", {
+      wallets: "list",
+    }),
     ...mapGetters("config/ws", {
       prices_current: "top_data",
     }),
@@ -360,16 +417,27 @@ export default {
   },
   created() {
     let me = this;
-    me.subscrp = [];
+    me.subscrp = [`${me.base_p}:all@ticker_30s`];
     me.stocks.forEach((element, i) => {
       me.subscrp.push(`shares:all.${element.key}@kline_1d`);
     });
+    // let arr_subscr = me.wallets_subscribe_definer();
+    // me.subscrp = me.subscrp.concat(arr_subscr);
+    console.log("me.subscrp", me.subscrp);
     this.subscribe(Object.assign([], me.subscrp));
   },
 };
 </script>
 
 <style lang="scss">
+.title-head {
+  font-size: 14px;
+  font-weight: 400;
+}
+.title-data {
+  font-size: 16px;
+  font-weight: 700;
+}
 .account-menu {
   background: transparent !important;
   cursor: pointer;

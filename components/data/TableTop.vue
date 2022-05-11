@@ -50,7 +50,7 @@
           </span>
         </div>
         <div v-else>
-          {{ $t("no-data") }}
+          {{ "no-data" }}
         </div>
       </template>
       <template v-slot:[`item.action`]="{ item }">
@@ -93,7 +93,7 @@
           </span>
         </div>
         <div v-else class="ml-4">
-          {{ $t("no-data") }}
+          {{ "no-data" }}
         </div>
       </template>
       <template v-slot:[`item.market_cap`]="{ item }">
@@ -118,7 +118,7 @@
           </span>
         </div>
         <div v-else>
-          {{ $t("no-data") }}
+          {{ "no-data" }}
         </div>
       </template>
     </v-data-table>
