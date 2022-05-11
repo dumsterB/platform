@@ -287,7 +287,7 @@ export default {
     },
     def_price() {
       let curr = this.currency.find((el) => el.symbol == this.buy_curr);
-      this.price = curr.price || 1;
+      this.price = curr && curr.price ? curr.price : 1;
     },
     async trade_run() {
       this.loading = true;

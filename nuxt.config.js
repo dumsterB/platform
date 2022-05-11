@@ -43,6 +43,11 @@ export default {
   ssr: false,
   head: {
     title: config.title,
+    script: [
+      {
+        src: "//code.jivo.ru/widget/cqnmzByW47",
+      },
+    ],
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
