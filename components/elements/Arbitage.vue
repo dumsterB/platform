@@ -44,12 +44,12 @@
           </div>
         </v-card>
       </v-col>
+      <v-col :cols="12" class="d-flex justify-center mt-4">
+        <v-btn x-large outlined class="mt-6" @click="cur_len += 8">{{
+          $t("view_more")
+        }}</v-btn>
+      </v-col>
     </v-row>
-    <v-col class="d-flex justify-center mt-4">
-      <v-btn x-large outlined class="mt-6" @click="cur_len += 8">{{
-        $t("view_more")
-      }}</v-btn>
-    </v-col>
     <v-row class="pa-3 pl-6 pr-6" v-if="!curr_company"
       ><v-col
         ><v-row
