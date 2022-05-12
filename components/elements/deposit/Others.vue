@@ -36,7 +36,7 @@ export default {
         { img: one, link: "https://shakepay.com/" },
         { img: two, link: "https://ramp.network/" },
         { img: three, link: "https://www.moonpay.com/" },
-        { img: four, link: "https://www.facebook.com/" },
+        { img: four, link: "https://mirhax.com/" },
         { img: five, link: "https://www.bitcoin.com/" },
         { img: six, link: "https://changenow.io/" },
         { img: seven, link: "https://www.kraken.com/" },
