@@ -187,18 +187,7 @@ export default {
       };
     },
     def_limit_price() {
-      if (this.close_item) {
-        if (this.close_item.source_currency.symbol == "USD") {
-          return this.close_item.min_exchange_rate
-            ? 1/this.close_item.min_exchange_rate
-            : 1/this.close_item.max_exchange_rate;
-        }
-        if (this.close_item.dest_currency.symbol == "USD") {
-          return this.close_item.min_exchange_rate
-            ? this.close_item.min_exchange_rate
-            : this.close_item.max_exchange_rate;
-        }
-      }
+      return this.close_item.exchange_rate;
     },
     headers() {
       return [
@@ -370,7 +359,7 @@ export default {
       this.loading_modal = true;
       let trade_data = {};
       trade_data.id = this.close_item.id;
-      trade_data.trade_status_id = 9;
+      trade_data.trade_status_id = 10;
       as_data.exchange_rate = this.close_item.price;
       let rs = await this.$store.dispatch(`data/trade/replace`, {
         data: trade_data,
