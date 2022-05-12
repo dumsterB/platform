@@ -292,7 +292,7 @@ export default {
     TableCreditSession,
   },
   data() {
-    let cr_at_f = `${moment().subtract(1, "week").unix()},${moment().unix()}`;
+    let cr_at_f = `${moment().subtract(1, "week").unix()},${moment().add(1, 'day').unix()}`;
     return {
       page_state: 0,
       trade_mode_active: 0,
@@ -315,19 +315,19 @@ export default {
       time_vars: [
         {
           text: "1 Day",
-          data: [moment().subtract(1, "day"), moment()],
+          data: [moment().subtract(1, "day"), moment().add(1, 'day')],
         },
         {
           text: "1 Week",
-          data: [moment().subtract(1, "week"), moment()],
+          data: [moment().subtract(1, "week"), moment().add(1, 'day')],
         },
         {
           text: "1 Month",
-          data: [moment().subtract(1, "months"), moment()],
+          data: [moment().subtract(1, "months"), moment().add(1, 'day')],
         },
         {
           text: "3 Month",
-          data: [moment().subtract(3, "months"), moment()],
+          data: [moment().subtract(3, "months"), moment().add(1, 'day')],
         },
       ],
     };

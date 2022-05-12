@@ -1,7 +1,7 @@
 export const state = () => ({
     preload_models: ["currency", "arbitrage_company", "wallet", "countries"],
     themes: ["Dark", "Light"],
-    base_p: "binance",
+    base_p: "alfex",
     exchanges: [
         {
             name: "Forex",
@@ -36,6 +36,13 @@ export const state = () => ({
             key: "XETRA",
             tv: "NYSE",
             currency: "EUR",
+            list: [],
+        },
+        {
+            name: "Commodities",
+            key: "INDX",
+            tv: "NYSE",
+            currency: "USD",
             list: [],
         },
     ]

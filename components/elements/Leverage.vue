@@ -213,7 +213,9 @@ export default {
       arbitrage_company: "list",
     }),
   },
-  async created() {},
+  async created() {
+    this.update_subscr(this.currency);
+  },
   destroyed() {
     this.unsubscribe();
   },

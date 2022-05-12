@@ -108,6 +108,7 @@ export default {
       console.log('this.com_all', this.com_all, me.products)
       me.stocks.forEach((el) => {
         let prods = me.products.filter((e) => e.exchange_type.key == el.key);
+        console.log(el.key, prods)
         let list = prods.map((curr) => {
           let pdt = me.get_val(curr.symbol);
           if (pdt) {

@@ -393,15 +393,15 @@ export default {
         trade_data.exchange_rate = ex_rate;
       }
       if (this.trade_mode == 1) {
+        let l_p = parseFloat(this.limit_price);
         if (this.limit_price > this.price) {
-          let l_p = parseFloat(this.limit_price);
-          if (this.buy_sell) {
+          if (!this.buy_sell) {
             trade_data.min_exchange_rate = l_p;
           } else {
             trade_data.max_exchange_rate = l_p;
           }
         } else {
-          if (this.buy_sell) {
+          if (!this.buy_sell) {
             trade_data.max_exchange_rate = l_p;
           } else {
             trade_data.min_exchange_rate = l_p;
