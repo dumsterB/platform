@@ -79,6 +79,7 @@ export default {
           let res = await this.$store.dispatch(`data/${models[i]}/fetchList`);
         }
       }
+      await this.$store.dispatch(`data/graph/fetchBinance`);
     },
     notification_socket() {
       let user_id = this.$auth.user.id;

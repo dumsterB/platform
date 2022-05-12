@@ -872,7 +872,7 @@ export const mutations = {
     },
     set_val(state, data) {
         data.forEach(element => {
-            if (element.base) {
+            if (element.base && element.price) {
                 let fnd = state.gate_all.findIndex(el => el && el.base == element.base);
                 if (fnd > -1) {
                     state.gate_all[fnd] = element;
@@ -880,7 +880,7 @@ export const mutations = {
                     state.gate_all.push(element);
                 }
             }
-            if (element.share) {
+            if (element.share && element.close) {
                 let fnd = state.com_all.findIndex(el => el && el.share == element.share && el.exchange == element.exchange);
                 if (fnd > -1) {
                     state.com_all[fnd] = element;
