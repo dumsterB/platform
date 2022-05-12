@@ -244,7 +244,7 @@ export default {
     ...mapActions(model, {
       fetchList: "fetchList",
     }),
-    ...mapActions("data/trade", {
+    ...mapActions("data/wallet", {
       fetchWallet: "fetchList",
     }),
     f_definer() {
