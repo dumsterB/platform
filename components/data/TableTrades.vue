@@ -93,11 +93,15 @@
           <v-container v-if="close_item">
             <p>
               {{ "Current price:" }}
-              <span class="font-weight-bold">${{ new Intl.NumberFormat().format(close_item.price) }}</span>
+              <span class="font-weight-bold"
+                >${{ new Intl.NumberFormat().format(close_item.price) }}</span
+              >
             </p>
             <p>
               {{ "Your limit price:" }}
-              <span class="font-weight-bold">${{ new Intl.NumberFormat().format(def_limit_price) }}</span>
+              <span class="font-weight-bold"
+                >${{ new Intl.NumberFormat().format(def_limit_price) }}</span
+              >
             </p>
           </v-container>
         </v-card-text>
@@ -358,29 +362,27 @@ export default {
     async run_close() {
       this.loading_modal = true;
       let trade_data = {};
+      trade_data.source_amount = this.close_item.source_amount;
+      trade_data.dest_amount = this.close_item.dest_amount;
+      trade_data.source_currency_id = this.close_item.source_currency_id;
+      trade_data.dest_currency_id = this.close_item.dest_currency_id;
       trade_data.id = this.close_item.id;
       trade_data.trade_status_id = 10;
-      as_data.exchange_rate = this.close_item.price;
       let rs = await this.$store.dispatch(`data/trade/replace`, {
         data: trade_data,
         id: trade_data.id,
       });
       let title, color;
-      if (rs.data && rs.data.trade_status_id != 3) {
-        title = this.$t("not_enough_balance");
-        color = "error";
-      } else {
-        title = this.$t("stop_arbitrage_sessions");
-        color = "warning";
-        setTimeout(() => {
-          this.$store.commit("data/notifications/create", {
-            id: color + "_" + Math.random().toString(36),
-            title: this.$t("stop_arbitrage_sessions_done"),
-            text: this.$t("stop_arbitrage_sessions_done"),
-            color: "primary",
-          });
-        }, 2500);
-      }
+      title = this.$t("stop_arbitrage_sessions");
+      color = "warning";
+      setTimeout(() => {
+        this.$store.commit("data/notifications/create", {
+          id: color + "_" + Math.random().toString(36),
+          title: this.$t("stop_arbitrage_sessions_done"),
+          text: this.$t("stop_arbitrage_sessions_done"),
+          color: "primary",
+        });
+      }, 2500);
       this.$store.commit("data/notifications/create", {
         id: color + "_" + Math.random().toString(36),
         title: title,
@@ -388,7 +390,7 @@ export default {
         color: color,
         timeout: 2000,
       });
-      this.resetList();
+      this.resetList(this.prices);
       setTimeout(() => {
         this.loading_modal = false;
         this.dialog = false;
