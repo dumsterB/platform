@@ -573,4 +573,5 @@ export default {
   info: "Info",
   code: "code",
   deposit_adress: "Deposit adress:",
+  amounty: "Amounty",
 };

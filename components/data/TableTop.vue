@@ -68,8 +68,8 @@
           >
         </div>
       </template>
-      <template v-slot:[`item.chart`]="{}">
-        <SmallGraph> </SmallGraph>
+      <template v-slot:[`item.chart`]="{ item }">
+        <SmallGraph :symbol="item.symbol"> </SmallGraph>
       </template>
       <template v-slot:[`item.volume`]="{ item }">
         <div class="ml-4" v-if="item.volume">

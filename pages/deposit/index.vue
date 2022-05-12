@@ -52,6 +52,7 @@ export default {
       componentHandler: "data/deposit/componentHandler",
     }),
     component() {
+      this.componentHandler;
       try {
         return () =>
           import(`@/components/elements/deposit/${this.componentHandler}`);

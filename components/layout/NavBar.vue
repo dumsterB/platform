@@ -65,11 +65,15 @@
     </div>
     <div class="mt-6 mx-4 text-center" style="min-width: 120px">
       <p class="mb-0 pb-0 title-head">Profitable Orders</p>
-      <p class="primary--text title-data">25/30</p>
+      <p class="primary--text title-data">
+        {{ profitable_orders }}/{{ total_orders }}
+      </p>
     </div>
     <div class="mt-6 mx-4 text-center" style="min-width: 120px">
       <p class="mb-0 pb-0 title-head">Total PLN</p>
-      <p class="primary--text title-data">$ 12 460</p>
+      <p class="primary--text title-data">
+        $ {{ new Intl.NumberFormat().format(total_pln) }}
+      </p>
     </div>
     <v-menu
       transition="slide-y-transition"
@@ -183,6 +187,9 @@ export default {
       subscrp: [],
       total: null,
       balances: {},
+      total_orders: 30,
+      profitable_orders: 25,
+      total_pln: 11350,
       base_p: this.$store.state.config.data.base_p,
       items: [
         {
@@ -249,7 +256,17 @@ export default {
     async auth_logout() {
       this.$auth.logout();
     },
-    async close(i, message_id) {},
+    async init_pln() {
+      try {
+        let res = await this.$axios.get("/api/platform/order_info");
+        if (res && res.data && res.data.data) {
+          let dt = res.data.data;
+          this.total_orders = dt.total_order;
+          this.profitable_orders = dt.success_order;
+          this.total_pln = dt.total_sum;
+        }
+      } catch (e) {}
+    },
   },
 
   watch: {
@@ -409,6 +426,7 @@ export default {
   },
   created() {
     let me = this;
+    me.init_pln();
     me.subscrp = [`${me.base_p}:all@ticker_30s`];
     me.stocks.forEach((element, i) => {
       me.subscrp.push(`shares:all.${element.key}@kline_1d`);

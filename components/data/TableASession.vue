@@ -6,7 +6,7 @@
       :items-per-page="page_size_current"
       :search="search"
       :loading="loading"
-      class="elevation-1 ma-4 mr-1"
+      class="elevation-1 ma-4"
       :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],

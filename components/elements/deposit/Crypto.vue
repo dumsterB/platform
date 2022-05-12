@@ -72,6 +72,7 @@ import QRimg from "../../../assets/img/QR.png";
 import config from "~/config/config.json";
 const currencies = "data/currency";
 export default {
+  name: "Crypto",
   data() {
     return {
       currs: [],
@@ -82,7 +83,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("data/currency", {
+    ...mapGetters(currencies, {
       currencies_full: "list",
     }),
     currencies() {
@@ -146,9 +147,7 @@ export default {
       }
     },
   },
-  mounted() {
-    console.log("this.link_url :>> ", this.link_url);
-  },
+  mounted() {},
 };
 </script>
 

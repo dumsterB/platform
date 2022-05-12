@@ -154,7 +154,7 @@ export default {
         {
           text: this.$t("column_high"),
           value: "high",
-        },
+        }
       ];
     },
   },

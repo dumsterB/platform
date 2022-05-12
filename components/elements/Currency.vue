@@ -53,7 +53,7 @@
             <v-list-item>
               <v-list-item-content>
                 <div>
-                  <SmallGraph></SmallGraph>
+                  <SmallGraph :symbol="currency.symbol"></SmallGraph>
                 </div>
               </v-list-item-content>
             </v-list-item>
@@ -119,7 +119,7 @@
       <v-list-item>
         <v-list-item-content>
           <div style="min-width: 200px">
-            <SmallGraph></SmallGraph>
+            <SmallGraph :symbol="currency.symbol"></SmallGraph>
           </div>
         </v-list-item-content>
       </v-list-item>

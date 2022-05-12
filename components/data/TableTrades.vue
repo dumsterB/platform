@@ -6,7 +6,7 @@
       :items-per-page="page_size_current"
       :search="search_text"
       :loading="loading"
-      class="elevation-1 ma-4 ml-4"
+      class="elevation-1 ma-4"
       :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
@@ -57,12 +57,8 @@
           }`
         }}</span>
       </template>
-      <template v-slot:[`item.current_cost`]="{ item }">
-        <span>{{
-          `${new Intl.NumberFormat().format(item.current_cost)} ${
-            item.source_currency.symbol
-          }`
-        }}</span>
+      <template v-slot:[`item.price`]="{ item }">
+        <span>{{ `${new Intl.NumberFormat().format(item.price)} USD` }}</span>
       </template>
       <template v-slot:[`item.difference`]="{ item }">
         <span :style="diffColor(item.difference)">{{
@@ -74,7 +70,56 @@
           item.difference_perc
         }}</span>
       </template>
+      <template v-slot:[`item.action`]="{ item }">
+        <v-row justify="center">
+          <v-btn
+            name="closeOrder"
+            @click="toggleModal(item)"
+            :style="customStyle"
+            class="green_btn text-capitalize"
+            :disabled="item.trade_status.key != 'OPEN'"
+          >
+            {{ $t("close") }}
+          </v-btn>
+        </v-row>
+      </template>
     </v-data-table>
+    <v-dialog v-model="dialog" max-width="600px">
+      <v-card>
+        <v-card-title class="d-flex">
+          <span class="text-h5">{{ $t("close_order") }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container v-if="close_item">
+            <p>
+              {{ "Current price:" }}
+              <span class="font-weight-bold">${{ new Intl.NumberFormat().format(close_item.price) }}</span>
+            </p>
+            <p>
+              {{ "Your limit price:" }}
+              <span class="font-weight-bold">${{ new Intl.NumberFormat().format(def_limit_price) }}</span>
+            </p>
+          </v-container>
+        </v-card-text>
+        <v-card-actions class="mr-4 pb-4">
+          <v-spacer></v-spacer>
+          <v-btn class="green--text" outlined text @click="dialog = false">
+            {{ $t("go_back") }}
+          </v-btn>
+          <v-btn
+            class="green"
+            text
+            outlined
+            width="100"
+            :loading="loading_modal"
+            @click="run_close"
+            type="submit"
+          >
+            {{ loading_modal ? "" : $t("ok") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -105,6 +150,12 @@ export default {
       primary: config.colors.text.primary,
       blue: config.colors.text.blue,
       red: config.colors.text.red,
+      start_blue_gradient: config.colors.start_blue_gradient,
+      end_blue_gradient: config.colors.end_blue_gradient,
+      blue: config.colors.text.blue,
+      red: config.colors.text.red,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       page_size_current: this.page_size,
       search_text: "",
       list: [],
@@ -114,16 +165,40 @@ export default {
       config: this.f_definer(),
       loading: false,
       page: 1,
+      dialog: false,
+      close_item: null,
+      loading_modal: false,
     };
   },
   computed: {
     ...mapGetters(model, {
       trades: "list",
     }),
+    ...mapGetters("config/default", {
+      get_val: "get_val",
+    }),
     customStyle() {
       return {
         "--primary": this.primary,
+        "--start_blue_gradient": this.start_blue_gradient,
+        "--end_blue_gradient": this.end_blue_gradient,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
       };
+    },
+    def_limit_price() {
+      if (this.close_item) {
+        if (this.close_item.source_currency.symbol == "USD") {
+          return this.close_item.min_exchange_rate
+            ? 1/this.close_item.min_exchange_rate
+            : 1/this.close_item.max_exchange_rate;
+        }
+        if (this.close_item.dest_currency.symbol == "USD") {
+          return this.close_item.min_exchange_rate
+            ? this.close_item.min_exchange_rate
+            : this.close_item.max_exchange_rate;
+        }
+      }
     },
     headers() {
       return [
@@ -146,7 +221,7 @@ export default {
 
         {
           text: this.$t("table_current_price"),
-          value: "current_cost",
+          value: "price",
           sortable: false,
         },
         {
@@ -158,6 +233,12 @@ export default {
           text: `${this.$t("table_profit_loss")} %`,
           value: "difference_perc",
           sortable: false,
+        },
+        {
+          text: this.$t("table_close"),
+          value: "action",
+          sortable: false,
+          width: 100,
         },
       ];
     },
@@ -245,12 +326,19 @@ export default {
       this.list = this.trades.map((el) => {
         let fnd_b = prices.find((e) => e && e.base == el.dest_currency.symbol);
         let pr_b = 1;
-        if (fnd_b && fnd_b.price) pr_b = fnd_b.price;
+        if (fnd_b && fnd_b.price) {
+          pr_b = fnd_b.price;
+        } else {
+        }
         let fnd_p = prices.find(
           (e) => e && e.base == el.source_currency.symbol
         );
         let pr_p = 1;
-        if (fnd_p && fnd_p.price) pr_p = fnd_p.price;
+        if (fnd_p && fnd_p.price) {
+          pr_p = fnd_p.price;
+        } else {
+        }
+        el.price = pr_b == 1 ? pr_p : pr_b;
         let curr_cost = (el.dest_amount * pr_b) / pr_p;
         el.current_cost = curr_cost.toFixed(5);
         let diff = curr_cost - el.source_amount;
@@ -274,6 +362,49 @@ export default {
         return `color: ${this.blue} !important;`;
       }
     },
+    toggleModal(item) {
+      this.close_item = item;
+      this.dialog = true;
+    },
+    async run_close() {
+      this.loading_modal = true;
+      let trade_data = {};
+      trade_data.id = this.close_item.id;
+      trade_data.trade_status_id = 9;
+      as_data.exchange_rate = this.close_item.price;
+      let rs = await this.$store.dispatch(`data/trade/replace`, {
+        data: trade_data,
+        id: trade_data.id,
+      });
+      let title, color;
+      if (rs.data && rs.data.trade_status_id != 3) {
+        title = this.$t("not_enough_balance");
+        color = "error";
+      } else {
+        title = this.$t("stop_arbitrage_sessions");
+        color = "warning";
+        setTimeout(() => {
+          this.$store.commit("data/notifications/create", {
+            id: color + "_" + Math.random().toString(36),
+            title: this.$t("stop_arbitrage_sessions_done"),
+            text: this.$t("stop_arbitrage_sessions_done"),
+            color: "primary",
+          });
+        }, 2500);
+      }
+      this.$store.commit("data/notifications/create", {
+        id: color + "_" + Math.random().toString(36),
+        title: title,
+        text: title,
+        color: color,
+        timeout: 2000,
+      });
+      this.resetList();
+      setTimeout(() => {
+        this.loading_modal = false;
+        this.dialog = false;
+      }, 500);
+    },
   },
   watch: {
     filter() {
@@ -292,3 +423,53 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+html[theme="dark"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+}
+html[theme="light"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+}
+</style>
