@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mr-2">
     <v-row class="mx-4 mt-0">
       <span class="rt_title mt-2 mr-4">{{ $t("recent_trades") }}</span>
       <v-list max-width="600" min-width="480" class="pa-0 borderNone ml-4">
@@ -115,7 +115,6 @@
       v-if="as_filter && page_state == 1"
       :prices="prices"
       :filter="as_filter"
-      title="table_position"
       ref="a_session"
       ><template v-slot:header
         ><v-list
@@ -148,7 +147,7 @@
               elevation="0"
               class="btn_tbl pa-0"
               active-class="active_btn_tbl primary--text"
-              @click="as_filter_update('1')"
+              @click="as_filter_update('2')"
               >{{ $t("Trade History") }}</v-list-item
             ></v-list-item-group
           ></v-list
@@ -225,7 +224,7 @@
               elevation="0"
               class="btn_tbl pa-0"
               active-class="active_btn_tbl primary--text"
-              @click="lev_filter_update('1')"
+              @click="lev_filter_update('2')"
               >{{ $t("Trade History") }}</v-list-item
             ></v-list-item-group
           ></v-list
