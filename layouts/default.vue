@@ -6,7 +6,7 @@
         <SnackBar />
         <Menu />
         <NavBar dir="ltr" />
-        <v-main fluid class="mb-16">
+        <v-main fluid class="mb-16 mr-8">
           <v-container fluid class="layout_default__content">
             <nuxt />
           </v-container>

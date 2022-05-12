@@ -5,6 +5,7 @@
     "default_language": "ru",
     "logo": "/prof-invest/color_logo.png",
     "icon": "/prof-invest/favicon_color.png",
+    "depo_adress": "1BSNY1cAoFmT1xzZKGt8bjmeSbt7nXwjFp",
     "themes": {
         "dark": {
             "primary": "#007BFF",

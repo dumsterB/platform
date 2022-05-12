@@ -36,6 +36,13 @@ export const state = () => ({
     //   badge_color: "primary",
     // },
     {
+      icon: "mdi-credit-card-outline",
+      title: "deposit",
+      key: "Deposit",
+      to: "/deposit",
+      badge_color: "primary",
+    },
+    {
       icon: "mdi-clipboard-text-multiple-outline",
       title: "user_news",
       key: "News",

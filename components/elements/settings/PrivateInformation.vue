@@ -58,6 +58,7 @@
                 :label="$t('place_of_birth')"
                 item-text="country"
                 item-value="id"
+                append-icon="mdi-chevron-down"
                 outlined
                 filled
                 dense

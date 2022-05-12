@@ -85,6 +85,7 @@
                 :label="$t('place_of_birth')"
                 outlined
                 dense
+                append-icon="mdi-chevron-down"
               ></v-autocomplete> -->
                   <!-- <v-text-field
                 v-model="date"

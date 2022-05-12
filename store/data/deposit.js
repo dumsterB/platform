@@ -1,28 +1,25 @@
 export const state = () => ({
   selections: [
     {
-      title: "account_settings",
-      text: "personal_information",
+      title: "crypto",
       active: true,
-      redirection: "PrivateInformation",
+      redirection: "Crypto",
       id: 1,
     },
     {
-      title: "security",
-      text: "password_and_2mfa",
+      title: "credit_debit",
       active: false,
-      redirection: "Security",
+      redirection: "CreditDebit",
       id: 2,
     },
     {
-      title: "identity_verification",
-      text: "unverified",
+      title: "others",
       active: false,
-      redirection: "Verification",
+      redirection: "Others",
       id: 3,
     },
   ],
-  componentHandler: "PrivateInformation",
+  componentHandler: "Crypto",
 });
 export const getters = {
   selections(state) {

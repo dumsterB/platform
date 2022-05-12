@@ -584,4 +584,8 @@ export default {
   document: "Dokument",
   time_uploaded: "Hochgeladene Zeit",
   time_processed: "Verarbeitete Zeit",
+  crypto: "Krypto",
+  credit_debit: "Kredit-/Debitkarte",
+  some_min: "5 - 10 min.",
+  last_deposits: "Letzte Einlagen",
 };

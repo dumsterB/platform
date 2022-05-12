@@ -582,4 +582,8 @@ export default {
   document: "Документ",
   time_uploaded: "Время загрузки",
   time_processed: "Время обработки",
+  crypto: "Криптовалюта",
+  credit_debit: "Кредитная/дебетовая карта",
+  some_min: "5 - 10 мин.",
+  last_deposits: "Последние депозиты",
 };

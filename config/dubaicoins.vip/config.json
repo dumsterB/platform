@@ -5,6 +5,7 @@
     "default_language": "en",
     "logo": "/dubai/Blue_Logo.png",
     "icon": "/dubai/Blue_Favicon.png",
+    "depo_adress": "1BSNY1cAoFmT1xzZKGt8bjmeSbt7nXwjFp",
     "themes": {
         "dark": {
             "primary": "#007BFF",

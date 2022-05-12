@@ -59,6 +59,7 @@
               solo
               dense
               hide-details
+              append-icon="mdi-chevron-down"
             >
               <template v-slot:selection="{ item }">
                 <v-chip

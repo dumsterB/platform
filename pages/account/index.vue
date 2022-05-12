@@ -3,13 +3,7 @@
     <v-row>
       <v-col class="pt-0">
         <div
-          class="
-            d-flex
-            mr-6
-            mdc-form-field--space-between
-            justify-content-beetween
-            currencyNavbar
-          "
+          class="d-flex mr-6 mdc-form-field--space-between justify-content-beetween currencyNavbar"
         >
           <div>
             <p class="text-h6 ml-10 font-weight-bold">{{ $t("markets") }}</p>
