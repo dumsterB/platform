@@ -49,7 +49,7 @@
               elevation="0"
               class="btn_tbl pa-0"
               active-class="active_btn_tbl primary--text"
-              @click="trade_filter_update('1')"
+              @click="trade_filter_update('9')"
               >{{ $t("Open Orders") }}</v-list-item
             >
             <v-list-item
@@ -67,7 +67,7 @@
               elevation="0"
               class="btn_tbl pa-0"
               active-class="active_btn_tbl primary--text"
-              @click="trade_filter_update('1')"
+              @click="trade_filter_update('10')"
               >{{ $t("Trade History") }}</v-list-item
             ></v-list-item-group
           ></v-list

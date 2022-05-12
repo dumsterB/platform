@@ -392,7 +392,7 @@ export default {
     price_update(data) {
       let me = this;
       let add_data = {
-        price: data.close ? 1 / data.close : data.price,
+        price: data.close ? data.exchange == "FOREX" ? 1 / data.close : data.close : data.price,
         base: data.base ? data.base : data.share,
       };
 
