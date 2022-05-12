@@ -294,11 +294,14 @@ export default {
       this.loading = true;
       let trade_data = {};
       let curr = this.currencies.find((el) => el.symbol == this.buy_curr);
+      let curr_usd = this.currencies.find((el) => el.symbol == 'USD');
       if (curr) {
         if (!this.buy_sell) {
           trade_data.source_currency_id = curr.id;
+          trade_data.dest_currency_id = curr_usd.id;
           trade_data.source_amount = parseFloat(this.buy);
         } else {
+          trade_data.source_currency_id = curr_usd.id;
           trade_data.dest_currency_id = curr.id;
           trade_data.dest_amount = parseFloat(this.buy);
         }
