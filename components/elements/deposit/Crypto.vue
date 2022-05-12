@@ -40,7 +40,7 @@
     <v-col cols="8" class="mb-10">
       <div class="heading_selector mb-4">QR {{ $t("code") }}:</div>
       <div class="qr_box pa-10">
-        <v-img :width="236" :src="img" />
+        <v-img class="qr_img" :width="236" :src="img" />
       </div>
     </v-col>
     <v-col cols="10">
@@ -191,6 +191,8 @@ export default {
     #ffffff;
   box-shadow: 20px 20px 100px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
+}
+.qr_img {
 }
 html[theme="light"] {
   .qr_box {

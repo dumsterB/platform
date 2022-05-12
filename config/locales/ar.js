@@ -274,4 +274,9 @@ export default {
   credit_debit: "Credit/Debit Card",
   some_min: "5 - 10 min.",
   last_deposits: "Last deposits",
+  currency: "Currency",
+  info: "Info",
+  code: "code",
+  deposit_adress: "Deposit adress:",
+  amounty: "Amounty",
 };
