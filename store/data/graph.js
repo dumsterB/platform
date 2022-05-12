@@ -19,7 +19,7 @@ export const actions = {
             let resp = await this.$axios.get('/api/platform/metadata?data=binance');
             console.log('GRAPH RESP', resp);
             if (resp && resp.data && resp.data.data) {
-                context.commit('updateBinance', resp.data);
+                context.commit('updateBinance', resp.data.data);
             }
         } catch (e) { }
 

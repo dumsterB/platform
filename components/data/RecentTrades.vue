@@ -292,7 +292,7 @@ export default {
     TableCreditSession,
   },
   data() {
-    let cr_at_f = `${moment().subtract(1, "day").unix()},${moment().unix()}`;
+    let cr_at_f = `${moment().subtract(1, "week").unix()},${moment().unix()}`;
     return {
       page_state: 0,
       trade_mode_active: 0,
@@ -309,7 +309,7 @@ export default {
         status_id: "1",
         created_at: cr_at_f,
       },
-      time_mode_active: 0,
+      time_mode_active: 1,
       start_d: null,
       end_d: null,
       time_vars: [

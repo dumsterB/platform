@@ -1,14 +1,16 @@
 <template>
   <div>
     <v-sparkline
-      :value="value"
-      color="#BA68C8"
+      v-if="value_g"
+      :value="value_g"
+      :color="color"
       :height="height"
       padding="10"
       stroke-linecap="round"
       :smooth="10"
     >
     </v-sparkline>
+    <span v-else>{{ "no-data" }}</span>
   </div>
 </template>
 
@@ -23,8 +25,8 @@ export default {
     },
     symbol: {
       type: String,
-      default: 'BTC',
-    }
+      default: "BTC",
+    },
   },
   data() {
     return {
@@ -37,8 +39,20 @@ export default {
     }),
     value_g() {
       let dt = this.g_data(this.symbol);
-      let res = dt.map(el => el && el.length > 0 ? el[1] : 0);
-      return res;
+      if (dt && dt.length > 0) {
+        let res = dt.map((el) => (el && el.length > 0 ? parseFloat(el[1]) : 0));
+        return res;
+      } else {
+        return null;
+      }
+    },
+    color() {
+      if (this.value_g && this.value_g.length > 0) {
+        if (this.value_g[0] > this.value_g[this.value_g.length - 1]) {
+          return "red"
+        }
+      }
+      return "primary"
     }
   },
 };
