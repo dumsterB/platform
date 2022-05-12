@@ -250,7 +250,7 @@ export default {
       action: null,
       dialog: false,
       trade_mode: 0,
-      limit_price: null,
+      limit_price: this.price,
       start_blue_gradient: config.colors.start_blue_gradient,
       end_blue_gradient: config.colors.end_blue_gradient,
       start_red_gradient: config.colors.start_red_gradient,
@@ -421,7 +421,7 @@ export default {
   watch: {
     trade_mode() {
       this.amount = null;
-      this.limit_price = null;
+      this.limit_price = this.price;
     },
     amount() {
       if (this.amount_checker) {
@@ -451,6 +451,9 @@ export default {
       } else {
         this.amount_checker = false;
         this.am_def_price();
+      }
+      if (!this.limit_price) {
+        this.limit_price = this.price;
       }
     },
   },

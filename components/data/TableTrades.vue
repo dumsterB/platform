@@ -57,6 +57,9 @@
           }`
         }}</span>
       </template>
+      <template v-slot:[`item.exchange_rate`]="{ item }">
+        <span>{{ `${new Intl.NumberFormat().format(item.exchange_rate)} USD` }}</span>
+      </template>
       <template v-slot:[`item.price`]="{ item }">
         <span>{{ `${new Intl.NumberFormat().format(item.price)} USD` }}</span>
       </template>
@@ -232,7 +235,7 @@ export default {
           text: this.$t("table_close"),
           value: "action",
           sortable: false,
-          width: 150
+          width: 150,
         },
       ];
     },
@@ -240,6 +243,9 @@ export default {
   methods: {
     ...mapActions(model, {
       fetchList: "fetchList",
+    }),
+    ...mapActions("data/trade", {
+      fetchWallet: "fetchList",
     }),
     f_definer() {
       let conf = null;
@@ -333,7 +339,7 @@ export default {
         } else {
         }
         el.amount = `${el.source_amount} ${el.source_currency.symbol}`;
-        el.type = !el.trade_type ? 'Sell' : 'Buy';
+        el.type = !el.trade_type ? "Sell" : "Buy";
         el.price = pr_b == 1 ? pr_p : pr_b;
         let diff = el.price - el.exchange_rate;
         let diff_proc = (diff * 100) / el.price;
