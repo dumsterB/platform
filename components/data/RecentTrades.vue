@@ -50,7 +50,7 @@
               class="btn_tbl pa-0"
               active-class="active_btn_tbl primary--text"
               @click="trade_filter_update('1')"
-              >{{ $t("Open Trades") }}</v-list-item
+              >{{ $t("Open Orders") }}</v-list-item
             >
             <v-list-item
               tag="button"
@@ -131,7 +131,7 @@
               class="btn_tbl pa-0"
               active-class="active_btn_tbl primary--text"
               @click="as_filter_update('1')"
-              >{{ $t("Open Trades") }}</v-list-item
+              >{{ $t("Open Orders") }}</v-list-item
             >
             <v-list-item
               tag="button"
@@ -208,7 +208,7 @@
               class="btn_tbl pa-0"
               active-class="active_btn_tbl primary--text"
               @click="lev_filter_update('1')"
-              >{{ $t("Open Trades") }}</v-list-item
+              >{{ $t("Open Orders") }}</v-list-item
             >
             <v-list-item
               tag="button"
@@ -354,19 +354,16 @@ export default {
       }
     },
     trade_filter_update(dt) {
-      this.trade_filter = {
-        trade_status_id: dt,
-      };
+      this.trade_filter.trade_status_id = dt;
+      this.trade_filter = Object.assign({}, this.trade_filter);
     },
     as_filter_update(dt) {
-      this.as_filter = {
-        status_id: dt,
-      };
+      this.as_filter.status_id = dt;
+      this.as_filter = Object.assign({}, this.as_filter);
     },
     lev_filter_update(dt) {
-      this.arb_ses_filter = {
-        status_id: dt,
-      };
+      this.arb_ses_filter.status_id = dt;
+      this.arb_ses_filter = Object.assign({}, this.arb_ses_filter);
     },
     check_dt() {
       if (this.start_d && this.end_d) {

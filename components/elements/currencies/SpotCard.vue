@@ -486,12 +486,12 @@ export default {
   justify-content: center;
   font-weight: 400;
   font-size: 12px;
-  background: #333333 !important;
+  background: #333333;
   border-radius: 10px;
   min-height: 24px !important;
 }
 html[theme="light"] .btn_trade_mode {
-  background: #eeeeee !important;
+  background: #eeeeee;
 }
 .active_btn_trade_mode {
   position: relative;
