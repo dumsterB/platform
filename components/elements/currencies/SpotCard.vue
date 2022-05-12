@@ -269,10 +269,10 @@ export default {
     }),
     btn_disabled() {
       if (this.trade_mode == 0) {
-        return !this.amount
+        return !this.amount;
       }
       if (this.trade_mode == 1) {
-         return !this.amount || !this.limit_price;
+        return !this.amount || !this.limit_price;
       }
     },
     usd_bal() {
@@ -368,45 +368,20 @@ export default {
     async trade_run() {
       this.loading = true;
       let trade_data = {};
-      let pay_curr = "USD";
-      if (!this.buy_sell) pay_curr = this.currency;
-      let buy_curr = this.currency;
-      if (!this.buy_sell) buy_curr = "USD";
-      let pay = this.buy_sell ? this.t_price : this.amount;
-      let buy = this.buy_sell ? this.amount : this.t_price;
-      if (!this.buy_sell) buy = parseFloat(this.t_price) * this.price;
-      // console.log(pay, buy, this.t_price, this.price);
-      let wall = this.wallet.find((el) => el.currency.symbol == pay_curr);
-      if (wall) {
-        trade_data.wallet_id = wall.id;
-        trade_data.source_currency_id = wall.currency_id;
-        trade_data.source_amount = parseFloat(pay);
-      }
-      let curr = this.currencies.find((el) => el.symbol == buy_curr);
+      let curr = this.currencies.find((el) => el.symbol == this.currency);
       if (curr) {
-        trade_data.dest_currency_id = curr.id;
-        trade_data.dest_amount = parseFloat(buy);
-      }
-      let ex_rate = 1 / this.price;
-      if (!this.buy_sell) ex_rate = this.price;
-      if (this.trade_mode == 0) {
-        trade_data.exchange_rate = ex_rate;
-      }
-      if (this.trade_mode == 1) {
-        if (this.limit_price > this.price) {
-          let l_p = parseFloat(this.limit_price);
-          if (this.buy_sell) {
-            trade_data.min_exchange_rate = l_p;
-          } else {
-            trade_data.max_exchange_rate = l_p;
-          }
+        if (!this.buy_sell) {
+          trade_data.source_currency_id = curr.id;
+          trade_data.source_amount = parseFloat(this.amount);
         } else {
-          if (this.buy_sell) {
-            trade_data.max_exchange_rate = l_p;
-          } else {
-            trade_data.min_exchange_rate = l_p;
-          }
+          trade_data.dest_currency_id = curr.id;
+          trade_data.dest_amount = parseFloat(this.amount);
         }
+      }
+      trade_data.exchange_rate = this.price;
+      if (this.trade_mode == 1) {
+        let l_p = parseFloat(this.limit_price);
+        trade_data.exchange_rate = l_p;
       }
       // console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });

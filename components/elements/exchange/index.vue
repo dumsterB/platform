@@ -293,20 +293,17 @@ export default {
     async trade_run() {
       this.loading = true;
       let trade_data = {};
-      let usd_c = this.currencies.find((el) => el.symbol == "USD");
-      let curr = this.currency.find((el) => el.symbol == this.buy_curr);
-      if (curr && usd_c) {
-        trade_data.source_currency_id =
-          this.active_btn == "buy" ? usd_c.id : curr.id;
-        trade_data.source_amount =
-          this.active_btn == "buy" ? this.buy * this.price : this.buy;
-        trade_data.dest_currency_id =
-          this.active_btn == "buy" ? curr.id : usd_c.id;
-        trade_data.dest_amount =
-          this.active_btn == "buy" ? this.buy : this.buy * this.price;
-        trade_data.exchange_rate =
-          this.active_btn == "buy" ? 1 / this.price : this.price;
+      let curr = this.currencies.find((el) => el.symbol == this.buy_curr);
+      if (curr) {
+        if (!this.buy_sell) {
+          trade_data.source_currency_id = curr.id;
+          trade_data.source_amount = parseFloat(this.buy);
+        } else {
+          trade_data.dest_currency_id = curr.id;
+          trade_data.dest_amount = parseFloat(this.buy);
+        }
       }
+      trade_data.exchange_rate = this.price;
       // console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });
       let title, color;

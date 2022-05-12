@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import config from "~/config/config.json";
 export default {
   data() {
@@ -97,6 +97,12 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('data/documents_type', {
+      documents_type: "list"
+    }),
+    ...mapGetters('data/approve_documents', {
+      approve_documents: "list"
+    }),
     headers() {
       return [
         {
@@ -161,7 +167,18 @@ export default {
       };
     },
   },
-  methods: {},
+  methods: {
+    ...mapActions('data/documents_type', {
+      fetch_documents_type: "fetchList"
+    }),
+    ...mapActions('data/approve_documents', {
+      fetch_approve_documents: "fetchList"
+    })
+  },
+  async created() {
+    await this.fetch_documents_type();
+    await this.fetch_approve_documents();
+  },
   mounted() {},
 };
 </script>
