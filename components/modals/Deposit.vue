@@ -70,6 +70,7 @@
           class="card_list"
           :style="customStyle"
           height="52"
+          append-icon="mdi-chevron-down"
         >
           <template v-slot:selection="{ attr, on, item, selected }">
             <v-chip
@@ -182,6 +183,7 @@
             solo
             dense
             hide-details
+            append-icon="mdi-chevron-down"
           >
             <template v-slot:item="{ item }">
               <img height="24" width="24" :src="item.logo" />

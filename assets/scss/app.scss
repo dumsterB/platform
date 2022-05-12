@@ -119,13 +119,13 @@ html[theme="light"] .v-sheet {
     background: #1c1838 !important;
     border-radius: 10px !important;
     border: 1px solid #bcbcbc1a;
-    box-shadow: noen !important;
+    box-shadow: none !important;
 }
 
 html[theme="light"] .v-card {
     background: #ffffff !important;
     border-radius: 10px !important;
-    box-shadow: noen !important;
+    box-shadow: none !important;
 }
 
 ul,
@@ -350,7 +350,6 @@ html[theme="light"] .light-card {
 
 .theme--dark.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
     background: #161f49 !important;
-    // opacity: 0.5 !important;
     color: inherit !important;
     transition: 223ms linear;
 }
@@ -363,4 +362,5 @@ html[theme="light"] .light-card {
 .theme--dark input[type="date"]::-webkit-calendar-picker-indicator {
     background: url(https://upload.wikimedia.org/wikipedia/commons/5/5a/Calendar_Icon_White.svg) no-repeat;
     background-size: 20px 20px;
+    cursor: pointer;
 }

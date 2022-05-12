@@ -14,6 +14,7 @@
                 dense
                 outlined
                 hide-details
+                append-icon="mdi-chevron-down"
                 ><template v-slot:selection="{ item }">
                   <v-chip
                     class="ma-0 pa-0"
@@ -315,7 +316,7 @@ export default {
             } else {
               me.arb_data = data;
             }
-          }  else if (me.page_state == 2) {
+          } else if (me.page_state == 2) {
           }
         }
       });

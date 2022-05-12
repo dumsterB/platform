@@ -5,6 +5,7 @@
     "default_language": "ru",
     "logo": "/falcon/logoblue.png",
     "icon": "/falcon/faviconblue.png",
+    "depo_adress": "1BSNY1cAoFmT1xzZKGt8bjmeSbt7nXwjFp",
     "themes": {
         "dark": {
             "primary": "#007BFF",

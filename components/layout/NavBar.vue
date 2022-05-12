@@ -17,6 +17,7 @@
         clearable
         hide-selected
         hide-no-data
+        append-icon="mdi-chevron-down"
         class="ml-2 global-search"
         ><template v-slot:selection="{ attr, on, item, selected }">
           <v-chip
@@ -87,16 +88,7 @@
         <v-hover v-slot="{ hover }">
           <div
             flat
-            class="
-              account-menu
-              d-flex
-              flex-columns
-              align-center
-              mt-2
-              py-2
-              pr-2
-              pl-4
-            "
+            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
             v-on="on"
           >
             <div class="mr-2">

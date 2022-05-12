@@ -572,4 +572,8 @@ export default {
   document: "Dokument",
   time_uploaded: "Czas załadowany",
   time_processed: "Czas obróbki",
+  crypto: "Kryptowaluty",
+  credit_debit: "Karta kredytowa/debetowa",
+  some_min: "5 - 10 min.",
+  last_deposits: "Ostatnie depozyty",
 };

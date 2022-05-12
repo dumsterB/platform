@@ -270,4 +270,8 @@ export default {
   document: "Document",
   time_uploaded: "Time uploaded",
   time_processed: "Time processed",
+  crypto: "Crypto",
+  credit_debit: "Credit/Debit Card",
+  some_min: "5 - 10 min.",
+  last_deposits: "Last deposits",
 };
