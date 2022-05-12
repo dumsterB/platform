@@ -41,11 +41,13 @@
                     >
                   </v-btn>
                 </div>
-                <span
-                  :style="customStyles"
-                  :class="diffColor(currency.change_p)"
-                  >{{ currency.change_p }}%</span
-                >
+                <div class="text-right px-1">
+                  <span
+                    :style="customStyles"
+                    :class="diffColor(currency.change_p)"
+                    >{{ currency.change_p }}%</span
+                  >
+                </div>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>

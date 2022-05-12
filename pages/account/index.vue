@@ -212,7 +212,7 @@ export default {
           res.change_p = (
             (parseFloat(fnd.change_24h) * 100) /
             parseFloat(fnd.price)
-          ).toFixed(4);
+          ).toFixed(2);
         }
         return res;
       });
