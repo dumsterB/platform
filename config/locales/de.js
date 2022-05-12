@@ -588,4 +588,9 @@ export default {
   credit_debit: "Kredit-/Debitkarte",
   some_min: "5 - 10 min.",
   last_deposits: "Letzte Einlagen",
+  currency: "Währung",
+  info: "Info",
+  code: "code",
+  deposit_adress: "Adresse des Depots:",
+  amounty: "Betrag",
 };

@@ -346,4 +346,8 @@ html[theme="light"] .success-btn {
   width: 80%;
   margin: 0 auto;
 }
+.card_data {
+  background: transparent !important;
+  border: none !important;
+}
 </style>

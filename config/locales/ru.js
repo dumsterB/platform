@@ -586,4 +586,9 @@ export default {
   credit_debit: "Кредитная/дебетовая карта",
   some_min: "5 - 10 мин.",
   last_deposits: "Последние депозиты",
+  currency: "Валюта",
+  info: "Инфо",
+  code: "код",
+  deposit_adress: "Адрес депозита:",
+  amounty: "Сумма",
 };

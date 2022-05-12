@@ -576,4 +576,9 @@ export default {
   credit_debit: "Karta kredytowa/debetowa",
   some_min: "5 - 10 min.",
   last_deposits: "Ostatnie depozyty",
+  currency: "Waluta",
+  info: "Info",
+  code: "kod",
+  deposit_adress: "Adres depozytowy:",
+  amounty: "Amounty",
 };

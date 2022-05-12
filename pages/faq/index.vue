@@ -35,7 +35,7 @@
                 >{{ $t("personal") }}</v-list-item
               >
 
-              <v-list-item
+              <!--  <v-list-item
                 tag="button"
                 block
                 elevation="0"
@@ -44,7 +44,7 @@
                 active-class="active_toggle_btn"
                 @click="businessHandler"
                 >{{ $t("business") }}</v-list-item
-              >
+              > -->
             </v-list-item-group>
           </v-list>
           <!-- -->
