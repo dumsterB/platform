@@ -200,38 +200,39 @@ export default {
           value: "identifier",
         },
         {
-          text: this.$t("Purchased"),
-          value: "dest_amount",
-        },
-        {
-          text: this.$t("Spent"),
-          value: "source_amount",
+          text: this.$t("table_position"),
+          value: "type",
+          sortable: false,
         },
         {
           text: this.$t("table_time"),
           value: "created_at",
         },
-
+        {
+          text: this.$t("amount"),
+          value: "amount",
+        },
+        {
+          text: this.$t("table_buy_price"),
+          value: "exchange_rate",
+        },
         {
           text: this.$t("table_current_price"),
           value: "price",
-          sortable: false,
         },
         {
-          text: this.$t("table_profit_loss"),
+          text: `${this.$t("table_profit_loss")} $`,
           value: "difference",
-          sortable: false,
         },
         {
           text: `${this.$t("table_profit_loss")} %`,
           value: "difference_perc",
-          sortable: false,
         },
         {
           text: this.$t("table_close"),
           value: "action",
           sortable: false,
-          width: 100,
+          width: 150
         },
       ];
     },
@@ -331,11 +332,11 @@ export default {
           pr_p = fnd_p.price;
         } else {
         }
+        el.amount = `${el.source_amount} ${el.source_currency.symbol}`;
+        el.type = !el.trade_type ? 'Sell' : 'Buy';
         el.price = pr_b == 1 ? pr_p : pr_b;
-        let curr_cost = (el.dest_amount * pr_b) / pr_p;
-        el.current_cost = curr_cost.toFixed(5);
-        let diff = curr_cost - el.source_amount;
-        let diff_proc = (diff * 100) / el.source_amount;
+        let diff = el.price - el.exchange_rate;
+        let diff_proc = (diff * 100) / el.price;
         el.difference = diff.toFixed(5);
         el.difference_perc = `${diff_proc.toFixed(3)} %`;
         return el;
@@ -390,6 +391,7 @@ export default {
         color: color,
         timeout: 2000,
       });
+      await this.fetchWallet();
       this.resetList(this.prices);
       setTimeout(() => {
         this.loading_modal = false;
