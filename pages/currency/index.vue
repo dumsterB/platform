@@ -183,7 +183,7 @@ export default {
       curr_code: null,
       current: {},
       graphWidth: this.initGrpaphWidth(),
-      graphHeight: 600,
+      graphHeight: 630,
       selected_platform: "binance",
       base_p: this.$store.state.config.data.base_p,
       price: null,

@@ -314,7 +314,7 @@ export default {
               let change = (dt.close - dt.open).toFixed(4);
               let ch_pr = ((change * 100) / dt.close).toFixed(4);
               let color =
-                dt.close - dt.open > 0 ? "primary--text" : "red--text";
+                dt.close - dt.open > 0 ? "green--text" : "red--text";
               let share =
                 dt.exchange == "FOREX"
                   ? `${dt.share}/USD`
