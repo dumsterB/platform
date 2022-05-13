@@ -59,19 +59,19 @@
     <v-spacer></v-spacer>
     <div class="mt-6 mx-4 text-center" style="min-width: 120px">
       <p class="mb-0 pb-0 title-head">Total Balance</p>
-      <p class="primary--text title-data">
+      <p class="green--text title-data">
         $ {{ new Intl.NumberFormat().format(total) }}
       </p>
     </div>
     <div class="mt-6 mx-4 text-center" style="min-width: 120px">
       <p class="mb-0 pb-0 title-head">Profitable Orders</p>
-      <p class="primary--text title-data">
+      <p class="green--text title-data">
         {{ profitable_orders }}/{{ total_orders }}
       </p>
     </div>
     <div class="mt-6 mx-4 text-center" style="min-width: 120px">
       <p class="mb-0 pb-0 title-head">Total PLN</p>
-      <p class="primary--text title-data">
+      <p class="title-data" :class="total_pln > 0 ? 'green--text' : 'red--text'">
         $ {{ new Intl.NumberFormat().format(total_pln) }}
       </p>
     </div>

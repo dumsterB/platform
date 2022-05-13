@@ -55,7 +55,7 @@ export default {
           return "red";
         }
       }
-      return "primary";
+      return "green";
     },
   },
   created() {
