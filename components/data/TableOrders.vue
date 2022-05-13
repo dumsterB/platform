@@ -7,7 +7,7 @@
       :search="search"
       sort-by="created_at"
       :sort-desc="true"
-      class="elevation-1 ma-2 ml-8"
+      class="elevation-1 ma-3 mr-4"
       :loading="loading"
       :server-items-length="totalLength"
       @pagination="paging"

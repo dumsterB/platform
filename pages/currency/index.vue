@@ -21,7 +21,7 @@
                     style="background: transparent !important"
                   >
                     <v-row class="ma-0 pa-0">
-                      <img height="20" :src="item.logo" alt="" class="mr-2" />
+                      <!--   <img height="20" :src="item.logo" alt="" class="mr-2" /> -->
                       <strong>{{ item.name }}</strong>
                       <span class="ml-2 icon_color--text font-weight-bold">
                         {{ item.symbol }}</span
@@ -31,7 +31,7 @@
                 </template>
                 <template v-slot:item="{ item }">
                   <div class="d-flex">
-                    <img height="20" :src="item.logo" alt="" />
+                    <!-- <img height="20" :src="item.logo" alt="" /> -->
                     <div class="d-flex ml-3">
                       <strong>{{ item.name }}</strong>
                       <span class="ml-2 icon_color--text font-weight-bold">
@@ -393,7 +393,11 @@ export default {
     price_update(data) {
       let me = this;
       let add_data = {
-        price: data.close ? data.exchange == "FOREX" ? 1 / data.close : data.close : data.price,
+        price: data.close
+          ? data.exchange == "FOREX"
+            ? 1 / data.close
+            : data.close
+          : data.price,
         base: data.base ? data.base : data.share,
       };
 

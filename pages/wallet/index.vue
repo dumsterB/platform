@@ -43,12 +43,17 @@
             :wallets="wallets_t"
             @reload="init_tb"
           ></TableTransactions>
-          <TableOrders v-if="is_history" :filter="order_filter"></TableOrders>
+          <TableOrders
+            v-if="is_history"
+            :filter="order_filter"
+            class="ma-0"
+          ></TableOrders>
           <TableTrades
             v-if="is_history"
             :prices="prices"
             :filter="trade_filter"
             title="recent_trades"
+            class="customSizes"
           ></TableTrades>
         </div>
       </v-col>
@@ -290,3 +295,8 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.customSizes {
+  // margin: -12px;
+}
+</style>
