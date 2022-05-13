@@ -36,14 +36,14 @@
             v-model="VerificationNumberCheckbox"
             :label="cutPhoneValue(phone)"
           ></v-checkbox>
-          <div style="align-items: center; display: flex">
+          <!-- <div style="align-items: center; display: flex">
             <v-btn
               elevation="0"
               :style="customStyle"
               class="outlined-btn primary--text font-weight-bold text-none"
               >{{ $t("change") }}</v-btn
             >
-          </div>
+          </div> -->
           <phone
             style="align-items: center; display: flex"
             class="ml-2"
@@ -64,14 +64,14 @@
             v-model="VerificationEmailCheckbox"
             :label="cutEmailValue(email)"
           ></v-checkbox>
-          <div style="align-items: center; display: flex">
+          <!--  <div style="align-items: center; display: flex">
             <v-btn
               elevation="0"
               :style="customStyle"
               class="outlined-btn primary--text font-weight-bold text-none"
               >{{ $t("change") }}</v-btn
             >
-          </div>
+          </div> -->
           <email
             style="align-items: center; display: flex"
             class="ml-2"

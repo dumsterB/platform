@@ -128,7 +128,7 @@
                 large
                 @click="run_order"
                 class="success-btn"
-                :disabled="!btnDisable"
+                :disabled="Boolean(!selected_card) || !btnDisable"
                 :loading="loading"
                 >{{ loading ? "" : $t("to_continue") }}
               </v-btn>
