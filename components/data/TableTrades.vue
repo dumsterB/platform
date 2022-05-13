@@ -15,10 +15,10 @@
     >
       <template v-slot:top>
         <v-toolbar extended flat class="borderNone">
-          <!-- <v-toolbar-title class="font-weight-bold">{{
-            $t("recent_trades")
-          }}</v-toolbar-title> -->
-          <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
+          <v-toolbar-title class="font-weight-bold">{{
+            $t(title)
+          }}</v-toolbar-title>
+          <v-divider v-if="title" class="mx-4" inset vertical></v-divider>
           <slot name="header"></slot>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">
@@ -58,7 +58,9 @@
         }}</span>
       </template>
       <template v-slot:[`item.exchange_rate`]="{ item }">
-        <span>{{ `${new Intl.NumberFormat().format(item.exchange_rate)} USD` }}</span>
+        <span>{{
+          `${new Intl.NumberFormat().format(item.exchange_rate)} USD`
+        }}</span>
       </template>
       <template v-slot:[`item.price`]="{ item }">
         <span>{{ `${new Intl.NumberFormat().format(item.price)} USD` }}</span>

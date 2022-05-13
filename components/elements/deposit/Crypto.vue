@@ -14,7 +14,7 @@
         append-icon="mdi-chevron-down"
       >
         <template v-slot:selection="{ item }">
-          <v-chip class="ma-0 pa-0" style="background: transparent !important">
+          <v-chip class="ma-3 pa-0" style="background: transparent !important">
             <v-row class="ma-0 pa-0">
               <img height="20" :src="item.logo" alt="" class="mr-2" />
               <strong>{{ item.name }}</strong>
@@ -168,14 +168,8 @@ export default {
   border-radius: 10px !important;
   border: none !important;
   box-shadow: none !important;
-  padding: 24px 0 24px 0 !important;
 }
-.currency_selector.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
-  > .v-input__control
-  > .v-input__slot,
-.currency_selector.v-text-field.v-text-field--enclosed .v-text-field__details {
-  padding: 12px !important;
-}
+
 .heading_selector {
   font-weight: 600;
   font-size: 16px;
