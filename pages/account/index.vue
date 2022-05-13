@@ -116,6 +116,7 @@ export default {
         let data = json_d.data ? json_d.data.data || [] : [];
         if (data.length > 10) {
           me.set_gate_all(Object.assign([], data));
+          // me.fetchLessGraphs(data);s
           me.prices = data.concat(me.com_prices);
           me.init_currs();
         }
@@ -160,6 +161,9 @@ export default {
     }),
     ...mapActions("data/wallet", {
       fetchWallet: "fetchList",
+    }),
+    ...mapActions("data/graph", {
+      fetchLessGraphs: "fetchSingles",
     }),
     onResize() {
       this.windowWidth = window.innerWidth;
