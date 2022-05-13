@@ -1,7 +1,7 @@
 <template>
   <div class="pt-4">
     <div class="payment_card">
-      <div class="card_item pt-11 pl-10 pr-10 pb-7" :style="customStyle">
+      <div class="card_item pa-6" :style="customStyle">
         <p class="mb-12">{{ $t("payment_card") }} #{{ 1 }}</p>
         <p class="mb-12 card_item_number" v-if="selected_card">
           {{
@@ -12,13 +12,12 @@
         </p>
         <v-row class="justify-space-between align-center">
           <img
-            v-if="selected_card"
             v-for="(item, i) in items"
+            v-if="selected_card && selected_card === item.card_number"
             :key="i"
             width="40"
             height="20"
             :src="item.card_icon"
-            class="icon"
           />
           <p class="mb-0 font-weight-thin text-right">
             {{ fee }}% {{ $t("fee") }}
@@ -38,6 +37,9 @@
                     item-value="card_number"
                     :label="$t('choose_card')"
                     solo
+                    single-line
+                    outlined
+                    dense
                     class="card_list"
                     :style="customStyle"
                     height="52"
@@ -126,7 +128,7 @@
                 large
                 @click="run_order"
                 class="success-btn"
-                :disabled="!btnDisable"
+                :disabled="Boolean(!selected_card) || !btnDisable"
                 :loading="loading"
                 >{{ loading ? "" : $t("to_continue") }}
               </v-btn>
@@ -269,18 +271,18 @@ export default {
     },
   },
   watch: {
-    exp_date(v) {
-      if (v.length == 2) {
-        this.exp_date += "/";
-      }
-      this.data.expire_date = v;
-    },
-    card_number(v) {
-      if (v.length == 4 || v.length == 9 || v.length == 14) {
-        this.card_number += " ";
-      }
-      this.data.card_number = v;
-    },
+    // exp_date(v) {
+    //   if (v.length == 2) {
+    //     this.exp_date += "/";
+    //   }
+    //   this.data.expire_date = v;
+    // },
+    // card_number(v) {
+    //   if (v.length == 4 || v.length == 9 || v.length == 14) {
+    //     this.card_number += " ";
+    //   }
+    //   this.data.card_number = v;
+    // },
   },
   computed: {
     ...mapGetters("data/currency", {
@@ -404,7 +406,7 @@ html[theme="light"] .success-btn {
 .card_item_number {
   font-size: 32px;
   line-height: 38px;
-  letter-spacing: 1px;
+  letter-spacing: 4px;
 }
 .card_data {
   position: absolute;
@@ -416,5 +418,18 @@ html[theme="light"] .success-btn {
 .card_data {
   background: transparent !important;
   border: none !important;
+}
+.card_list {
+  border-radius: 10px !important;
+
+  border: 1px solid #bcbcbc1a;
+}
+html[theme="light"] .card_list,
+.avatar {
+  background: var(--light_text_color) !important;
+}
+html[theme="dark"] .card_list,
+.avatar {
+  background: var(--dark_text_color) !important;
 }
 </style>
