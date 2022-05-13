@@ -16,31 +16,54 @@
         </v-list-item-group>
         <v-divider></v-divider>
         <v-row class="ma-0 my-1">
-          <v-btn icon @click="mode = 0" :class="mode == 0 ? 'primary--text' : 'gray--text'"><v-icon>mdi-list-status</v-icon></v-btn>
-          <v-btn icon @click="mode = 1" :class="mode == 1 ? 'primary--text' : 'gray--text'"><v-icon>mdi-playlist-plus</v-icon></v-btn>
-          <v-btn icon @click="mode = 2" :class="mode == 2 ? 'primary--text' : 'gray--text'"><v-icon>mdi-playlist-minus</v-icon></v-btn>
+          <v-btn
+            icon
+            @click="mode = 0"
+            :class="mode == 0 ? 'primary--text' : 'gray--text'"
+            ><v-icon>mdi-list-status</v-icon></v-btn
+          >
+          <v-btn
+            icon
+            @click="mode = 1"
+            :class="mode == 1 ? 'primary--text' : 'gray--text'"
+            ><v-icon>mdi-playlist-plus</v-icon></v-btn
+          >
+          <v-btn
+            icon
+            @click="mode = 2"
+            :class="mode == 2 ? 'primary--text' : 'gray--text'"
+            ><v-icon>mdi-playlist-minus</v-icon></v-btn
+          >
         </v-row>
         <v-row class="pt-0 mt-0 pb-1"
           ><v-col class="gray--text py-1" style="font-size: 12px"
             >{{ $t("price") }} (USD)</v-col
           ><v-col class="gray--text py-1" style="font-size: 12px"
             >{{ $t("quantity_title") }} ({{ currency }})</v-col
+          ><v-col class="gray--text py-1" style="font-size: 12px"
+            >{{ $t("total") }} (USD)</v-col
           ></v-row
-        ><div v-if="mode != 2" class="my-2"><v-row
-          v-for="(dt, i) in rise_data"
-          :key="i"
-          style="height: 20px; font-size: 12px; margin-bottom: -10px"
-          :style="`background: linear-gradient(to right, transparent 0%, transparent ${
-            100 - dt.perc
-          }%, rgb(1,186,198,0.3) ${100 - dt.perc}%, rgb(1,186,198,0.3) 100%)`"
         >
-          <v-col :cols="6" class="pt-0"
-            ><span style="font-weight: 600">{{ dt.price }}</span></v-col
+        <div v-if="mode != 2" class="my-2">
+          <v-row
+            v-for="(dt, i) in rise_data"
+            :key="i"
+            style="height: 20px; font-size: 12px; margin-bottom: -10px"
+            :style="`background: linear-gradient(to right, transparent 0%, transparent ${
+              100 - dt.perc
+            }%, rgb(1,186,198,0.3) ${100 - dt.perc}%, rgb(1,186,198,0.3) 100%)`"
           >
-          <v-col :cols="6" class="pt-0"
-            ><span>{{ dt.total }}</span></v-col
-          >
-        </v-row></div>
+            <v-col :cols="4" class="pt-0"
+              ><span style="font-weight: 600">{{ dt.price }}</span></v-col
+            >
+            <v-col :cols="4" class="pt-0"
+              ><span>{{ dt.quant }}</span></v-col
+            >
+            <v-col :cols="4" class="pt-0"
+              ><span>{{ dt.total }}</span></v-col
+            >
+          </v-row>
+        </div>
         <v-row v-if="mode == 0" class="pb-1">
           <v-col :class="`${diffColor(change)}--text pa-1`"
             ><v-icon class="pb-2" :color="diffColor(change)">{{
@@ -54,23 +77,28 @@
             >
           </v-col>
         </v-row>
-        <div v-if="mode != 1" class="my-2"><v-row
-          v-for="(dt, i) in fall_data"
-          :key="number_d + i"
-          style="height: 20px; font-size: 14px; margin-bottom: -10px"
-          :style="`background: linear-gradient(to right, transparent 0%, transparent ${
-            100 - dt.perc
-          }%, rgb(211,34,98,0.3) ${100 - dt.perc}%, rgb(211,34,98,0.3) 100%)`"
-        >
-          <v-col :cols="6" class="pt-0"
-            ><span style="font-weight: 600; font-size: 12px">{{
-              dt.price
-            }}</span></v-col
+        <div v-if="mode != 1" class="my-2">
+          <v-row
+            v-for="(dt, i) in fall_data"
+            :key="number_d + i"
+            style="height: 20px; font-size: 14px; margin-bottom: -10px"
+            :style="`background: linear-gradient(to right, transparent 0%, transparent ${
+              100 - dt.perc
+            }%, rgb(211,34,98,0.3) ${100 - dt.perc}%, rgb(211,34,98,0.3) 100%)`"
           >
-          <v-col :cols="6" class="pt-0"
-            ><span style="font-size: 12px">{{ dt.total }}</span></v-col
-          >
-        </v-row></div>
+            <v-col :cols="4" class="pt-0"
+              ><span style="font-weight: 600; font-size: 12px">{{
+                dt.price
+              }}</span></v-col
+            >
+            <v-col :cols="4" class="pt-0"
+              ><span>{{ dt.quant }}</span></v-col
+            >
+            <v-col :cols="4" class="pt-0"
+              ><span style="font-size: 12px">{{ dt.total }}</span></v-col
+            >
+          </v-row>
+        </div>
         <v-row v-if="mode != 0">
           <v-col :class="`${diffColor(change)}--text pa-1`"
             ><v-icon class="pb-2" :color="diffColor(change)">{{
@@ -116,7 +144,7 @@ export default {
       rise_data: [],
       fall_data: [],
       interv: null,
-      mode: 0
+      mode: 0,
     };
   },
   computed: {
@@ -149,32 +177,35 @@ export default {
     fill_data() {
       let dt = [];
       for (let i = 0; i < this.number_d; i++) {
+        let price =
+          Math.round(
+            (this.price + (this.price * (0.5 - Math.random())) / 500) *
+              (1000000 / this.round_val)
+          ) /
+          (1000000 / this.round_val);
+        let total =
+          Math.round(
+            ((Math.random() * (2 - Math.random()) * 5000) / this.price) *
+              this.round_val
+          ) / this.round_val;
         dt.push({
-          price:
-            Math.round(
-              (this.price + (this.price * (0.5 - Math.random())) / 500) *
-                (1000000 / this.round_val)
-            ) /
-            (1000000 / this.round_val),
-          total:
-            Math.round(
-              ((Math.random() * (2 - Math.random()) * 5000) / this.price) *
-                this.round_val
-            ) / this.round_val,
+          price: price,
+          quant: total,
+          total: (total * price).toFixed(3),
         });
       }
       dt.sort(function (a, b) {
-        if (a.total > b.total) {
+        if (a.quant > b.quant) {
           return 1;
         }
-        if (a.total < b.total) {
+        if (a.quant < b.quant) {
           return -1;
         }
         return 0;
       });
-      let lst = dt[dt.length - 1].total;
+      let lst = dt[dt.length - 1].quant;
       dt.forEach((el) => {
-        el.perc = parseInt((100 * el.total) / lst);
+        el.perc = parseInt((100 * el.quant) / lst);
       });
       return dt;
     },
@@ -195,7 +226,7 @@ export default {
         this.number_d = 22;
         this.fill_data();
       }
-    }
+    },
   },
   created() {
     this.interv = setInterval(() => {
