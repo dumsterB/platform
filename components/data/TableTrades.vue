@@ -57,6 +57,9 @@
           }`
         }}</span>
       </template>
+      <template v-slot:[`item.exchange_rate`]="{ item }">
+        <span>{{ `${new Intl.NumberFormat().format(item.exchange_rate)} USD` }}</span>
+      </template>
       <template v-slot:[`item.price`]="{ item }">
         <span>{{ `${new Intl.NumberFormat().format(item.price)} USD` }}</span>
       </template>
@@ -93,11 +96,15 @@
           <v-container v-if="close_item">
             <p>
               {{ "Current price:" }}
-              <span class="font-weight-bold">${{ new Intl.NumberFormat().format(close_item.price) }}</span>
+              <span class="font-weight-bold"
+                >${{ new Intl.NumberFormat().format(close_item.price) }}</span
+              >
             </p>
             <p>
               {{ "Your limit price:" }}
-              <span class="font-weight-bold">${{ new Intl.NumberFormat().format(def_limit_price) }}</span>
+              <span class="font-weight-bold"
+                >${{ new Intl.NumberFormat().format(def_limit_price) }}</span
+              >
             </p>
           </v-container>
         </v-card-text>
@@ -187,18 +194,7 @@ export default {
       };
     },
     def_limit_price() {
-      if (this.close_item) {
-        if (this.close_item.source_currency.symbol == "USD") {
-          return this.close_item.min_exchange_rate
-            ? 1/this.close_item.min_exchange_rate
-            : 1/this.close_item.max_exchange_rate;
-        }
-        if (this.close_item.dest_currency.symbol == "USD") {
-          return this.close_item.min_exchange_rate
-            ? this.close_item.min_exchange_rate
-            : this.close_item.max_exchange_rate;
-        }
-      }
+      return this.close_item.exchange_rate;
     },
     headers() {
       return [
@@ -207,38 +203,39 @@ export default {
           value: "identifier",
         },
         {
-          text: this.$t("Purchased"),
-          value: "dest_amount",
-        },
-        {
-          text: this.$t("Spent"),
-          value: "source_amount",
+          text: this.$t("table_position"),
+          value: "type",
+          sortable: false,
         },
         {
           text: this.$t("table_time"),
           value: "created_at",
         },
-
+        {
+          text: this.$t("amount"),
+          value: "amount",
+        },
+        {
+          text: this.$t("table_buy_price"),
+          value: "exchange_rate",
+        },
         {
           text: this.$t("table_current_price"),
           value: "price",
-          sortable: false,
         },
         {
-          text: this.$t("table_profit_loss"),
+          text: `${this.$t("table_profit_loss")} $`,
           value: "difference",
-          sortable: false,
         },
         {
           text: `${this.$t("table_profit_loss")} %`,
           value: "difference_perc",
-          sortable: false,
         },
         {
           text: this.$t("table_close"),
           value: "action",
           sortable: false,
-          width: 100,
+          width: 150,
         },
       ];
     },
@@ -246,6 +243,9 @@ export default {
   methods: {
     ...mapActions(model, {
       fetchList: "fetchList",
+    }),
+    ...mapActions("data/wallet", {
+      fetchWallet: "fetchList",
     }),
     f_definer() {
       let conf = null;
@@ -338,11 +338,11 @@ export default {
           pr_p = fnd_p.price;
         } else {
         }
+        el.amount = `${el.source_amount} ${el.source_currency.symbol}`;
+        el.type = !el.trade_type ? "Sell" : "Buy";
         el.price = pr_b == 1 ? pr_p : pr_b;
-        let curr_cost = (el.dest_amount * pr_b) / pr_p;
-        el.current_cost = curr_cost.toFixed(5);
-        let diff = curr_cost - el.source_amount;
-        let diff_proc = (diff * 100) / el.source_amount;
+        let diff = el.price - el.exchange_rate;
+        let diff_proc = (diff * 100) / el.price;
         el.difference = diff.toFixed(5);
         el.difference_perc = `${diff_proc.toFixed(3)} %`;
         return el;
@@ -369,29 +369,27 @@ export default {
     async run_close() {
       this.loading_modal = true;
       let trade_data = {};
+      trade_data.source_amount = this.close_item.source_amount;
+      trade_data.dest_amount = this.close_item.dest_amount;
+      trade_data.source_currency_id = this.close_item.source_currency_id;
+      trade_data.dest_currency_id = this.close_item.dest_currency_id;
       trade_data.id = this.close_item.id;
-      trade_data.trade_status_id = 9;
-      as_data.exchange_rate = this.close_item.price;
+      trade_data.trade_status_id = 10;
       let rs = await this.$store.dispatch(`data/trade/replace`, {
         data: trade_data,
         id: trade_data.id,
       });
       let title, color;
-      if (rs.data && rs.data.trade_status_id != 3) {
-        title = this.$t("not_enough_balance");
-        color = "error";
-      } else {
-        title = this.$t("stop_arbitrage_sessions");
-        color = "warning";
-        setTimeout(() => {
-          this.$store.commit("data/notifications/create", {
-            id: color + "_" + Math.random().toString(36),
-            title: this.$t("stop_arbitrage_sessions_done"),
-            text: this.$t("stop_arbitrage_sessions_done"),
-            color: "primary",
-          });
-        }, 2500);
-      }
+      title = this.$t("stop_arbitrage_sessions");
+      color = "warning";
+      setTimeout(() => {
+        this.$store.commit("data/notifications/create", {
+          id: color + "_" + Math.random().toString(36),
+          title: this.$t("stop_arbitrage_sessions_done"),
+          text: this.$t("stop_arbitrage_sessions_done"),
+          color: "primary",
+        });
+      }, 2500);
       this.$store.commit("data/notifications/create", {
         id: color + "_" + Math.random().toString(36),
         title: title,
@@ -399,7 +397,8 @@ export default {
         color: color,
         timeout: 2000,
       });
-      this.resetList();
+      await this.fetchWallet();
+      this.resetList(this.prices);
       setTimeout(() => {
         this.loading_modal = false;
         this.dialog = false;

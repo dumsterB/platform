@@ -310,7 +310,7 @@ export default {
       // console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });
       let title, color;
-      if (rs.data && rs.data.trade_status_id != 3) {
+      if (rs.data && rs.data.trade_status_id == 2) {
         title = this.$t("not_enough_balance");
         color = "error";
       } else {

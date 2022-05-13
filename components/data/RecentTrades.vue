@@ -302,7 +302,7 @@ export default {
         created_at: cr_at_f,
       },
       trade_filter: {
-        trade_status_id: "1",
+        trade_status_id: "9",
         created_at: cr_at_f,
       },
       arb_ses_filter: {
