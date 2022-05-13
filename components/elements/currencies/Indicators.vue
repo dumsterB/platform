@@ -77,7 +77,7 @@ export default {
       if (nm < 0) {
         return "red--text";
       } else {
-        return "primary--text";
+        return "green--text";
       }
     },
   },

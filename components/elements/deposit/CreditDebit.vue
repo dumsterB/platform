@@ -3,74 +3,97 @@
     <div class="payment_card">
       <div class="card_item pt-11 pl-10 pr-10 pb-7" :style="customStyle">
         <p class="mb-12">{{ $t("payment_card") }} #{{ 1 }}</p>
-        <p class="mb-12 card_item_number">
+        <p class="mb-12 card_item_number" v-if="selected_card">
           {{
-            data.card_number !== "" ? data.card_number : "---- ---- ---- ----"
+            selected_card && selected_card !== -1
+              ? selected_card
+              : "---- ---- ---- ----"
           }}
         </p>
-        <img width="40" height="20" :src="data.card_icon" class="icon" />
+        <v-row class="justify-space-between align-center">
+          <img
+            v-if="selected_card"
+            v-for="(item, i) in items"
+            :key="i"
+            width="40"
+            height="20"
+            :src="item.card_icon"
+            class="icon"
+          />
+          <p class="mb-0 font-weight-thin text-right">
+            {{ fee }}% {{ $t("fee") }}
+          </p>
+        </v-row>
         <v-card class="card_data">
           <v-form :lazy-validation="false" v-model="valid">
             <v-card-text class="pb-6">
               <v-row>
-                <v-col cols="12" class="pb-0 card">
-                  <v-subheader
-                    class="grey--text text--lighten-1 pl-0 subheader"
-                    >{{ $t("card_number") }}</v-subheader
+                <v-col>
+                  <v-autocomplete
+                    v-model="selected_card"
+                    :items="items"
+                    chips
+                    hide-details
+                    item-text="card_number"
+                    item-value="card_number"
+                    :label="$t('choose_card')"
+                    solo
+                    class="card_list"
+                    :style="customStyle"
+                    height="52"
+                    append-icon="mdi-chevron-down"
                   >
-                  <v-text-field
-                    v-model="card_number"
-                    mask="credit-card"
-                    :rules="cardRules"
-                    class="card_input"
-                    maxlength="19"
-                    single-line
-                    outlined
-                    dense
-                  />
-                  <template>
-                    <v-fade-transition leave-absolute>
-                      <img
-                        class="card_input__icon"
-                        width="24"
-                        height="24"
-                        :src="data.card_icon"
-                        alt=""
-                      />
-                    </v-fade-transition>
-                  </template>
-                </v-col>
-
-                <v-col cols="8" class="py-0">
-                  <v-subheader
-                    class="grey--text text--lighten-1 pl-0 subheader"
-                    >{{ $t("expiry") }}</v-subheader
-                  >
-                  <v-text-field
-                    label="MM/YY"
-                    :rules="expireDateRules"
-                    outlined
-                    dense
-                    maxlength="5"
-                    v-model="exp_date"
-                  />
-                </v-col>
-
-                <v-col cols="4" class="py-0">
-                  <v-subheader class="grey--text text--lighten-1 pl-0 subheader"
-                    >CVV</v-subheader
-                  >
-                  <v-text-field
-                    :append-icon="showCVV ? 'visibility_off' : 'visibility'"
-                    :type="showCVV ? 'text' : 'password'"
-                    @click:append="showCVV = !showCVV"
-                    v-model="data.cvv"
-                    :rules="cvvRules"
-                    maxlength="3"
-                    single-line
-                    outlined
-                    dense
-                  />
+                    <template v-slot:selection="{ attr, on, item, selected }">
+                      <v-chip
+                        v-bind="attr"
+                        :input-value="selected"
+                        class="icon_color--text"
+                        v-on="on"
+                      >
+                        <img
+                          width="24"
+                          height="24"
+                          :src="item.card_icon"
+                          class="ma-0 mr-6"
+                        />
+                        <p class="ma-0">
+                          {{ `**** **** **** ${item.card_number.slice(-4)}` }}
+                        </p>
+                      </v-chip>
+                    </template>
+                    <template v-slot:item="{ item }">
+                      <v-list-item-avatar
+                        class="text-h5 font-weight-light icon_color--text avatar"
+                      >
+                        <img width="14" height="14" :src="item.card_icon" />
+                      </v-list-item-avatar>
+                      <v-list-item-content>
+                        <v-list-item-title>{{
+                          item.card_number
+                        }}</v-list-item-title>
+                      </v-list-item-content>
+                      <v-list-item-action @click="delete_card(item)">
+                        <v-icon>mdi-close</v-icon>
+                      </v-list-item-action>
+                    </template>
+                    <template v-slot:append-item>
+                      <div class="d-flex pl-4 pr-4" style="cursor: pointer">
+                        <v-list-item-avatar
+                          class="text-h5 font-weight-light icon_color--text avatar"
+                          @click="cardDialogChanger"
+                        >
+                          <v-icon class="icon_color--text" size="40" dark
+                            >mdi-plus</v-icon
+                          >
+                        </v-list-item-avatar>
+                        <v-list-item-content @click="cardDialogChanger">
+                          <v-list-item-title>{{
+                            $t("addNewPayment")
+                          }}</v-list-item-title>
+                        </v-list-item-content>
+                      </div>
+                    </template>
+                  </v-autocomplete>
                 </v-col>
                 <v-col cols="12" class="pb-0 py-0 card">
                   <v-subheader
@@ -87,6 +110,12 @@
                     dense
                   />
                 </v-col>
+                <div class="mb-0 mt-0 ml-auto mr-auto">
+                  <span> {{ $t("pay") }}: </span>
+                  <span class="primary--text ml-1">
+                    {{ amountyFee(amounty) }}
+                  </span>
+                </div>
               </v-row>
             </v-card-text>
             <v-card-actions class="mb-8 ml-2 mr-2 justify-center py-0">
@@ -94,8 +123,8 @@
                 :style="customStyle"
                 dark
                 elevation="0"
-                @click="addCardNumber"
                 large
+                @click="run_order"
                 class="success-btn"
                 :disabled="!btnDisable"
                 :loading="loading"
@@ -106,11 +135,18 @@
         </v-card>
       </div>
     </div>
+    <BankCard
+      :cardDialog="cardDialog"
+      @save="save"
+      @cardDialogChanger="cardDialogChanger"
+    ></BankCard>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import config from "~/config/config.json";
+import BankCard from "../../modals/BankCard";
 const validateExpDate = (value) => {
   const monthAndYear = value.split("/");
   const valueDate = new Date();
@@ -130,52 +166,32 @@ const validateNumberLength = (value) => {
   let stringValue = value.split(" ").join("");
   return stringValue.length === 16;
 };
-import config from "~/config/config.json";
 
 export default {
   name: "CreditDebit",
+  components: {
+    BankCard,
+  },
   data() {
     return {
-      data: {
-        expire_date: "",
-        card_number: "",
-        isFavorite: false,
-        cvv: "",
-        card_icon: "https://www.svgrepo.com/show/103010/credit-card.svg",
-      },
       payment_card_box_shadow: config.colors.payment_card_box_shadow,
       primary: config.themes.dark.primary,
       white: config.themes.light.item_bg,
       dark_disabled: config.colors.dark_disabled_primary_btn,
       light_disabled: config.colors.light_disabled_primary_btn,
-      showCVV: false,
       card_number: "",
-      exp_date: "",
       amounty: "",
       valid: false,
       loading: false,
-      cardRules: [
-        (v) => !!v || this.$t("card_number_required"),
-        (v) => (v && validateNumberLength(v)) || this.$t("card_rules"),
-        (v) => (v && validateIsNumber(v)) || this.$t("card_rules_number"),
-      ],
-      expireDateRules: [
-        (v) => !!v || this.$t("card_expiry_required"),
-        (v) => (v && v.length == 5) || this.$t("invalid_date"),
-        (v) => (v && validateExpMonth(v)) || this.$t("invalid_date"),
-        (v) => (v && validateExpDate(v)) || this.$t("your_card_expired"),
-      ],
-      cvvRules: [
-        (v) => !!v || this.$t("CVV_required"),
-        (v) => (v && v.length == 3) || this.$t("CVV_rules"),
-        (v) => (v && validateIsNumber(v)) || this.$t("card_rules_number"),
-      ],
+      items: [],
+      cardDialog: false,
+      selected_card: -1,
+      fee: 1.2,
       amountyRules: [
         (v) => !!v || this.$t("amount_required"),
         (v) => (v && Number(v) > 19) || this.$t("from_only"),
         (v) => (v && v.length < 5) || this.$t("amount_ruls"),
       ],
-      years: [],
     };
   },
   methods: {
@@ -183,21 +199,40 @@ export default {
       order_create: "create",
       fetchOrders: "fetchList",
     }),
-    async addCardNumber() {
-      let cards = localStorage.getItem("bank_cards");
-      let c_json = JSON.parse(cards);
-      let list = [];
-      if (c_json) {
-        list = c_json;
+    cardDialogChanger() {
+      this.cardDialog = !this.cardDialog;
+    },
+    amountyFee(val) {
+      let sum = (Number(val) / 100) * this.fee;
+      let total = sum + Number(val);
+      return total;
+    },
+    save() {
+      let d = localStorage.getItem("bank_cards");
+      if (d) {
+        this.items = JSON.parse(d) || [];
+        if (this.items && this.items.length > 0) {
+          this.selected_card = 0;
+        }
+        this.cardDialog = false;
       }
-      list.push(this.data);
-      localStorage.setItem("bank_cards", JSON.stringify(list));
-      this.$emit("save");
-      this.data.isFavorite = false;
-      this.data.cvv = "";
-      this.card_number = "";
-      this.exp_date = "";
-      this.amounty = "";
+    },
+    delete_card(item) {
+      let d = localStorage.getItem("bank_cards");
+      let items = d ? JSON.parse(d) : [];
+      let new_arr = [];
+      items.forEach((el) => {
+        if (el.card_number != item.card_number) {
+          new_arr.push(el);
+        }
+      });
+      localStorage.setItem("bank_cards", JSON.stringify(new_arr));
+      this.items = new_arr;
+      if (this.items && this.items.length > 0) {
+        this.selected_card = 0;
+      } else {
+        this.selected_card = -1;
+      }
     },
     async run_order() {
       this.loading = true;
@@ -246,18 +281,6 @@ export default {
       }
       this.data.card_number = v;
     },
-    getCardType(v) {
-      if (v === "visa") {
-        this.data.card_icon =
-          "https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg";
-      } else if (v === "mastercard") {
-        this.data.card_icon =
-          "https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg";
-      } else {
-        this.data.card_icon =
-          "https://www.svgrepo.com/show/103010/credit-card.svg";
-      }
-    },
   },
   computed: {
     ...mapGetters("data/currency", {
@@ -272,20 +295,20 @@ export default {
         "--light_disabled": this.light_disabled,
       };
     },
-    getCardType() {
-      let number = this.card_number;
-      let re = new RegExp("^4");
-      if (number.match(re) != null) return "visa";
-      re = new RegExp("^5[1-5]");
-      if (number.match(re) != null) return "mastercard";
 
-      return "";
-    },
     btnDisable() {
       return this.valid;
     },
   },
-  mounted() {},
+  mounted() {
+    let d = localStorage.getItem("bank_cards");
+    if (d) {
+      this.items = JSON.parse(d) || [];
+      if (this.items && this.items.length > 0) {
+        this.selected_card = 0;
+      }
+    }
+  },
 };
 </script>
 

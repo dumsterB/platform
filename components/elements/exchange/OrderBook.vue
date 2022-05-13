@@ -6,7 +6,7 @@
           <v-list-item
             tag="button"
             block
-            class="orderBtn primary--text pt-1 mb-2 font-weight-bold"
+            class="orderBtn primary--text pt-1 mb-0 font-weight-bold"
             :style="customStyle"
             exact-active-class="orderBtn"
             active-class="orderBtn"
@@ -15,15 +15,18 @@
           >
         </v-list-item-group>
         <v-divider></v-divider>
-        <v-row style="height: 38px"
-          ><v-col
-            ><span class="gray--text" style="font-size: 12px"
-              >{{ $t("price") }} (USD)</span
-            ></v-col
-          ><v-col class="gray--text" style="font-size: 12px"
+        <v-row class="ma-0 my-1">
+          <v-btn icon @click="mode = 0" :class="mode == 0 ? 'primary--text' : 'gray--text'"><v-icon>mdi-list-status</v-icon></v-btn>
+          <v-btn icon @click="mode = 1" :class="mode == 1 ? 'primary--text' : 'gray--text'"><v-icon>mdi-playlist-plus</v-icon></v-btn>
+          <v-btn icon @click="mode = 2" :class="mode == 2 ? 'primary--text' : 'gray--text'"><v-icon>mdi-playlist-minus</v-icon></v-btn>
+        </v-row>
+        <v-row class="pt-0 mt-0 pb-1"
+          ><v-col class="gray--text py-1" style="font-size: 12px"
+            >{{ $t("price") }} (USD)</v-col
+          ><v-col class="gray--text py-1" style="font-size: 12px"
             >{{ $t("quantity_title") }} ({{ currency }})</v-col
           ></v-row
-        ><v-row
+        ><div v-if="mode != 2" class="my-2"><v-row
           v-for="(dt, i) in rise_data"
           :key="i"
           style="height: 20px; font-size: 12px; margin-bottom: -10px"
@@ -37,8 +40,8 @@
           <v-col :cols="6" class="pt-0"
             ><span>{{ dt.total }}</span></v-col
           >
-        </v-row>
-        <v-row>
+        </v-row></div>
+        <v-row v-if="mode == 0" class="pb-1">
           <v-col :class="`${diffColor(change)}--text pa-1`"
             ><v-icon class="pb-2" :color="diffColor(change)">{{
               change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
@@ -51,7 +54,7 @@
             >
           </v-col>
         </v-row>
-        <v-row
+        <div v-if="mode != 1" class="my-2"><v-row
           v-for="(dt, i) in fall_data"
           :key="number_d + i"
           style="height: 20px; font-size: 14px; margin-bottom: -10px"
@@ -60,11 +63,26 @@
           }%, rgb(211,34,98,0.3) ${100 - dt.perc}%, rgb(211,34,98,0.3) 100%)`"
         >
           <v-col :cols="6" class="pt-0"
-            ><span style="font-weight: 600; font-size: 12px">{{ dt.price }}</span></v-col
+            ><span style="font-weight: 600; font-size: 12px">{{
+              dt.price
+            }}</span></v-col
           >
           <v-col :cols="6" class="pt-0"
             ><span style="font-size: 12px">{{ dt.total }}</span></v-col
           >
+        </v-row></div>
+        <v-row v-if="mode != 0">
+          <v-col :class="`${diffColor(change)}--text pa-1`"
+            ><v-icon class="pb-2" :color="diffColor(change)">{{
+              change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
+            }}</v-icon>
+            <span style="font-weight: 600; font-size: 28px">{{
+              change_val
+            }}</span
+            ><span style="font-weight: 400; font-size: 12px">
+              ≈ {{ change }} USD</span
+            >
+          </v-col>
         </v-row>
       </div>
     </v-card>
@@ -98,6 +116,7 @@ export default {
       rise_data: [],
       fall_data: [],
       interv: null,
+      mode: 0
     };
   },
   computed: {
@@ -124,7 +143,7 @@ export default {
       if (el < 0) {
         return "red";
       } else {
-        return "primary";
+        return "green";
       }
     },
     fill_data() {
@@ -165,6 +184,18 @@ export default {
       //   this.rise_data = this.fill_data();
       //   this.fall_data = this.fill_data();
     },
+    mode(v) {
+      this.rise_data = [];
+      this.fall_data = [];
+      if (v == 0) {
+        this.number_d = 11;
+        this.fill_data();
+      }
+      if (v == 1 || v == 2) {
+        this.number_d = 22;
+        this.fill_data();
+      }
+    }
   },
   created() {
     this.interv = setInterval(() => {
