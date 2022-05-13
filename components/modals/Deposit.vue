@@ -41,7 +41,9 @@
                   <p class="mr-4 mb-0 font-weight-bold">
                     {{ $t("bank_card") }}
                   </p>
-                  <p class="mb-0 font-weight-thin">1.2% {{ $t("fee") }}</p>
+                  <p class="mb-0 font-weight-thin">
+                    {{ fee }}% {{ $t("fee") }}
+                  </p>
                 </div>
               </v-btn>
               <v-btn
@@ -53,7 +55,9 @@
                 <v-icon class="mr-4">mdi-currency-btc</v-icon>
                 <div class="d-flex flex-wrap align-center">
                   <p class="mr-4 mb-0 font-weight-bold">{{ $t("crypto") }}</p>
-                  <p class="mb-0 font-weight-thin">1.2% {{ $t("fee") }}</p>
+                  <p class="mb-0 font-weight-thin">
+                    {{ fee }}% {{ $t("fee") }}
+                  </p>
                 </div>
               </v-btn>
             </v-bottom-navigation>
@@ -326,11 +330,8 @@ export default {
   },
   methods: {
     amounty(val) {
-      console.log("val :>> ", val);
       let sum = (Number(val) / 100) * this.fee;
-      console.log("sum :>> ", sum);
-      let total = sum + val;
-      console.log("total :>> ", total);
+      let total = sum + Number(val);
       return total;
     },
     ...mapActions("data/order", {
@@ -409,7 +410,7 @@ export default {
         // console.log("order_data", order_data);
         let rs = await this.order_create({ data: order_data });
         let title, color;
-        if (rs.data && rs.data.order_status_id != 3) {
+        if (rs.data && rs.data.order_status_id == 2) {
           title = this.$t("order_failed");
           color = "error";
         } else {

@@ -31,6 +31,8 @@ export default {
   data() {
     return {
       value: [333, 446, 975, 510, 990, 610, 860],
+      curent_dt: null,
+      interv: null,
     };
   },
   computed: {
@@ -38,7 +40,8 @@ export default {
       g_data: "single",
     }),
     value_g() {
-      let dt = this.g_data(this.symbol);
+      this.curent_dt = this.g_data(this.symbol);
+      let dt = this.curent_dt;
       if (dt && dt.length > 0) {
         let res = dt.map((el) => (el && el.length > 0 ? parseFloat(el[1]) : 0));
         return res;
@@ -47,13 +50,22 @@ export default {
       }
     },
     color() {
-      if (this.value_g && this.value_g.length > 0) {
-        if (this.value_g[0] > this.value_g[this.value_g.length - 1]) {
-          return "red"
+      if (this.value_g && this.value_g.length > 1) {
+        if (this.value_g[this.value_g.length - 2] > this.value_g[this.value_g.length - 1]) {
+          return "red";
         }
       }
-      return "primary"
-    }
+      return "green";
+    },
+  },
+  created() {
+    this.interv = setInterval(() => {
+      if (!this.curent_dt) {
+        this.curent_dt = this.g_data(this.symbol);
+      } else {
+        clearInterval(this.interv);
+      }
+    }, 300);
   },
 };
 </script>

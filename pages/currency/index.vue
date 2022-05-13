@@ -360,9 +360,9 @@ export default {
     },
     initGrpaphWidth() {
       if (window.innerWidth > 1300) {
-        return parseInt(((window.innerWidth - 350) * 1) / 2);
+        return parseInt(((window.innerWidth - 380) * 1) / 2);
       } else {
-        return parseInt(((window.innerWidth - 350) * 2) / 3);
+        return parseInt(((window.innerWidth - 380) * 2) / 3);
       }
     },
     platform_changed(platform) {
@@ -421,7 +421,7 @@ export default {
       if (add_data.base == me.curr_code) {
         if (me.current.currency_type.key != "CRYPTO" && data.close) {
           let datka = data;
-          console.log("datka", datka);
+          // console.log("datka", datka);
           if (me.ex_type == "FOREX") {
             me.price = Math.round(10000000 / datka.close) / 10000000;
             let open = Math.round(10000000 / datka.open) / 10000000;

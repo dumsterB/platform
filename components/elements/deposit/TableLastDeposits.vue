@@ -19,7 +19,6 @@
         </template>
       </v-data-table>
     </v-card>
-    <Deposit
   </div>
 </template>
 

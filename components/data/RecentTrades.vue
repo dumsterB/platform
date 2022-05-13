@@ -39,6 +39,7 @@
       v-if="trade_filter && page_state == 0"
       :prices="prices"
       :filter="trade_filter"
+      :add_cols="true"
       ref="trades"
       ><template v-slot:header
         ><v-list max-width="600" min-width="480" class="pa-0 borderNone">

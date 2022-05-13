@@ -75,7 +75,7 @@
                 <v-col cols="12" class="pb-0 py-0 card">
                   <v-subheader
                     class="grey--text text--lighten-1 pl-0 subheader"
-                    >{{ $t("amounty") }}</v-subheader
+                    >{{ $t("amount") }}</v-subheader
                   >
                   <v-text-field
                     v-model="amounty"
@@ -85,7 +85,8 @@
                     single-line
                     outlined
                     dense
-                /></v-col>
+                  />
+                </v-col>
               </v-row>
             </v-card-text>
             <v-card-actions class="mb-8 ml-2 mr-2 justify-center py-0">
@@ -97,7 +98,8 @@
                 large
                 class="success-btn"
                 :disabled="!btnDisable"
-                >{{ $t("to_continue") }}
+                :loading="loading"
+                >{{ loading ? "" : $t("to_continue") }}
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -108,6 +110,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 const validateExpDate = (value) => {
   const monthAndYear = value.split("/");
   const valueDate = new Date();
@@ -150,6 +153,7 @@ export default {
       exp_date: "",
       amounty: "",
       valid: false,
+      loading: false,
       cardRules: [
         (v) => !!v || this.$t("card_number_required"),
         (v) => (v && validateNumberLength(v)) || this.$t("card_rules"),
@@ -175,7 +179,11 @@ export default {
     };
   },
   methods: {
-    addCardNumber() {
+    ...mapActions("data/order", {
+      order_create: "create",
+      fetchOrders: "fetchList",
+    }),
+    async addCardNumber() {
       let cards = localStorage.getItem("bank_cards");
       let c_json = JSON.parse(cards);
       let list = [];
@@ -190,6 +198,39 @@ export default {
       this.card_number = "";
       this.exp_date = "";
       this.amounty = "";
+    },
+    async run_order() {
+      this.loading = true;
+      let order_data = {};
+      let curr = this.currencies.find((el) => el.symbol == "USD");
+      if (curr) {
+        order_data.source_currency_id = curr.id;
+      }
+      order_data.source_amount = parseFloat(this.amounty);
+      order_data.dest_currency_id = curr.id;
+      order_data.dest_amount = parseFloat(this.amounty);
+      order_data.exchange_rate = 1;
+      order_data.order_type_id = 2;
+      order_data.order_method_id = 1;
+      // console.log("order_data", order_data);
+      let rs = await this.order_create({ data: order_data });
+      let title, color;
+      if (rs.data && rs.data.order_status_id == 2) {
+        title = this.$t("order_failed");
+        color = "error";
+      } else {
+        title = this.$t("create_order_progress");
+        color = "warning";
+      }
+      this.$store.commit("data/notifications/create", {
+        id: color + "_" + Math.random().toString(36),
+        title: title,
+        text: title,
+        color: color,
+        timeout: 5000,
+      });
+      await this.fetchOrders();
+      this.loading = false;
     },
   },
   watch: {
@@ -219,6 +260,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters("data/currency", {
+      currencies: "list",
+    }),
     customStyle() {
       return {
         "--primary": this.primary,

@@ -153,6 +153,10 @@ export default {
       type: String,
       default: "",
     },
+    add_cols: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
@@ -199,36 +203,7 @@ export default {
       return this.close_item.exchange_rate;
     },
     headers() {
-      return [
-        {
-          text: this.$t("id"),
-          value: "identifier",
-        },
-        {
-          text: this.$t("table_position"),
-          value: "type",
-          sortable: false,
-        },
-        {
-          text: this.$t("table_time"),
-          value: "updated_at",
-        },
-        {
-          text: this.$t("currency"),
-          value: "symbol",
-        },
-        {
-          text: this.$t("amount"),
-          value: "amount",
-        },
-        {
-          text: this.$t("limit"),
-          value: "exchange_rate",
-        },
-        {
-          text: this.$t("table_current_price"),
-          value: "price",
-        },
+      let add_cols = [
         {
           text: `${this.$t("table_profit_loss")} $`,
           value: "difference",
@@ -243,7 +218,42 @@ export default {
           sortable: false,
           width: 150,
         },
+      ]
+      let res_cols = [
+        {
+          text: this.$t("id"),
+          value: "identifier",
+        },
+        {
+          text: this.$t("currency"),
+          value: "symbol",
+        },
+        {
+          text: this.$t("table_position"),
+          value: "type",
+          sortable: false,
+        },
+        {
+          text: this.$t("table_time"),
+          value: "updated_at",
+        },
+        {
+          text: this.$t("amount"),
+          value: "amount",
+        },
+        {
+          text: this.$t("limit"),
+          value: "exchange_rate",
+        },
+        {
+          text: this.$t("table_current_price"),
+          value: "price",
+        },
       ];
+      if (this.add_cols) {
+        res_cols = res_cols.concat(add_cols);
+      }
+      return res_cols;
     },
   },
   methods: {
@@ -331,22 +341,21 @@ export default {
     resetList(prices) {
       this.list = this.trades.map((el) => {
         let fnd_b = prices.find((e) => e && e.base == el.dest_currency.symbol);
-        let pr_b = 1;
-        if (fnd_b && fnd_b.price) {
-          pr_b = fnd_b.price;
-        } else {
-        }
         let fnd_p = prices.find(
           (e) => e && e.base == el.source_currency.symbol
         );
-        let pr_p = 1;
-        if (fnd_p && fnd_p.price) {
-          pr_p = fnd_p.price;
+        let price = null;
+        if (!el.trade_type) {
+          price = fnd_p ? fnd_p.price : null;
         } else {
+          price = fnd_b ? fnd_b.price : null;
+        }
+        if (!price) {
+          price = this.get_val(el.symbol);
         }
         el.amount = `${el.source_amount} ${el.source_currency.symbol}`;
         el.type = !el.trade_type ? "Sell" : "Buy";
-        el.price = pr_b == 1 ? pr_p : pr_b;
+        el.price = price;
         let diff = el.price - el.exchange_rate;
         let diff_proc = (diff * 100) / el.price;
         el.difference = diff.toFixed(5);
