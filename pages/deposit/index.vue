@@ -16,7 +16,7 @@
           ></component>
         </v-col>
         <v-col cols="12" lg="6" md="6" class="mt-6">
-          <TableLastDeposits></TableLastDeposits>
+          <TableOrders></TableOrders>
         </v-col>
       </v-row>
     </v-container>
@@ -28,7 +28,7 @@ import SwitchTabs from "@/components/elements/deposit/SwitchTabs";
 import Crypto from "@/components/elements/deposit/Crypto";
 import CreditDebit from "@/components/elements/deposit/CreditDebit";
 import Others from "@/components/elements/deposit/Others";
-import TableLastDeposits from "@/components/elements/deposit/TableLastDeposits";
+import TableOrders from "@/components/data/TableOrders";
 
 import { mapGetters } from "vuex";
 export default {
@@ -44,7 +44,7 @@ export default {
     Crypto,
     CreditDebit,
     Others,
-    TableLastDeposits,
+    TableOrders,
   },
   computed: {
     ...mapGetters({
