@@ -6,7 +6,13 @@
         <v-item-group>
           <v-container>
             <v-row>
-              <v-col v-for="(item, i) in titles" :key="i" cols="12" md="6">
+              <v-col
+                v-for="(item, i) in titles"
+                :key="i"
+                cols="12"
+                md="6"
+                @click="check_click(item)"
+              >
                 <v-item v-slot="{ active, toggle }">
                   <v-card
                     :color="active ? 'primary--text' : ''"
@@ -19,14 +25,22 @@
                       <div v-if="active"></div>
                     </v-scroll-y-transition>
                     <div
-                      :style="`background-image: url(${
-                        imageData ? imageData : image_data
-                      });`"
+                      :style="`background-size: cover;
+                        background-position: center center; background-image: url(${
+                          item.img ? item.img : ''
+                        });`"
                       @click="toggle"
                     >
                       <label for="item.name">
                         <v-row
-                          class="px-12 py-0 ma-0 mb-3 justify-center align-center"
+                          class="
+                            px-12
+                            py-0
+                            ma-0
+                            mb-3
+                            justify-center
+                            align-center
+                          "
                         >
                           <v-col :cols="2" class="pa-0 ma-0">
                             <v-icon size="32" color="icon_color">{{
@@ -35,7 +49,11 @@
                           </v-col>
                           <v-col :cols="10" class="pa-0 ma-0">
                             <p
-                              class="icon_color--text text-uppercase upload_title"
+                              class="
+                                icon_color--text
+                                text-uppercase
+                                upload_title
+                              "
                             >
                               {{ item.name }}
                             </p>
@@ -47,10 +65,11 @@
                         </p>
                         <input
                           class="file_input"
-                          ref="fileInput"
+                          :ref="`fileInput${item.document_type_id}`"
                           type="file"
                           id="item.name"
                           accept="image/*"
+                          @input="onSelectFile()"
                         />
                       </label>
                     </div>
@@ -65,7 +84,7 @@
     <v-row class="mt-8">
       <v-col>
         <v-data-table
-          :items="items"
+          :items="approve_documents"
           :headers="headers"
           class="elevation-1 ma-2"
           :style="customStyle"
@@ -94,7 +113,9 @@ export default {
       config: config,
       imageData: null,
       image_data: null,
-      items: [],
+      formData: null,
+      current_doc: null,
+      holder: false,
     };
   },
   computed: {
@@ -108,57 +129,88 @@ export default {
       return [
         {
           text: this.$t("document"),
-          value: "identifier",
+          value: "document_type.name",
           sortable: false,
         },
         {
           text: this.$t("time_uploaded"),
-          value: "time uploaded",
-          sortable: false,
-        },
-        {
-          text: this.$t("time_processed"),
-          value: "time processed",
+          value: "updated_at",
           sortable: false,
         },
         {
           text: this.$t("status_title"),
-          value: "status",
+          value: "status_documents.name",
           sortable: false,
         },
       ];
     },
     titles() {
+      let f1 = this.approve_documents.find((el) => el.document_type_id == 1);
+      let f2 = this.approve_documents.find((el) => el.document_type_id == 2);
+      let f3 = this.approve_documents.find((el) => el.document_type_id == 3);
+      let f4 = this.approve_documents.find((el) => el.document_type_id == 4);
+      let f5 = this.approve_documents.find((el) => el.document_type_id == 5);
+      let f6 = this.approve_documents.find((el) => el.document_type_id == 6);
       return [
         {
           name: this.$t("proof_of_id"),
           value: this.$t("user_proof_of_id"),
           icon: "mdi-message-text-outline",
+          document_type_id: 1,
+          img:
+            f1 && f1.fs && f1.fs[0]
+              ? `${this.$env("FILE_SERVER_BASE")}${f1.fs[0].dir}`
+              : "",
         },
         {
           name: this.$t("proof_of_residence"),
           value: this.$t("user_proof_of_residence"),
           icon: "mdi-file-document-multiple-outline",
+          document_type_id: 3,
+          img:
+            f3 && f3.fs && f3.fs[0]
+              ? `${this.$env("FILE_SERVER_BASE")}${f3.fs[0].dir}`
+              : "",
         },
         {
           name: this.$t("back_of_credit_card"),
           value: this.$t("user_back_of_credit_card"),
           icon: "mdi-credit-card-outline",
+          document_type_id: 5,
+          img:
+            f5 && f5.fs && f5.fs[0]
+              ? `${this.$env("FILE_SERVER_BASE")}${f5.fs[0].dir}`
+              : "",
         },
         {
           name: this.$t("proof_of_ID_back"),
           value: this.$t("user_proof_of_ID_back"),
           icon: "mdi-wallet-outline",
+          document_type_id: 2,
+          img:
+            f2 && f2.fs && f2.fs[0]
+              ? `${this.$env("FILE_SERVER_BASE")}${f2.fs[0].dir}`
+              : "",
         },
         {
           name: this.$t("credit_card_front"),
           value: this.$t("user_credit_card_front"),
           icon: "mdi-card-account-details-outline",
+          document_type_id: 4,
+          img:
+            f4 && f4.fs && f4.fs[0]
+              ? `${this.$env("FILE_SERVER_BASE")}${f4.fs[0].dir}`
+              : "",
         },
         {
           name: this.$t("your_selfie"),
           value: this.$t("user_your_selfie"),
           icon: "mdi-account-box-outline",
+          document_type_id: 6,
+          img:
+            f6 && f6.fs && f6.fs[0]
+              ? `${this.$env("FILE_SERVER_BASE")}${f6.fs[0].dir}`
+              : "",
         },
       ];
     },
@@ -174,11 +226,64 @@ export default {
     }),
     ...mapActions("data/approve_documents", {
       fetch_approve_documents: "fetchList",
+      create_document: "create",
     }),
+    check_click(item) {
+      if (!this.holder) {
+        this.holder = true;
+        this.current_doc = item.document_type_id;
+        console.log("item", item);
+        setTimeout(() => {
+          this.holder = false;
+        },100)
+      }
+    },
+    async onSelectFile() {
+      const input = this.$refs[`fileInput1`];
+      console.log(input)
+      const files = input[0].files;
+      if (files && files[0]) {
+        this.formData = new FormData();
+        this.formData.append("file", files[0]);
+        let fnd = this.approve_documents.find(
+          (el) => el.document_type_id == this.current_doc
+        );
+        let id = null;
+        if (fnd) {
+          id = fnd.id;
+        } else {
+          let cr_doc = {
+            document_type_id: this.current_doc,
+            status_documents_id: 1,
+            user_platform_id: this.$auth.user.id,
+          };
+          let rs = await this.create_document({ data: cr_doc });
+          if (rs.data) {
+            id = rs.data.id;
+          }
+        }
+        let rs1 = await this.$axios
+          .post(`/api/platform/approve_documents/${id}/img`, this.formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((rsp) => {
+            // console.log("FILE SAVE RESP", rsp);
+          })
+          .catch(function (e) {
+            console.log("== == !! UPLOAD FAIL", e);
+            return;
+          });
+
+        await this.fetch_approve_documents();
+      }
+    },
   },
   async created() {
     await this.fetch_documents_type();
     await this.fetch_approve_documents();
+    console.log("this.documents_type", this.documents_type);
   },
   mounted() {},
 };

@@ -58,9 +58,9 @@
                     >${{
                       coin.balance
                         ? new Intl.NumberFormat().format(
-                            coin.balance.toFixed(4)
+                            coin.balance
                           )
-                        : ""
+                        : "0"
                     }}</v-list-item-title
                   >
                 </v-list-item-content>

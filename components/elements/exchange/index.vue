@@ -136,6 +136,7 @@
           class="success-btn mb-3 mainBorderRadius"
           :style="customStyle"
           elevation="0"
+          :disabled="!buy"
           @click="trade_run"
           :loading="loading"
           >{{ loading ? "" : `${$t(active_btn)} ${buy_curr}` }} {{
