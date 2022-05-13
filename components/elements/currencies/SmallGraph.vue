@@ -50,8 +50,8 @@ export default {
       }
     },
     color() {
-      if (this.value_g && this.value_g.length > 0) {
-        if (this.value_g[0] > this.value_g[this.value_g.length - 1]) {
+      if (this.value_g && this.value_g.length > 1) {
+        if (this.value_g[this.value_g.length - 2] > this.value_g[this.value_g.length - 1]) {
           return "red";
         }
       }
