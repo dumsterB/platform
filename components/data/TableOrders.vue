@@ -122,7 +122,7 @@ export default {
         },
         {
           text: this.$t("status_title"),
-          value: "order_status",
+          value: "order_status.name",
         },
         {
           text: this.$t("type_title_table"),
