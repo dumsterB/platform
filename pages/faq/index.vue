@@ -158,6 +158,8 @@ export default {
     },
     categoriesHandler(val) {
       this.active_catecory = val;
+      this.answer_to_show = null;
+      this.answer = 0;
     },
     showAnswer(val) {
       this.answer_to_show = val;
