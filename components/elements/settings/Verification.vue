@@ -69,7 +69,7 @@
                           type="file"
                           id="item.name"
                           accept="image/*"
-                          @input="onSelectFile()"
+                          @input="onSelectFile"
                         />
                       </label>
                     </div>
@@ -240,7 +240,7 @@ export default {
     },
     async onSelectFile() {
       const input = this.$refs[`fileInput1`];
-      console.log(input)
+      console.log(this.$refs)
       const files = input[0].files;
       if (files && files[0]) {
         this.formData = new FormData();
