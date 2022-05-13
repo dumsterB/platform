@@ -46,8 +46,8 @@
           item.session_start_type.name
         }}</span>
       </template>
-      <template v-slot:[`item.created_at`]="{ item }">
-        <span>{{ new Date(item.created_at).toLocaleString() }}</span>
+      <template v-slot:[`item.updated_at`]="{ item }">
+        <span>{{ new Date(item.updated_at).toLocaleString() }}</span>
       </template>
       <template v-slot:[`item.amount`]="{ item }">
         <span>{{
@@ -164,7 +164,7 @@ export default {
         },
         {
           text: this.$t("table_time"),
-          value: "created_at",
+          value: "updated_at",
         },
 
         {
@@ -281,7 +281,7 @@ export default {
       }
       // this.config.params.page = val ? val.page : 1;
       // this.config.params.per_page = this.page_size_current;
-      this.config.params.sort = "created_at";
+      this.config.params.sort = "updated_at";
       this.config.params.dir = "desc";
       this.loading = true;
       let res = await this.fetchList({ config: this.config });

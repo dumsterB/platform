@@ -466,6 +466,8 @@ export default {
   stop_arbitrage_sessions:
     "Die Schließung der Schlichtungssitzung verarbeitet wird",
   stop_arbitrage_sessions_done: "Abschluss der Schlichtungssitzung erfolgreich",
+  stop_trade: "Der Handelsabschluss wird verarbeitet",
+  stop_trade_done: "Der Handelsabschluss ist erfolgreich",
   not_enough_balance: "Nicht genug Coins auf Ihrem Guthaben",
   create_order_done: "Ihre Bestellung ist erfolgreich",
   select_card_first: "Sie müssen zuerst eine Zahlungskarte auswählen",

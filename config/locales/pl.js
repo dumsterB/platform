@@ -455,6 +455,8 @@ export default {
   stop_arbitrage_sessions: "Zamknięcie sesji arbitrażowej jest przetwarzane",
   stop_arbitrage_sessions_done:
     "Zamknięcie sesji arbitrażowej zakończone sukcesem",
+  stop_trade: "Przetwarzanie zamknięcia transakcji",
+  stop_trade_done: "Zamknięcie handlu zakończone sukcesem",
   not_enough_balance: "Za mało monet na Twoim saldzie",
   create_order_done: "Twoje zamówienie zakończyło się sukcesem",
   select_card_first: "Musisz najpierw wybrać kartę płatniczą",

@@ -165,7 +165,7 @@ export default {
           let ch = determine.change_24h ? determine.change_24h : 0;
           let percent = (
             (parseFloat(ch) * 100) /
-            parseFloat(determine.price)
+            parseFloat(determine.price - ch)
           ).toFixed(2);
           el.price = determine.price;
           el.change = determine.change_24h;

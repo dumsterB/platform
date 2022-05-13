@@ -461,6 +461,8 @@ export default {
   arbitrage_session_done: "Арбитражная сессия прошла успешно",
   stop_arbitrage_sessions: "Закрытие арбитражной сессии обрабатывается",
   stop_arbitrage_sessions_done: "Закрытие арбитражной сессии прошло успешно",
+  stop_trade: "Закрытие трейда обрабатывается",
+  stop_trade_done: "Закрытие трейда прошло успешно",
   not_enough_balance: "Недостаточно средств на вашем балансе",
   create_order_done: "Ваша транзакция успешно выполнена",
   select_card_first: "Необходимо выбрать платежную карту",

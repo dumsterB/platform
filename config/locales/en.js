@@ -446,6 +446,8 @@ export default {
   stop_arbitrage_sessions:
     "The closing of the arbitration session is processed",
   stop_arbitrage_sessions_done: "Closing of arbitration session is successful",
+  stop_trade: "The closing of trade is processed",
+  stop_trade_done: "Closing of trade is successful",
   not_enough_balance: "Not enough coins on your balance",
   create_order_done: "Your order is successful",
   select_card_first: "You have to select a payment card first",

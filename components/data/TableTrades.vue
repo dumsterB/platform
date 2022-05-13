@@ -38,8 +38,8 @@
           <template v-slot:extension><slot name="header_ext"></slot></template>
         </v-toolbar>
       </template>
-      <template v-slot:[`item.created_at`]="{ item }">
-        <span>{{ new Date(item.created_at).toLocaleString() }}</span>
+      <template v-slot:[`item.updated_at`]="{ item }">
+        <span>{{ new Date(item.updated_at).toLocaleString() }}</span>
       </template>
       <template v-slot:[`item.dest_amount`]="{ item }">
         <span>{{
@@ -209,14 +209,18 @@ export default {
         },
         {
           text: this.$t("table_time"),
-          value: "created_at",
+          value: "updated_at",
+        },
+        {
+          text: this.$t("currency"),
+          value: "symbol",
         },
         {
           text: this.$t("amount"),
           value: "amount",
         },
         {
-          text: this.$t("table_buy_price"),
+          text: this.$t("limit"),
           value: "exchange_rate",
         },
         {
@@ -312,7 +316,7 @@ export default {
       }
       // this.config.params.page = val ? val.page : 1;
       // this.config.params.per_page = this.page_size_current;
-      this.config.params.sort = "created_at";
+      this.config.params.sort = "updated_at";
       this.config.params.dir = "desc";
       this.loading = true;
       let res = await this.fetchList({ config: this.config });
@@ -380,13 +384,13 @@ export default {
         id: trade_data.id,
       });
       let title, color;
-      title = this.$t("stop_arbitrage_sessions");
+      title = this.$t("stop_trade");
       color = "warning";
       setTimeout(() => {
         this.$store.commit("data/notifications/create", {
           id: color + "_" + Math.random().toString(36),
-          title: this.$t("stop_arbitrage_sessions_done"),
-          text: this.$t("stop_arbitrage_sessions_done"),
+          title: this.$t("stop_trade_done"),
+          text: this.$t("stop_trade_done"),
           color: "primary",
         });
       }, 2500);
