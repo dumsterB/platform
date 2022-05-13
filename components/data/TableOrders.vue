@@ -121,6 +121,10 @@ export default {
           value: "created_at",
         },
         {
+          text: this.$t("status_title"),
+          value: "order_status",
+        },
+        {
           text: this.$t("type_title_table"),
           value: "order_type.name",
         },

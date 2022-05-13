@@ -398,7 +398,7 @@ export default {
         // console.log("order_data", order_data);
         let rs = await this.order_create({ data: order_data });
         let title, color;
-        if (rs.data && rs.data.order_status_id != 3) {
+        if (rs.data && rs.data.order_status_id == 2) {
           title = this.$t("order_failed");
           color = "error";
         } else {

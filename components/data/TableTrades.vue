@@ -153,6 +153,10 @@ export default {
       type: String,
       default: "",
     },
+    add_cols: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
@@ -199,36 +203,7 @@ export default {
       return this.close_item.exchange_rate;
     },
     headers() {
-      return [
-        {
-          text: this.$t("id"),
-          value: "identifier",
-        },
-        {
-          text: this.$t("table_position"),
-          value: "type",
-          sortable: false,
-        },
-        {
-          text: this.$t("table_time"),
-          value: "updated_at",
-        },
-        {
-          text: this.$t("currency"),
-          value: "symbol",
-        },
-        {
-          text: this.$t("amount"),
-          value: "amount",
-        },
-        {
-          text: this.$t("limit"),
-          value: "exchange_rate",
-        },
-        {
-          text: this.$t("table_current_price"),
-          value: "price",
-        },
+      let add_cols = [
         {
           text: `${this.$t("table_profit_loss")} $`,
           value: "difference",
@@ -243,7 +218,42 @@ export default {
           sortable: false,
           width: 150,
         },
+      ]
+      let res_cols = [
+        {
+          text: this.$t("id"),
+          value: "identifier",
+        },
+        {
+          text: this.$t("currency"),
+          value: "symbol",
+        },
+        {
+          text: this.$t("table_position"),
+          value: "type",
+          sortable: false,
+        },
+        {
+          text: this.$t("table_time"),
+          value: "updated_at",
+        },
+        {
+          text: this.$t("amount"),
+          value: "amount",
+        },
+        {
+          text: this.$t("limit"),
+          value: "exchange_rate",
+        },
+        {
+          text: this.$t("table_current_price"),
+          value: "price",
+        },
       ];
+      if (this.add_cols) {
+        res_cols = res_cols.concat(add_cols);
+      }
+      return res_cols;
     },
   },
   methods: {

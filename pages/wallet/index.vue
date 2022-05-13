@@ -135,17 +135,17 @@ export default {
       subscribe: "set_page_subscribe",
     }),
     check_tbls() {
-      if (this.is_spot_order && !this.is_fiat_order) {
-        this.order_filter = {
-          "dest_currency[currency_type_id]": "1",
-        };
-      } else if (!this.is_spot_order && this.is_fiat_order) {
-        this.order_filter = {
-          "dest_currency[currency_type_id]": "2,3",
-        };
-      } else {
-        this.order_filter = null;
-      }
+      // if (this.is_spot_order && !this.is_fiat_order) {
+      //   this.order_filter = {
+      //     "dest_currency[currency_type_id]": "1",
+      //   };
+      // } else if (!this.is_spot_order && this.is_fiat_order) {
+      //   this.order_filter = {
+      //     "dest_currency[currency_type_id]": "2,3",
+      //   };
+      // } else {
+      //   this.order_filter = null;
+      // }
       // console.log("this.order_filter", this.order_filter);
       this.is_history = this.is_spot_order || this.is_fiat_order;
     },
