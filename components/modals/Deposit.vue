@@ -38,7 +38,9 @@
               >
                 <v-icon class="mr-4">mdi-credit-card-multiple-outline</v-icon>
                 <div class="d-flex flex-wrap align-center">
-                  <p class="mr-4 mb-0 font-weight-bold">Bank Card</p>
+                  <p class="mr-4 mb-0 font-weight-bold">
+                    {{ $t("bank_card") }}
+                  </p>
                   <p class="mb-0 font-weight-thin">1.2% {{ $t("fee") }}</p>
                 </div>
               </v-btn>
@@ -50,7 +52,7 @@
               >
                 <v-icon class="mr-4">mdi-currency-btc</v-icon>
                 <div class="d-flex flex-wrap align-center">
-                  <p class="mr-4 mb-0 font-weight-bold">Crypto</p>
+                  <p class="mr-4 mb-0 font-weight-bold">{{ $t("crypto") }}</p>
                   <p class="mb-0 font-weight-thin">1.2% {{ $t("fee") }}</p>
                 </div>
               </v-btn>
@@ -164,7 +166,7 @@
           <div class="mb-6 ml-auto mr-auto">
             <span> {{ $t("pay") }}: </span>
             <span class="primary--text ml-1">
-              {{ enteredMoney }} {{ curr }}</span
+              {{ amounty(enteredMoney) }} {{ curr }}</span
             >
           </div>
         </v-row>
@@ -297,6 +299,7 @@ export default {
       curr: "USD",
       crypto_curr: "BTC",
       err_m: [],
+      fee: 1.2,
     };
   },
   computed: {
@@ -322,6 +325,14 @@ export default {
     },
   },
   methods: {
+    amounty(val) {
+      console.log("val :>> ", val);
+      let sum = (Number(val) / 100) * this.fee;
+      console.log("sum :>> ", sum);
+      let total = sum + val;
+      console.log("total :>> ", total);
+      return total;
+    },
     ...mapActions("data/order", {
       order_create: "create",
       fetchOrders: "fetchList",

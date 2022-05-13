@@ -50,6 +50,7 @@
                           ref="fileInput"
                           type="file"
                           id="item.name"
+                          accept="image/*"
                         />
                       </label>
                     </div>
@@ -97,11 +98,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('data/documents_type', {
-      documents_type: "list"
+    ...mapGetters("data/documents_type", {
+      documents_type: "list",
     }),
-    ...mapGetters('data/approve_documents', {
-      approve_documents: "list"
+    ...mapGetters("data/approve_documents", {
+      approve_documents: "list",
     }),
     headers() {
       return [
@@ -168,12 +169,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions('data/documents_type', {
-      fetch_documents_type: "fetchList"
+    ...mapActions("data/documents_type", {
+      fetch_documents_type: "fetchList",
     }),
-    ...mapActions('data/approve_documents', {
-      fetch_approve_documents: "fetchList"
-    })
+    ...mapActions("data/approve_documents", {
+      fetch_approve_documents: "fetchList",
+    }),
   },
   async created() {
     await this.fetch_documents_type();

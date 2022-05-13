@@ -44,37 +44,37 @@ export const state = () => ({
         "Like Bitcoin, Litecoin exists as a blockchain where participating nodes process transactions, and miners provide security and verification for each of those transactions. Litecoin was originally conceived and developed by Charlie Lee in 2011. Since its launch in 2011 Litecoin has seen steady adoption with an active community of traders, merchants, and developers.",
     },
     {
-      category: "",
+      category: "privacy_and_security",
       question: "Online Scams",
       answer:
         "Avoiding cryptocurrency scams Cryptocurrency transactions are irreversible, if you send cryptocurrency to a third party, you cannot reverse it or stop payment. When you send cryptocurrency to a blockchain address, you must be certain of the legitimacy of any involved third-party services and merchants, and only send cryptocurrency to entities you trust. Pro tip: If it sounds too good to be true, it probably is.",
     },
     {
-      category: "",
+      category: "privacy_and_security",
       question: "Giveaway Scams",
       answer:
         "Scammers are using social media to perpetuate giveaway scams. They post screenshots of forged messages from companies and executives promoting a giveaway with hyperlinks to fraudulent websites. Fake accounts will then respond to these posts affirming the scam as legitimate. The fraudulent websites will then ask that you “verify” your address by sending cryptocurrency to the scam giveaway.Alfex Earn is a legitimate method for earning cryptocurrency and any giveaways that Alfex offers will direct you to Alfex.com. Alfex will never ask you to send crypto to an address in order to receive crypto back.",
     },
     {
-      category: "",
+      category: "privacy_and_security",
       question: "Investment Scams",
       answer:
         "These scammers ask you to invest money to earn higher returns without financial risk, then request you to bring more people in to do the same. They often need a constant flow of new people investing in order to make money. Ponzi and pyramid schemes are great examples of investment scams.For the US, if you come across one of these scams, contact the Securities and Exchange Commission, the Federal Trade Commission, or your state's securities regulator to get help. For the UK, contact the Financial Conduct Authority. Tips for avoiding investment scams:Be skeptical of websites or services promising high returns or unrealistic investment opportunities. If it sounds too good to be true, it usually is.Only send cryptocurrency to trusted third parties. Search for publicly verifiable reviews or articles involving the recipient.Watch for grammatical errors in communications or on websites. Scammers often make grammar or spelling mistakes.Research the organization thoroughly. Check consumer-protection websites and make telephone calls and send emails to verify authenticity.",
     },
     {
-      category: "",
+      category: "privacy_and_security",
       question: "Extortion Scams",
       answer:
         "Scammers will often use information sourced from data breaches at other websites to trick you into thinking that they have more information about you than they actually do. For example, they might show you an old password that you may have used to affirm that their scam is legitimate.If you are victim of an extortion scam, please immediately take these actions:Report the email as spam to your email provider.  Run a precautionary malware scan on your computer using a reputable tool like Malwarebytes. If you recognize any passwords included in the extortion email as one you currently use, change it immediately across all websites.  Contact your local authorities and file a police report. Have the authorities contact Alfex directly. Alfex is committed to full cooperation in all law-enforcement investigations. While these messages can be alarming, they are almost always fraudulent. For steps you can take to make your account more secure, please see this help page.",
     },
     {
-      category: "",
+      category: "privacy_and_security",
       question: "Telegram Scams ",
       answer:
         "Alfex has no official presence on the Telegram messaging platform. All varieties of scams can be found on this platform that target Alfex users, including fraudulent payment bots and giveaway scams.Read this blog post for more information on Telegram scams.",
     },
     {
-      category: "",
+      category: "privacy_and_security",
       question: "Phishing",
       answer:
         "Phishing sites are malicious websites which mimic an authentic site in order to trick visitors into entering their login credentials or other sensitive information. These fraudulent websites are distributed through a variety of methods including email, SMS text messages, social media, and search-engine advertisements.",
