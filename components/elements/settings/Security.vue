@@ -69,7 +69,7 @@
               elevation="0"
               :style="customStyle"
               class="outlined-btn primary--text font-weight-bold text-none"
-              >{{ $t("deleteText") }}</v-btn
+              >{{ $t("change") }}</v-btn
             >
           </div>
           <email
