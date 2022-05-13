@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row class="pa-3 pl-6 pr-6"
+    <v-row class="pa-4"
       ><v-col>
         <!-- <v-row
           ><v-col>
@@ -10,7 +10,7 @@
             >
           </v-col></v-row
         > -->
-        <v-row>
+        <v-row class="pa-0">
           <v-col
             cols="12"
             xl="3"

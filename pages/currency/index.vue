@@ -21,7 +21,13 @@
                     style="background: transparent !important"
                   >
                     <v-row class="ma-0 pa-0">
-                      <!--   <img height="20" :src="item.logo" alt="" class="mr-2" /> -->
+                      <img
+                        v-if="item.currency_type.key == `CRYPTO`"
+                        height="20"
+                        :src="item.logo"
+                        alt=""
+                        class="mr-2"
+                      />
                       <strong>{{ item.name }}</strong>
                       <span class="ml-2 icon_color--text font-weight-bold">
                         {{ item.symbol }}</span
@@ -31,7 +37,12 @@
                 </template>
                 <template v-slot:item="{ item }">
                   <div class="d-flex">
-                    <!-- <img height="20" :src="item.logo" alt="" /> -->
+                    <img
+                      v-if="item.currency_type.key == `CRYPTO`"
+                      height="20"
+                      :src="item.logo"
+                      alt=""
+                    />
                     <div class="d-flex ml-3">
                       <strong>{{ item.name }}</strong>
                       <span class="ml-2 icon_color--text font-weight-bold">
@@ -65,7 +76,7 @@
             <OrderBook :currency="curr_code" :price="price" :change="change" />
           </v-col>
           <v-col :cols="8">
-            <v-row class="pr-2">
+            <v-row class="pr-2 ml-0">
               <v-col class="pl-0 pr-1">
                 <v-btn
                   large

@@ -50,7 +50,7 @@
         }}</v-btn>
       </v-col>
     </v-row>
-    <v-row class="pa-3 pl-6 pr-6" v-if="!curr_company"
+    <v-row class="pa-4" v-if="!curr_company"
       ><v-col
         ><v-row
           ><v-col>

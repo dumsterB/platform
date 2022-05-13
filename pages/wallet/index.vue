@@ -297,6 +297,6 @@ export default {
 </script>
 <style lang="scss">
 .customSizes {
-  // margin: -12px;
+  margin: -4px;
 }
 </style>
