@@ -8,6 +8,7 @@
             :elevation="hover ? 18 : 8"
             v-bind="attrs"
             v-on="on"
+            max-width="350"
             :style="customStyles"
             :class="backgroundDiffColor(currency.change_p)"
             @click="$router.push(`/currency?id=${currency.id}`)"
@@ -82,7 +83,7 @@
     </v-tooltip>
     <v-card
       v-else
-      max-width="400"
+      max-width="350"
       class="currecyCard mainBorderRadius light-card"
       :elevation="hover ? 18 : 8"
       v-bind="attrs"

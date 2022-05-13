@@ -8,7 +8,7 @@ export const getters = {
         return state.binance;
     },
     single: state => symbol => {
-        let key = `binance:${symbol}-USD`;
+        let key = `${symbol}-USD`;
         let fnd = state.binance[key];
         return fnd;
     }
@@ -17,8 +17,8 @@ export const getters = {
 export const actions = {
     async fetchBinance(context) {
         try {
-            let resp = await this.$axios.get('/api/platform/metadata?data=binance');
-            console.log('GRAPH RESP', resp);
+            let resp = await this.$axios.post('/api/platform/metadata');
+            // console.log('GRAPH RESP', resp);
             if (resp && resp.data && resp.data.data) {
                 context.commit('updateBinance', resp.data.data);
             }
@@ -26,18 +26,18 @@ export const actions = {
     },
     async fetchSingles(context, payload) {
         if (!context.state.addCounter) {
-            let req_data = '';
+            context.commit('addCounter');
+            let req_data = [];
             payload.forEach(element => {
                 if (element.company != 'bybit' && element.company != 'binance') {
-                    if (req_data) {
-                        req_data += ',';
-                    }
-                    req_data += `${element.company}:${element.base}:USD`;
+                    req_data.push(`${element.company}:${element.base}:USD`);
                 }
             });
             try {
-                let resp = await this.$axios.get(`/api/platform/metadata?data=${req_data}`);
-                console.log('GRAPH SINGLES RESP', resp);
+                let resp = await this.$axios.post(`/api/platform/metadata`, {
+                    data: req_data
+                });
+                // console.log('GRAPH SINGLES RESP', resp);
                 if (resp && resp.data && resp.data.data) {
                     context.commit('addData', resp.data.data);
                 }
@@ -48,10 +48,22 @@ export const actions = {
 
 export const mutations = {
     updateBinance(state, payload) {
-        state.binance = payload;
+        for (let i in payload) {
+            let ii = i.split(':');
+            let d = ii[1];
+            state.binance[d] = payload[i];
+        }
+
+    },
+    addCounter(state) {
+        state.addCounter += 1;
     },
     addData(state, payload) {
-        state.addCounter += 1;
-        state.binance = state.binance.concat(payload);
+        for (let i in payload) {
+            let ii = i.split(':');
+            let d = ii[1];
+            state.binance[d] = payload[i];
+        }
+        console.log('addData', state.binance)
     },
 }
