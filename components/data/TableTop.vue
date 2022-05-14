@@ -76,7 +76,7 @@
           <span style="font-size: 14px"
             >${{ new Intl.NumberFormat().format(item.volume) }}</span
           >
-          <span
+          <!-- <span
             style="font-size: 10px"
             :class="diffColor(item.volume_change)"
             class="d-flex"
@@ -90,7 +90,7 @@
                 item.volume_change ? item.volume_change : 0
               )
             }}
-          </span>
+          </span> -->
         </div>
         <div v-else class="ml-4">
           {{ "no-data" }}
@@ -101,7 +101,7 @@
           <span style="font-size: 14px"
             >${{ new Intl.NumberFormat().format(item.market_cap) }}</span
           >
-          <span
+          <!-- <span
             style="font-size: 10px"
             :class="diffColor(item.market_cap_change)"
             class="d-flex"
@@ -115,7 +115,7 @@
                 item.market_cap_change ? item.market_cap_change : 0
               )
             }}
-          </span>
+          </span> -->
         </div>
         <div v-else>
           {{ "no-data" }}

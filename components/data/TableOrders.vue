@@ -5,8 +5,6 @@
       :headers="headers"
       :items-per-page="page_size_current"
       :search="search"
-      sort-by="created_at"
-      :sort-desc="true"
       class="elevation-1 ma-3 mr-4"
       :loading="loading"
       :server-items-length="totalLength"
@@ -168,6 +166,8 @@ export default {
       }
       this.config.params.page = val ? val.page : 1;
       this.config.params.per_page = this.page_size_current;
+      this.config.params.sort = 'updated_at';
+      this.config.params.dir = 'desc';
       this.loading = true;
       let res = await this.fetchList({ config: this.config });
       let meta = res.meta;

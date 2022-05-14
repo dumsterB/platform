@@ -340,18 +340,16 @@ export default {
     },
     resetList(prices) {
       this.list = this.trades.map((el) => {
-        let fnd_b = prices.find((e) => e && e.base == el.dest_currency.symbol);
-        let fnd_p = prices.find(
-          (e) => e && e.base == el.source_currency.symbol
-        );
-        let price = null;
-        if (!el.trade_type) {
-          price = fnd_p ? fnd_p.price : null;
-        } else {
-          price = fnd_b ? fnd_b.price : null;
+        let symb = el.symbol;
+        if (el.symbol == 'USD') {
+          symb = el.source_currency.symbol;
         }
+        let fnd_p = prices.find(
+          (e) => e && e.base == symb
+        );
+        let price = fnd_p ? fnd_p.price : null;
         if (!price) {
-          price = this.get_val(el.symbol);
+          price = this.get_val(symb);
         }
         el.amount = `${el.source_amount} ${el.source_currency.symbol}`;
         el.type = !el.trade_type ? "Sell" : "Buy";
