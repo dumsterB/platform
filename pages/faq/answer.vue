@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row style="height: 60vh">
+    <v-row>
       <v-col :cols="1" class="d-flex justify-space-between align-start">
         <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
           <v-icon
@@ -13,12 +13,14 @@
       </v-col>
       <v-col :cols="11">
         <h2 class="mb-8">{{ item.question }}</h2>
-        <div>{{ item.answer }}</div>
+        <div style="height: 50vh; overflow-y: auto; overflow-x: hidden">
+          {{ item.answer }}
+        </div>
       </v-col>
     </v-row>
     <!-- -->
     <v-container>
-      <h4>{{ $t("similar_questions") }}</h4>
+      <h4 class="mt-8">{{ $t("similar_questions") }}</h4>
       <v-row>
         <v-col :cols="6" class="mt-12">
           <v-expansion-panels>

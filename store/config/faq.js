@@ -80,31 +80,31 @@ export const state = () => ({
         "Phishing sites are malicious websites which mimic an authentic site in order to trick visitors into entering their login credentials or other sensitive information. These fraudulent websites are distributed through a variety of methods including email, SMS text messages, social media, and search-engine advertisements.",
     },
     {
-      category: "managing_my_account",
+      category: "create_an_account",
       question: "Password Requirements",
       answer:
         "What are the password requirements on Alfex?Passwords must be at least 8 characters long and have an estimated offline crack time over 6,000 seconds.We do not enforce arbitrary restrictions on numbers, special characters, or maximum password length.Any passwords longer than 72 characters will be truncated.",
     },
     {
-      category: "managing_my_account",
+      category: "create_an_account",
       question: "How do I choose a good password?",
       answer:
         "Alfex strongly recommends the use of password manager software, such as 1Password or LastPass. A password manager can generate random, unique passwords for each website you visit. It can also automatically fill in passwords for you and can protect you against phishing attacks.",
     },
     {
-      category: "managing_my_account",
+      category: "create_an_account",
       question: "If you don't want to use a password manager:",
       answer:
         "Be sure to use a long, random password that is unique to your Alfex account.Do not reuse passwords from other websites, especially your email account.You can use a passphrase (a sentence or group of words), but do not choose a phrase from a book or a movie as hackers have access to sophisticated databases of such quotes.",
     },
     {
-      category: "managing_my_account",
+      category: "create_an_account",
       question: "Use a strong password",
       answer:
         "Use a password that is long, random, and unique to your Alfex account. Never use the same password twice across your online accounts! To make it easy on you, here is the password reset link so you can strengthen your password now.We also recommend using a password manager like LastPass, 1Password, or Dashlane to easily generate and securely store unique passwords for all of your online accounts.If you don't want to use a password manager, use a passphrase (a sentence or group of four or more words) for your account. However, be careful and do not choose a phrase from a book or a movie as hackers have access to sophisticated databases of such quotes.For more password related information or to see how strong your current password is, see our Password FAQ.Important Reminder: Never disclose your password to anyone. Alfex employees will NEVER ask for your password.",
     },
     {
-      category: "managing_my_account",
+      category: "create_an_account",
       question: "Secure Your Email",
       answer:
         "Your email is one of the most important connections between you and your Alfex account. We use your email to confirm new devices, send you important alerts about your account, and to communicate with you if you need support. Please make sure it is secure!For starters, visit <a>https://haveibeenpwned.com/</a> to see whether or not your email address has ever been compromised in a third-party data breach. If so, we recommend changing any passwords associated with that email address. You should also enable 2-step verification on your personal email account as well.As an additional security precaution, you should conduct a periodic security review of your email account and settings as well:Check your email account for unusual rules, filters, or forwarding addresses.Check your email account settings for authorized devices you do not recognize.Check for unauthorized recovery emails or phone numbers added to the account.For those who feel like they may be at risk of targeted account takeover attempts, check out Google`s Advanced Protection Program.",
@@ -116,7 +116,7 @@ export const state = () => ({
         "Many people who use smartphones often make use of cloud storage accounts such as Google Drive or iCloud to create backups of the data saved on their mobile devices. This data often includes messages, contacts, email, apps, photos, and more. If an attacker gains access to your cloud storage account and restores the device backup onto a device in their control, they will have a vast amount of information at their disposal to help them compromise your various online accounts. Do not underestimate the power of an attacker with access to this information!Luckily, you can easily secure and protect your cloud storage accounts by following a few basic guidelines we`ve already covered:Create a strong password! Preferably using a password manager.Secure it with the strongest form of 2-step verification available.",
     },
     {
-      category: "managing_my_account",
+      category: "create_an_account",
       question: "Protect your email account.",
       answer:
         "Or if you want to completely avoid the risk of an attacker being able to back up your mobile device data, you can disable backups all together in your cloud`s account settings.",
@@ -128,7 +128,7 @@ export const state = () => ({
         "In your Alfex account, visit the Activity page where you can view all of your active sessions including authorized mobile applications, web sessions, and confirmed devices.If at any time you notice an unauthorized application, session, or device, you can revoke access by clicking the blue X to the right. If you need to revoke an unauthorized login to your account that you don't recognize, you should change your Alfex and email passwords immediately. You can also open a customer support ticket explaining the issue so our security team can review your account and help you secure it.",
     },
     {
-      category: "managing_my_account",
+      category: "trading_and_funding",
       question: "Is Bitcoin secure? Has this network ever been hacked?",
       answer:
         "The Bitcoin network and currency has proven to be secure, functional, and efficient. The technology used to build Bitcoin is mathematically secured by the laws of the universe, and is constantly being improved upon by the open-source community. The software is actively inspected, and audited by this growing community.Though there have been Bitcoin-related compromises in the past, this does not reflect upon the security of the Bitcoin network itself. Bitcoin-related thefts are usually the result of improper security or negligence on the part of the person or service holding the bitcoins. If you left your wallet on a park bench and it was stolen, it would not be considered a 'hack' of the dollar. This is why it is important to trust the security practices of any Bitcoin-related service you use.As more stakeholders become interested in the success of Bitcoin, the system will become more secure, as increasingly significant resources are being devoted to closing security holes and thoroughly vetting any proposed changes.As a holder of bitcoin, you have tremendous power over your money. Because of this, it is important to follow good security practices to protect your funds. Since most people are not specifically trained in computer security, Alfex can manage the bulk of these security measures on your behalf.At Alfex, we're committed to security by using industry best practices and storing up to 97% of bitcoins in encrypted, geographically separated, offline storage. To further protect our customers, all of the bitcoins stored in online computers are insured. Digital currency is not legal tender, is not backed by the government, and digital currency accounts and value balances on Alfex are not subject to Federal Deposit Insurance Corporation or Securities Investor Protection Corporation protections. Even with these safeguards provided by Alfex, we recommend you take further measures to secure your account against unauthorized access.",
@@ -243,7 +243,7 @@ export const state = () => ({
         "Simply put, crypto wallets are places to store digital assets more securely than just on an exchange. You hold your wallet via an exchange account, custody wallet, or outside of the exchange. You can establish an online or “hot” wallet that is internet connected—to your desktop, table or mobile phone. There is also the option to store on a device that is not connected to the internet (“cold” wallet). Cold wallets are the most secure way to store your cryptocurrency, but they are meant for longer-term holdings as they are not connected to the internet. With cold storage, you must remember your private keys (identifier number for your cryptocurrency).",
     },
     {
-      category: "what_is_crypto",
+      category: "trading_and_funding",
       question: "Are there ways to purchase outside an exchange? ",
       answer:
         "Believe it or not, there are Bitcoin ATMs.You insert cash and bitcoins are transferred to your secure, digital wallet. There are also peer-to-peer (PTP) exchanges. Users post what they are hoping to buy or sell and then choose their trading partner(s).",
