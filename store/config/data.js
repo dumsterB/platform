@@ -40,7 +40,7 @@ export const state = () => ({
         },
         {
             name: "Commodities",
-            key: "INDX",
+            key: "COMM",
             tv: "NYSE",
             currency: "USD",
             list: [],

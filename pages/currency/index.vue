@@ -256,6 +256,9 @@ export default {
         if (this.curr_code == "R6C0") {
           kk = "XETR";
         }
+        if (this.current.currency_type.key == 'COMMODITY') {
+          return this.current.short_name;
+        }
         return kk + ":" + this.curr_code;
       }
     },
