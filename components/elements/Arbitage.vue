@@ -45,7 +45,7 @@
         </v-card>
       </v-col>
       <v-col :cols="12" class="d-flex justify-center mt-4">
-        <v-btn x-large outlined class="mt-6" @click="cur_len += 8">{{
+        <v-btn x-large outlined class="mt-6" @click="cur_len += 12">{{
           $t("view_more")
         }}</v-btn>
       </v-col>
@@ -131,7 +131,7 @@ export default {
       sel_currency: {},
       arb_companies: [],
       prices_all: [],
-      cur_len: 11,
+      cur_len: 12,
       prices: [],
       need_curr: null,
       curr_company: true,

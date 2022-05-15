@@ -29,7 +29,7 @@ import PrivateInformation from "@/components/elements/settings/PrivateInformatio
 import Security from "@/components/elements/settings/Security";
 import Verification from "@/components/elements/settings/Verification";
 import SwitcherNatification from "../../components/elements/settings/components/SwitcherNatification";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -60,12 +60,17 @@ export default {
     },
   },
   methods: {
+    ...mapActions("data/log_registration", {
+      fetchLogs: "fetchList",
+    }),
     change_content(val) {
       console.log("val :>> ", val);
       this.currentContent = val;
     },
   },
-  mounted() {},
+  async created() {
+    await this.fetchLogs();
+  },
 };
 </script>
 <style>

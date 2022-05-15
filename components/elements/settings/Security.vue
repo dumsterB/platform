@@ -120,7 +120,7 @@
           <div>
             <h4 class="fontWeight mb-1">{{ $t("Account Activity") }}</h4>
             <span class="text-gray--text font-weight-light"
-              >{{ $t("last_logined") }} : 22.22.22</span
+              >{{ $t("last_logined") }} : {{ last_active_date }}</span
             >
           </div>
           <v-spacer></v-spacer>
@@ -155,6 +155,8 @@ import email from "../modals/security/Email";
 import phone from "../modals/security/Phone";
 import confirmPassword from "../modals/security/СonfirmPassword";
 import config from "~/config/config.json";
+import moment from "moment";
+import { mapGetters } from "vuex";
 
 export default {
   name: "privateInformation",
@@ -207,6 +209,16 @@ export default {
       return {
         "--primary": this.primary,
       };
+    },
+    ...mapGetters("data/log_registration", {
+      logs_all: "list",
+    }),
+    last_active_date() {
+      if (this.logs_all && this.logs_all.length > 0) {
+        let lst = this.logs_all[this.logs_all.length - 1];
+        return moment(lst.created_at).format("DD.MM.YYYY HH:mm");
+      }
+      return moment().format("DD.MM.YYYY HH:mm");
     },
   },
 };

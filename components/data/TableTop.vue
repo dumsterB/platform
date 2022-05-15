@@ -3,11 +3,11 @@
     <v-data-table
       :items="currencies"
       :headers="headers"
-      :items-per-page="20"
+      :items-per-page="25"
       class="ma-4 ml-8 curr-table"
       :style="customStyle"
       :footer-props="{
-        'items-per-page-options': [5, 10, 20, 50],
+        'items-per-page-options': [25],
         'items-per-page-text': $t('items_per_page'),
       }"
     >

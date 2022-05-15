@@ -48,9 +48,6 @@ export default {
     }),
   },
   methods: {
-    ...mapActions("data/log_registration", {
-      fetchLogs: "fetchList",
-    }),
     init_logs() {
       this.logs = this.logs_all.map(el => {
         let fnd = this.active_devs.find(e => e && e.id == el.id);
@@ -65,7 +62,6 @@ export default {
   },
   async created() {
     this.loader = true;
-    await this.fetchLogs();
     let res = await this.$axios.get("api/platform/log_registration/active");
     this.active_devs = res && res.data ? res.data.data : [];
     this.init_logs();

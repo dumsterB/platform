@@ -241,7 +241,7 @@
             @click="make_order"
             width="332"
           >
-            {{ $t(action) }}
+            {{ loading ? '' : $t(action) }}
           </v-btn>
         </v-card-actions>
       </v-card>

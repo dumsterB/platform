@@ -89,7 +89,7 @@
         </v-row>
       </template>
     </v-data-table>
-    <v-dialog v-model="dialog" max-width="600px">
+    <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-title class="d-flex">
           <span class="text-h5">{{ $t("close_order") }}</span>
@@ -119,12 +119,12 @@
             class="green"
             text
             outlined
-            width="100"
+            width="200"
             :loading="loading_modal"
             @click="run_close"
             type="submit"
           >
-            {{ loading_modal ? "" : $t("ok") }}
+            {{ loading_modal ? "" : $t("close") + ' ' + $t("trade") }}
           </v-btn>
         </v-card-actions>
       </v-card>

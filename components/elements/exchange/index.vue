@@ -1,6 +1,6 @@
 <template>
   <div class="pt-2 buy-sell-comp">
-    <div class="mr-4 d-flex mdc-form-field--space-between">
+    <div class="mr-4 mb-4 d-flex mdc-form-field--space-between">
       <p class="text-h6 font-weight-bold">{{ $t("exchange") }}</p>
     </div>
 

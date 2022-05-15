@@ -37,7 +37,7 @@
     </v-row>
     <v-row>
       <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
-        <div class="mt-4">
+        <div class="mt-2">
           <p class="text-h6 ml-10 font-weight-bold">{{ $t("Top") }}</p>
           <TableTop :price="prices"></TableTop>
         </div>
