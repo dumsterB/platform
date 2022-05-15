@@ -25,7 +25,7 @@
                       <div v-if="active"></div>
                     </v-scroll-y-transition>
                     <div
-                      :style="`background-size: cover;
+                      :style="`background-size: cover; height: 100%;
                         background-position: center center; background-image: url(${
                           item.img ? item.img : ''
                         });`"
@@ -33,14 +33,8 @@
                     >
                       <label for="item.name">
                         <v-row
-                          class="
-                            px-12
-                            py-0
-                            ma-0
-                            mb-3
-                            justify-center
-                            align-center
-                          "
+                          v-if="!item.img"
+                          class="px-12 py-0 ma-0 mb-3 justify-center align-center"
                         >
                           <v-col :cols="2" class="pa-0 ma-0">
                             <v-icon size="32" color="icon_color">{{
@@ -49,18 +43,14 @@
                           </v-col>
                           <v-col :cols="10" class="pa-0 ma-0">
                             <p
-                              class="
-                                icon_color--text
-                                text-uppercase
-                                upload_title
-                              "
+                              class="icon_color--text text-uppercase upload_title"
                             >
                               {{ item.name }}
                             </p>
                           </v-col>
                         </v-row>
 
-                        <p class="upload_lable">
+                        <p v-if="!item.img" class="upload_lable">
                           {{ $t("drag_and_drop") }}
                         </p>
                         <input
@@ -235,12 +225,12 @@ export default {
         console.log("item", item);
         setTimeout(() => {
           this.holder = false;
-        },100)
+        }, 100);
       }
     },
     async onSelectFile() {
       const input = this.$refs[`fileInput1`];
-      console.log(this.$refs)
+      console.log(this.$refs);
       const files = input[0].files;
       if (files && files[0]) {
         this.formData = new FormData();

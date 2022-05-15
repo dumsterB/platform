@@ -1,7 +1,7 @@
 <template>
   <div class="pt-4">
     <div class="heading_selector mb-4">{{ $t("choose_crypto") }}:</div>
-    <v-col cols="7" class="mb-10">
+    <v-col cols="11" md="11" lg="10" xl="6" class="mb-10">
       <v-autocomplete
         v-model="buy_curr"
         :items="currencies"
@@ -37,13 +37,13 @@
         >
       </v-autocomplete>
     </v-col>
-    <v-col cols="8" class="mb-10">
+    <v-col cols="6" sm="8" md="8" lg="8" xl="6" class="mb-10">
       <div class="heading_selector mb-4">QR {{ $t("code") }}:</div>
       <div class="qr_box pa-10">
         <v-img class="qr_img" :width="236" :src="img" />
       </div>
     </v-col>
-    <v-col cols="10">
+    <v-col cols="11">
       <div class="heading_selector mb-4">{{ $t("deposit_adress") }}</div>
       <div class="depo">
         <v-text-field
