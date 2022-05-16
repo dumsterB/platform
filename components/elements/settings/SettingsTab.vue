@@ -2,7 +2,7 @@
   <div>
   <div class="settingsTab" v-if="currentContent===0">
     <p class="text-h6 ml-4">{{ $t("settings_page") }}</p>
-    <div class="content ma-4">
+    <div class="content ma-4 settingDesktop">
       <div
         @click="tabHandler(item)"
         v-for="item of selections"
@@ -23,6 +23,27 @@
         </v-card>
       </div>
     </div>
+<!--    <div class="content ma-4 settingMobile">
+      <div
+          @click="tabHandler(item)"
+          v-for="item of selections"
+          :key="item.text"
+      >
+        <v-card
+            :class="item.active ? 'tabs-setting not-global' : 'tabs-setting'"
+            :style="item.active ? 'background: #007BFF !important; color: white' : ''"
+        >
+          <h3 class="tab-btn text-left ml-3 mt-1 text">{{ $t(item.title) }}</h3>
+          <p class="text-left ml-3 mt-1" v-if="item.text !== 'unverified'">
+            {{ $t(item.text) }}
+          </p>
+          <p class="text-left ml-3 mt-1 warning&#45;&#45;text d-flex" v-else>
+            <img height="20" src="@/static/img/unverified_icon.png" alt="" />
+            {{ $t(item.text) }}
+          </p>
+        </v-card>
+      </div>
+    </div>-->
   </div>
   </div>
 </template>
