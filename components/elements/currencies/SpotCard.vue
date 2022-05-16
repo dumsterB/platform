@@ -60,9 +60,7 @@
         </v-col>
         <v-col :cols="6" class="pb-0 text-right">
           <span class="small_text"
-            >{{
-              av_bal ? new Intl.NumberFormat().format(av_bal) : 0
-            }}
+            >{{ av_bal ? new Intl.NumberFormat().format(av_bal) : 0 }}
             {{ curr }}</span
           >
         </v-col>
@@ -236,7 +234,7 @@ export default {
     trade_currency: {
       type: String,
       default: "USD",
-    }
+    },
   },
   components: {
     Deposit,
@@ -280,7 +278,9 @@ export default {
       }
     },
     usd_bal() {
-      let bal = this.wallet.find((el) => el.currency.symbol == this.trade_currency);
+      let bal = this.wallet.find(
+        (el) => el.currency.symbol == this.trade_currency
+      );
       if (bal) {
         return bal.balance;
       }
@@ -373,11 +373,7 @@ export default {
       this.loading = true;
       let trade_data = {};
       let curr = this.currencies.find((el) => el.symbol == this.currency);
-<<<<<<< HEAD
       let curr_usd = this.currencies.find((el) => el.symbol == "USD");
-=======
-      let curr_usd = this.currencies.find((el) => el.symbol == this.trade_currency);
->>>>>>> 6e09e41fa0246e007404f631debc966fe6f406be
       if (curr) {
         if (!this.buy_sell) {
           trade_data.source_currency_id = curr.id;
