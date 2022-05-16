@@ -43,11 +43,17 @@
             :wallets="wallets_t"
             @reload="init_tb"
           ></TableTransactions>
-          <TableOrders v-if="is_history" :filter="order_filter"></TableOrders>
+          <TableOrders
+            v-if="is_history"
+            :filter="order_filter"
+            class="ma-0"
+          ></TableOrders>
           <TableTrades
             v-if="is_history"
             :prices="prices"
             :filter="trade_filter"
+            title="recent_trades"
+            class="customSizes"
           ></TableTrades>
         </div>
       </v-col>
@@ -129,17 +135,17 @@ export default {
       subscribe: "set_page_subscribe",
     }),
     check_tbls() {
-      if (this.is_spot_order && !this.is_fiat_order) {
-        this.order_filter = {
-          "dest_currency[currency_type_id]": "1",
-        };
-      } else if (!this.is_spot_order && this.is_fiat_order) {
-        this.order_filter = {
-          "dest_currency[currency_type_id]": "2,3",
-        };
-      } else {
-        this.order_filter = null;
-      }
+      // if (this.is_spot_order && !this.is_fiat_order) {
+      //   this.order_filter = {
+      //     "dest_currency[currency_type_id]": "1",
+      //   };
+      // } else if (!this.is_spot_order && this.is_fiat_order) {
+      //   this.order_filter = {
+      //     "dest_currency[currency_type_id]": "2,3",
+      //   };
+      // } else {
+      //   this.order_filter = null;
+      // }
       // console.log("this.order_filter", this.order_filter);
       this.is_history = this.is_spot_order || this.is_fiat_order;
     },
@@ -289,3 +295,8 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.customSizes {
+  margin: -4px;
+}
+</style>

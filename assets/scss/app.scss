@@ -12,9 +12,22 @@ div#app.v-application,
 div#app.v-application--wrap,
 .v-list-item__title,
 .mdc-typography,
+.v-application .text-h1,
+.v-application .text-h2,
+.v-application .text-h3,
+.v-application .text-h4,
 .v-application .text-h5,
-.v-application .text-h6 {
+.v-application .text-h6,
+.v-application .text-subtitle-1,
+.v-application .text-subtitle-2,
+.v-application .text-body-1,
+.v-application .text-body-2,
+.v-application .text-button,
+.v-application .text-caption,
+.v-application .text-overline {
     font-family: var(--mdc-typography-font-family), "Montserrat", sans-serif !important;
+    letter-spacing: 0px !important;
+    font-size: inherit !important;
 }
 
 a {
@@ -60,13 +73,21 @@ html .v-application--wrap {
 }
 
 .v-menu__content .v-list {
-    background: #161f49 !important;
+    background: #1c1838 !important;
     border-radius: 10px !important;
 }
 
 :not(.curr-table).v-data-table {
-    background: #161f49 !important;
+    background: #1c1838 !important;
     border-radius: 10px !important;
+}
+
+.theme--dark.v-expansion-panels .v-expansion-panel {
+    background: #1c1838 !important;
+    border-radius: 10px !important;
+    &::before {
+        box-shadow: none;
+    }
 }
 
 .v-autocomplete__content.v-menu__content,
@@ -79,7 +100,7 @@ html[theme="light"] :not(.curr-table).v-data-table {
 }
 
 :not(.app-bar-margins).v-toolbar {
-    background: #161f49 !important;
+    background: #1c1838 !important;
     border-radius: 10px !important;
 }
 
@@ -108,16 +129,16 @@ html[theme="light"] .v-sheet {
 }
 
 .v-card {
-    background: #161f49 !important;
+    background: #1c1838 !important;
     border-radius: 10px !important;
     border: 1px solid #bcbcbc1a;
-    box-shadow: noen !important;
+    box-shadow: none !important;
 }
 
 html[theme="light"] .v-card {
     background: #ffffff !important;
     border-radius: 10px !important;
-    box-shadow: noen !important;
+    box-shadow: none !important;
 }
 
 ul,
@@ -151,7 +172,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .light-card {
-    background: #161f49 !important;
+    background: #1c1838 !important;
 }
 
 html[theme="light"] .light-card {
@@ -342,7 +363,6 @@ html[theme="light"] .light-card {
 
 .theme--dark.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
     background: #161f49 !important;
-    opacity: 0.5 !important;
     color: inherit !important;
     transition: 223ms linear;
 }
@@ -350,4 +370,10 @@ html[theme="light"] .light-card {
 .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
     opacity: 0.8 !important;
     transition: 223ms linear;
+}
+
+.theme--dark input[type="date"]::-webkit-calendar-picker-indicator {
+    background: url(https://upload.wikimedia.org/wikipedia/commons/5/5a/Calendar_Icon_White.svg) no-repeat;
+    background-size: 20px 20px;
+    cursor: pointer;
 }

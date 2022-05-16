@@ -3,11 +3,11 @@
     <v-data-table
       :items="currencies"
       :headers="headers"
-      :items-per-page="20"
-      class="ma-1 ml-2 curr-table"
+      :items-per-page="25"
+      class="ma-4 ml-8 curr-table"
       :style="customStyle"
       :footer-props="{
-        'items-per-page-options': [5, 10, 20, 50],
+        'items-per-page-options': [25],
         'items-per-page-text': $t('items_per_page'),
       }"
     >
@@ -50,7 +50,7 @@
           </span>
         </div>
         <div v-else>
-          {{ $t("no-data") }}
+          {{ "no-data" }}
         </div>
       </template>
       <template v-slot:[`item.action`]="{ item }">
@@ -68,25 +68,15 @@
           >
         </div>
       </template>
-      <template v-slot:[`item.chart`]="{}">
-        <div class="d-flex">
-          <v-sparkline
-            :value="value"
-            color="#BA68C8"
-            height="100"
-            padding="10"
-            stroke-linecap="round"
-            smooth
-          >
-          </v-sparkline>
-        </div>
+      <template v-slot:[`item.chart`]="{ item }">
+        <SmallGraph :symbol="item.symbol"> </SmallGraph>
       </template>
       <template v-slot:[`item.volume`]="{ item }">
         <div class="ml-4" v-if="item.volume">
           <span style="font-size: 14px"
             >${{ new Intl.NumberFormat().format(item.volume) }}</span
           >
-          <span
+          <!-- <span
             style="font-size: 10px"
             :class="diffColor(item.volume_change)"
             class="d-flex"
@@ -94,11 +84,16 @@
             <v-icon :class="diffColor(item.volume_change)" size="small">{{
               item.volume_change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ '$' + new Intl.NumberFormat().format(item.volume_change ? item.volume_change : 0) }}
-          </span>
+            {{
+              "$" +
+              new Intl.NumberFormat().format(
+                item.volume_change ? item.volume_change : 0
+              )
+            }}
+          </span> -->
         </div>
         <div v-else class="ml-4">
-          {{ $t("no-data") }}
+          {{ "no-data" }}
         </div>
       </template>
       <template v-slot:[`item.market_cap`]="{ item }">
@@ -106,7 +101,7 @@
           <span style="font-size: 14px"
             >${{ new Intl.NumberFormat().format(item.market_cap) }}</span
           >
-          <span
+          <!-- <span
             style="font-size: 10px"
             :class="diffColor(item.market_cap_change)"
             class="d-flex"
@@ -114,11 +109,16 @@
             <v-icon :class="diffColor(item.market_cap_change)" size="small">{{
               item.market_cap_change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ '$' + new Intl.NumberFormat().format(item.market_cap_change ? item.market_cap_change : 0) }}
-          </span>
+            {{
+              "$" +
+              new Intl.NumberFormat().format(
+                item.market_cap_change ? item.market_cap_change : 0
+              )
+            }}
+          </span> -->
         </div>
         <div v-else>
-          {{ $t("no-data") }}
+          {{ "no-data" }}
         </div>
       </template>
     </v-data-table>
@@ -126,14 +126,14 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import sparklines from "@/components/elements/currencies/Sparklines.vue";
+import SmallGraph from "~/components/elements/currencies/SmallGraph";
 import config from "~/config/config.json";
 export default {
   props: {
     price: {},
   },
   components: {
-    sparklines,
+    SmallGraph,
   },
   data() {
     return {
@@ -147,7 +147,7 @@ export default {
       if (el < 0) {
         return "red--text";
       } else {
-        return "primary--text";
+        return "green--text";
       }
     },
   },
@@ -165,13 +165,15 @@ export default {
           let ch = determine.change_24h ? determine.change_24h : 0;
           let percent = (
             (parseFloat(ch) * 100) /
-            parseFloat(determine.price)
+            parseFloat(determine.price - ch)
           ).toFixed(2);
           el.price = determine.price;
           el.change = determine.change_24h;
           el.volume_change = el.volume ? determine.volume_24h - el.volume : 0;
           el.volume = determine.volume_24h;
-          el.market_cap_change = el.market_cap ? determine.market_cap - el.market_cap : 0;
+          el.market_cap_change = el.market_cap
+            ? determine.market_cap - el.market_cap
+            : 0;
           el.market_cap = determine.market_cap;
           el.percent = percent;
         }
@@ -201,7 +203,7 @@ export default {
           sortable: false,
           value: "chart",
         },
-        { text: "24H Volume", value: "volume"},
+        { text: "24H Volume", value: "volume" },
         { text: "Market Cap", value: "market_cap" },
         { text: "Invest", value: "action", sortable: false },
       ];

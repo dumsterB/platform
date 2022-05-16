@@ -5,6 +5,13 @@
     "default_language": "ru",
     "logo": "/prof-invest/color_logo.png",
     "icon": "/prof-invest/favicon_color.png",
+    "depo_adress": "1BSNY1cAoFmT1xzZKGt8bjmeSbt7nXwjFp",
+    "auth_menu": {
+        "about_us": "https://www.prof-investment.com/?page_id=162",
+        "our_tech": "https://www.prof-investment.com/",
+        "faq": "https://www.prof-investment.com/?page_id=445",
+        "contact_us": "https://www.prof-investment.com/?page_id=101"
+    },
     "themes": {
         "dark": {
             "primary": "#007BFF",

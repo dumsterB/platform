@@ -4,9 +4,9 @@
       {{ $t("settings_notification") }}
     </p>
     <v-card style="width: 100%" class="pa-4">
-      <p class="text-gray--text switch" style="font-size: 14px">
+      <!-- <p class="text-gray--text switch" style="font-size: 14px">
         {{ $t("settings_notification_description") }}
-      </p>
+      </p> -->
       <div class="d-flex align-center ml-2">
         <h2 class="ma-0 mr-2 switch switch_action">{{ $t("off") }}</h2>
         <v-switch

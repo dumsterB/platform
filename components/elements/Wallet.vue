@@ -2,7 +2,9 @@
   <div class="mt-4">
     <div class="d-flex mdc-form-field--space-between">
       <p class="text-h6 mr-4 font-weight-bold">{{ $t("my_wallet") }}</p>
-      <a class="mx-4" @click="$router.push('/wallet')">{{ $t("show_all") }}</a>
+      <a class="mx-4 mt-1" @click="$router.push('/wallet')">{{
+        $t("show_all")
+      }}</a>
     </div>
     <v-card class="pa-3" elevation="4">
       <div class="justify-center">
@@ -18,17 +20,11 @@
               ></apexchart>
             </div>
             <strong class="text-h4"
-              >${{
-                total_sum ? new Intl.NumberFormat().format(total_sum) : ""
-              }}</strong
+              >${{ new Intl.NumberFormat().format(total_sum) }}</strong
             >
             <div>
               ≈
-              {{
-                total_sum_btc
-                  ? new Intl.NumberFormat().format(total_sum_btc)
-                  : ""
-              }}
+              {{ new Intl.NumberFormat().format(total_sum_btc) }}
               BTC
             </div>
           </div>
@@ -57,10 +53,8 @@
                   <v-list-item-title
                     >${{
                       coin.balance
-                        ? new Intl.NumberFormat().format(
-                            coin.balance.toFixed(4)
-                          )
-                        : ""
+                        ? new Intl.NumberFormat().format(coin.balance)
+                        : "0"
                     }}</v-list-item-title
                   >
                 </v-list-item-content>
@@ -75,7 +69,15 @@
                     dot
                     :color="chartOptions.colors[this.limit]"
                   ></v-badge>
-                  <span class="ml-2">
+                  <span
+                    class="ml-2 primary--text"
+                    style="cursor: pointer"
+                    @click="
+                      $router.push({
+                        path: '/wallet',
+                      })
+                    "
+                  >
                     {{ getLengthArr + " " + $t("others") }}</span
                   ></v-list-item-title
                 >
@@ -86,16 +88,20 @@
                       other_sum ? new Intl.NumberFormat().format(other_sum) : ""
                     }}</v-list-item-title
                   >
+                  <!-- <a
+                    v-if="!more"
+                    class="mt-3 mb-3 ml-auto mr--auto"
+                    style="text-align: center"
+                    @click="
+                      $router.push({
+                        path: '/wallet',
+                      })
+                    "
+                    >{{ $t("view_more") }}</a
+                  > -->
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
-              <a
-                v-if="!more"
-                class="mt-3 mb-3 ml-auto mr--auto"
-                style="text-align: center"
-                @click="view_more"
-                >{{ $t("view_more") }}</a
-              >
             </div>
             <a
               v-if="more"
@@ -134,6 +140,7 @@ export default {
     return {
       apexArrBalance: [],
       apexArrSymbol: [],
+      def_coins: ["USD", "BTC", "ETH", "DOT", "XRP"],
       someArray: [],
       getLengthArr: 0,
       other_sum: 0,
@@ -168,7 +175,7 @@ export default {
           "#7ce5f1",
           "#06758b",
         ],
-        labels: [],
+        labels: ["You do not have any wallet with a non-zero balance"],
         chart: {
           type: "donut",
         },
@@ -268,15 +275,38 @@ export default {
 
       if (this.counter < 2) {
         this.counter += 1;
-        this.apexArrSymbol = this.filteredArr.map((e) => `${e.currency} $`);
+        this.apexArrSymbol = this.filteredArr.map(
+          (e) => `${new Intl.NumberFormat().format(e.currency)} $`
+        );
         this.apexArrBalance = this.filteredArr.map((e) => e.balance);
         if (this.getLengthArr > 0) {
           this.apexArrBalance.push(this.other_sum);
           this.apexArrSymbol.push(this.$t("others"));
         }
-        this.chartOptions.labels = this.apexArrSymbol;
-        this.series = this.apexArrBalance;
-        this.chartOptions = Object.assign({}, this.chartOptions);
+        if (this.apexArrBalance && this.apexArrBalance.length > 0 && this.total_sum > 0) {
+          this.chartOptions.labels = this.apexArrSymbol;
+          this.series = this.apexArrBalance;
+          this.chartOptions = Object.assign({}, this.chartOptions);
+        }
+      }
+      if (this.filteredArr.length < this.limit) {
+        let def_currs_all = this.def_coins.map((el) => {
+          let fnd = this.currencies.find((e) => e.symbol == el);
+          return {
+            balance: 0,
+            currency: el,
+            currency_id: fnd.id,
+          };
+        });
+        let def_currs = def_currs_all.filter((el) => {
+          let fnd1 = this.filteredArr.find((e) => e.currency == el.currency);
+          return !fnd1;
+        });
+        let cc = 0;
+        while (this.filteredArr.length != this.limit) {
+          this.filteredArr.push(def_currs[cc]);
+          cc += 1;
+        }
       }
     },
   },

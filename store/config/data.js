@@ -2,7 +2,7 @@ export const state = () => ({
     preload_models: ["currency", "arbitrage_company", "wallet", "countries"],
     themes: ["Dark", "Light"],
     drawerMenu: false,
-    base_p: "binance",
+    base_p: "alfex",
     exchanges: [{
             name: "Forex",
             key: "FOREX",
@@ -36,6 +36,20 @@ export const state = () => ({
             key: "XETRA",
             tv: "NYSE",
             currency: "EUR",
+            list: [],
+        },
+        {
+            name: "Commodities",
+            key: "COMM",
+            tv: "NYSE",
+            currency: "USD",
+            list: [],
+        },
+        {
+            name: "MICEX Moscow Russia",
+            key: "MCX",
+            tv: "CAPITALCOM",
+            currency: "RUB",
             list: [],
         },
     ]

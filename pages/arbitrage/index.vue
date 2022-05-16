@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Arbitage from "../../components/elements/Arbitage";
+import Arbitage from "~/components/elements/Arbitage";
 export default {
   components: {
     Arbitage,

@@ -36,6 +36,13 @@ export const state = () => ({
     //   badge_color: "primary",
     // },
     {
+      icon: "mdi-credit-card-outline",
+      title: "deposit",
+      key: "Deposit",
+      to: "/deposit",
+      badge_color: "primary",
+    },
+    {
       icon: "mdi-clipboard-text-multiple-outline",
       title: "user_news",
       key: "News",
@@ -50,10 +57,10 @@ export const state = () => ({
       badge_color: "primary",
     },
     {
-      icon: "mdi-flag-outline",
-      title: "user_help",
-      key: "user_help",
-      to: "/help",
+      icon: "mdi-frequently-asked-questions",
+      title: "popular_faq",
+      key: "popular_faq",
+      to: "/faq",
       badge_color: "primary",
     },
     // {

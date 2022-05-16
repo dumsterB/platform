@@ -43,13 +43,13 @@
           </div>
         </v-card>
       </v-col>
-      <v-col class="d-flex justify-center mt-4">
-        <v-btn x-large outlined class="mt-6" @click="cur_len += 8">{{
+      <v-col :cols="12" class="d-flex justify-center mt-4">
+        <v-btn x-large outlined class="mt-6" @click="cur_len += 12">{{
           $t("view_more")
         }}</v-btn>
       </v-col>
     </v-row>
-    <v-row class="pa-3 pl-6 pr-6" v-if="!curr_company"
+    <v-row class="pa-4" v-if="!curr_company"
       ><v-col
         ><v-row
           ><v-col>
@@ -112,7 +112,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import TradePosition from "../../components/elements/modals/TradePosition";
+import TradePosition from "~/components/elements/modals/TradePosition";
 import TableASession from "~/components/data/TableASession";
 import ThemeSelectVue from "../settings/ThemeSelect.vue";
 
@@ -130,7 +130,7 @@ export default {
       sel_currency: {},
       arb_companies: [],
       prices_all: [],
-      cur_len: 11,
+      cur_len: 12,
       prices: [],
       need_curr: null,
       curr_company: true,

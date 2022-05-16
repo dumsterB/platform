@@ -6,7 +6,7 @@
       :items-per-page="page_size_current"
       :search="search_text"
       :loading="loading"
-      class="elevation-1 ma-8 ml-4"
+      class="elevation-1 ma-4"
       :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
@@ -14,11 +14,11 @@
       }"
     >
       <template v-slot:top>
-        <v-toolbar flat class="borderNone">
-          <!-- <v-toolbar-title class="font-weight-bold">{{
-            $t("recent_trades")
-          }}</v-toolbar-title> -->
-          <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
+        <v-toolbar extended flat class="borderNone">
+          <v-toolbar-title class="font-weight-bold">{{
+            $t(title)
+          }}</v-toolbar-title>
+          <v-divider v-if="title" class="mx-4" inset vertical></v-divider>
           <slot name="header"></slot>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">
@@ -35,10 +35,11 @@
               hide-details
             ></v-text-field>
           </div>
+          <template v-slot:extension><slot name="header_ext"></slot></template>
         </v-toolbar>
       </template>
-      <template v-slot:[`item.created_at`]="{ item }">
-        <span>{{ new Date(item.created_at).toLocaleString() }}</span>
+      <template v-slot:[`item.updated_at`]="{ item }">
+        <span>{{ new Date(item.updated_at).toLocaleString() }}</span>
       </template>
       <template v-slot:[`item.dest_amount`]="{ item }">
         <span>{{
@@ -56,12 +57,13 @@
           }`
         }}</span>
       </template>
-      <template v-slot:[`item.current_cost`]="{ item }">
+      <template v-slot:[`item.exchange_rate`]="{ item }">
         <span>{{
-          `${new Intl.NumberFormat().format(item.current_cost)} ${
-            item.source_currency.symbol
-          }`
+          `${new Intl.NumberFormat().format(item.exchange_rate)} USD`
         }}</span>
+      </template>
+      <template v-slot:[`item.price`]="{ item }">
+        <span>{{ `${new Intl.NumberFormat().format(item.price)} USD` }}</span>
       </template>
       <template v-slot:[`item.difference`]="{ item }">
         <span :style="diffColor(item.difference)">{{
@@ -73,7 +75,60 @@
           item.difference_perc
         }}</span>
       </template>
+      <template v-slot:[`item.action`]="{ item }">
+        <v-row justify="center">
+          <v-btn
+            name="closeOrder"
+            @click="toggleModal(item)"
+            :style="customStyle"
+            class="green_btn text-capitalize"
+            :disabled="item.trade_status.key != 'OPEN'"
+          >
+            {{ $t("close") }}
+          </v-btn>
+        </v-row>
+      </template>
     </v-data-table>
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title class="d-flex">
+          <span class="text-h5">{{ $t("close_order") }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container v-if="close_item">
+            <p>
+              {{ "Current price:" }}
+              <span class="font-weight-bold"
+                >${{ new Intl.NumberFormat().format(close_item.price) }}</span
+              >
+            </p>
+            <p>
+              {{ "Your limit price:" }}
+              <span class="font-weight-bold"
+                >${{ new Intl.NumberFormat().format(def_limit_price) }}</span
+              >
+            </p>
+          </v-container>
+        </v-card-text>
+        <v-card-actions class="mr-4 pb-4">
+          <v-spacer></v-spacer>
+          <v-btn class="green--text" outlined text @click="dialog = false">
+            {{ $t("go_back") }}
+          </v-btn>
+          <v-btn
+            class="green"
+            text
+            outlined
+            width="200"
+            :loading="loading_modal"
+            @click="run_close"
+            type="submit"
+          >
+            {{ loading_modal ? "" : $t("close") + " " + $t("trade") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -94,12 +149,26 @@ export default {
       type: Number,
       default: 5,
     },
+    title: {
+      type: String,
+      default: "",
+    },
+    add_cols: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       primary: config.colors.text.primary,
       blue: config.colors.text.blue,
       red: config.colors.text.red,
+      start_blue_gradient: config.colors.start_blue_gradient,
+      end_blue_gradient: config.colors.end_blue_gradient,
+      blue: config.colors.text.blue,
+      red: config.colors.text.red,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       page_size_current: this.page_size,
       search_text: "",
       list: [],
@@ -109,57 +178,91 @@ export default {
       config: this.f_definer(),
       loading: false,
       page: 1,
+      dialog: false,
+      close_item: null,
+      loading_modal: false,
     };
   },
   computed: {
     ...mapGetters(model, {
       trades: "list",
     }),
+    ...mapGetters("config/default", {
+      get_val: "get_val",
+    }),
     customStyle() {
       return {
         "--primary": this.primary,
+        "--start_blue_gradient": this.start_blue_gradient,
+        "--end_blue_gradient": this.end_blue_gradient,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
       };
     },
+    def_limit_price() {
+      return this.close_item.exchange_rate;
+    },
     headers() {
-      return [
+      let add_cols = [
+        {
+          text: `${this.$t("table_profit_loss")} $`,
+          value: "difference",
+        },
+        {
+          text: `${this.$t("table_profit_loss")} %`,
+          value: "difference_perc",
+        },
+        {
+          text: this.$t("table_close"),
+          value: "action",
+          sortable: false,
+          width: 150,
+        },
+      ];
+      let res_cols = [
         {
           text: this.$t("id"),
           value: "identifier",
         },
         {
-          text: this.$t("Purchased"),
-          value: "dest_amount",
+          text: this.$t("currency"),
+          value: "symbol",
         },
         {
-          text: this.$t("Spent"),
-          value: "source_amount",
+          text: this.$t("table_position"),
+          value: "type",
+          sortable: false,
         },
         {
           text: this.$t("table_time"),
-          value: "created_at",
+          value: "updated_at",
         },
 
         {
+          text: this.$t("amount"),
+          value: "amount",
+        },
+        {
+          text: this.$t("limit"),
+          value: "exchange_rate",
+        },
+        {
           text: this.$t("table_current_price"),
-          value: "current_cost",
-          sortable: false,
-        },
-        {
-          text: this.$t("table_profit_loss"),
-          value: "difference",
-          sortable: false,
-        },
-        {
-          text: `${this.$t("table_profit_loss")} %`,
-          value: "difference_perc",
-          sortable: false,
+          value: "price",
         },
       ];
+      if (this.add_cols) {
+        res_cols = res_cols.concat(add_cols);
+      }
+      return res_cols;
     },
   },
   methods: {
     ...mapActions(model, {
       fetchList: "fetchList",
+    }),
+    ...mapActions("data/wallet", {
+      fetchWallet: "fetchList",
     }),
     f_definer() {
       let conf = null;
@@ -226,7 +329,7 @@ export default {
       }
       // this.config.params.page = val ? val.page : 1;
       // this.config.params.per_page = this.page_size_current;
-      this.config.params.sort = "created_at";
+      this.config.params.sort = "updated_at";
       this.config.params.dir = "desc";
       this.loading = true;
       let res = await this.fetchList({ config: this.config });
@@ -238,25 +341,30 @@ export default {
     },
     resetList(prices) {
       this.list = this.trades.map((el) => {
-        let fnd_b = prices.find((e) => e && e.base == el.dest_currency.symbol);
-        let pr_b = 1;
-        if (fnd_b && fnd_b.price) pr_b = fnd_b.price;
-        let fnd_p = prices.find(
-          (e) => e && e.base == el.source_currency.symbol
-        );
-        let pr_p = 1;
-        if (fnd_p && fnd_p.price) pr_p = fnd_p.price;
-        let curr_cost = (el.dest_amount * pr_b) / pr_p;
-        el.current_cost = curr_cost.toFixed(5);
-        let diff = curr_cost - el.source_amount;
-        let diff_proc = (diff * 100) / el.source_amount;
+        let symb = el.symbol;
+        if (el.symbol == "USD") {
+          symb = el.source_currency.symbol;
+        }
+        let fnd_p = prices.find((e) => e && e.base == symb);
+        let price = fnd_p ? fnd_p.price : null;
+        if (!price) {
+          price = this.get_val(symb);
+        }
+        el.amount = `${el.source_amount} ${el.source_currency.symbol}`;
+        el.type = !el.trade_type ? "Sell" : "Buy";
+        el.price = price;
+        let diff = el.price - el.exchange_rate;
+        let diff_proc = (diff * 100) / el.price;
         el.difference = diff.toFixed(5);
         el.difference_perc = `${diff_proc.toFixed(3)} %`;
         return el;
       });
     },
-    reload() {
-      this.resetList(this.prices);
+    async reload() {
+      await this.rel();
+      if (this.prices && this.prices.length > 0) {
+        this.resetList(this.prices);
+      }
     },
     diffColor(diff) {
       let nm = parseFloat(diff);
@@ -265,6 +373,48 @@ export default {
       } else {
         return `color: ${this.blue} !important;`;
       }
+    },
+    toggleModal(item) {
+      this.close_item = item;
+      this.dialog = true;
+    },
+    async run_close() {
+      this.loading_modal = true;
+      let trade_data = {};
+      trade_data.source_amount = this.close_item.source_amount;
+      trade_data.dest_amount = this.close_item.dest_amount;
+      trade_data.source_currency_id = this.close_item.source_currency_id;
+      trade_data.dest_currency_id = this.close_item.dest_currency_id;
+      trade_data.id = this.close_item.id;
+      trade_data.trade_status_id = 10;
+      let rs = await this.$store.dispatch(`data/trade/replace`, {
+        data: trade_data,
+        id: trade_data.id,
+      });
+      let title, color;
+      title = this.$t("stop_trade");
+      color = "warning";
+      setTimeout(() => {
+        this.$store.commit("data/notifications/create", {
+          id: color + "_" + Math.random().toString(36),
+          title: this.$t("stop_trade_done"),
+          text: this.$t("stop_trade_done"),
+          color: "primary",
+        });
+      }, 2500);
+      this.$store.commit("data/notifications/create", {
+        id: color + "_" + Math.random().toString(36),
+        title: title,
+        text: title,
+        color: color,
+        timeout: 2000,
+      });
+      await this.fetchWallet();
+      this.resetList(this.prices);
+      setTimeout(() => {
+        this.loading_modal = false;
+        this.dialog = false;
+      }, 500);
     },
   },
   watch: {
@@ -280,10 +430,57 @@ export default {
     },
   },
   async created() {
-    await this.rel();
-    if (this.prices && this.prices.length > 0) {
-      this.resetList(this.prices);
-    }
+    await this.reload();
   },
 };
 </script>
+<style lang="scss">
+html[theme="dark"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+}
+html[theme="light"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+}
+</style>

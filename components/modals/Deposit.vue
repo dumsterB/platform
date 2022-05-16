@@ -38,8 +38,12 @@
               >
                 <v-icon class="mr-4">mdi-credit-card-multiple-outline</v-icon>
                 <div class="d-flex flex-wrap align-center">
-                  <p class="mr-4 mb-0 font-weight-bold">Bank Card</p>
-                  <p class="mb-0 font-weight-thin">1.2% {{ $t("fee") }}</p>
+                  <p class="mr-4 mb-0 font-weight-bold">
+                    {{ $t("bank_card") }}
+                  </p>
+                  <p class="mb-0 font-weight-thin">
+                    {{ fee }}% {{ $t("fee") }}
+                  </p>
                 </div>
               </v-btn>
               <v-btn
@@ -50,8 +54,10 @@
               >
                 <v-icon class="mr-4">mdi-currency-btc</v-icon>
                 <div class="d-flex flex-wrap align-center">
-                  <p class="mr-4 mb-0 font-weight-bold">Crypto</p>
-                  <p class="mb-0 font-weight-thin">1.2% {{ $t("fee") }}</p>
+                  <p class="mr-4 mb-0 font-weight-bold">{{ $t("crypto") }}</p>
+                  <p class="mb-0 font-weight-thin">
+                    {{ fee }}% {{ $t("fee") }}
+                  </p>
                 </div>
               </v-btn>
             </v-bottom-navigation>
@@ -70,6 +76,7 @@
           class="card_list"
           :style="customStyle"
           height="52"
+          append-icon="mdi-chevron-down"
         >
           <template v-slot:selection="{ attr, on, item, selected }">
             <v-chip
@@ -163,7 +170,7 @@
           <div class="mb-6 ml-auto mr-auto">
             <span> {{ $t("pay") }}: </span>
             <span class="primary--text ml-1">
-              {{ enteredMoney }} {{ curr }}</span
+              {{ amounty(enteredMoney) }} {{ curr }}</span
             >
           </div>
         </v-row>
@@ -182,6 +189,7 @@
             solo
             dense
             hide-details
+            append-icon="mdi-chevron-down"
           >
             <template v-slot:item="{ item }">
               <img height="24" width="24" :src="item.logo" />
@@ -233,7 +241,7 @@
             @click="make_order"
             width="332"
           >
-            {{ $t(action) }}
+            {{ loading ? '' : $t(action) }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -295,6 +303,7 @@ export default {
       curr: "USD",
       crypto_curr: "BTC",
       err_m: [],
+      fee: 1.2,
     };
   },
   computed: {
@@ -320,6 +329,11 @@ export default {
     },
   },
   methods: {
+    amounty(val) {
+      let sum = (Number(val) / 100) * this.fee;
+      let total = sum + Number(val);
+      return total;
+    },
     ...mapActions("data/order", {
       order_create: "create",
       fetchOrders: "fetchList",
@@ -396,7 +410,7 @@ export default {
         // console.log("order_data", order_data);
         let rs = await this.order_create({ data: order_data });
         let title, color;
-        if (rs.data && rs.data.order_status_id != 3) {
+        if (rs.data && rs.data.order_status_id == 2) {
           title = this.$t("order_failed");
           color = "error";
         } else {

@@ -5,9 +5,7 @@
       :headers="headers"
       :items-per-page="page_size_current"
       :search="search"
-      sort-by="created_at"
-      :sort-desc="true"
-      class="elevation-1 ma-2 ml-8"
+      class="elevation-1 ma-3 mr-4"
       :loading="loading"
       :server-items-length="totalLength"
       @pagination="paging"
@@ -121,6 +119,10 @@ export default {
           value: "created_at",
         },
         {
+          text: this.$t("status_title"),
+          value: "order_status.name",
+        },
+        {
           text: this.$t("type_title_table"),
           value: "order_type.name",
         },
@@ -164,6 +166,8 @@ export default {
       }
       this.config.params.page = val ? val.page : 1;
       this.config.params.per_page = this.page_size_current;
+      this.config.params.sort = 'updated_at';
+      this.config.params.dir = 'desc';
       this.loading = true;
       let res = await this.fetchList({ config: this.config });
       let meta = res.meta;

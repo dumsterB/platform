@@ -10,20 +10,34 @@
             :alt="$t('logoPic')"
           />
           <v-spacer></v-spacer>
-          <span class="top-menu">About Us</span>
-          <span class="top-menu">Our Technology</span>
-          <span class="top-menu">Blog</span>
-          <span class="top-menu">Calculate Profit</span>
-          <span class="top-menu">FAQ</span>
+          <a
+            :href="menu.about_us"
+            target="_blank"
+            class="top-menu white--text"
+            >{{ $t("about_us") }}</a
+          >
+          <a
+            :href="menu.our_tech"
+            target="_blank"
+            class="top-menu white--text"
+            >{{ $t("our_tech") }}</a
+          >
+          <!--  <span class="top-menu">Blog</span>  -->
+          <!--  <span class="top-menu">Calculate Profit</span> -->
+          <a :href="menu.faq" target="_blank" class="top-menu white--text">{{
+            $t("popular_faq")
+          }}</a>
           <!-- <v-switch v-model="theme" class="mr-4"></v-switch> -->
           <LangSelect style="max-width: 150px; margin-top: 10px" />
-          <v-btn class="contact-us">Contact Us</v-btn>
+          <v-btn target="_blank" :href="menu.contact_us" class="contact-us">{{
+            $t("contact_us")
+          }}</v-btn>
           <v-spacer></v-spacer>
         </v-row>
       </v-col>
     </v-row>
     <v-row class="mb-0 pb-0">
-      <v-col :lg="6" style="height: 100vh">
+      <v-col :lg="6">
         <div class="background_image"></div>
       </v-col>
       <v-col class="px-4 pt-8" :style="customStyle">
@@ -37,7 +51,7 @@
                 style="cursor: pointer"
               >
                 <v-icon class="primary--text">mdi-arrow-left</v-icon>
-                Back
+                {{ $t("go_back") }}
               </p>
             </v-col>
             <v-col
@@ -85,6 +99,7 @@
                 :label="$t('place_of_birth')"
                 outlined
                 dense
+                append-icon="mdi-chevron-down"
               ></v-autocomplete> -->
                   <!-- <v-text-field
                 v-model="date"
@@ -98,13 +113,10 @@
                   <p v-if="error_message" style="color: red"></p>
 
                   <div class="d-flex">
-                    <v-checkbox v-model="checkbox"></v-checkbox>
-                    <span
-                      style="font-size: 13px; margin-top: 22px"
-                      class="text-gray--text"
-                    >
-                      {{ $t("agree_with_policy") }}</span
-                    >
+                    <v-checkbox
+                      v-model="checkbox"
+                      :label="$t('agree_with_policy')"
+                    ></v-checkbox>
                   </div>
                   <p style="font-size: 14px">
                     {{ $t("agree")
@@ -235,13 +247,11 @@
               <p v-if="error_message" style="color: red"></p>
 
               <div class="d-flex">
-                <v-checkbox v-model="checkbox"></v-checkbox>
-                <span
-                  style="font-size: 13px; margin-top: 22px"
-                  class="text-gray--text"
-                >
-                  {{ $t("remember_me") }}</span
-                >
+                <v-checkbox
+                  v-model="checkbox"
+                  :label="$t('remember_me')"
+                ></v-checkbox>
+
                 <span style="cursor: pointer" class="ml-2 mt-5 primary--text">{{
                   $t("forgot_password")
                 }}</span>
@@ -333,6 +343,7 @@ export default {
   data() {
     return {
       config: config,
+      menu: config.auth_menu,
       border_color: config.colors.border,
       auth_login_form_valid: false,
       name: "",
@@ -485,10 +496,13 @@ export default {
 }
 .background_image {
   background: url("./static/img/login_background.png");
-  height: 110vh;
-  position: relative;
-  top: -120px;
+  top: 0px;
+  position: fixed;
+  height: 100vh;
+  width: 45%;
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
 }
 html[theme="light"] .v-menu__content .v-list {
   .background_image {

@@ -7,7 +7,7 @@
       :search="search"
       :style="customStyle"
       :footer-props="{
-        'items-per-page-options': [3, 5, 10, -1],
+        'items-per-page-options': [5, 10, 15, 20, -1],
         'items-per-page-text': $t('items_per_page'),
       }"
       dense
@@ -34,7 +34,7 @@
         </v-toolbar>
       </template>
       <template v-slot:[`item.name`]="{ item }">
-        <span class="primary--text font-weight-bold">{{ item.name }}</span>
+        <span class="success--text font-weight-bold">{{ item.name }}</span>
       </template>
       <template v-slot:[`item.close`]="{ item }">
         <span
@@ -129,6 +129,7 @@ export default {
         {
           text: this.$t("column_name"),
           value: "name",
+          width: 250,
         },
         {
           text: this.$t("column_value"),
@@ -153,7 +154,7 @@ export default {
         {
           text: this.$t("column_high"),
           value: "high",
-        },
+        }
       ];
     },
   },

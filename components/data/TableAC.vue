@@ -36,6 +36,7 @@
             class="ml-1 green_btn text-capitalize"
             :style="customStyle"
             :disabled="!item.price"
+            width="60"
           >
             {{ $t("buy") }}
           </v-btn>
@@ -45,6 +46,7 @@
             class="ml-1 red_btn text-capitalize"
             :style="customStyle"
             :disabled="!item.price"
+            width="60"
           >
             {{ $t("sell") }}
           </v-btn>

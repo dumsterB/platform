@@ -3,9 +3,13 @@
     <v-dialog v-model="dialog" width="800">
       <template v-slot:activator="{ on, attrs }">
         <div v-bind="attrs" v-on="on">
-          <v-btn dark elevation="0" :style="customStyle" class="success-btn">{{
-            $t("delete_btn")
-          }}</v-btn>
+          <v-btn
+            dark
+            elevation="0"
+            :style="customStyle"
+            class="success-btn font-weight-bold text-none"
+            >{{ $t("delete_btn") }}</v-btn
+          >
         </div>
       </template>
       <v-card>

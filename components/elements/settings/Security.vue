@@ -5,8 +5,10 @@
       <v-card class="mainCard pa-5">
         <div class="list-item d-flex">
           <div>
-            <h4 class="">{{ $t("security_keys") }}</h4>
-            <span style="font-size: 12px" class="text-gray--text">{{ $t("protect_key") }}</span>
+            <h4 class="fontWeight mb-1">{{ $t("security_keys") }}</h4>
+            <span class="text-gray--text font-weight-light">{{
+              $t("protect_key")
+            }}</span>
           </div>
           <v-spacer></v-spacer>
           <div style="align-items: center; display: flex">
@@ -14,108 +16,93 @@
               dark
               elevation="0"
               :style="customStyle"
-              class="success-btn"
+              class="success-btn font-weight-bold text-none"
               >{{ $t("enable") }}</v-btn
             >
           </div>
         </div>
-        <v-divider class="mt-2 mb-2"></v-divider>
+        <v-divider class="my-6"></v-divider>
         <div class="list-item d-flex">
           <div>
-            <h4>{{ $t("phone_num_verify") }}</h4>
-            <span style="font-size: 12px" class=" text-gray--text">{{ $t("protect_account") }}</span>
+            <h4 class="fontWeight mb-1">{{ $t("phone_num_verify") }}</h4>
+            <span class="text-gray--text font-weight-light">{{
+              $t("protect_account")
+            }}</span>
           </div>
           <v-spacer></v-spacer>
-<!--          <v-checkbox
-            class="mr-2"
+          <v-checkbox
+            class="mr-12"
             style="align-items: center; display: flex"
-            disabled
             v-model="VerificationNumberCheckbox"
-            :label="$t('unset')"
-          ></v-checkbox>-->
-          <div style="align-items: center; display: flex">
+            :label="cutPhoneValue(phone)"
+          ></v-checkbox>
+          <!-- <div style="align-items: center; display: flex">
             <v-btn
               elevation="0"
               small
               :style="customStyle"
-              class="outlined-btn primary--text"
+              class="outlined-btn primary--text font-weight-bold text-none"
               >{{ $t("change") }}</v-btn
             >
-          </div>
+          </div> -->
           <phone
             style="align-items: center; display: flex"
             class="ml-2"
           ></phone>
         </div>
-        <v-divider class="mt-2 mb-2"></v-divider>
-        <div class="d-flex">
-          <div style="width: 100%">
-            <h4>{{ $t("email_verify") }}</h4>
-            <br />
-            <span style="font-size: 12px" class="text-gray--text">{{ $t("protect_email") }}</span>
-          </div>
-          <v-spacer></v-spacer>
-<!--          <v-checkbox
-            class="mr-2"
-            disabled
-            style="align-items: center; display: flex"
-            v-model="VerificationNumberCheckbox"
-            :label="$t('unset')"
-          ></v-checkbox>-->
-          <div style="align-items: center; display: flex">
-            <v-btn
-              elevation="0"
-              :style="customStyle"
-              small
-              class="outlined-btn primary--text"
-
-              >{{ $t("deleteText") }}</v-btn
-            >
-            <email
-                style="align-items: center; display: flex"
-                class="ml-2"
-            ></email>
-          </div>
-
-        </div>
-        <br />
-        <v-divider class="mt-2 mb-2"></v-divider>
-        <h4 class="primary--text">{{ $t("advanced_security") }}</h4>
-        <br />
+        <v-divider class="mt-4 mb-8"></v-divider>
         <div class="list-item d-flex">
           <div>
-            <h4>{{ $t("login_verify") }}</h4>
-            <br />
-            <span style="font-size: 12px" class="text-gray--text">{{ $t("protect_login") }}</span>
+            <h4 class="fontWeight mb-1">{{ $t("email_verify") }}</h4>
+            <span class="text-gray--text font-weight-light">{{
+              $t("protect_email")
+            }}</span>
           </div>
           <v-spacer></v-spacer>
           <v-checkbox
-            class="mr-2"
-            disabled
+            class="mr-12"
             style="align-items: center; display: flex"
-            v-model="VerificationNumberCheckbox"
-            :label="$t('unset')"
+            v-model="VerificationEmailCheckbox"
+            :label="cutEmailValue(email)"
           ></v-checkbox>
+          <!--  <div style="align-items: center; display: flex">
+            <v-btn
+              elevation="0"
+              :style="customStyle"
+              class="outlined-btn primary--text font-weight-bold text-none"
+              >{{ $t("change") }}</v-btn
+            >
+          </div> -->
+          <email
+            style="align-items: center; display: flex"
+            class="ml-2"
+          ></email>
+        </div>
+        <v-divider class="mt-4 mb-8"></v-divider>
+        <h4 class="primary--text mb-6">{{ $t("advanced_security") }}</h4>
+        <div class="list-item d-flex">
+          <div>
+            <h4 class="fontWeight mb-1">{{ $t("login_verify") }}</h4>
+            <span class="text-gray--text font-weight-light">{{
+              $t("protect_login")
+            }}</span>
+          </div>
+          <v-spacer></v-spacer>
           <confirmPassword
             style="display: flex; align-items: center"
           ></confirmPassword>
         </div>
-        <h4 class="primary--text">{{ $t("devices_activities") }}</h4>
-        <br />
+        <v-divider class="mt-4 mb-8"></v-divider>
+        <h4 class="primary--text mb-6">{{ $t("devices_activities") }}</h4>
         <div class="list-item d-flex">
           <div>
-            <h4>{{ $t("device_management") }}</h4>
-            <br />
-            <span style="font-size: 12px" class="text-gray--text">{{ $t("protect_devices") }}</span>
+            <h4 class="fontWeight mb-1">{{ $t("device_management") }}</h4>
+            <span class="text-gray--text font-weight-light">{{
+              $t("protect_devices")
+            }}</span>
           </div>
           <v-spacer></v-spacer>
-          <v-checkbox
-            class="mr-2"
-            disabled
-            style="align-items: center; display: flex"
-            v-model="VerificationNumberCheckbox"
-            :label="$t('unset')"
-          ></v-checkbox>
+
           <v-btn
             dark
             elevation="0"
@@ -125,27 +112,20 @@
               })
             "
             :style="customStyle"
-            class="success-btn mt-4"
+            class="success-btn mt-4 font-weight-bold text-none"
             >{{ $t("manage") }}</v-btn
           >
         </div>
-        <v-divider class="mt-2 mb-2"></v-divider>
+        <v-divider class="mt-4 mb-8"></v-divider>
         <div class="list-item d-flex">
           <div>
-            <h4>{{ $t("Account Activity") }}</h4>
-            <br />
-            <span style="font-size: 12px" class="text-gray--text"
-              >{{ $t("last_logined") }} : 22.22.22</span
+            <h4 class="fontWeight mb-1">{{ $t("Account Activity") }}</h4>
+            <span class="text-gray--text font-weight-light"
+              >{{ $t("last_logined") }} : {{ last_active_date }}</span
             >
           </div>
           <v-spacer></v-spacer>
-          <v-checkbox
-            class="mr-2"
-            disabled
-            style="align-items: center; display: flex"
-            v-model="VerificationNumberCheckbox"
-            :label="$t('unset')"
-          ></v-checkbox>
+
           <v-btn
             dark
             elevation="0"
@@ -155,13 +135,15 @@
               })
             "
             :style="customStyle"
-            class="success-btn mt-4"
+            class="success-btn mt-4 font-weight-bold text-none"
             >{{ $t("more") }}</v-btn
           >
         </div>
-        <div class="mt-15 d-flex">
-          <p>{{ $t("suspicious_activity") }}</p>
-          <span  style="font-size: 12px" class="primary--text ml-2">{{ $t("disable_account") }}</span>
+        <div class="mt-10 d-flex">
+          <p class="text-gray--text font-weight-light">
+            {{ $t("suspicious_activity") }}
+          </p>
+          <span class="primary--text ml-2">{{ $t("disable_account") }}</span>
         </div>
       </v-card>
     </div>
@@ -174,6 +156,8 @@ import email from "../modals/security/Email";
 import phone from "../modals/security/Phone";
 import confirmPassword from "../modals/security/СonfirmPassword";
 import config from "~/config/config.json";
+import moment from "moment";
+import { mapGetters } from "vuex";
 
 export default {
   name: "privateInformation",
@@ -189,7 +173,10 @@ export default {
   data() {
     return {
       primary: config.colors.text.primary,
-      VerificationNumberCheckbox: false,
+      VerificationNumberCheckbox: true,
+      VerificationEmailCheckbox: true,
+      email: this.$auth.user.mail ? this.$auth.user.mail : "",
+      phone: this.$auth.user.phone ? this.$auth.user.phone : "",
     };
   },
   methods: {
@@ -197,12 +184,42 @@ export default {
       this.currentContent = val;
       this.$forceUpdate();
     },
+    cutPhoneValue(val) {
+      let string = "";
+      if (val !== "") {
+        return (string = `${val.slice(0, 4)}${"***"}${val.slice(8, -1)}`);
+      } else {
+        this.VerificationNumberCheckbox = false;
+        return (string = "");
+      }
+      return string;
+    },
+    cutEmailValue(val) {
+      let string = "";
+      if (val !== "") {
+        return (string = `${val.slice(0, 4)}${"***"}${val.slice(8, -1)}`);
+      } else {
+        this.VerificationEmailCheckbox = false;
+        return (string = "");
+      }
+      return string;
+    },
   },
   computed: {
     customStyle() {
       return {
         "--primary": this.primary,
       };
+    },
+    ...mapGetters("data/log_registration", {
+      logs_all: "list",
+    }),
+    last_active_date() {
+      if (this.logs_all && this.logs_all.length > 0) {
+        let lst = this.logs_all[this.logs_all.length - 1];
+        return moment(lst.created_at).format("DD.MM.YYYY HH:mm");
+      }
+      return moment().format("DD.MM.YYYY HH:mm");
     },
   },
 };
@@ -220,5 +237,8 @@ export default {
   border: solid 2px var(--primary) !important;
   color: var(--primary);
   border-radius: 10px;
+}
+.fontWeight {
+  font-weight: 600;
 }
 </style>

@@ -98,11 +98,18 @@
         </div>
       </v-list-item-group>
     </v-list>
+    <div v-if="!style_panel_left_minimal" class="pl-9 pt-4">
+      <v-btn
+        class="primary white--text mainBorderRadius font-weight-bold text-none mr-8 goToAction"
+      >
+        {{ $t("go_to_website") }}
+      </v-btn>
+    </div>
   </v-navigation-drawer>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import config from "~/config/config.json";
 export default {
   data: function () {
@@ -120,6 +127,9 @@ export default {
   methods: {},
 
   computed: {
+    ...mapGetters("config/ws", {
+      prices_current: "top_data",
+    }),
     ...mapGetters({
       menu: "config/menu/getAllMenu",
     }),
@@ -129,6 +139,7 @@ export default {
       };
     },
   },
+  created() {},
   mounted() {},
   watch: {},
 };
@@ -185,5 +196,4 @@ html[theme="dark"] {
   margin-right: auto;
   margin-left: 20px;
 }
-
 </style>

@@ -39,7 +39,7 @@ export const actions = {
             if (state.socket.readyState !== state.socket.OPEN) {
                 dispatch('init_socket');
             }
-        }, 500));
+        }, 10000));
     },
     init_socket({ commit, state }) {
         commit('set_socket');
@@ -51,7 +51,7 @@ export const actions = {
                 //         "data": [${state.str_top_subscribes}]
                 //       }`);
                 // }
-                if (state.str_page_subscribes) {
+                if (state.str_page_subscribes && state.socket) {
                     state.socket.send(`{
                         "method": "subscribe",
                         "data": [${state.str_page_subscribes}]
@@ -93,40 +93,54 @@ export const mutations = {
     set_top_subscribe(state, subscribe) {
         state.top_subscribes = subscribe || [];
         state.str_top_subscribes = arr_to_str(state.top_subscribes);
-        state.socket.send(`{
-            "method": "subscribe",
-            "data": [${state.str_top_subscribes}]
-          }`);
+        if (state.socket && state.socket.readyState == state.socket.OPEN) {
+            state.socket.send(`{
+                "method": "subscribe",
+                "data": [${state.str_top_subscribes}]
+              }`);
+        }
+
     },
     add_page_subscribe(state, subscribe) {
         state.page_subscribes.push(subscribe);
         state.str_page_subscribes = arr_to_str(state.page_subscribes);
-        state.socket.send(`{
-            "method": "subscribe",
-            "data": ["${subscribe}"]
-          }`);
+        if (state.socket && state.socket.readyState == state.socket.OPEN) {
+            state.socket.send(`{
+                "method": "subscribe",
+                "data": ["${subscribe}"]
+              }`);
+        }
+
     },
     del_page_subscribe(state, subscribe) {
         let new_arr = state.page_subscribes.filter(el => el != subscribe);
         state.page_subscribes = new_arr;
         state.str_page_subscribes = arr_to_str(state.page_subscribes);
-        state.socket.send(`{
-            "method": "unsubscribe",
-            "data": ["${subscribe}"]
-          }`);
+        if (state.socket && state.socket.readyState == state.socket.OPEN) {
+            state.socket.send(`{
+                "method": "unsubscribe",
+                "data": ["${subscribe}"]
+              }`);
+        }
+
     },
     set_page_subscribe(state, subscribe) {
         state.page_subscribes = subscribe || [];
         state.str_page_subscribes = arr_to_str(state.page_subscribes);
-        state.socket.send(`{
-            "method": "subscribe",
-            "data": [${state.str_page_subscribes}]
-          }`);
+        if (state.socket && state.socket.readyState == state.socket.OPEN) {
+            state.socket.send(`{
+                "method": "subscribe",
+                "data": [${state.str_page_subscribes}]
+              }`);
+        }
     },
     unsubscribe_page(state) {
-        state.socket.send(`{
-            "method": "unsubscribe",
-            "data": [${state.str_page_subscribes}]
-          }`);
+        if (state.socket && state.socket.readyState == state.socket.OPEN) {
+            state.socket.send(`{
+                "method": "unsubscribe",
+                "data": [${state.str_page_subscribes}]
+              }`);
+        }
+
     }
 };

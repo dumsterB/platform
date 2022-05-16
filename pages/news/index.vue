@@ -50,6 +50,7 @@ export default {
     if (!this.news || this.news.length == 0) {
       await this.fetchNews();
     }
+    console.log("this.news", this.news)
   },
 };
 </script>

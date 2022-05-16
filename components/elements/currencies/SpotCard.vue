@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 class="ml-4 mb-2">Spot</h3>
-    <v-card class="ma-2 pa-4 pt-0 elevation-4 spot-card">
+    <v-card min-height="724" class="ma-2 mr-8 pa-4 pt-0 elevation-4 spot-card">
       <v-list-item-group class="d-flex">
         <v-list-item
           tagh="button"
@@ -28,20 +28,44 @@
           {{ $t("sell") }}
         </v-list-item>
       </v-list-item-group>
+      <v-list
+        max-width="350"
+        min-width="200"
+        class="pa-0 borderNone pb-3"
+        dense
+      >
+        <v-list-item-group v-model="trade_mode" class="d-flex"
+          ><v-list-item
+            tag="button"
+            block
+            elevation="0"
+            class="btn_trade_mode pa-0 mr-4"
+            active-class="active_btn_trade_mode primary"
+            @click="trade_mode = 0"
+            >{{ "Market" }}</v-list-item
+          ><v-list-item
+            tag="button"
+            block
+            elevation="0"
+            class="btn_trade_mode pa-0"
+            active-class="active_btn_trade_mode primary"
+            @click="trade_mode = 1"
+            >{{ "Limit" }}</v-list-item
+          ></v-list-item-group
+        ></v-list
+      >
       <v-row>
         <v-col :cols="6" class="pb-0">
           <span class="small_text">{{ $t("available_balance_title") }}</span>
         </v-col>
         <v-col :cols="6" class="pb-0 text-right">
           <span class="small_text"
-            >{{
-              av_bal ? new Intl.NumberFormat().format(av_bal.toFixed(4)) : ""
-            }}
+            >{{ av_bal ? new Intl.NumberFormat().format(av_bal) : 0 }}
             {{ curr }}</span
           >
         </v-col>
       </v-row>
-      <v-row>
+      <!-- <v-row>
         <v-col :cols="12" class="pb-0">
           <span class="small_text">{{ $t("price") }}</span>
           <v-text-field
@@ -52,6 +76,19 @@
             readonly
             class="mt-2 border-rad"
             suffix="USD"
+          ></v-text-field>
+        </v-col>
+      </v-row> -->
+      <v-row v-if="trade_mode == 1">
+        <v-col :cols="12" class="pb-0">
+          <span class="small_text">{{ "Limit" }}</span>
+          <v-text-field
+            v-model="limit_price"
+            outlined
+            dense
+            hide-details
+            class="mt-2 border-rad"
+            :suffix="trade_currency"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -81,13 +118,13 @@
       </v-row>
       <v-row>
         <v-col :cols="6" class="pb-2 pt-0">
-          <span class="small_text gray--text">0%</span>
+          <span class="small_text gray--text">{{ slider_v }}%</span>
         </v-col>
         <v-col :cols="6" class="pb-2 pt-0 text-right">
           <span class="small_text gray--text">100%</span>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row v-if="trade_mode == 0">
         <v-col :cols="12">
           <span>
             <span class="small_text">{{ $t("total") }}</span>
@@ -96,7 +133,7 @@
               outlined
               dense
               hide-details
-              suffix="USD"
+              :suffix="trade_currency"
               type="number"
               class="mt-2"
             ></v-text-field>
@@ -108,7 +145,7 @@
           <v-btn
             large
             :loading="loading"
-            :disabled="!amount"
+            :disabled="btn_disabled"
             block
             class="mainBorderRadius"
             @click="trade_run"
@@ -145,7 +182,7 @@
       </v-row>
       <v-row class="to_small_text">
         <v-col :cols="6" class="pb-0">
-          <span class="gray--text">{{ "USD" }}</span>
+          <span class="gray--text">{{ trade_currency }}</span>
           <span class="ml-0 gray--text">{{ $t("Available") }}</span>
         </v-col>
         <v-col :cols="6" class="pb-0 text-right">
@@ -153,7 +190,7 @@
             >{{
               usd_bal ? new Intl.NumberFormat().format(usd_bal.toFixed(4)) : ""
             }}
-            <span class="gray--text ma-0 pa-0">{{ "USD" }}</span></span
+            <span class="gray--text ma-0 pa-0">{{ trade_currency }}</span></span
           >
         </v-col>
       </v-row>
@@ -194,6 +231,10 @@ export default {
       default: "BTC",
     },
     price: 0,
+    trade_currency: {
+      type: String,
+      default: "USD",
+    },
   },
   components: {
     Deposit,
@@ -210,6 +251,8 @@ export default {
       loading: false,
       action: null,
       dialog: false,
+      trade_mode: 0,
+      limit_price: this.price,
       start_blue_gradient: config.colors.start_blue_gradient,
       end_blue_gradient: config.colors.end_blue_gradient,
       start_red_gradient: config.colors.start_red_gradient,
@@ -226,8 +269,18 @@ export default {
     ...mapGetters("data/currency", {
       currencies: "list",
     }),
+    btn_disabled() {
+      if (this.trade_mode == 0) {
+        return !this.amount;
+      }
+      if (this.trade_mode == 1) {
+        return !this.amount || !this.limit_price;
+      }
+    },
     usd_bal() {
-      let bal = this.wallet.find((el) => el.currency.symbol == "USD");
+      let bal = this.wallet.find(
+        (el) => el.currency.symbol == this.trade_currency
+      );
       if (bal) {
         return bal.balance;
       }
@@ -249,7 +302,7 @@ export default {
     },
     curr() {
       if (this.buy_sell) {
-        return "USD";
+        return this.trade_currency;
       } else {
         return this.currency;
       }
@@ -319,31 +372,28 @@ export default {
     async trade_run() {
       this.loading = true;
       let trade_data = {};
-      let pay_curr = "USD";
-      if (!this.buy_sell) pay_curr = this.currency;
-      let buy_curr = this.currency;
-      if (!this.buy_sell) buy_curr = "USD";
-      let pay = this.buy_sell ? this.t_price : this.amount;
-      let buy = this.buy_sell ? this.amount : this.t_price;
-      if (!this.buy_sell) buy = parseFloat(this.t_price) * this.price;
-      // console.log(pay, buy, this.t_price, this.price);
-      let wall = this.wallet.find((el) => el.currency.symbol == pay_curr);
-      if (wall) {
-        trade_data.wallet_id = wall.id;
-        trade_data.source_currency_id = wall.currency_id;
-        trade_data.source_amount = parseFloat(pay);
-      }
-      let curr = this.currencies.find((el) => el.symbol == buy_curr);
+      let curr = this.currencies.find((el) => el.symbol == this.currency);
+      let curr_usd = this.currencies.find((el) => el.symbol == "USD");
       if (curr) {
-        trade_data.dest_currency_id = curr.id;
-        trade_data.dest_amount = parseFloat(buy);
+        if (!this.buy_sell) {
+          trade_data.source_currency_id = curr.id;
+          trade_data.dest_currency_id = curr_usd.id;
+          trade_data.source_amount = parseFloat(this.amount);
+        } else {
+          trade_data.source_currency_id = curr_usd.id;
+          trade_data.dest_currency_id = curr.id;
+          trade_data.dest_amount = parseFloat(this.amount);
+        }
       }
-      trade_data.exchange_rate = 1 / this.price;
-      if (!this.buy_sell) trade_data.exchange_rate = this.price;
+      trade_data.exchange_rate = this.price;
+      if (this.trade_mode == 1) {
+        let l_p = parseFloat(this.limit_price);
+        trade_data.exchange_rate = l_p;
+      }
       // console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });
       let title, color;
-      if (rs.data && rs.data.trade_status_id != 3) {
+      if (rs.data && rs.data.trade_status_id == 2) {
         title = this.$t("not_enough_balance");
         color = "error";
       } else {
@@ -373,6 +423,10 @@ export default {
     },
   },
   watch: {
+    trade_mode() {
+      this.amount = null;
+      this.limit_price = this.price;
+    },
     amount() {
       if (this.amount_checker) {
         this.t_price_checker = false;
@@ -402,14 +456,39 @@ export default {
         this.amount_checker = false;
         this.am_def_price();
       }
+      if (!this.limit_price) {
+        this.limit_price = this.price;
+      }
     },
   },
   created() {
     this.fetchWallet();
   },
+  mounted() {
+    console.log("this.slider_v :>> ", this.slider_v);
+  },
 };
 </script>
 <style lang="scss" scoped>
+.btn_trade_mode {
+  justify-content: center;
+  font-weight: 400;
+  font-size: 12px;
+  background: #333333;
+  border-radius: 10px;
+  min-height: 24px !important;
+}
+html[theme="light"] .btn_trade_mode {
+  background: #eeeeee;
+}
+.active_btn_trade_mode {
+  position: relative;
+  justify-content: center;
+  font-size: 12px;
+}
+.active_btn_trade_mode::after {
+  position: absolute;
+}
 .small_text {
   font-size: 14px;
 }

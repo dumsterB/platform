@@ -4,7 +4,7 @@
       <LoadingScreen :isLoading="isLoading" />
       <div v-if="!isLoading" class="main-page mb-16">
         <SnackBar />
-        <MenuMobile class="menu-mobile"  />
+        <MenuMobile class="menu-mobile" />
         <Menu class="menu" />
         <NavBar dir="ltr" />
         <v-main fluid class="mb-16 main_content">
@@ -81,6 +81,7 @@ export default {
           let res = await this.$store.dispatch(`data/${models[i]}/fetchList`);
         }
       }
+      await this.$store.dispatch(`data/graph/fetchBinance`);
     },
     notification_socket() {
       let user_id = this.$auth.user.id;
@@ -183,21 +184,21 @@ div {
   margin-top: 10px;
   padding-top: 0px;
 }
-.menu{
-  display: flex!important;
+.menu {
+  display: flex !important;
 }
 @media (max-width: 1000px) {
-  .main_content{
-    padding: 150px 0px 0px 0px!important;
+  .main_content {
+    padding: 150px 0px 0px 0px !important;
   }
   .page-container {
-    margin-right: 0px!important;
+    margin-right: 0px !important;
   }
-  .menu{
-    display: none!important;
+  .menu {
+    display: none !important;
   }
-  .menu-mobile{
-    display: flex!important;
+  .menu-mobile {
+    display: flex !important;
   }
 }
 </style>

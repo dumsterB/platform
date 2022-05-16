@@ -1,133 +1,139 @@
 <template>
-  <v-tooltip v-if="tooltip" bottom>
-    <template v-slot:activator="{ on, attrs }">
-      <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
-        <v-card
-          class="currecyCard mainBorderRadius"
-          :elevation="hover ? 18 : 8"
-          v-bind="attrs"
-          v-on="on"
-          :style="customStyles"
-          :class="backgroundDiffColor(currency.change_p)"
-          @click="$router.push(`/currency?id=${currency.id}`)"
-        >
-          <v-list-item three-line class="pa-2 mainBorderRadius d-flex">
-            <v-list-item-content class="pa-1 mainBorderRadius">
-              <div class="d-flex">
-                <v-img :src="currency.logo" :max-width="32"></v-img>
-                <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
-              </div>
-              <span class="price-text" style="margin-bottom: -4px"
-                >${{ new Intl.NumberFormat().format(currency.price) }}</span
-              >
-            </v-list-item-content>
-            <v-list-item-content class="coinList pa-1 flexNone">
-              <div class="star-btn">
-                <v-btn icon>
-                  <v-icon
-                    @click.prevent.stop="handlerSelection"
-                    size="30"
-                    v-if="star_selection"
-                    color="yellow"
-                    >mdi-star</v-icon
-                  >
-                  <v-icon
-                    @click.prevent.stop="handlerSelection"
-                    size="25"
-                    v-if="!star_selection"
-                    class="yellow--text"
-                    >mdi-star-outline</v-icon
-                  >
-                </v-btn>
-              </div>
-              <span :style="customStyles" :class="diffColor(currency.change_p)"
-                >{{ currency.change_p }}%</span
-              >
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <div>
-                <sparklines></sparklines>
-              </div>
-            </v-list-item-content>
-          </v-list-item>
-        </v-card>
-      </v-hover>
-    </template>
-    <div class="ac-toolltip">
-      <div v-if="companies && companies.length > 0">
-        <span v-for="(item, i) in companies" :key="i">
-          <span>
-            {{ item.name }}
-          </span>
-          <span style="float: right"> ${{ item.price }} </span>
-          <br />
-        </span>
-      </div>
-      <v-progress-circular
-        v-else
-        :size="25"
-        :width="3"
-        color="primary"
-        indeterminate
-        style="left: 64px"
-      ></v-progress-circular>
-    </div>
-  </v-tooltip>
-  <v-card
-    v-else
-    max-width="400"
-    class="currecyCard mainBorderRadius light-card"
-    :elevation="hover ? 18 : 8"
-    v-bind="attrs"
-    v-on="on"
-    :style="customStyles"
-    :class="backgroundDiffColor(currency.change_p)"
-    @click="$router.push(`/currency?id=${currency.id}`)"
-  >
-    <v-list-item three-line class="pa-2 mainBorderRadius d-flex">
-      <v-list-item-content class="pa-1 mainBorderRadius">
-        <div class="d-flex">
-          <v-img :src="currency.logo" :max-width="32"></v-img>
-          <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
-        </div>
-        <span class="price-text-sm" style="margin-bottom: -4px"
-          >${{ new Intl.NumberFormat().format(currency.price) }}</span
-        >
-      </v-list-item-content>
-      <v-list-item-content class="coinList pa-1 flexNone">
-        <div class="star-btn pt-1">
-          <v-btn
-            small
-            class="elevation-0 mainBorderRadius"
-            color="rgba(255, 255, 255, 0.15)"
+  <div>
+    <v-tooltip v-if="tooltip" bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
+          <v-card
+            class="currecyCard mainBorderRadius"
+            :elevation="hover ? 18 : 8"
+            v-bind="attrs"
+            v-on="on"
+            max-width="350"
+            :style="customStyles"
+            :class="backgroundDiffColor(currency.change_p)"
+            @click="$router.push(`/currency?id=${currency.id}`)"
           >
-            24H
-          </v-btn>
+            <v-list-item three-line class="pa-2 px-4 mainBorderRadius d-flex">
+              <v-list-item-content class="pa-1 mainBorderRadius">
+                <div class="d-flex">
+                  <v-img :src="currency.logo" :max-width="32"></v-img>
+                  <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
+                </div>
+                <span class="price-text" style="margin-bottom: -4px"
+                  >${{ new Intl.NumberFormat().format(currency.price) }}</span
+                >
+              </v-list-item-content>
+              <v-list-item-content class="coinList pa-1 pr-0 flexNone">
+                <div class="star-btn">
+                  <v-btn icon>
+                    <v-icon
+                      @click.prevent.stop="handlerSelection"
+                      size="30"
+                      v-if="star_selection"
+                      color="primary"
+                      >mdi-star</v-icon
+                    >
+                    <v-icon
+                      @click.prevent.stop="handlerSelection"
+                      size="25"
+                      v-if="!star_selection"
+                      class="primary--text"
+                      >mdi-star-outline</v-icon
+                    >
+                  </v-btn>
+                </div>
+                <div class="text-right px-1">
+                  <span
+                    :style="customStyles"
+                    :class="diffColor(currency.change_p)"
+                    >{{ currency.change_p }}%</span
+                  >
+                </div>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <div>
+                  <SmallGraph :symbol="currency.symbol"></SmallGraph>
+                </div>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
+        </v-hover>
+      </template>
+      <div class="ac-toolltip">
+        <div v-if="companies && companies.length > 0">
+          <span v-for="(item, i) in companies" :key="i">
+            <span>
+              {{ item.name }}
+            </span>
+            <span style="float: right"> ${{ item.price }} </span>
+            <br />
+          </span>
         </div>
-        <span :style="customStyles" :class="diffColor(currency.change_p)"
-          >{{ currency.change_p }}%</span
-        >
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item>
-      <v-list-item-content>
-        <div style="min-width: 200px">
-          <sparklines></sparklines>
-        </div>
-      </v-list-item-content>
-    </v-list-item>
-  </v-card>
+        <v-progress-circular
+          v-else
+          :size="25"
+          :width="3"
+          color="primary"
+          indeterminate
+          style="left: 64px"
+        ></v-progress-circular>
+      </div>
+    </v-tooltip>
+    <v-card
+      v-else
+      max-width="350"
+      class="currecyCard mainBorderRadius light-card"
+      :elevation="hover ? 18 : 8"
+      v-bind="attrs"
+      v-on="on"
+      :style="customStyles"
+      :class="backgroundDiffColor(currency.change_p)"
+      @click="$router.push(`/currency?id=${currency.id}`)"
+    >
+      <v-list-item three-line class="pa-2 mainBorderRadius d-flex">
+        <v-list-item-content class="pa-1 mainBorderRadius">
+          <div class="d-flex">
+            <v-img :src="currency.logo" :max-width="32"></v-img>
+            <span class="mt-1 ml-1 curr_name">{{ currency.symbol }}</span>
+          </div>
+          <span class="price-text-sm" style="margin-bottom: -4px"
+            >${{ new Intl.NumberFormat().format(currency.price) }}</span
+          >
+        </v-list-item-content>
+        <v-list-item-content class="coinList pa-1 flexNone">
+          <div class="star-btn pt-1">
+            <v-btn
+              small
+              class="elevation-0 mainBorderRadius"
+              color="rgba(255, 255, 255, 0.15)"
+            >
+              24H
+            </v-btn>
+          </div>
+          <span :style="customStyles" :class="diffColor(currency.change_p)"
+            >{{ currency.change_p }}%</span
+          >
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-content>
+          <div style="min-width: 200px">
+            <SmallGraph :symbol="currency.symbol"></SmallGraph>
+          </div>
+        </v-list-item-content>
+      </v-list-item>
+    </v-card>
+  </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import config from "~/config/config.json";
-import sparklines from "@/components/elements/currencies/Sparklines";
-
+import SmallGraph from "~/components/elements/currencies/SmallGraph";
 export default {
   components: {
-    sparklines,
+    SmallGraph,
   },
   props: {
     currency: {
@@ -268,7 +274,8 @@ html[theme="light"] {
   filter: blur(0.3px);
 }
 .star-btn {
-  text-align: center;
+  text-align: right;
+  margin: 0 -2px 0 0;
   width: 40px;
 }
 
