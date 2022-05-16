@@ -1,3 +1,4 @@
+import config from "../config.json";
 export default {
   add: "الإضافة",
   rule: " القاعدة",

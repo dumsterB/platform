@@ -1,5 +1,7 @@
+import config from "../config.json";
+
 export default {
-  logo_name: "Profinvest",
+  logo_name: `'${config.name}'`,
   signin: "Sign in",
   signup: "Sign up",
   register: "Register",
@@ -213,7 +215,7 @@ export default {
   password_helper: "Your password must be at least 6 characters",
   password_required: "Password is required!",
   confirm_password_required: "Confirm password is required",
-  agree: 'By clicking "Create an account," I agree to "Profinvest" to ',
+  agree: `By clicking "Create an account," I agree to "${config.name}" to `,
   checknox_terms_and_policy: "Be sure to read the Terms and Privacy Policy",
   invalid_phone_number: "Invalid phone number",
   enter_verification_code: "Please enter your verification code",
@@ -334,8 +336,7 @@ export default {
   s2_residency_verify: "Step 2: residency verification",
   residency_verify_address: "Verify residential address",
   disclaimer: "Disclaimer",
-  disclaimer_description:
-    'Please note that the "Profinvest" account owner must complete KYC. "Profinvest" will not be liable for risks associated with the accounts of users who engage in dishonest or abusive behaviors for KYC verification purposes.',
+  disclaimer_description: `Please note that the "${config.name}" account owner must complete KYC. "${config.name}" will not be liable for risks associated with the accounts of users who engage in dishonest or abusive behaviors for KYC verification purposes.`,
   upload_document: "Upload the document",
   front_side: "Front side",
   back_side: "Backside",
