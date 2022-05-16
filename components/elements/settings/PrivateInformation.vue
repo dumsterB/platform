@@ -1,18 +1,23 @@
 <template>
   <div class="privateInformation">
-    <p class="text-h6 mb-4">{{ $t("personal_information") }}</p>
+    <p class="text-h6 mb-4 font-weight-bold">
+      {{ $t("personal_information") }}
+    </p>
     <v-card class="mainCard pt-6">
       <div class="text-center">
         <div class="selecImage">
           <div
             class="image-input"
-            :style="`background-image: url(${
-              imageData ? imageData : image_data
-            }); background-size: 200px;`"
+            :style="
+              (`background-image: url(${
+                imageData ? imageData : image_data
+              }); background-size: 200px;`,
+              customStyle)
+            "
             @click="chooseImage"
           >
             <span v-if="!imageData" class="placeholder text-gray--text">
-              <v-icon color="#000C19" size="50">mdi-camera</v-icon>
+              <v-icon color="item_bg" size="50">mdi-camera</v-icon>
             </span>
             <input
               class="file-input"
@@ -22,7 +27,7 @@
             />
           </div>
         </div>
-        <p>{{ $t("choose_photo") }}</p>
+        <p class="success--text">{{ $t("choose_photo") }}</p>
       </div>
       <div class="form ml-2 mr-2">
         <v-container>
@@ -109,14 +114,13 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-card-actions  class="text-center mb-5 d-flex justify-center">
+        <v-card-actions class="text-center mb-5 d-flex justify-center">
           <v-btn
-            class="mr-4 success-btn ml-2 mb-8"
+            class="mr-4 success-btn ml-2 mb-4 mainBorderRadius"
             :style="customStyle"
             style="margin-top: -40px"
             @click="validate"
             elevation="0"
-            rounded
             width="300"
             large
             dark
@@ -138,6 +142,8 @@ export default {
   data() {
     return {
       primary: config.colors.text.primary,
+      blue_dark: config.colors.blue_dark,
+      success: config.themes.dark.success,
       rules: [
         (value) =>
           !value ||
@@ -454,6 +460,8 @@ export default {
     customStyle() {
       return {
         "--primary": this.primary,
+        "--blue_dark": this.blue_dark,
+        "--success": this.success,
       };
     },
 
@@ -494,12 +502,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .success-btn {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
 }
 .selecImage {
   display: flex;
@@ -514,8 +522,14 @@ export default {
   cursor: pointer;
   border-radius: 50% !important;
   background-size: cover;
-  background: #004fa3;
+
   background-position: center center;
+}
+html[theme="dark"] .image-input {
+  background: var(--blue_dark);
+}
+html[theme="light"] .image-input {
+  background: var(--success);
 }
 
 .placeholder {

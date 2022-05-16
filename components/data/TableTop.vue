@@ -24,12 +24,14 @@
             style="cursor: pointer"
           >
             <strong>{{ item.name }}</strong>
-            <span class="ml-2" style="color: #bfb5ff"> {{ item.symbol }}</span>
+            <span class="ml-2 success--text font-weight-bold">
+              {{ item.symbol }}</span
+            >
           </div>
         </div>
       </template>
-      <template v-slot:[`item.change`]="{ item }">
-        <div class="" v-if="item.change && item.price">
+      <template v-slot:[`item.percent`]="{ item }">
+        <div class="" v-if="item.price">
           <span style="font-size: 14px"
             >${{ new Intl.NumberFormat().format(item.price) }}</span
           >
@@ -41,9 +43,9 @@
             <v-icon :class="diffColor(item.change)" size="small">{{
               item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ new Intl.NumberFormat().format(item.change) }}
+            {{ new Intl.NumberFormat().format(item.change ? item.change : 0) }}
             <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
-              >(%{{ item.percent }})</span
+              >({{ item.percent }}%)</span
             >
           </span>
         </div>
@@ -54,10 +56,9 @@
       <template v-slot:[`item.action`]="{ item }">
         <div class="d-flex">
           <v-btn
-            class="primary"
+            class="primary mainBorderRadius"
             small
             elevation="0"
-            rounded
             @click="
               $router.push({
                 path: `/currency?id=${item.id}`,
@@ -81,45 +82,39 @@
         </div>
       </template>
       <template v-slot:[`item.volume`]="{ item }">
-        <div class="ml-4" v-if="item.change && item.price">
+        <div class="ml-4" v-if="item.volume">
           <span style="font-size: 14px"
-            >${{ new Intl.NumberFormat().format(item.price) }}</span
+            >${{ new Intl.NumberFormat().format(item.volume) }}</span
           >
           <span
             style="font-size: 10px"
-            :class="diffColor(item.change)"
+            :class="diffColor(item.volume_change)"
             class="d-flex"
           >
-            <v-icon :class="diffColor(item.change)" size="small">{{
-              item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
+            <v-icon :class="diffColor(item.volume_change)" size="small">{{
+              item.volume_change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            <!-- {{ item.change }} -->
-            <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
-              >(%{{ item.percent }})</span
-            >
+            {{ '$' + new Intl.NumberFormat().format(item.volume_change ? item.volume_change : 0) }}
           </span>
         </div>
         <div v-else class="ml-4">
           {{ $t("no-data") }}
         </div>
       </template>
-      <template v-slot:[`item.cap`]="{ item }">
-        <div class="" v-if="item.change && item.price">
+      <template v-slot:[`item.market_cap`]="{ item }">
+        <div class="" v-if="item.market_cap">
           <span style="font-size: 14px"
-            >${{ new Intl.NumberFormat().format(item.price) }}</span
+            >${{ new Intl.NumberFormat().format(item.market_cap) }}</span
           >
           <span
             style="font-size: 10px"
-            :class="diffColor(item.change)"
+            :class="diffColor(item.market_cap_change)"
             class="d-flex"
           >
-            <v-icon :class="diffColor(item.change)" size="small">{{
-              item.change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
+            <v-icon :class="diffColor(item.market_cap_change)" size="small">{{
+              item.market_cap_change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
             }}</v-icon>
-            {{ new Intl.NumberFormat().format(item.change) }}
-            <span style="font-size: 8px; margin-left: 3px; margin-top: 2px"
-              >(%{{ item.percent }})</span
-            >
+            {{ '$' + new Intl.NumberFormat().format(item.market_cap_change ? item.market_cap_change : 0) }}
           </span>
         </div>
         <div v-else>
@@ -164,19 +159,28 @@ export default {
       let currency_full = this.currencies_full.filter(
         (item) => item.currency_type && item.currency_type.key === "CRYPTO"
       );
-      return currency_full.map((el) => {
+      currency_full = currency_full.map((el) => {
         let determine = this.price.find((ell) => ell.base == el.symbol);
         if (determine) {
+          let ch = determine.change_24h ? determine.change_24h : 0;
           let percent = (
-            (parseFloat(determine.change) * 100) /
+            (parseFloat(ch) * 100) /
             parseFloat(determine.price)
           ).toFixed(2);
           el.price = determine.price;
-          el.change = determine.change;
+          el.change = determine.change_24h;
+          el.volume_change = el.volume ? determine.volume_24h - el.volume : 0;
+          el.volume = determine.volume_24h;
+          el.market_cap_change = el.market_cap ? determine.market_cap - el.market_cap : 0;
+          el.market_cap = determine.market_cap;
           el.percent = percent;
         }
         return el;
       });
+      currency_full = currency_full.filter((el) => {
+        return el.price;
+      });
+      return currency_full;
     },
     headers() {
       return [
@@ -187,10 +191,9 @@ export default {
         },
         {
           text: this.$t("change"),
-          value: "change",
+          value: "percent",
           width: 140,
           align: "start",
-          sortable: false,
         },
         {
           text: "24H Chart",
@@ -198,8 +201,8 @@ export default {
           sortable: false,
           value: "chart",
         },
-        { text: "24H Volume", value: "volume", sortable: false },
-        { text: "Market Cap", value: "cap", sortable: false },
+        { text: "24H Volume", value: "volume"},
+        { text: "Market Cap", value: "market_cap" },
         { text: "Invest", value: "action", sortable: false },
       ];
     },

@@ -4,29 +4,31 @@
       :items="list"
       :headers="headers"
       :items-per-page="page_size_current"
-      :search="search"
-      sort-by="created_at"
+      :search="search_text"
       :loading="loading"
-      :sort-desc="true"
-      class="elevation-1 ma-2 ml-2"
-      :server-items-length="totalLength"
-      @pagination="paging"
+      class="elevation-1 ma-8 ml-4"
+      :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
         'items-per-page-text': $t('items_per_page'),
       }"
     >
       <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title class="font-weight-bold">{{
+        <v-toolbar flat class="borderNone">
+          <!-- <v-toolbar-title class="font-weight-bold">{{
             $t("recent_trades")
-          }}</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
+          }}</v-toolbar-title> -->
+          <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
+          <slot name="header"></slot>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">
             <v-text-field
               dense
-              v-model="search"
+              v-model="search_text"
+              @click:append-outer="search"
+              @click:clear="search('clear')"
+              @keydown.enter="search"
+              clearable
               append-icon="mdi-magnify"
               outlined
               :label="$t('market_search_bar_placeholder')"
@@ -34,6 +36,9 @@
             ></v-text-field>
           </div>
         </v-toolbar>
+      </template>
+      <template v-slot:[`item.created_at`]="{ item }">
+        <span>{{ new Date(item.created_at).toLocaleString() }}</span>
       </template>
       <template v-slot:[`item.dest_amount`]="{ item }">
         <span>{{
@@ -92,18 +97,18 @@ export default {
   },
   data() {
     return {
-      start_blue_gradient: config.colors.start_blue_gradient,
-      end_blue_gradient: config.colors.end_blue_gradient,
-      start_red_gradient: config.colors.start_red_gradient,
-      end_red_gradient: config.colors.end_red_gradient,
+      primary: config.colors.text.primary,
+      blue: config.colors.text.blue,
+      red: config.colors.text.red,
       page_size_current: this.page_size,
-      search: "",
+      search_text: "",
       list: [],
       interv: null,
       platform: "binance",
       totalLength: -1,
       config: this.f_definer(),
       loading: false,
+      page: 1,
     };
   },
   computed: {
@@ -112,14 +117,15 @@ export default {
     }),
     customStyle() {
       return {
-        "--start_blue_gradient": this.start_blue_gradient,
-        "--end_blue_gradient": this.end_blue_gradient,
-        "--start_red_gradient": this.start_red_gradient,
-        "--end_red_gradient": this.end_red_gradient,
+        "--primary": this.primary,
       };
     },
     headers() {
       return [
+        {
+          text: this.$t("id"),
+          value: "identifier",
+        },
         {
           text: this.$t("Purchased"),
           value: "dest_amount",
@@ -136,14 +142,17 @@ export default {
         {
           text: this.$t("table_current_price"),
           value: "current_cost",
+          sortable: false,
         },
         {
           text: this.$t("table_profit_loss"),
           value: "difference",
+          sortable: false,
         },
         {
           text: `${this.$t("table_profit_loss")} %`,
           value: "difference_perc",
+          sortable: false,
         },
       ];
     },
@@ -164,8 +173,49 @@ export default {
       }
       return conf;
     },
+    async search(pr) {
+      this.config.params["search"] = this.search_text;
+      if (pr == "clear") {
+        delete this.config.params["search"];
+      }
+      this.page_to_1();
+      this.loading = true;
+      let res = await this.fetchList({ config: this.config });
+      let meta = res.meta;
+      this.totalLength = meta.total ? meta.total : res.data.length;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    },
+    page_to_1() {
+      if (this.config && this.config.params) {
+        this.config.params.page = 1;
+      }
+      this.page = 1;
+    },
+    async custom_sort(items) {
+      if (typeof items == "boolean") {
+        this.config.params.dir = items ? "desc" : "asc";
+      } else {
+        console.log(items, this.config.params.sort);
+        if (this.config.params.sort && items == this.config.params.sort) {
+          return;
+        }
+        if (items) {
+          this.config.params.sort = items;
+          this.config.params.dir = "asc";
+        }
+      }
+      this.page_to_1();
+      this.loading = true;
+      let res = await this.fetchList({ config: this.config });
+      let meta = res.meta;
+      this.totalLength = meta.total ? meta.total : res.data.length;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    },
     async paging(val) {
-      // console.log("paging", val);
       this.page_size_current = val.itemsPerPage;
       await this.rel(val);
     },
@@ -174,8 +224,10 @@ export default {
       if (!this.config || !this.config.params) {
         this.config = { params: {} };
       }
-      this.config.params.page = val ? val.page : 1;
-      this.config.params.per_page = this.page_size_current;
+      // this.config.params.page = val ? val.page : 1;
+      // this.config.params.per_page = this.page_size_current;
+      this.config.params.sort = "created_at";
+      this.config.params.dir = "desc";
       this.loading = true;
       let res = await this.fetchList({ config: this.config });
       let meta = res.meta;
@@ -195,11 +247,11 @@ export default {
         let pr_p = 1;
         if (fnd_p && fnd_p.price) pr_p = fnd_p.price;
         let curr_cost = (el.dest_amount * pr_b) / pr_p;
-        el.current_cost = curr_cost.toFixed(4);
+        el.current_cost = curr_cost.toFixed(5);
         let diff = curr_cost - el.source_amount;
         let diff_proc = (diff * 100) / el.source_amount;
-        el.difference = diff.toFixed(4);
-        el.difference_perc = `${diff_proc.toFixed(4)} %`;
+        el.difference = diff.toFixed(5);
+        el.difference_perc = `${diff_proc.toFixed(3)} %`;
         return el;
       });
     },
@@ -209,17 +261,9 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.red} !important;`;
       } else {
-        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.blue} !important;`;
       }
     },
   },
@@ -236,6 +280,7 @@ export default {
     },
   },
   async created() {
+    await this.rel();
     if (this.prices && this.prices.length > 0) {
       this.resetList(this.prices);
     }

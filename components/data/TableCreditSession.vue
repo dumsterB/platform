@@ -5,11 +5,8 @@
       :headers="headers"
       :items-per-page="page_size_current"
       :search="search"
-      sort-by="created_at"
-      :sort-desc="true"
-      class="elevation-1 ma-4 ml-8"
-      :server-items-length="totalLength"
-      @pagination="paging"
+      :loading="loading"
+      class="elevation-1 ma-6"
       :style="customStyle"
       :footer-props="{
         'items-per-page-options': [5, 10, 20, 50],
@@ -17,11 +14,12 @@
       }"
     >
       <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title class="font-weight-bold">{{
+        <v-toolbar flat class="borderNone">
+          <v-toolbar-title v-if="title" class="font-weight-bold">{{
             $t(title)
           }}</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-divider v-if="title" class="mx-4" inset vertical></v-divider>
+          <slot name="header"></slot>
           <v-spacer></v-spacer>
           <div style="max-width: 300px !important">
             <v-text-field
@@ -122,9 +120,10 @@ export default {
     return {
       start_blue_gradient: config.colors.start_blue_gradient,
       end_blue_gradient: config.colors.end_blue_gradient,
-      start_red_gradient: config.colors.start_red_gradient,
-      end_red_gradient: config.colors.end_red_gradient,
-      primary: config.colors.text.primary,
+      blue: config.colors.text.blue,
+      red: config.colors.text.red,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       dialog: false,
       page_size_current: this.page_size,
       search: "",
@@ -134,6 +133,7 @@ export default {
       totalLength: -1,
       config: this.f_definer(),
       loading: false,
+      sort: ""
     };
   },
   computed: {
@@ -155,9 +155,8 @@ export default {
       return {
         "--start_blue_gradient": this.start_blue_gradient,
         "--end_blue_gradient": this.end_blue_gradient,
-        "--start_red_gradient": this.start_red_gradient,
-        "--end_red_gradient": this.end_red_gradient,
-        "--primary": this.primary,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
       };
     },
     ...mapGetters(model, {
@@ -166,17 +165,24 @@ export default {
     headers() {
       return [
         {
+          text: this.$t("id"),
+          value: "identifier",
+        },
+        {
           text: this.$t("name_table"),
           value: "arbitrage_company.logo",
+          sortable: false,
         },
         {
           text: this.$t("table_position"),
           value: "session_start_type.name",
+          sortable: false,
         },
         {
           text: this.$t("table_time"),
           value: "created_at",
         },
+        
         {
           text: this.$t("self_amount"),
           value: "self_amount",
@@ -192,6 +198,7 @@ export default {
         {
           text: this.$t("table_current_price"),
           value: "current_cost",
+          sortable: false,
         },
         {
           text: `${this.$t("table_profit_loss")} $`,
@@ -204,6 +211,7 @@ export default {
         {
           text: this.$t("table_close"),
           value: "action",
+          sortable: false,
         },
       ];
     },
@@ -256,7 +264,7 @@ export default {
           diff_full = -diff_full;
           diff_proc = -diff_proc;
         }
-        element.difference = diff_full.toFixed(3);
+        element.difference = diff_full.toFixed(5);
         element.difference_perc = `${diff_proc.toFixed(3)} %`;
         list.push(element);
       });
@@ -267,14 +275,54 @@ export default {
       this.page_size_current = val.itemsPerPage;
       await this.rel(val);
     },
-
+    async custom_sort(items) {
+      if (typeof items == "boolean") {
+        this.config.params.dir = items ? "desc" : "asc";
+      } else {
+        console.log(items, this.config.params.sort);
+        if (this.config.params.sort && items == this.config.params.sort) {
+          return;
+        }
+        if (items) {
+          this.config.params.sort = items;
+          this.config.params.dir = "asc";
+        }
+      }
+      if (
+        this.config.params.sort == "difference" ||
+        this.config.params.sort == "difference_perc"
+      ) {
+        this.sort = this.config.params.sort;
+        let dir = this.config.params.dir == "desc" ? 1 : -1;
+        delete this.config.params.sort;
+        this.list = this.list.sort( (a, b) => {
+          if (a[this.sort] > b[this.sort]) {
+            return dir;
+          }
+          if (a[this.sort] < b[this.sort]) {
+            return -dir;
+          }
+          return 0;
+        });
+        return;
+      }
+      this.loading = true;
+      let res = await this.fetchList({ config: this.config });
+      let meta = res.meta;
+      this.totalLength = meta.total ? meta.total : res.data.length;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    },
     async rel(v) {
       let val = v;
       if (!this.config || !this.config.params) {
         this.config = { params: {} };
       }
-      this.config.params.page = val ? val.page : 1;
-      this.config.params.per_page = this.page_size_current;
+      // this.config.params.page = val ? val.page : 1;
+      // this.config.params.per_page = this.page_size_current;
+      this.config.params.sort = "created_at";
+      this.config.params.dir = "desc";
       this.loading = true;
       let res = await this.fetchList({ config: this.config });
       let meta = res.meta;
@@ -292,38 +340,21 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.red} !important;`;
       } else {
-        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.blue} !important;`;
       }
     },
     diffAction(diff) {
       if (diff === "Sell") {
-        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.red} !important;`;
       } else {
-        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.blue} !important;`;
       }
     },
   },
   watch: {
     prices() {
-      // console.log("this.prices", this.prices);
       this.resetList(this.prices);
     },
     filter() {
@@ -335,18 +366,56 @@ export default {
     },
   },
   async created() {
+    await this.reload();
     // console.log("this.arbitrage_sessions", this.arbitrage_sessions);
   },
 };
 </script>
 <style lang="scss">
-.green_btn {
-  background: linear-gradient(
-    163.28deg,
-    var(--start_blue_gradient) 0%,
-    var(--end_blue_gradient) 85.7%
-  ) !important;
-  color: white !important;
-  border-radius: 20px !important;
+html[theme="dark"] {
+  .green_btn {
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+}
+html[theme="light"] {
+  .green_btn {
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
 }
 </style>

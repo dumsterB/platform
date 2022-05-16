@@ -56,7 +56,7 @@
       </v-hover>
     </v-row>
 
-    <v-list class="ma-0 pa-0">
+    <v-list class="ma-0 pa-0 borderNone">
       <v-list-item-group v-model="menu_active">
         <div v-for="(item, i) in menu" :key="i">
           <v-list-item

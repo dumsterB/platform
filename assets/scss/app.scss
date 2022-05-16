@@ -60,12 +60,12 @@ html .v-application--wrap {
 }
 
 .v-menu__content .v-list {
-    background: #000c19 !important;
+    background: #161f49 !important;
     border-radius: 10px !important;
 }
 
 :not(.curr-table).v-data-table {
-    background: #000c19 !important;
+    background: #161f49 !important;
     border-radius: 10px !important;
 }
 
@@ -79,7 +79,7 @@ html[theme="light"] :not(.curr-table).v-data-table {
 }
 
 :not(.app-bar-margins).v-toolbar {
-    background: #000c19 !important;
+    background: #161f49 !important;
     border-radius: 10px !important;
 }
 
@@ -95,6 +95,10 @@ html[theme="light"] .v-menu__content .v-list {
     background: transparent !important;
 }
 
+.theme--dark.v-sheet {
+    border: 1px solid #bcbcbc1a;
+}
+
 html[theme="light"] .v-sheet {
     background: transparent !important;
 }
@@ -104,13 +108,16 @@ html[theme="light"] .v-sheet {
 }
 
 .v-card {
-    background: #000c19 !important;
+    background: #161f49 !important;
     border-radius: 10px !important;
+    border: 1px solid #bcbcbc1a;
+    box-shadow: noen !important;
 }
 
-html[theme="light"] .v-card:not(.not-global) {
+html[theme="light"] .v-card {
     background: #ffffff !important;
     border-radius: 10px !important;
+    box-shadow: noen !important;
 }
 
 ul,
@@ -309,10 +316,38 @@ html[theme="light"] .light-card {
     box-shadow: none !important;
 }
 
+.v-sheet.v-card:not(.v-sheet--outlined),
+.v-application .elevation-1,
+.v-btn--is-elevated,
+.v-btn,
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)>.v-input__control>.v-input__slot {
+    box-shadow: none !important;
+}
+
 .v-btn>.v-btn__content .v-icon {
     color: var(--primary);
 }
 
 .v-input .v-label {
     letter-spacing: -1px !important;
+}
+
+.mainBorderRadius {
+    border-radius: 10px !important;
+}
+
+.borderNone {
+    border: none !important;
+}
+
+.theme--dark.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+    background: #161f49 !important;
+    opacity: 0.5 !important;
+    color: inherit !important;
+    transition: 223ms linear;
+}
+
+.theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+    opacity: 0.8 !important;
+    transition: 223ms linear;
 }

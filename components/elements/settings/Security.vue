@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="privateInformation" v-if="currentContent === 0">
-      <p class="text-h6">{{ $t("security") }}</p>
+      <p class="text-h6 font-weight-bold">{{ $t("security") }}</p>
       <v-card class="mainCard pa-5">
         <div class="list-item d-flex">
           <div>
@@ -119,7 +119,11 @@
           <v-btn
             dark
             elevation="0"
-            @click="$emit('change_content', 'Device Management')"
+            @click="
+              $router.push({
+                path: '/settings/devices',
+              })
+            "
             :style="customStyle"
             class="success-btn mt-4"
             >{{ $t("manage") }}</v-btn
@@ -145,7 +149,11 @@
           <v-btn
             dark
             elevation="0"
-            @click="$emit('change_content', 'Account Activity Records')"
+            @click="
+              $router.push({
+                path: '/settings/activity',
+              })
+            "
             :style="customStyle"
             class="success-btn mt-4"
             >{{ $t("more") }}</v-btn
@@ -205,12 +213,12 @@ export default {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
 }
 .outlined-btn {
   background: transparent !important;
   border: solid 2px var(--primary) !important;
   color: var(--primary);
-  border-radius: 16px;
+  border-radius: 10px;
 }
 </style>

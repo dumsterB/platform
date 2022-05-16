@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on, attrs }">
         <div v-bind="attrs" v-on="on">
           <v-btn dark elevation="0" :style="customStyle" class="success-btn">{{
-            $t("remove")
+            $t("delete_btn")
           }}</v-btn>
         </div>
       </template>
@@ -83,6 +83,6 @@ export default {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
 }
 </style>

@@ -28,12 +28,12 @@
         >
       </v-list-item>
 
-      <v-card-actions class="justify-center">
+      <v-card-actions class="justify-space-between">
         <v-btn
           elevation="0"
           large
-          rounded
-          class="outlined-btn button_media mr-6"
+          class="outlined-btn mainBorderRadius"
+          height="42"
           :style="customStyle"
           color="white"
           @click="depositChanger('deposit_title')"
@@ -43,9 +43,9 @@
         <v-btn
           elevation="0"
           large
-          rounded
           :style="customStyle"
-          class="success-btn-half button_media"
+          class="success-btn-half mainBorderRadius ma-0"
+          height="42"
           @click="depositChanger('withdraw')"
         >
           {{ $t("withdraw") }}
@@ -112,21 +112,21 @@ export default {
   background: transparent !important;
   border: solid 2px var(--primary) !important;
   color: var(--primary);
-  border-radius: 16px;
-  width: 150px;
+  border-radius: 10px;
+  width: 49%;
 }
 .success-btn-half {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
-  width: 150px;
+  border-radius: 10px;
+  width: 49%;
 }
 @media (max-width: 1000px) {
-  .gc-card{
-    width: 100%!important;
+  .gc-card {
+    width: 100% !important;
   }
-  .button_media{
+  .button_media {
     width: 120px;
   }
 }

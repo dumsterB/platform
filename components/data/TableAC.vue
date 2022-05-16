@@ -9,8 +9,7 @@
         'items-per-page-options': [5, 10, 20],
         'items-per-page-text': $t('items_per_page'),
       }"
-      class="elevation-4  rounded-lg ma-0 ml-0  ml-0"
-      style="margin-left: 0px!important;"
+      class="elevation-4 space mainBorderRadius pl-4 pr-4 ml-0"
     >
       <template v-slot:[`item.name`]="{ item }"
         ><v-img
@@ -98,6 +97,8 @@ export default {
       end_blue_gradient: config.colors.end_blue_gradient,
       start_red_gradient: config.colors.start_red_gradient,
       end_red_gradient: config.colors.end_red_gradient,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       dialog: false,
       perpage: 10,
       list: [],
@@ -114,6 +115,8 @@ export default {
         "--end_blue_gradient": this.end_blue_gradient,
         "--start_red_gradient": this.start_red_gradient,
         "--end_red_gradient": this.end_red_gradient,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
       };
     },
     ...mapGetters(modelCompanies, {
@@ -138,6 +141,7 @@ export default {
           text: "",
           value: "action",
           width: 100,
+          sortable: false,
         },
       ];
     },
@@ -202,22 +206,92 @@ export default {
 .v-application--is-ltr .v-data-footer__select {
   margin: 0;
 }
-.green_btn {
-  background: linear-gradient(
-    163.28deg,
-    var(--start_blue_gradient) 0%,
-    var(--end_blue_gradient) 85.7%
-  );
-  color: white !important;
-  border-radius: 16px !important;
+html[theme="dark"] {
+  .green_btn {
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+  .red_btn {
+    background: linear-gradient(
+      163.28deg,
+      var(--start_red_gradient) 0%,
+      var(--end_red_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_red_gradient) 0%,
+          var(--end_red_gradient) 85.7%
+        );
+    }
+  }
 }
-.red_btn {
-  background: linear-gradient(
-    163.28deg,
-    var(--start_red_gradient) 0%,
-    var(--end_red_gradient) 85.7%
-  );
-  color: white !important;
-  border-radius: 16px !important;
+html[theme="light"] {
+  .green_btn {
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+  .red_btn {
+    background: linear-gradient(
+      163.28deg,
+      var(--start_red_gradient) 0%,
+      var(--end_red_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_red_gradient) 0%,
+          var(--end_red_gradient) 85.7%
+        );
+    }
+  }
 }
 </style>

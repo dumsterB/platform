@@ -1,219 +1,227 @@
 <template>
   <div>
-  <v-app-bar style="left: 0px!important;" app flat class="app-bar-margins" id="app-bar-id">
-    <div class="actions-mobile mt-2">
-      <v-app-bar-nav-icon @click="drawerHandler"></v-app-bar-nav-icon>
-    </div>
-    <v-spacer></v-spacer>
-    <div class="mt-8 main-search" :dir="$dir()">
-      <v-autocomplete
-        v-model="value"
-        :items="filtered"
-        prepend-inner-icon="mdi-magnify"
-        :label="$t('market_search_bar_placeholder')"
-        :placeholder="$t('market_search_bar_placeholder')"
-        item-value="id"
-        item-text="name"
-        full-width
-        dense
-        outlined
-        solo
-        chips
-        clearable
-        hide-selected
-        class="ml-2 global-search"
-        ><template v-slot:selection="{ attr, on, item, selected }">
-          <v-chip
-            v-bind="attr"
-            :input-value="selected"
-            color="blue-grey"
-            class="white--text"
-            v-on="on"
-          >
-            <v-icon left
-              >{{
-                item.type == "currency"
-                  ? " mdi-bitcoin"
-                  : "mdi-shopping-outline"
-              }}
-            </v-icon>
-            <span v-text="item.name"></span>
-          </v-chip>
-        </template>
-        <template v-slot:item="{ item }">
-          <v-list-item-avatar
-            color="primary"
-            class="text-h5 font-weight-light white--text"
-          >
-            <v-img :src="item.logo"></v-img>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.name"></v-list-item-title>
-            <v-list-item-subtitle v-text="item.symbol"></v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-icon>{{
-              item.type == "currency" ? " mdi-bitcoin" : "mdi-shopping-outline"
-            }}</v-icon>
-          </v-list-item-action>
-        </template></v-autocomplete
-      >
-    </div>
-    <v-spacer></v-spacer>
-    <v-menu
-      transition="slide-y-transition"
-      bottom
-      right
-      :offset-y="true"
-      content-class="elevation-1"
-      :close-on-content-click="false"
-      hide-details
+    <v-app-bar
+      style="left: 0px !important"
+      app
+      flat
+      class="app-bar-margins"
+      id="app-bar-id"
     >
-      <template v-slot:activator="{ on }">
-        <v-hover v-slot="{ hover }">
-          <div
-            flat
-            class="
-              account-menu
-              d-flex
-              flex-columns
-              align-center
-              mt-2
-              py-2
-              pr-2
-              pl-4
-            "
-            v-on="on"
-          >
-            <div class="mr-2 avatar">
-              <v-avatar
-                size="35"
-                :class="hover ? 'avatar' : ''"
-                :style="customStyle"
-                class="mr-5"
-              >
-                <img v-if="userAvatar" :src="userAvatar" />
-                <v-icon v-else :color="hover ? 'primary' : 'gray'" class="mr-2"
-                  >mdi-account</v-icon
-                >
-              </v-avatar>
-            </div>
-            <div style="margin-left: -20px" :class="hover ? 'primary--text' : ''">
-              {{ $auth.user.name }}
-            </div>
-          </div>
-        </v-hover>
-      </template>
-      <v-list class="menu-list">
-        <v-list-item
-          v-for="(action, i) in account_menu"
-          :key="i"
+      <div class="actions-mobile mt-2">
+        <v-app-bar-nav-icon @click="drawerHandler"></v-app-bar-nav-icon>
+      </div>
+      <v-spacer></v-spacer>
+      <div class="mt-8 main-search" :dir="$dir()">
+        <v-autocomplete
+          v-model="value"
+          :items="filtered"
+          prepend-inner-icon="mdi-magnify"
+          :label="$t('market_search_bar_placeholder')"
+          :placeholder="$t('market_search_bar_placeholder')"
+          item-value="id"
+          item-text="name"
+          full-width
           dense
-          @click="action.action"
-        >
-          <v-list-item-title>{{ $t(action.name) }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item style="margin-top: 8px"
-          ><language-select style="width: 50px"></language-select
-        ></v-list-item>
-        <v-list-item style="margin-top: 8px"
-          ><theme-select style="width: 50px"></theme-select
-        ></v-list-item>
-      </v-list>
-    </v-menu>
-    <v-menu
-      transition="slide-y-transition"
-      bottom
-      right
-      :offset-y="true"
-      content-class="elevation-1"
-      :close-on-content-click="false"
-      hide-details
-    >
-      <template v-slot:activator="{ on }">
-        <v-hover v-slot="{ hover }">
-          <v-icon
-            v-on="on"
-            class="mt-2 icon-bell"
-            :color="hover ? 'primary' : 'gray'"
-            >{{
-              is_nots ? "mdi-bell-badge-outline" : "mdi-bell-outline"
-            }}</v-icon
-          >
-        </v-hover>
-      </template>
-      <NotHistory></NotHistory>
-    </v-menu>
-    <template v-slot:extension>
-      <v-row>
-        <v-col cols="12" >
-        <div class="mobile-search ml-2 mt-5" :dir="$dir()">
-          <v-autocomplete
-              v-model="value"
-              :items="filtered"
-              prepend-inner-icon="mdi-magnify"
-              :label="$t('market_search_bar_placeholder')"
-              :placeholder="$t('market_search_bar_placeholder')"
-              item-value="id"
-              hide-details
-              item-text="name"
-              full-width
-              dense
-              outlined
-              solo
-              chips
-              clearable
-              hide-selected
-              style="width: 100%!important;"
-              class="global-search"
+          outlined
+          solo
+          chips
+          clearable
+          hide-selected
+          hide-no-data
+          class="ml-2 global-search"
           ><template v-slot:selection="{ attr, on, item, selected }">
             <v-chip
-                v-bind="attr"
-                :input-value="selected"
-                color="blue-grey"
-                class="white--text"
-                v-on="on"
+              v-bind="attr"
+              :input-value="selected"
+              color="blue-grey"
+              class="white--text"
+              v-on="on"
             >
               <v-icon left
-              >{{
+                >{{
                   item.type == "currency"
-                      ? " mdi-bitcoin"
-                      : "mdi-shopping-outline"
+                    ? " mdi-bitcoin"
+                    : "mdi-shopping-outline"
                 }}
               </v-icon>
               <span v-text="item.name"></span>
             </v-chip>
           </template>
-            <template v-slot:item="{ item }">
-              <v-list-item-avatar
-                  color="primary"
-                  class="text-h5 font-weight-light white--text"
+          <template v-slot:item="{ item }">
+            <v-list-item-avatar
+              color="primary"
+              class="text-h5 font-weight-light white--text"
+            >
+              <v-img :src="item.logo"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.name"></v-list-item-title>
+              <v-list-item-subtitle v-text="item.symbol"></v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>{{
+                item.type == "currency"
+                  ? " mdi-bitcoin"
+                  : "mdi-shopping-outline"
+              }}</v-icon>
+            </v-list-item-action>
+          </template></v-autocomplete
+        >
+      </div>
+      <v-spacer></v-spacer>
+      <v-menu
+        transition="slide-y-transition"
+        bottom
+        right
+        :offset-y="true"
+        content-class="elevation-1"
+        :close-on-content-click="false"
+        hide-details
+      >
+        <template v-slot:activator="{ on }">
+          <v-hover v-slot="{ hover }">
+            <div
+              flat
+              class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
+              v-on="on"
+            >
+              <div class="mr-2 avatar">
+                <v-avatar
+                  size="35"
+                  :class="hover ? 'avatar' : ''"
+                  :style="customStyle"
+                  class="mr-5"
+                >
+                  <img v-if="userAvatar" :src="userAvatar" />
+                  <v-icon
+                    v-else
+                    :color="hover ? 'primary' : 'gray'"
+                    class="mr-2"
+                    >mdi-account</v-icon
+                  >
+                </v-avatar>
+              </div>
+              <div
+                style="margin-left: -20px"
+                :class="hover ? 'primary--text' : ''"
               >
-                <v-img :src="item.logo"></v-img>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title v-text="item.name"></v-list-item-title>
-                <v-list-item-subtitle v-text="item.symbol"></v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-icon>{{
-                    item.type == "currency" ? " mdi-bitcoin" : "mdi-shopping-outline"
-                  }}</v-icon>
-              </v-list-item-action>
-            </template></v-autocomplete
+                {{ $auth.user.name }}
+              </div>
+            </div>
+          </v-hover>
+        </template>
+        <v-list class="menu-list">
+          <v-list-item
+            v-for="(action, i) in account_menu"
+            :key="i"
+            dense
+            @click="action.action"
           >
-        </div>
-
-
-        </v-col>
-        <v-col class="ma-0 pa-0">
-          <marquee id="marquee">
-            {{ mar_str }}
-          </marquee>
-        </v-col>
-      </v-row>
-    </template>
-  </v-app-bar>
+            <v-list-item-title>{{ $t(action.name) }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item style="margin-top: 8px"
+            ><language-select style="width: 50px"></language-select
+          ></v-list-item>
+          <!-- <v-list-item style="margin-top: 8px">
+          <theme-select style="width: 50px"></theme-select>
+        </v-list-item> -->
+        </v-list>
+      </v-menu>
+      <v-menu
+        transition="slide-y-transition"
+        bottom
+        right
+        :offset-y="true"
+        content-class="elevation-1"
+        :close-on-content-click="false"
+        hide-details
+      >
+        <template v-slot:activator="{ on }">
+          <v-hover v-slot="{ hover }">
+            <v-icon
+              v-on="on"
+              class="mt-2 icon-bell"
+              :color="hover ? 'primary' : 'gray'"
+              >{{
+                is_nots ? "mdi-bell-badge-outline" : "mdi-bell-outline"
+              }}</v-icon
+            >
+          </v-hover>
+        </template>
+        <NotHistory></NotHistory>
+      </v-menu>
+      <template v-slot:extension>
+        <v-row>
+          <v-col cols="12">
+            <div class="mobile-search ml-2 mt-5" :dir="$dir()">
+              <v-autocomplete
+                v-model="value"
+                :items="filtered"
+                prepend-inner-icon="mdi-magnify"
+                :label="$t('market_search_bar_placeholder')"
+                :placeholder="$t('market_search_bar_placeholder')"
+                item-value="id"
+                hide-details
+                item-text="name"
+                full-width
+                dense
+                outlined
+                solo
+                chips
+                clearable
+                hide-selected
+                style="width: 100% !important"
+                class="global-search"
+                ><template v-slot:selection="{ attr, on, item, selected }">
+                  <v-chip
+                    v-bind="attr"
+                    :input-value="selected"
+                    color="blue-grey"
+                    class="white--text"
+                    v-on="on"
+                  >
+                    <v-icon left
+                      >{{
+                        item.type == "currency"
+                          ? " mdi-bitcoin"
+                          : "mdi-shopping-outline"
+                      }}
+                    </v-icon>
+                    <span v-text="item.name"></span>
+                  </v-chip>
+                </template>
+                <template v-slot:item="{ item }">
+                  <v-list-item-avatar
+                    color="primary"
+                    class="text-h5 font-weight-light white--text"
+                  >
+                    <v-img :src="item.logo"></v-img>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                    <v-list-item-subtitle
+                      v-text="item.symbol"
+                    ></v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-list-item-action>
+                    <v-icon>{{
+                      item.type == "currency"
+                        ? " mdi-bitcoin"
+                        : "mdi-shopping-outline"
+                    }}</v-icon>
+                  </v-list-item-action>
+                </template></v-autocomplete
+              >
+            </div>
+          </v-col>
+          <v-col class="ma-0 pa-0">
+            <marquee id="marquee">
+              {{ mar_str }}
+            </marquee>
+          </v-col>
+        </v-row>
+      </template>
+    </v-app-bar>
   </div>
 </template>
 
@@ -269,9 +277,9 @@ export default {
     ...mapMutations("config/ws", {
       subscribe: "set_top_subscribe",
     }),
-    ...mapMutations({setDrawer:'config/data/setDrawer'}),
-    drawerHandler(){
-      this.setDrawer(true)
+    ...mapMutations({ setDrawer: "config/data/setDrawer" }),
+    drawerHandler() {
+      this.setDrawer(true);
     },
     initAccountMenu() {
       return [
@@ -314,7 +322,7 @@ export default {
     },
     prices_current(v) {
       let me = this;
-      let json_d = Object.assign({}, v);
+      let json_d = JSON.parse(JSON.stringify(v));
       // console.log("MARQUE DATA", json_d);
       me.stocks.forEach((st) => {
         if (json_d && json_d.method == `shares:all.${st.key}@kline_1d`) {
@@ -323,6 +331,10 @@ export default {
             let dt = dtm;
             if (Array.isArray(dtm)) {
               dt = dtm[0];
+            }
+            if (!dt.close) {
+              let pdt = me.get_val(dt.share);
+              dt.close = pdt.close;
             }
             let change = (dt.close - dt.open).toFixed(4);
             let ch_pr = ((change * 100) / dt.close).toFixed(4);
@@ -346,15 +358,17 @@ export default {
     LanguageSelect,
     ThemeSelect,
     Ticker,
-    NotHistory
+    NotHistory,
   },
 
   computed: {
     ...mapGetters("config/ws", {
       prices_current: "top_data",
-
     }),
-    ...mapGetters({drawerMenu:"config/data/drawerMenu"}),
+    ...mapGetters({ drawerMenu: "config/data/drawerMenu" }),
+    ...mapGetters("config/default", {
+      get_val: "get_val",
+    }),
     userAvatar() {
       try {
         return this.$env("FILE_SERVER_BASE") + this.$auth.user.fs[0]["dir"];
@@ -451,8 +465,13 @@ html[theme="dark"] .global-search .v-input__slot {
   box-shadow: none !important;
 }
 html[theme="light"] .global-search .v-input__slot {
-  background: rgba(255, 255, 255) !important;
+  // background: rgba(255, 255, 255) !important;
+  background: rgba(154, 154, 154, 0.3) !important;
   box-shadow: none !important;
+}
+
+.global-search fieldset {
+  border: none !important;
 }
 
 .navLink {
@@ -466,36 +485,36 @@ html[theme="light"] .global-search .v-input__slot {
 .icon-bell {
   cursor: pointer;
 }
-.main-search{
+.main-search {
   display: flex;
 }
-.row{
-  margin-top: 1px!important;
+.row {
+  margin-top: 1px !important;
 }
-.actions-mobile{
-  display: none!important;
+.actions-mobile {
+  display: none !important;
 }
-.mobile-search{
-  display: none!important;
+.mobile-search {
+  display: none !important;
 }
-@media(max-width: 1000px){
+@media (max-width: 1000px) {
   .app-bar-margins {
-    margin-right: 10px!important;
+    margin-right: 10px !important;
   }
-  .main-search{
-    display: none!important;
+  .main-search {
+    display: none !important;
   }
-  .avatar{
+  .avatar {
     display: none;
   }
-  .mobile-search{
-    display: flex!important;
+  .mobile-search {
+    display: flex !important;
   }
-  .row{
-    margin-top: 15px!important;
+  .row {
+    margin-top: 15px !important;
   }
-  .actions-mobile{
-    display: flex!important;
+  .actions-mobile {
+    display: flex !important;
   }
 }
 
@@ -503,5 +522,10 @@ html[theme="light"] {
   .account-menu {
     background: transparent !important;
   }
+}
+.goToAction {
+  font-size: 16px !important;
+  line-height: 20px !important;
+  // letter-spacing: 0 !important;
 }
 </style>

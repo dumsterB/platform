@@ -162,7 +162,6 @@ export default {
         trade_data.dest_amount = parseFloat(this.buy);
       }
       trade_data.exchange_rate = this.ex_rate;
-      // console.log("trade_data", trade_data);
       let rs = await this.trade_create({ data: trade_data });
       let title, color;
       if (rs.data && rs.data.trade_status_id != 3) {

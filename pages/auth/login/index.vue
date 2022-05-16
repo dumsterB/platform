@@ -5,7 +5,7 @@
         <v-row>
           <v-spacer></v-spacer>
           <img
-            style="height: 60px; margin-right: 20px"
+            style="height: 60px; margin-right: 20px; z-index: 1"
             :src="config.logo"
             :alt="$t('logoPic')"
           />
@@ -15,7 +15,7 @@
           <span class="top-menu">Blog</span>
           <span class="top-menu">Calculate Profit</span>
           <span class="top-menu">FAQ</span>
-          <v-switch v-model="theme" class="mr-4"></v-switch>
+          <!-- <v-switch v-model="theme" class="mr-4"></v-switch> -->
           <LangSelect style="max-width: 150px; margin-top: 10px" />
           <v-btn class="contact-us">Contact Us</v-btn>
           <v-spacer></v-spacer>
@@ -24,14 +24,18 @@
     </v-row>
     <v-row class="mb-0 pb-0">
       <v-col :lg="6" style="height: 100vh">
-        <div class="background_image">
-        </div>
+        <div class="background_image"></div>
       </v-col>
       <v-col class="px-4 pt-8" :style="customStyle">
         <div v-if="!reg_log" class="reg_block">
           <v-row
             ><v-col cols="2">
-              <p v-if="steper == 1" class="primary--text" @click="steper = 0" style="cursor: pointer">
+              <p
+                v-if="steper == 1"
+                class="primary--text"
+                @click="steper = 0"
+                style="cursor: pointer"
+              >
                 <v-icon class="primary--text">mdi-arrow-left</v-icon>
                 Back
               </p>
@@ -118,7 +122,7 @@
                       :loading="reg_loader"
                       @click="reg_start"
                     >
-                      {{ reg_loader ? '' : $t("to_continue") }}
+                      {{ reg_loader ? "" : $t("to_continue") }}
                     </v-btn>
                   </div>
                 </v-form>
@@ -176,7 +180,7 @@
                       :loading="reg_loader"
                       @click="reg_end"
                     >
-                      {{ reg_loader ? '' : $t("to_continue") }}
+                      {{ reg_loader ? "" : $t("to_continue") }}
                     </v-btn>
                   </div>
                 </v-form>
@@ -250,7 +254,7 @@
                   color="primary"
                   type="submit"
                 >
-                  {{ log_loader ? '' : $t("signin") }}
+                  {{ log_loader ? "" : $t("signin") }}
                 </v-btn>
               </div>
             </v-form>
@@ -263,7 +267,6 @@
       {{ is_notify_message }}
       <v-btn dark text @click="is_notify = false"> OK</v-btn>
     </v-snackbar>
-    <registration></registration>
   </div>
 </template>
 
@@ -271,7 +274,6 @@
 import LangSelect from "~/components/settings/LanguageSelect";
 import config from "~/config/config.json";
 import { mapGetters } from "vuex";
-import registration from '../registration/index'
 
 export default {
   layout: "auth",
@@ -284,6 +286,7 @@ export default {
         let htmlElement = document.documentElement;
         this.$vuetify.theme.dark = true;
         htmlElement.setAttribute("theme", "dark");
+        // localStorage.setItem("theme", "dark");
       } else {
         let htmlElement = document.documentElement;
         this.$vuetify.theme.dark = false;
@@ -446,6 +449,7 @@ export default {
     let htmlElement = document.documentElement;
     this.$vuetify.theme.dark = true;
     htmlElement.setAttribute("theme", "dark");
+    // localStorage.setItem("theme", "dark");
   },
 };
 </script>
@@ -496,7 +500,7 @@ html[theme="light"] .v-menu__content .v-list {
   margin-right: 200px;
 }
 .reg_block .v-btn {
-  border-radius: 15px;
+  border-radius: 10px;
 }
 .login_block {
   margin-top: 150px;
@@ -504,6 +508,6 @@ html[theme="light"] .v-menu__content .v-list {
   margin-left: 100px;
 }
 .login_block .v-btn {
-  border-radius: 15px;
+  border-radius: 10px;
 }
 </style>

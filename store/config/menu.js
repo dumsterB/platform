@@ -16,9 +16,9 @@ export const state = () => ({
     },
     {
       icon: "mdi-wallet-travel",
-      title: "user_commodities",
-      key: "commodities",
-      to: "/commodities",
+      title: "trading",
+      key: "trading",
+      to: "/trading",
       badge_color: "primary",
     },
     {
@@ -28,13 +28,13 @@ export const state = () => ({
       to: "/arbitrage",
       badge_color: "primary",
     },
-    {
-      icon: "mdi-web",
-      title: "user_trading",
-      key: "trading",
-      to: "/trading",
-      badge_color: "primary",
-    },
+    // {
+    //   icon: "mdi-web",
+    //   title: "user_trading",
+    //   key: "trading",
+    //   to: "/trading",
+    //   badge_color: "primary",
+    // },
     {
       icon: "mdi-clipboard-text-multiple-outline",
       title: "user_news",
@@ -49,13 +49,13 @@ export const state = () => ({
       to: "/markets",
       badge_color: "primary",
     },
-    // {
-    //   icon: "mdi-flag-outline",
-    //   title: "user_help",
-    //   key: "user_help",
-    //   to: "/help",
-    //   badge_color: "primary",
-    // },
+    {
+      icon: "mdi-flag-outline",
+      title: "user_help",
+      key: "user_help",
+      to: "/help",
+      badge_color: "primary",
+    },
     // {
     //   icon: "mdi-comment-question-outline",
     //   title: "user_questions",

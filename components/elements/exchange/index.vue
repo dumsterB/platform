@@ -1,11 +1,11 @@
 <template>
   <div class="pt-2 buy-sell-comp">
-    <div class="mx-4 d-flex mdc-form-field--space-between">
-      <p class="text-h6">{{ $t("exchange") }}</p>
+    <div class="mr-4 d-flex mdc-form-field--space-between">
+      <p class="text-h6 font-weight-bold">{{ $t("exchange") }}</p>
     </div>
 
     <v-card class="pa-3" elevation="4">
-      <v-list width="100%" class="pa-0">
+      <v-list width="100%" class="pa-0 borderNone">
         <v-list-item-group v-model="btn_active" class="d-flex">
           <v-list-item
             tag="button"
@@ -34,6 +34,7 @@
       <div class="chips mt-3 mx-3">
         <v-chip
           :class="[item.active ? 'active_p_chip' : 'p_chip']"
+          :style="customStyle"
           class="pl-4 pr-4"
           x-small
           v-for="(item, i) of chips"
@@ -43,9 +44,9 @@
         >
       </div>
       <div class="justify-center text-center">
-        <div class="justify-space-between d-flex">
+        <div class="justify-space-between d-flex text-left">
           <v-col class="pb-1">
-            <span class="small_text">{{ $t("Choose the crypto") }}:</span>
+            <span class="small_text pl-1">{{ $t("choose_crypto") }}:</span>
             <v-autocomplete
               v-model="buy_curr"
               :items="currency"
@@ -64,7 +65,7 @@
             </v-autocomplete>
           </v-col>
           <v-col class="pb-1">
-            <span class="small_text">{{ $t("Get") }}:</span>
+            <span class="small_text pl-1">{{ $t("Get") }}:</span>
             <span class="d-flex mr-2">
               <v-text-field
                 v-model="buy"
@@ -78,9 +79,9 @@
             </span>
           </v-col>
         </div>
-        <div class="justify-space-between d-flex">
+        <div class="justify-space-between d-flex text-left">
           <v-col class="mt-0 pt-0">
-            <span class="small_text">{{ $t("Pay") }}:</span>
+            <span class="small_text pl-1">{{ $t("Pay") }}:</span>
             <span class="d-flex mr-2">
               <v-text-field
                 v-model="pay"
@@ -109,8 +110,7 @@
         <v-btn
           block
           large
-          rounded
-          class="success-btn mb-3"
+          class="success-btn mb-3 mainBorderRadius"
           :style="customStyle"
           elevation="0"
           @click="trade_run"
@@ -378,7 +378,7 @@ export default {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
@@ -404,6 +404,7 @@ export default {
   text-transform: uppercase;
   border-top: 3px solid transparent;
   background: transparent !important;
+  color: var(--primary) !important;
 }
 .active_btn_exchange::after {
   position: absolute;
@@ -412,11 +413,14 @@ export default {
   min-height: 6px !important;
   top: -8px;
   left: 0;
-  background: #007bff !important;
+  background: var(--primary) !important;
   border-radius: 0px 0px 4px 4px;
 }
 html[theme="light"] .p_chip {
   background: #eeeeee !important;
+  padding: 12px;
+  justify-content: space-between;
+  display: flex;
   color: #9a9a9a;
 }
 .p_chip {
@@ -427,12 +431,13 @@ html[theme="light"] .p_chip {
   color: #ffffff;
 }
 .active_p_chip {
-  background: #007bff !important;
+  background: var(--primary) !important;
   padding: 12px;
   justify-content: space-between;
   display: flex;
   color: #ffffff;
 }
+
 .chips {
   justify-content: space-between;
   display: flex;
@@ -444,9 +449,9 @@ html[theme="light"] .p_chip {
 </style>
 <style lang="scss">
 .buy-sell-comp .v-input__slot {
-  border-radius: 20px;
-  background: #161f49 !important;
-  border-radius: 15px;
+  border-radius: 10px;
+  background: #001935 !important;
+  border-radius: 10px;
 }
 html[theme="light"] .buy-sell-comp .v-input__slot {
   background: linear-gradient(

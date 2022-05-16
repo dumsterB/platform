@@ -1,13 +1,13 @@
 <template>
   <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
     <v-card
-      class="pl-0 pr-0 mb-2 ml-2 mr-2 rounded-lg light-card"
+      class="pl-0 pr-0 mb-2 ml-2 mr-2 mainBorderRadius light-card"
       :width="380"
       :elevation="hover ? 18 : 8"
     >
       <div style="cursor: pointer" @click="handlerOpenMarketPage">
         <div class="d-flex justify-space-between">
-          <v-card-title class="text-uppercase ml-4 pb-0">{{
+          <v-card-title class="text-uppercase ml-4 pb-0 font-weight-bold">{{
             `${item.name}`
           }}</v-card-title>
           <v-btn fab icon class="ma-5 pa-1 mb-1">
@@ -28,7 +28,10 @@
           </v-btn>
         </div>
 
-        <v-list v-if="currencies" class="mt-0 mr-4 mb-4 ml-4 market-list">
+        <v-list
+          v-if="currencies"
+          class="mt-0 mr-4 mb-4 ml-4 market-list borderNone"
+        >
           <v-list-item
             class=""
             disabled

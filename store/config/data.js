@@ -1,10 +1,9 @@
 export const state = () => ({
     preload_models: ["currency", "arbitrage_company", "wallet", "countries"],
     themes: ["Dark", "Light"],
-    base_p: "gate",
-    drawerMenu:false,
-    exchanges: [
-        {
+    drawerMenu: false,
+    base_p: "binance",
+    exchanges: [{
             name: "Forex",
             key: "FOREX",
             tv: "IDC",
@@ -52,7 +51,7 @@ export const getters = {
     base_p: state => {
         return state.base_p;
     },
-    drawerMenu:state=>{
+    drawerMenu: state => {
         return state.drawerMenu
     }
 }
@@ -62,7 +61,7 @@ export const actions = {
 }
 
 export const mutations = {
- setDrawer(state){
-    state.drawerMenu=!state.drawerMenu
- }
+    setDrawer(state) {
+        state.drawerMenu = !state.drawerMenu
+    }
 }

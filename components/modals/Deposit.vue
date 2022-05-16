@@ -32,8 +32,8 @@
             >
               <v-btn
                 value="bankCard"
-                class="paymentMethod_checkbox rounded-xl pl-8 pr-8"
-                activeClass="primary paymentMethod_checkbox_active"
+                class="paymentMethod_checkbox mainBorderRadius pl-8 pr-8"
+                active-class="primary paymentMethod_checkbox_active"
                 :style="customStyle"
               >
                 <v-icon class="mr-4">mdi-credit-card-multiple-outline</v-icon>
@@ -44,8 +44,8 @@
               </v-btn>
               <v-btn
                 value="crypto"
-                class="paymentMethod_checkbox rounded-xl pl-8 pr-8"
-                activeClass="primary paymentMethod_checkbox_active"
+                class="paymentMethod_checkbox mainBorderRadius pl-8 pr-8"
+                active-class="primary paymentMethod_checkbox_active"
                 :style="customStyle"
               >
                 <v-icon class="mr-4">mdi-currency-btc</v-icon>
@@ -281,6 +281,8 @@ export default {
       light_background: config.themes.light.background,
       dark_background: config.themes.dark.background,
       primary: config.themes.dark.primary,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       selectedItem: 1,
       cardDialog: false,
       enteredMoney: "",
@@ -312,6 +314,8 @@ export default {
         "--light_background": this.light_background,
         "--dark_background": this.dark_background,
         "--primary": this.primary,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
       };
     },
   },
@@ -398,21 +402,21 @@ export default {
         } else {
           title = this.$t("create_order_progress");
           color = "warning";
-          setTimeout(() => {
-            this.$store.commit("data/notifications/create", {
-              id: color + "_" + Math.random().toString(36),
-              title: this.$t("create_order_done"),
-              text: this.$t("create_order_done"),
-              color: "primary",
-            });
-          }, 2500);
+          // setTimeout(() => {
+          //   this.$store.commit("data/notifications/create", {
+          //     id: color + "_" + Math.random().toString(36),
+          //     title: this.$t("create_order_done"),
+          //     text: this.$t("create_order_done"),
+          //     color: "primary",
+          //   });
+          // }, 2500);
         }
         this.$store.commit("data/notifications/create", {
           id: color + "_" + Math.random().toString(36),
           title: title,
           text: title,
           color: color,
-          timeout: 2000,
+          timeout: 5000,
         });
         await this.f_wallets();
         await this.fetchOrders();
@@ -442,7 +446,7 @@ export default {
 
 <style scoped lang="scss">
 .card_list {
-  border-radius: 20px !important;
+  border-radius: 10px !important;
 }
 html[theme="light"] .card_list,
 .avatar {
@@ -459,7 +463,7 @@ html[theme="dark"] .card_list,
 }
 .v-card {
   box-shadow: 0px 10px 30px var(--box_shadow);
-  border-radius: 35px !important;
+  border-radius: 10px !important;
 }
 html[theme="dark"] .v-card {
   background: var(--dark_background) !important;
@@ -481,7 +485,7 @@ html[theme="light"] .v-card {
   align-items: center;
   justify-content: space-evenly;
   border: 1px solid;
-  border-radius: 20px;
+  border-radius: 10px;
   cursor: pointer;
 }
 html[theme="light"] .credit-card-add {
@@ -493,21 +497,39 @@ html[theme="dark"] .credit-card-add {
   background: var(--dark_background) !important;
 }
 
-.success-btn {
+html[theme="dark"] .success-btn {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
   &:disabled {
-    opacity: 0.7;
     cursor: not-allowed;
+    background: linear-gradient(
+        0deg,
+        var(--dark_disabled),
+        var(--dark_disabled)
+      ),
+      var(--primary) !important;
+    border: none !important;
   }
 }
-.theme--dark.v-btn.v-btn--disabled.v-btn--has-bg,
-.theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
-  background-color: var(--primary) !important;
-  opacity: 0.7;
+html[theme="light"] .success-btn {
+  background: var(--primary) !important;
+  border: solid 2px var(--primary) !important;
+  color: white !important;
+  border-radius: 10px;
+  &:disabled {
+    cursor: not-allowed;
+    background: linear-gradient(
+        0deg,
+        var(--light_disabled),
+        var(--light_disabled)
+      ),
+      var(--primary) !important;
+    border: none !important;
+  }
 }
+
 .paymentMethod {
   display: flex;
   justify-content: space-between;
@@ -524,7 +546,7 @@ html[theme="light"] .paymentMethod {
     filter: drop-shadow(20px 20px 100px var(--light_drop_shadow));
     &_active > span > div > p,
     &_active > span > i {
-      color: var(--light_text_color);
+      color: var(--light_text_color) !important;
     }
   }
 }
@@ -534,7 +556,7 @@ html[theme="dark"] .paymentMethod {
     filter: drop-shadow(20px 20px 100px var(--dark_drop_shadow));
     &_active > span > div > p,
     &_active > span > i {
-      color: var(--light_text_color);
+      color: var(--light_text_color) !important;
     }
   }
 }

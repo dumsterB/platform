@@ -18,7 +18,7 @@
       }"
     >
       <template v-slot:top>
-        <v-toolbar flat>
+        <v-toolbar flat class="borderNone">
           <v-toolbar-title class="font-weight-bold">{{
             `${$t("deposit")}, ${$t("withdraw")}`
           }}</v-toolbar-title>
@@ -88,6 +88,8 @@ export default {
       start_red_gradient: config.colors.start_red_gradient,
       end_red_gradient: config.colors.end_red_gradient,
       primary: config.colors.text.primary,
+      blue: config.colors.text.blue,
+      red: config.colors.text.red,
       page_size_current: this.page_size,
       search: "",
       totalLength: -1,
@@ -152,7 +154,6 @@ export default {
       return conf;
     },
     async paging(val) {
-      // console.log("paging", val);
       this.page_size_current = val.itemsPerPage;
       await this.rel(val);
     },
@@ -174,17 +175,9 @@ export default {
     diffColor(diff) {
       let nm = parseFloat(diff);
       if (nm < 0) {
-        return `background: linear-gradient(176.35deg, ${this.start_red_gradient} 0.47%, ${this.end_red_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.red} !important;`;
       } else {
-        return `background: linear-gradient(176.35deg, ${this.start_blue_gradient} 0.47%, ${this.end_blue_gradient} 97%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        text-fill-color: transparent !important;`;
+        return `color: ${this.blue} !important;`;
       }
     },
   },

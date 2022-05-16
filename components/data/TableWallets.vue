@@ -4,32 +4,34 @@
       <v-card-title class="pb-1">
         <div class="d-flex" style="width: 100%">
           <v-row>
-          <v-col cols="12" md="6" lg="6">
-            <div class="header-info">
-              <h3 style="letter-spacing: -2px" class="mr-2 mt-2">
-                {{ $t("my_wallet") }}
-              </h3>
-              <v-checkbox
+            <v-col cols="12" md="6" lg="6">
+              <div class="header-info">
+                <h3 style="letter-spacing: -2px" class="mr-2 mt-2">
+                  {{ $t("my_wallet") }}
+                </h3>
+                <v-checkbox
                   v-model="zero_bals"
                   class="ml-2 mt-2 font-weight-regular"
                   :label="
-              zero_bals ? $t('open_zero_balances') : $t('hide_zero_balances')
-            "
-              ></v-checkbox>
-            </div>
-          </v-col>
-          <v-col cols="12" md="6" lg="6">
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            :label="$t('market_search_bar_placeholder')"
-            outlined
-            filled
-            dense
-            hide-details
-            class="ml-4"
-          ></v-text-field>
-          </v-col>
+                    zero_bals
+                      ? $t('open_zero_balances')
+                      : $t('hide_zero_balances')
+                  "
+                ></v-checkbox>
+              </div>
+            </v-col>
+            <v-col cols="12" md="6" lg="6">
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                :label="$t('market_search_bar_placeholder')"
+                outlined
+                filled
+                dense
+                hide-details
+                class="ml-4"
+              ></v-text-field>
+            </v-col>
           </v-row>
         </div>
       </v-card-title>
@@ -64,8 +66,7 @@
           <v-btn
             v-if="item.currency.currency_type.key == 'FIAT'"
             elevation="0"
-            class="primary"
-            rounded
+            class="primary mainBorderRadius"
             block
             @click="depositChanger(item)"
             >{{ $t("deposit_title") }}</v-btn
@@ -199,17 +200,17 @@ export default {
 .wallet-table {
   background: #000c19;
   box-shadow: 20px 20px 100px rgba(0, 0, 0, 0.07);
-  border-radius: 20px;
   width: 100%;
+  border-radius: 10px;
 }
 .prod-table tr {
   cursor: pointer;
 }
-.header-info{
+.header-info {
   display: flex;
 }
 @media (max-width: 1000px) {
-  .header-info{
+  .header-info {
     display: block;
   }
 }

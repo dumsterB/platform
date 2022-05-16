@@ -1,17 +1,17 @@
 <template>
   <div class="page-container">
-    <div class="account">
+    <div class="account-desktop">
       <v-row>
-        <div class="pt-0">
+        <v-col class="pt-0">
           <div
             class="d-flex mr-6 mdc-form-field--space-between justify-content-beetween currencyNavbar"
           >
             <div>
-              <p class="text-h6 ml-10">{{ $t("markets") }}</p>
+              <p class="text-h6 ml-10 font-weight-bold">{{ $t("markets") }}</p>
             </div>
             <div class="d-flex mb-4">
               <p elevation="0" class="mr-4 mt-2">
-                <v-icon>mdi-filter</v-icon> {{ $t("filters") }}
+                <!-- <v-icon>mdi-filter</v-icon> {{ $t("filters") }} -->
               </p>
               <!-- <v-text-field
               :label="$t('market_search_bar_placeholder')"
@@ -34,7 +34,7 @@
               />
             </v-col>
           </v-row>
-<!--          <v-row class="ml-3 mr-3 currency-mobile" style="width: 100%">
+          <!--          <v-row class="ml-3 mr-3 currency-mobile" style="width: 100%">
               <p></p>
             <v-col v-for="(curr, i) in f_currs" :key="i">
               <carousel>
@@ -49,7 +49,7 @@
               </carousel>
             </v-col>
           </v-row>-->
-        </div>
+        </v-col>
       </v-row>
       <v-row>
         <v-col :cols="12" :md="8" :lg="8" :sm="12" :xs="12">
@@ -64,6 +64,7 @@
         </v-col>
       </v-row>
     </div>
+
     <div class="account-mobile">
       <div>
         <v-col class="pt-0">
@@ -89,7 +90,7 @@
             </div>
           </div>
           <v-row class="ml-3 mr-3">
-            <v-col  cols="12"  v-for="(curr, i) in f_currs" :key="i">
+            <v-col cols="12" v-for="(curr, i) in f_currs" :key="i">
               <Currency
                 :currency="curr"
                 style="width: 100%"
@@ -138,7 +139,7 @@ export default {
     carousel,
   },
   data() {
-/*    let mi = parseInt(window.innerWidth / 280);*/
+    /*    let mi = parseInt(window.innerWidth / 280);*/
     return {
       currs: [],
       companies: [],
@@ -187,6 +188,7 @@ export default {
       if (json_d && json_d.method == `${me.base_p}:all@ticker_10s`) {
         let data = json_d.data ? json_d.data.data || [] : [];
         if (data.length > 10) {
+          me.set_gate_all(Object.assign([], data));
           me.prices = data.concat(me.com_prices);
           me.init_currs();
         }
@@ -241,6 +243,9 @@ export default {
       add_subscribe: "add_page_subscribe",
       del_subscribe: "del_page_subscribe",
     }),
+    ...mapMutations("config/default", {
+      set_gate_all: "set_gate_all",
+    }),
     search_f() {
       let me = this;
       if (me.search) {
@@ -269,9 +274,10 @@ export default {
         let fnd = data.find((e) => e && e.base == el.symbol);
         if (fnd) {
           res.price = fnd.price;
-          res.change = fnd.change;
+          res.change = fnd.change_24h;
+          res.volume = fnd.volume_24h;
           res.change_p = (
-            (parseFloat(fnd.change) * 100) /
+            (parseFloat(fnd.change_24h) * 100) /
             parseFloat(fnd.price)
           ).toFixed(4);
         }
@@ -340,39 +346,38 @@ export default {
     let int = setInterval(() => {
       let test_case = document.getElementById(`ttp-BTC`);
       if (test_case) {
-        setTimeout(() => {
-          me.currencies.forEach((currency) => {
-            let sym = currency.symbol;
-            let test = document.getElementById(`ttp-${sym}`);
-            if (test) {
-              test.addEventListener(
-                "mouseenter",
-                function (event) {
-                  me.companies = [];
-                  me.waiter[sym] = true;
-                  setTimeout(() => {
-                    if (me.waiter[sym]) {
-                      me.add_subscribe(`all:${sym}-USD@ticker_10s`);
-                    }
-                  }, 500);
-                },
-                false
-              );
+        clearInterval(int);
+        me.currencies.forEach((currency) => {
+          let sym = currency.symbol;
+          let test = document.getElementById(`ttp-${sym}`);
+          if (test) {
+            test.addEventListener(
+              "mouseenter",
+              function (event) {
+                me.companies = [];
+                me.waiter[sym] = true;
+                setTimeout(() => {
+                  if (me.waiter[sym]) {
+                    console.log("AAAAAAAAAAAAA", sym);
+                    me.add_subscribe(`all:${sym}-USD@ticker_10s`);
+                  }
+                }, 500);
+              },
+              false
+            );
 
-              test.addEventListener(
-                "mouseleave",
-                function (event) {
-                  me.waiter[sym] = false;
-                  me.del_subscribe(`all:${sym}-USD@ticker_10s`);
-                },
-                false
-              );
-            }
-          });
-          clearInterval(int);
-        }, 400);
+            test.addEventListener(
+              "mouseleave",
+              function (event) {
+                me.waiter[sym] = false;
+                me.del_subscribe(`all:${sym}-USD@ticker_10s`);
+              },
+              false
+            );
+          }
+        });
       }
-    }, 100);
+    }, 200);
   },
   destroyed() {
     window.removeEventListener("resize", this.onResize);
@@ -387,26 +392,29 @@ export default {
 .account-mobile {
   display: none;
 }
-@media(max-width: 1000px) {
+@media (max-width: 1000px) {
   .account-mobile {
     display: block !important;
   }
   .account {
     display: none !important;
   }
-  .curr-col{
+  .curr-col {
     margin-left: 40px;
     margin-right: 40px;
     padding-right: 20px;
   }
-  .currency-desktop{
-    display: none!important;
+  .account-desktop {
+    display: none;
   }
-  .currency-mobile{
+  .currency-desktop {
+    display: none !important;
+  }
+  .currency-mobile {
     display: initial;
   }
 }
-.currency-mobile{
+.currency-mobile {
   display: none;
 }
 </style>

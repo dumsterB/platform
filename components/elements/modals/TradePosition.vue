@@ -38,7 +38,9 @@
       </v-img>
     </v-card-title>
     <v-card-text class="pb-0 mb-0">
-      <v-container class="d-flex justify-lg-space-between font-weight-medium">
+      <v-container
+        class="d-flex justify-lg-space-between font-weight-medium pt-0"
+      >
         <span :style="customStyle" class="card_text">{{
           $t("marketplace_price")
         }}</span>
@@ -46,48 +48,44 @@
           >{{ new Intl.NumberFormat().format(price) }} USD</span
         >
       </v-container>
-      <v-container class="d-flex justify-lg-space-between">
+      <v-container class="d-flex justify-lg-space-between pt-0">
         <span :style="customStyle" class="card_text">{{
           `${$t("available_balance")}`
         }}</span>
         <span :style="customStyle" class="card_text">{{ balance }}</span>
       </v-container>
-      <v-container>
+      <v-container class="pt-0">
         <v-text-field
           :label="action == 'Buy' ? $t('choose_amount') : $t('total')"
           v-model="amount_usd"
           outlined
           dense
           :readonly="action == 'Sell'"
-          :suffix="action == 'Buy' ? `${price * amount_usd} USD` : 'USD'"
+          :suffix="'USD'"
           hide-details
           type="number"
         ></v-text-field>
       </v-container>
-      <v-container>
+      <v-container class="pb-0 pt-0 mb-0">
         <v-text-field
           :label="action == 'Buy' ? $t('total') : $t('choose_amount')"
           v-model="amount"
           outlined
           dense
           :readonly="action == 'Buy'"
-          :suffix="
-            action == 'Sell'
-              ? `${price * amount} ${tradeItem.symbol}`
-              : tradeItem.symbol
-          "
+          :suffix="tradeItem.symbol"
           :error-messages="err_m"
           type="number"
         ></v-text-field>
       </v-container>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions class="px-3 pb-3 pt-0">
       <v-btn
         large
         :loading="loading"
         :disabled="!amount"
         block
-        class="rounded-xl ma-0 mb-8"
+        class="mainBorderRadius ma-0 mb-8"
         @click="save"
         :style="customStyle"
         :class="action !== 'Sell' ? 'green_btn' : 'red_btn'"
@@ -110,6 +108,8 @@ export default {
       end_red_gradient: config.colors.end_red_gradient,
       white: config.colors.white,
       black: config.colors.black,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       amount: "",
       action: "Buy",
       am_ch: true,
@@ -184,6 +184,8 @@ export default {
         "--end_blue_gradient": this.end_blue_gradient,
         "--start_red_gradient": this.start_red_gradient,
         "--end_red_gradient": this.end_red_gradient,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
         "--white": this.white,
         "--black": this.black,
       };
@@ -372,25 +374,97 @@ export default {
   ) !important;
   border-radius: 0px 0px 4px 4px;
 }
-.green_btn {
-  width: 100%;
-  background: linear-gradient(
-    163.28deg,
-    var(--start_blue_gradient) 0%,
-    var(--end_blue_gradient) 85.7%
-  );
-  color: white !important;
-  border-radius: 16px !important;
+html[theme="dark"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+  .red_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_red_gradient) 0%,
+      var(--end_red_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_red_gradient) 0%,
+          var(--end_red_gradient) 85.7%
+        );
+    }
+  }
 }
-.red_btn {
-  width: 100%;
-  background: linear-gradient(
-    163.28deg,
-    var(--start_red_gradient) 0%,
-    var(--end_red_gradient) 85.7%
-  );
-  color: white !important;
-  border-radius: 16px !important;
+html[theme="light"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+  .red_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_red_gradient) 0%,
+      var(--end_red_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_red_gradient) 0%,
+          var(--end_red_gradient) 85.7%
+        );
+    }
+  }
 }
 .dotsLine {
   display: inline;

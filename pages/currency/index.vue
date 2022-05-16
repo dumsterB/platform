@@ -1,11 +1,262 @@
 <template>
   <div>
-  <div class="page-container" >
-    <v-row>
-      <v-col :lg="9" :md="12" class="pt-4">
-        <v-card class="ml-4">
+    <div class="page-container">
+      <v-row>
+        <v-col :lg="9" :md="12" class="pt-4">
+          <v-card class="ml-4">
+            <v-row class="justify-start align-center">
+              <v-col :cols="4" class="pa-0 ma-0 mb-4">
+                <v-autocomplete
+                  class="crypto-select ml-4 mt-4"
+                  v-model="curr_id"
+                  :items="currencies"
+                  item-text="name"
+                  item-value="id"
+                  dense
+                  outlined
+                  hide-details
+                  ><template v-slot:selection="{ item }">
+                    <v-chip
+                      class="ma-0 pa-0"
+                      style="background: transparent !important"
+                    >
+                      <v-row class="ma-0 pa-0">
+                        <img height="20" :src="item.logo" alt="" class="mr-2" />
+                        <strong>{{ item.name }}</strong>
+                        <span class="ml-2 icon_color--text font-weight-bold">
+                          {{ item.symbol }}</span
+                        >
+                      </v-row>
+                    </v-chip>
+                  </template>
+                  <template v-slot:item="{ item }">
+                    <div class="d-flex">
+                      <img height="20" :src="item.logo" alt="" />
+                      <div class="d-flex ml-3">
+                        <strong>{{ item.name }}</strong>
+                        <span class="ml-2 icon_color--text font-weight-bold">
+                          {{ item.symbol }}</span
+                        >
+                      </div>
+                    </div></template
+                  ></v-autocomplete
+                >
+              </v-col>
+              <v-col :cols="8" class="pa-0 ma-0">
+                <Indicators
+                  v-if="page_state == 0"
+                  :currency="curr_code"
+                  :price="price"
+                  :change="change"
+                  :low="low"
+                  :high="high"
+                ></Indicators>
+                <Platforms
+                  v-if="page_state == 1"
+                  :currency="curr_code"
+                  :prices="arb_data"
+                  @clicked="platform_changed"
+                ></Platforms>
+              </v-col>
+            </v-row>
+          </v-card>
+          <v-row class="mt-2 ml-1 mt-4">
+            <v-col class="ma-0" v-if="page_state != 2">
+              <OrderBook
+                :currency="curr_code"
+                :price="price"
+                :change="change"
+              />
+            </v-col>
+            <v-col :cols="8">
+              <v-row>
+                <v-col class="pl-0 pr-1">
+                  <v-btn
+                    large
+                    block
+                    class="menu-curr-buttons"
+                    :class="page_state == 0 ? 'primary' : ''"
+                    @click="page_state = 0"
+                    >{{ $t("spot_title") }}</v-btn
+                  >
+                </v-col>
+                <v-col class="pl-0 pr-1" v-if="curr_crypto">
+                  <v-btn
+                    large
+                    block
+                    class="menu-curr-buttons"
+                    :class="page_state == 1 ? 'primary' : ''"
+                    @click="page_state = 1"
+                    >{{ $t("user_arbitrage") }}</v-btn
+                  >
+                </v-col>
+                <v-col class="pl-0 pr-0" v-if="curr_crypto">
+                  <v-btn
+                    large
+                    block
+                    class="menu-curr-buttons"
+                    :class="page_state == 2 ? 'primary' : ''"
+                    @click="page_state = 2"
+                    >{{ $t("leverage") }}</v-btn
+                  >
+                </v-col>
+              </v-row>
+              <v-row v-if="graph_key && page_state != 2">
+                <v-col class="pl-0">
+                  <TradeGraph
+                    :width="graphWidth"
+                    :height="graphHeight"
+                    :key_g="graph_key"
+                  ></TradeGraph>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col :lg="3" :md="6" class="pt-0 pl-0">
+          <SpotCard
+            v-if="page_state == 0"
+            :currency="curr_code"
+            :price="price"
+            @reload="reload_trade"
+          ></SpotCard>
+          <TableAC
+            v-if="page_state == 1"
+            :currency="curr_code ? curr_code : undefined"
+            :prices="arb_data"
+            :current="current"
+            @reload="reload"
+            class="ml-4"
+          ></TableAC>
+        </v-col>
+      </v-row>
+      <v-row v-if="page_state == 2">
+        <v-col>
+          <Leverage :currency="current"></Leverage>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <TableTrades
+            v-if="trade_filter && page_state == 0"
+            :prices="prices"
+            :filter="trade_filter"
+            ref="trades"
+            ><template v-slot:header
+              ><v-list max-width="600" min-width="480" class="pa-0 borderNone">
+                <v-list-item-group v-model="trade_mode_active" class="d-flex"
+                  ><v-list-item
+                    tag="button"
+                    block
+                    elevation="0"
+                    class="btn_tbl pa-0"
+                    active-class="active_btn_tbl primary--text"
+                    @click="trade_filter_update('1')"
+                    >{{ $t("Open Trades") }}</v-list-item
+                  >
+                  <v-divider class="mx-4" inset vertical></v-divider>
+                  <v-list-item
+                    tag="button"
+                    block
+                    elevation="0"
+                    class="btn_tbl pa-0"
+                    active-class="active_btn_tbl primary--text"
+                    @click="trade_filter_update('3')"
+                    >{{ $t("Orders History") }}</v-list-item
+                  >
+                  <v-divider class="mx-4" inset vertical></v-divider>
+                  <v-list-item
+                    tag="button"
+                    block
+                    elevation="0"
+                    class="btn_tbl pa-0"
+                    active-class="active_btn_tbl primary--text"
+                    @click="trade_filter_update('1')"
+                    >{{ $t("Trade History") }}</v-list-item
+                  ></v-list-item-group
+                ></v-list
+              >
+              <v-divider class="mx-4" inset vertical></v-divider></template
+          ></TableTrades>
+          <TableASession
+            v-if="as_filter && page_state == 1"
+            :prices="prices"
+            :filter="as_filter"
+            title="table_position"
+            ref="a_session"
+            ><template v-slot:header
+              ><v-list max-width="600" min-width="480" class="pa-0 borderNone">
+                <v-list-item-group v-model="as_mode_active" class="d-flex"
+                  ><v-list-item
+                    tag="button"
+                    block
+                    elevation="0"
+                    class="btn_tbl pa-0"
+                    active-class="active_btn_tbl primary--text"
+                    @click="as_filter_update('1')"
+                    >{{ $t("Open Trades") }}</v-list-item
+                  >
+                  <v-divider class="mx-4" inset vertical></v-divider>
+                  <v-list-item
+                    tag="button"
+                    block
+                    elevation="0"
+                    class="btn_tbl pa-0"
+                    active-class="active_btn_tbl primary--text"
+                    @click="as_filter_update('2')"
+                    >{{ $t("Orders History") }}</v-list-item
+                  >
+                  <v-divider class="mx-4" inset vertical></v-divider>
+                  <v-list-item
+                    tag="button"
+                    block
+                    elevation="0"
+                    class="btn_tbl pa-0"
+                    active-class="active_btn_tbl primary--text"
+                    @click="as_filter_update('1')"
+                    >{{ $t("Trade History") }}</v-list-item
+                  ><v-divider
+                    class="mx-4"
+                    inset
+                    vertical
+                  ></v-divider></v-list-item-group
+              ></v-list> </template
+          ></TableASession>
+        </v-col>
+      </v-row>
+    </div>
+    <div class="page-container_mobile">
+      <v-row class="pl-2 pr-2">
+        <v-col class="pl-1 pr-1">
+          <v-btn
+            block
+            class="menu-curr-buttons"
+            :class="page_state == 0 ? 'primary' : ''"
+            @click="page_state = 0"
+            >{{ $t("spot_title") }}</v-btn
+          >
+        </v-col>
+        <v-col class="pl-1 pr-1" v-if="curr_crypto">
+          <v-btn
+            block
+            class="menu-curr-buttons"
+            :class="page_state == 1 ? 'primary' : ''"
+            @click="page_state = 1"
+            >{{ $t("user_arbitrage") }}</v-btn
+          >
+        </v-col>
+        <v-col class="pl-1 pr-1">
+          <v-btn
+            block
+            class="menu-curr-buttons"
+            :class="page_state == 2 ? 'primary' : ''"
+            @click="page_state = 2"
+            >{{ $t("leverage") }}</v-btn
+          >
+        </v-col>
+        <v-card class="mt-5 ml-2 mr-2">
           <v-row class="justify-start align-center">
-            <v-col :cols="4" class="pt-0 mt-0">
+            <v-col :cols="12" class="pt-0 mt-0 pl-5 pr-5">
               <v-autocomplete
                 class="crypto-select ml-4 mt-4"
                 v-model="curr_id"
@@ -17,9 +268,9 @@
                 hide-details
                 ><template v-slot:selection="{ item }">
                   <v-chip style="background: transparent !important">
-                    <v-row class="ml-1">
+                    <v-row class="ml-1 mb-2">
                       <img height="20" :src="item.logo" alt="" class="mr-2" />
-                      <strong>{{ item.name }}</strong>
+                      <p>{{ item.name }}</p>
                       <span class="ml-2" style="color: #bfb5ff">
                         {{ item.symbol }}</span
                       >
@@ -30,16 +281,16 @@
                   <div class="d-flex">
                     <img height="20" :src="item.logo" alt="" />
                     <div class="d-flex ml-3">
-                      <strong>{{ item.name }}</strong>
+                      <strong>{{ item.name }} </strong>
                       <span class="ml-2" style="color: #bfb5ff">
                         {{ item.symbol }}</span
                       >
                     </div>
-                  </div></template
-                ></v-autocomplete
-              >
+                  </div>
+                </template>
+              </v-autocomplete>
             </v-col>
-            <v-col :cols="8" class="pt-4">
+            <v-col :cols="12" class="pt-2">
               <Indicators
                 v-if="page_state == 0"
                 :currency="curr_code"
@@ -57,270 +308,109 @@
             </v-col>
           </v-row>
         </v-card>
-        <v-row class="mt-2 ml-4 mt-4">
-          <v-col :cols="8">
-            <v-row>
-              <v-col class="pl-0 pr-1">
-                <v-btn
-                  large
+        <v-col :cols="12" class="mt-5">
+          <v-card style="background: transparent !important" elevation="0">
+            <v-list width="100%" class="pa-0" v-if="page_state !== 2">
+              <v-list-item-group class="d-flex">
+                <v-list-item
+                  tag="button"
                   block
-                  class="menu-curr-buttons"
-                  :class="page_state == 0 ? 'primary' : ''"
-                  @click="page_state = 0"
-                  >{{ $t("spot_title") }}</v-btn
+                  elevation="0"
+                  class="btn_exchange pa-0 ml-1 mr-1"
+                  :style="customStyle"
+                  @click="content_page = 1"
+                  active-class="active_btn_exchange "
+                  >{{ $t("chart_title") }}</v-list-item
                 >
-              </v-col>
-              <v-col class="pl-0 pr-1" v-if="curr_crypto">
-                <v-btn
-                  large
+                <v-list-item
+                  tag="button"
                   block
-                  class="menu-curr-buttons"
-                  :class="page_state == 1 ? 'primary' : ''"
-                  @click="page_state = 1"
-                  >{{ $t("user_arbitrage") }}</v-btn
+                  elevation="0"
+                  class="btn_exchange pa-0 ml-1 mr-1"
+                  :style="customStyle"
+                  @click="content_page = 1"
+                  active-class="active_btn_exchange "
+                  >{{ $t("orderes_book") }}</v-list-item
                 >
-              </v-col>
-              <v-col class="pl-0 pr-0">
-                <v-btn
-                  large
+                <v-list-item
+                  tag="button"
                   block
-                  class="menu-curr-buttons"
-                  :class="page_state == 2 ? 'primary' : ''"
-                  @click="page_state = 2"
-                  >{{ $t("leverage") }}</v-btn
+                  elevation="0"
+                  class="btn_exchange pa-0 ml-1 mr-1"
+                  :style="customStyle"
+                  @click="content_page = 2"
+                  v-if="page_state !== 1"
+                  active-class="active_btn_exchange"
+                  >{{ $t("spot_title") }}</v-list-item
                 >
-              </v-col>
-            </v-row>
-            <v-row v-if="graph_key && page_state != 2">
-              <v-col class="pl-0">
-                <TradeGraph
-                  :width="graphWidth"
-                  :height="graphHeight"
-                  :key_g="graph_key"
-                ></TradeGraph>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col class="ml-2" v-if="page_state != 2">
-            <OrderBook :currency="curr_code" :price="price" :change="change" />
-          </v-col>
-        </v-row>
-      </v-col>
-      <v-col :lg="3" :md="6" class="pt-0 pl-0">
-        <SpotCard
-          v-if="page_state == 0"
-          :currency="curr_code"
-          :price="price"
-          @reload="reload_trade"
-        ></SpotCard>
-        <TableAC
-          v-if="page_state == 1"
-          :currency="curr_code ? curr_code : undefined"
-          :prices="arb_data"
-          :current="current"
-          @reload="reload"
-          class="ml-4"
-        ></TableAC>
-      </v-col>
-    </v-row>
-    <v-row v-if="page_state == 2">
-      <v-col>
-        <Leverage :currency="current"></Leverage>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <TableTrades
-          v-if="trade_filter && page_state == 0"
-          :prices="prices"
-          :filter="trade_filter"
-          ref="trades"
-        ></TableTrades>
-        <TableASession
-          v-if="as_filter && page_state == 1"
-          :prices="prices"
-          :filter="as_filter"
-          title="table_position"
-          ref="a_session"
-        ></TableASession>
-      </v-col>
-    </v-row>
-  </div>
-    <div class="page-container_mobile" >
-      <v-row class="pl-2 pr-2">
-            <v-col class="pl-1 pr-1">
-              <v-btn
+                <v-list-item
+                  tag="button"
                   block
-                  class="menu-curr-buttons"
-                  :class="page_state == 0 ? 'primary' : ''"
-                  @click="page_state = 0"
-              >{{ $t("spot_title") }}</v-btn
-              >
-            </v-col>
-            <v-col class="pl-1 pr-1" v-if="curr_crypto">
-              <v-btn
-                  block
-                  class="menu-curr-buttons"
-                  :class="page_state == 1 ? 'primary' : ''"
-                  @click="page_state = 1"
-              >{{ $t("user_arbitrage") }}</v-btn
-              >
-            </v-col>
-            <v-col class="pl-1 pr-1">
-              <v-btn
-                  block
-                  class="menu-curr-buttons"
-                  :class="page_state == 2 ? 'primary' : ''"
-                  @click="page_state = 2"
-              >{{ $t("leverage") }}</v-btn
-              >
-            </v-col>
-          <v-card class="mt-5 ml-2 mr-2">
-            <v-row class="justify-start align-center">
-              <v-col :cols="12" class="pt-0 mt-0 pl-5 pr-5">
-                <v-autocomplete
-                    class="crypto-select ml-4 mt-4"
-                    v-model="curr_id"
-                    :items="currencies"
-                    item-text="name"
-                    item-value="id"
-                    dense
-                    outlined
-                    hide-details
-                ><template v-slot:selection="{ item }">
-                  <v-chip style="background: transparent !important">
-                    <v-row class="ml-1 mb-2">
-                      <img height="20" :src="item.logo" alt="" class="mr-2" />
-                      <p>{{ item.name }}</p>
-                      <span class="ml-2" style="color: #bfb5ff">
-                        {{ item.symbol }}</span>
-                    </v-row>
-                  </v-chip>
-                </template>
-                  <template v-slot:item="{ item }">
-                    <div class="d-flex">
-                      <img height="20" :src="item.logo" alt="" />
-                      <div class="d-flex ml-3 ">
-                        <strong>{{ item.name }} </strong>
-                        <span class="ml-2" style="color: #bfb5ff">
-                        {{ item.symbol }}</span
-                        >
-                      </div>
-                    </div>
-                  </template>
-                </v-autocomplete>
-              </v-col>
-              <v-col :cols="12" class="pt-2">
-                <Indicators
-                    v-if="page_state == 0"
-                    :currency="curr_code"
-                    :price="price"
-                    :change="change"
-                    :low="low"
-                    :high="high"
-                ></Indicators>
-                <Platforms
-                    v-if="page_state == 1"
-                    :currency="curr_code"
-                    :prices="arb_data"
-                    @clicked="platform_changed"
-                ></Platforms>
-              </v-col>
-            </v-row>
-          </v-card>
-         <v-col :cols="12" class="mt-5">
-         <v-card style="background: transparent!important;" elevation="0">
-           <v-list width="100%" class="pa-0" v-if="page_state !== 2">
-             <v-list-item-group class="d-flex">
-               <v-list-item
-                   tag="button"
-                   block
-                   elevation="0"
-                   class="btn_exchange pa-0 ml-1 mr-1"
-                   :style="customStyle"
-                   @click="content_page=1"
-                   active-class="active_btn_exchange "
-               >{{ $t("chart_title") }}</v-list-item>
-               <v-list-item
-                   tag="button"
-                   block
-                   elevation="0"
-                   class="btn_exchange pa-0 ml-1 mr-1"
-                   :style="customStyle"
-                   @click="content_page=1"
-                   active-class="active_btn_exchange "
-               >{{ $t("orderes_book") }}</v-list-item>
-               <v-list-item
-                   tag="button"
-                   block
-                   elevation="0"
-                   class="btn_exchange pa-0 ml-1 mr-1"
-                   :style="customStyle"
-                   @click="content_page=2"
-                   v-if="page_state!==1"
-                   active-class="active_btn_exchange"
-               >{{ $t("spot_title") }}</v-list-item>
-               <v-list-item
-                   tag="button"
-                   block
-                   elevation="0"
-                   class="btn_exchange pa-0 ml-1 mr-1"
-                   :style="customStyle"
-                   v-if="page_state == 1"
-                   @click="content_page=2"
-                   active-class="active_btn_exchange"
-               >{{ $t("user_arbitrage") }}</v-list-item>
-             </v-list-item-group>
-           </v-list>
-<!--           <v-col :cols="12" class="pl-0" v-if="graph_key && page_state != 2">
+                  elevation="0"
+                  class="btn_exchange pa-0 ml-1 mr-1"
+                  :style="customStyle"
+                  v-if="page_state == 1"
+                  @click="content_page = 2"
+                  active-class="active_btn_exchange"
+                  >{{ $t("user_arbitrage") }}</v-list-item
+                >
+              </v-list-item-group>
+            </v-list>
+            <!--           <v-col :cols="12" class="pl-0" v-if="graph_key && page_state != 2">
                  <TradeGraph
                      :width="graphWidth"
                      :height="graphHeight"
                      :key_g="graph_key"
                  ></TradeGraph>
            </v-col>-->
-           <v-col :cols="12"  class="mt-5" v-if="page_state !== 2 && content_page===1">
-             <OrderBook :currency="curr_code" :price="price" :change="change" />
-           </v-col>
-           <SpotCard
-               class="mt-5"
-               v-if="page_state === 0 && content_page===2"
-               :currency="curr_code"
-               :price="price"
-               @reload="reload_trade"
-           ></SpotCard>
-           <v-col :cols="12">
-             <TableAC
-                 v-if="page_state == 1"
-                 :currency="curr_code ? curr_code : undefined"
-                 :prices="arb_data"
-                 :current="current"
-                 @reload="reload"
-             ></TableAC>
-           </v-col>
-         </v-card>
-         </v-col>
+            <v-col
+              :cols="12"
+              class="mt-5"
+              v-if="page_state !== 2 && content_page === 1"
+            >
+              <OrderBook
+                :currency="curr_code"
+                :price="price"
+                :change="change"
+              />
+            </v-col>
+            <SpotCard
+              class="mt-5"
+              v-if="page_state === 0 && content_page === 2"
+              :currency="curr_code"
+              :price="price"
+              @reload="reload_trade"
+            ></SpotCard>
+            <v-col :cols="12">
+              <TableAC
+                v-if="page_state == 1"
+                :currency="curr_code ? curr_code : undefined"
+                :prices="arb_data"
+                :current="current"
+                @reload="reload"
+              ></TableAC>
+            </v-col>
+          </v-card>
+        </v-col>
         <v-col style="margin-top: -80px" v-if="page_state == 2">
-        <Leverage :currency="current"></Leverage>
-      </v-col>
+          <Leverage :currency="current"></Leverage>
+        </v-col>
       </v-row>
-      <v-row >
-
-      </v-row>
+      <v-row> </v-row>
       <v-row>
         <v-col>
           <TableTrades
-              v-if="trade_filter && page_state == 0"
-              :prices="prices"
-              :filter="trade_filter"
-              ref="trades"
+            v-if="trade_filter && page_state == 0"
+            :prices="prices"
+            :filter="trade_filter"
+            ref="trades"
           ></TableTrades>
           <TableASession
-              v-if="as_filter && page_state == 1"
-              :prices="prices"
-              :filter="as_filter"
-              title="table_position"
-              ref="a_session"
+            v-if="as_filter && page_state == 1"
+            :prices="prices"
+            :filter="as_filter"
+            title="table_position"
+            ref="a_session"
           ></TableASession>
         </v-col>
       </v-row>
@@ -378,7 +468,9 @@ export default {
       curr_subscr: "",
       trade_filter: null,
       interv: null,
-      content_page:1,
+      content_page: 1,
+      trade_mode_active: 0,
+      as_mode_active: 0,
     };
   },
   computed: {
@@ -391,6 +483,9 @@ export default {
     }),
     ...mapGetters("data/trade", {
       trades: "list",
+    }),
+    ...mapGetters("data/arbitrage_session", {
+      as_list: "list",
     }),
     ...mapGetters("config/ws", {
       prices_current: "page_data",
@@ -449,8 +544,7 @@ export default {
     curr_id() {
       if (this.curr_id) {
         this.trade_filter = {
-          trade_status_id: "3",
-          dest_currency_id: this.curr_id,
+          trade_status_id: "1",
         };
         this.current = this.curr_by_id(this.curr_id) || {};
         this.curr_code = this.current.symbol;
@@ -458,7 +552,8 @@ export default {
     },
     curr_code() {
       this.as_filter = {
-        "wallet[currency_id]": this.curr_id,
+        // "wallet[currency_id]": this.curr_id,
+        status_id: "1",
       };
       (this.price = null), (this.change = null);
       this.low = null;
@@ -502,11 +597,16 @@ export default {
           let data = json_d.data ? json_d.data.data || [] : [];
           if (me.page_state == 0) {
             if (data.length > 0) {
-              me.price_update(data[0]);
+              data.forEach((dt) => {
+                me.price_update(dt);
+              });
             }
           } else if (me.page_state == 1) {
-            me.arb_data = data;
-            me.prices = data;
+            if (el == `${me.base_p}:all@ticker_10s`) {
+              me.prices = data;
+            } else {
+              me.arb_data = data;
+            }
           }
         }
       });
@@ -550,10 +650,20 @@ export default {
     platform_changed(platform) {
       this.selected_platform = platform;
     },
+    trade_filter_update(dt) {
+      this.trade_filter = {
+        trade_status_id: dt,
+      };
+    },
+    as_filter_update(dt) {
+      this.as_filter = {
+        status_id: dt,
+      };
+    },
     trades_subscribe_definer(bool) {
       let me = this;
       let str = "";
-      let arr = [];
+      let arr = [`${me.base_p}:all@ticker_10s`];
       this.trades.forEach((wall, i) => {
         let p_arr = ["dest_currency", "source_currency"];
         for (let i = 0; i < 2; i++) {
@@ -563,15 +673,7 @@ export default {
           if (dt) {
             me.price_update(dt);
           }
-          if (curr.currency_type.key == "CRYPTO") {
-            let st = `${me.base_p}:${cr}-USD@ticker_10s`;
-            let fnd = arr.find((el) => el == st);
-            if (!fnd) {
-              str += `"${st}"`;
-              arr.push(st);
-              str += ",";
-            }
-          } else {
+          if (curr.currency_type.key != "CRYPTO") {
             let ex_t = curr.exchange_type.key;
             if (cr != "USD") {
               let st = `shares:${cr}.${ex_t}@kline_1d`;
@@ -596,6 +698,7 @@ export default {
         price: data.close ? 1 / data.close : data.price,
         base: data.base ? data.base : data.share,
       };
+
       let fnd = me.prices.find((el) => el && el.base == add_data.base);
       if (fnd) {
         fnd.price = add_data.price;
@@ -603,27 +706,26 @@ export default {
         me.prices.push(add_data);
       }
       if (add_data.base == me.curr_code) {
-        if (me.current.currency_type.key != "CRYPTO") {
+        if (me.current.currency_type.key != "CRYPTO" && data.close) {
+          let datka = data;
+          console.log("datka", datka);
           if (me.ex_type == "FOREX") {
-            me.price = Math.round(10000000 / data.close) / 10000000;
-            let open = Math.round(10000000 / data.open) / 10000000;
+            me.price = Math.round(10000000 / datka.close) / 10000000;
+            let open = Math.round(10000000 / datka.open) / 10000000;
             me.change = me.price - open;
-            me.low = Math.round(10000000 / data.low) / 10000000;
-            me.high = Math.round(10000000 / data.high) / 10000000;
+            me.low = Math.round(10000000 / datka.low) / 10000000;
+            me.high = Math.round(10000000 / datka.high) / 10000000;
           } else {
-            me.price = data.close;
-            me.change = data.close - data.open;
-            me.low = data.low;
-            me.high = data.high;
+            me.price = datka.close;
+            me.change = datka.close - datka.open;
+            me.low = Math.round(100000 * datka.low) / 100000;
+            me.high = Math.round(100000 * datka.high) / 100000;
           }
         } else {
-          if (data.low) {
-            me.low = Math.round(1000 * data.low) / 1000;
-            me.high = Math.round(1000 * data.high) / 1000;
-          } else {
-            me.price = data.price;
-            me.change = data.change;
-          }
+          me.price = data.price;
+          me.change = data.change_24h;
+          me.low = data.low_24h;
+          me.high = data.high_24h;
         }
       }
     },
@@ -632,16 +734,15 @@ export default {
       let obj = me.trades_subscribe_definer();
       this.unsubscribe();
       me.arr_subscr = obj.arr;
-      let dt = me.get_val(me.curr_code);
-      if (dt) {
-        me.price_update(dt);
-      }
       if (this.curr_crypto) {
         me.arr_subscr.push(`${me.base_p}:${me.curr_code}-USD@ticker_5s`);
-        me.arr_subscr.push(`${me.base_p}:${me.curr_code}-USD@kline_1d`);
       } else {
         me.ex_type = me.current.exchange_type.key;
         me.arr_subscr.push(`shares:${me.curr_code}.${me.ex_type}@kline_1d`);
+      }
+      let dt = me.get_val(me.curr_code);
+      if (dt) {
+        me.price_update(dt);
       }
       this.subscribe(Object.assign([], me.arr_subscr));
       // console.log("me.str_subscr", me.str_subscr);
@@ -649,7 +750,10 @@ export default {
     arbitrage_sockets() {
       let me = this;
       this.unsubscribe();
-      me.arr_subscr = [`all:${me.curr_code}-USD@ticker_5s`];
+      me.arr_subscr = [
+        `all:${me.curr_code}-USD@ticker_5s`,
+        `${me.base_p}:all@ticker_10s`,
+      ];
       this.subscribe(Object.assign([], me.arr_subscr));
     },
   },
@@ -674,16 +778,45 @@ export default {
 };
 </script>
 <style>
+.btn_tbl {
+  padding: 10px 10px 10px 0px;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  width: 100px;
+  border-top: 3px solid transparent;
+  background: transparent !important;
+}
+.active_btn_tbl {
+  position: relative;
+  padding: 10px 10px 10px 0px;
+  justify-content: center;
+  margin-top: 0px;
+  font-weight: 700;
+  font-size: 16px;
+  border-top: 3px solid transparent;
+  background: transparent !important;
+}
+.active_btn_tbl::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  min-height: 6px !important;
+  top: -8px;
+  left: 0;
+  background: #007bff !important;
+  border-radius: 0px 0px 4px 4px;
+}
 .menu-curr-buttons {
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .menu-curr-buttons:not(.primary) {
-  background: #000c19 !important;
+  background: #161f49 !important;
 }
 html[theme="light"] .menu-curr-buttons:not(.primary) {
   background: #ffffff !important;
 }
-.page-container_mobile{
+.page-container_mobile {
   display: none;
 }
 .btn_exchange {
@@ -716,14 +849,17 @@ html[theme="light"] .menu-curr-buttons:not(.primary) {
   border-radius: 0px 0px 4px 4px;
 }
 @media (max-width: 1000px) {
-  .page-container_mobile{
+  .page-container_mobile {
     display: block;
   }
-  .page-container{
+  .page-container {
     display: none;
   }
-  .menu-curr-buttons{
-    height: 50px!important;
+  .menu-curr-buttons {
+    height: 50px !important;
+  }
+  .crypto-select fieldset {
+    border: none !important;
   }
 }
 </style>

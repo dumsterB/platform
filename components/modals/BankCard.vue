@@ -141,6 +141,8 @@ export default {
       payment_card_box_shadow: config.colors.payment_card_box_shadow,
       primary: config.themes.dark.primary,
       white: config.themes.light.item_bg,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
       showCVV: false,
       card_number: "",
       exp_date: "",
@@ -214,6 +216,8 @@ export default {
         "--primary": this.primary,
         "--payment_card_box_shadow": this.payment_card_box_shadow,
         "--white": this.white,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
       };
     },
     getCardType() {
@@ -239,7 +243,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .v-dialog {
-  border-radius: 35px;
+  border-radius: 10px;
 }
 
 html[theme="dark"] .card_data {
@@ -251,7 +255,8 @@ html[theme="light"] .card_data {
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
 }
-.success-btn {
+
+html[theme="dark"] .success-btn {
   width: 100% !important;
   font-weight: 700;
   font-size: 18px;
@@ -260,15 +265,36 @@ html[theme="light"] .card_data {
   text-transform: inherit;
   color: white !important;
   background-color: var(--primary) !important;
-  border-radius: 16px;
+  border-radius: 10px;
   &:disabled {
-    opacity: 0.7;
     cursor: not-allowed;
+    background: linear-gradient(
+        0deg,
+        var(--dark_disabled),
+        var(--dark_disabled)
+      ),
+      var(--primary) !important;
   }
 }
-.theme--dark.v-btn.v-btn--disabled.v-btn--has-bg,
-.theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
+html[theme="light"] .success-btn {
+  width: 100% !important;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -1px;
+  text-transform: inherit;
+  color: white !important;
   background-color: var(--primary) !important;
+  border-radius: 10px;
+  &:disabled {
+    cursor: not-allowed;
+    background: linear-gradient(
+        0deg,
+        var(--light_disabled),
+        var(--light_disabled)
+      ),
+      var(--primary) !important;
+  }
 }
 .v-subheader {
   height: 32px;
@@ -289,7 +315,7 @@ html[theme="light"] .card_data {
   position: relative;
   height: 600px;
   background: transparent !important;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: none;
 }
 .card_item {
@@ -299,7 +325,7 @@ html[theme="light"] .card_data {
   background: var(--primary) !important;
   color: var(--white);
   box-shadow: inset -8px -6px 80px var(--payment_card_box_shadow);
-  border-radius: 20px;
+  border-radius: 10px;
   font-weight: 400;
   font-size: 24px;
   line-height: 28px;

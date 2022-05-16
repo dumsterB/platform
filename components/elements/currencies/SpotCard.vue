@@ -110,7 +110,7 @@
             :loading="loading"
             :disabled="!amount"
             block
-            class="rounded-xl"
+            class="mainBorderRadius"
             @click="trade_run"
             :style="customStyle"
             :class="buy_sell ? 'green_btn' : 'red_btn'"
@@ -146,30 +146,30 @@
       <v-row class="to_small_text">
         <v-col :cols="6" class="pb-0">
           <span class="gray--text">{{ "USD" }}</span>
-          <span class="ml-4 gray--text">{{ $t("Available") }}</span>
+          <span class="ml-0 gray--text">{{ $t("Available") }}</span>
         </v-col>
         <v-col :cols="6" class="pb-0 text-right">
-          <span class=""
+          <span class="ma-0 pa-0"
             >{{
               usd_bal ? new Intl.NumberFormat().format(usd_bal.toFixed(4)) : ""
             }}
-            <span class="gray--text">{{ "USD" }}</span></span
+            <span class="gray--text ma-0 pa-0">{{ "USD" }}</span></span
           >
         </v-col>
       </v-row>
       <v-row class="mb-2 to_small_text">
         <v-col :cols="6">
           <span class="gray--text">{{ currency }}</span>
-          <span class="ml-4 gray--text">{{ $t("Available") }}</span>
+          <span class="ml-0 gray--text">{{ $t("Available") }}</span>
         </v-col>
         <v-col :cols="6" class="text-right">
-          <span class=""
+          <span class="ma-0 pa-0"
             >{{
               curr_bal
                 ? new Intl.NumberFormat().format(curr_bal.toFixed(4))
                 : ""
             }}
-            <span class="gray--text">{{ currency }}</span></span
+            <span class="gray--text ma-0 pa-0">{{ currency }}</span></span
           >
         </v-col>
       </v-row>
@@ -215,6 +215,8 @@ export default {
       start_red_gradient: config.colors.start_red_gradient,
       end_red_gradient: config.colors.end_red_gradient,
       primary: config.colors.text.primary,
+      dark_disabled: config.colors.dark_disabled_primary_btn,
+      light_disabled: config.colors.light_disabled_primary_btn,
     };
   },
   computed: {
@@ -258,6 +260,8 @@ export default {
         "--end_blue_gradient": this.end_blue_gradient,
         "--start_red_gradient": this.start_red_gradient,
         "--end_red_gradient": this.end_red_gradient,
+        "--dark_disabled": this.dark_disabled,
+        "--light_disabled": this.light_disabled,
         "--primary": this.primary,
       };
     },
@@ -464,34 +468,108 @@ export default {
   ) !important;
   border-radius: 0px 0px 4px 4px;
 }
-.green_btn {
-  background: linear-gradient(
-    163.28deg,
-    var(--start_blue_gradient) 0%,
-    var(--end_blue_gradient) 85.7%
-  );
-  color: white !important;
-  border-radius: 16px !important;
+html[theme="dark"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+  .red_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_red_gradient) 0%,
+      var(--end_red_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--dark_disabled),
+          var(--dark_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_red_gradient) 0%,
+          var(--end_red_gradient) 85.7%
+        );
+    }
+  }
 }
-.red_btn {
-  background: linear-gradient(
-    163.28deg,
-    var(--start_red_gradient) 0%,
-    var(--end_red_gradient) 85.7%
-  );
-  color: white !important;
-  border-radius: 16px !important;
+html[theme="light"] {
+  .green_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_blue_gradient) 0%,
+      var(--end_blue_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_blue_gradient) 0%,
+          var(--end_blue_gradient) 85.7%
+        );
+    }
+  }
+  .red_btn {
+    width: 100%;
+    background: linear-gradient(
+      163.28deg,
+      var(--start_red_gradient) 0%,
+      var(--end_red_gradient) 85.7%
+    );
+    color: white !important;
+    border-radius: 10px !important;
+    &:disabled {
+      background: linear-gradient(
+          0deg,
+          var(--light_disabled),
+          var(--light_disabled)
+        ),
+        linear-gradient(
+          163.28deg,
+          var(--start_red_gradient) 0%,
+          var(--end_red_gradient) 85.7%
+        );
+    }
+  }
 }
 .outlined-btn {
   background: transparent !important;
   border: solid 2px var(--primary) !important;
   color: var(--primary);
-  border-radius: 16px;
+  border-radius: 10px;
 }
 .success-btn {
   background: var(--primary) !important;
   border: solid 2px var(--primary) !important;
   color: white !important;
-  border-radius: 16px;
+  border-radius: 10px;
 }
 </style>
