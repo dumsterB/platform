@@ -71,7 +71,10 @@
     </div>
     <div class="mt-6 mx-4 text-center" style="min-width: 120px">
       <p class="mb-0 pb-0 title-head">Total PLN</p>
-      <p class="title-data" :class="total_pln > 0 ? 'green--text' : 'red--text'">
+      <p
+        class="title-data"
+        :class="total_pln > 0 ? 'green--text' : 'red--text'"
+      >
         $ {{ new Intl.NumberFormat().format(total_pln) }}
       </p>
     </div>
@@ -85,7 +88,7 @@
       hide-details
     >
       <template v-slot:activator="{ on }">
-        <v-hover v-slot="{ hover }">
+        <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
           <div
             flat
             class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
@@ -98,7 +101,7 @@
                 :style="customStyle"
               >
                 <img v-if="userAvatar" :src="userAvatar" />
-                <v-icon v-else :color="hover ? 'primary' : 'gray'" class="mr-2"
+                <v-icon v-else :color="hover ? 'primary' : 'gray'"
                   >mdi-account</v-icon
                 >
               </v-avatar>
@@ -313,8 +316,7 @@ export default {
             if (dt && dt.close) {
               let change = (dt.close - dt.open).toFixed(4);
               let ch_pr = ((change * 100) / dt.close).toFixed(4);
-              let color =
-                dt.close - dt.open > 0 ? "green--text" : "red--text";
+              let color = dt.close - dt.open > 0 ? "green--text" : "red--text";
               let share =
                 dt.exchange == "FOREX"
                   ? `${dt.share}/USD`

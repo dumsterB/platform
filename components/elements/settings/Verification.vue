@@ -34,16 +34,16 @@
                       <label for="item.name">
                         <v-row
                           v-if="!item.img"
-                          class="px-12 py-0 ma-0 mb-3 justify-center align-center"
+                          class="pr-xs-12 pl-xs-12 pr-sm-12 pl-sm-12 pr-md-0 pl-md-0 pr-xl-12 pl-xl-12 py-0 ma-0 mb-3 justify-center align-center"
                         >
-                          <v-col :cols="2" class="pa-0 ma-0">
+                          <v-col cols="2" class="pa-0 ma-0">
                             <v-icon size="32" color="icon_color">{{
                               item.icon
                             }}</v-icon>
                           </v-col>
-                          <v-col :cols="10" class="pa-0 ma-0">
+                          <v-col cols="10" class="pa-0 ma-0">
                             <p
-                              class="icon_color--text text-uppercase upload_title"
+                              class="icon_color--text text-caption text-lg-overline font-h1 font-md-caption upload_title ma-0 pa-0"
                             >
                               {{ item.name }}
                             </p>
@@ -284,11 +284,13 @@ export default {
   display: none;
 }
 
-.upload_title {
+.upload_title,
+.v-application,
+.text-lg-overline {
   cursor: pointer;
-  font-size: 14px;
-  line-height: 16px;
-  letter-spacing: 0px;
+  font-size: 14px !important;
+  line-height: 16px !important;
+  letter-spacing: 0px !important;
 }
 .upload_lable {
   cursor: pointer;

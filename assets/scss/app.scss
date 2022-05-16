@@ -12,9 +12,22 @@ div#app.v-application,
 div#app.v-application--wrap,
 .v-list-item__title,
 .mdc-typography,
+.v-application .text-h1,
+.v-application .text-h2,
+.v-application .text-h3,
+.v-application .text-h4,
 .v-application .text-h5,
-.v-application .text-h6 {
+.v-application .text-h6,
+.v-application .text-subtitle-1,
+.v-application .text-subtitle-2,
+.v-application .text-body-1,
+.v-application .text-body-2,
+.v-application .text-button,
+.v-application .text-caption,
+.v-application .text-overline {
     font-family: var(--mdc-typography-font-family), "Montserrat", sans-serif !important;
+    letter-spacing: 0px !important;
+    font-size: inherit !important;
 }
 
 a {
