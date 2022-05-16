@@ -2,8 +2,7 @@
   <div>
     <v-row v-if="curr_company" class="pa-1">
       <v-col
-        cols="6"
-        xl="6"
+        xl="2"
         md="4"
         lg="3"
         sm="6"
