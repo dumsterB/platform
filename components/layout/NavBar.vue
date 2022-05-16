@@ -331,7 +331,7 @@ export default {
               base: dt.base ? dt.base : dt.share,
             };
             let fnd = me.wallets.find(
-              (wl) => wl.currency.symbol == price_data.base
+              (wl) => wl.currency && wl.currency.symbol == price_data.base
             );
             if (fnd && price_data.price) {
               if (fnd.currency.currency_type.key == "FIAT") {
