@@ -34,21 +34,6 @@
               />
             </v-col>
           </v-row>
-          <!--          <v-row class="ml-3 mr-3 currency-mobile" style="width: 100%">
-              <p></p>
-            <v-col v-for="(curr, i) in f_currs" :key="i">
-              <carousel>
-              <Currency
-                  :currency="curr"
-                  style="width: 100%"
-                  :companies="companies"
-                  :tooltip="true"
-                  :id="`ttp-${curr.symbol}`"
-                  class="currency"
-              />
-              </carousel>
-            </v-col>
-          </v-row>-->
         </v-col>
       </v-row>
       <v-row>
@@ -128,7 +113,6 @@ import Wallet from "../../components/elements/Wallet";
 import Exchange from "../../components/elements/exchange";
 import TableTop from "../../components/data/TableTop";
 const model = "data/currency";
-import carousel from "v-owl-carousel";
 
 export default {
   components: {
@@ -136,7 +120,6 @@ export default {
     Wallet,
     Exchange,
     TableTop,
-    carousel,
   },
   data() {
     let mi = parseInt(window.innerWidth / 280);
