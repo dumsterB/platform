@@ -313,7 +313,7 @@ html[theme="light"] .success-btn {
 }
 .payment_card {
   position: relative;
-  height: 600px;
+  height: 620px;
   background: transparent !important;
   border-radius: 10px;
   box-shadow: none;

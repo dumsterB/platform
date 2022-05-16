@@ -1,6 +1,6 @@
 <template>
   <div class="pt-4">
-    <div class="payment_card">
+    <div class="payment_card mr-xl-12 ml-xl-2">
       <div class="card_item pa-6" :style="customStyle">
         <p class="mb-12">{{ $t("payment_card") }} #{{ 1 }}</p>
         <p class="mb-12 card_item_number" v-if="selected_card">
@@ -42,7 +42,7 @@
                     dense
                     class="card_list"
                     :style="customStyle"
-                    height="52"
+                    height="42"
                     append-icon="mdi-chevron-down"
                   >
                     <template v-slot:selection="{ attr, on, item, selected }">
@@ -412,7 +412,7 @@ html[theme="light"] .success-btn {
   position: absolute;
   content: "";
   top: 252px;
-  width: 80%;
+  width: 88%;
   margin: 0 auto;
 }
 .card_data {
