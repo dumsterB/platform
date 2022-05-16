@@ -120,7 +120,7 @@
       </v-row>
       <v-row>
         <v-col :cols="6" class="pb-2 pt-0">
-          <span class="small_text gray--text">0%</span>
+          <span class="small_text gray--text">{{ slider_v }}%</span>
         </v-col>
         <v-col :cols="6" class="pb-2 pt-0 text-right">
           <span class="small_text gray--text">100%</span>
@@ -369,7 +369,7 @@ export default {
       this.loading = true;
       let trade_data = {};
       let curr = this.currencies.find((el) => el.symbol == this.currency);
-      let curr_usd = this.currencies.find((el) => el.symbol == 'USD');
+      let curr_usd = this.currencies.find((el) => el.symbol == "USD");
       if (curr) {
         if (!this.buy_sell) {
           trade_data.source_currency_id = curr.id;
@@ -459,6 +459,9 @@ export default {
   },
   created() {
     this.fetchWallet();
+  },
+  mounted() {
+    console.log("this.slider_v :>> ", this.slider_v);
   },
 };
 </script>
