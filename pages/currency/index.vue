@@ -73,7 +73,12 @@
         </v-card>
         <v-row class="mt-2 ml-1 mt-4">
           <v-col class="ma-0" v-if="page_state != 2">
-            <OrderBook :currency="curr_code" :price="price" :change="change" />
+            <OrderBook
+              :currency="curr_code"
+              :price="price"
+              :change="change"
+              :trade_currency="trade_currency"
+            />
           </v-col>
           <v-col :cols="8">
             <v-row class="pr-2 ml-0">
@@ -125,6 +130,7 @@
           v-if="page_state == 0"
           :currency="curr_code"
           :price="price"
+          :trade_currency="trade_currency"
           @reload="reload"
         ></SpotCard>
         <TableAC
@@ -198,6 +204,7 @@ export default {
       curr_subscr: "",
       trade_filter: null,
       interv: null,
+      trade_currency: "USD",
     };
   },
   computed: {
@@ -256,8 +263,11 @@ export default {
         if (this.curr_code == "R6C0") {
           kk = "XETR";
         }
-        if (this.current.currency_type.key == 'COMMODITY') {
+        if (this.current.currency_type.key == "COMMODITY") {
           return this.current.short_name;
+        }
+        if (k.tv == "CAPITALCOM") {
+          return kk + ":" + this.curr_code + "RU";
         }
         return kk + ":" + this.curr_code;
       }
@@ -271,6 +281,16 @@ export default {
         };
         this.current = this.curr_by_id(this.curr_id) || {};
         this.curr_code = this.current.symbol;
+        if (
+          this.current.currency_type &&
+          this.current.currency_type.key != "CRYPTO" &&
+          this.current.currency_type.key != "FIAT"
+        ) {
+          let fnd = this.stocks.find(el => el.key == this.current.exchange_type.key);
+          if (fnd) {
+            this.trade_currency = fnd.currency;
+          }
+        }
       }
     },
     curr_code() {

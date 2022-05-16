@@ -37,11 +37,11 @@
         </v-row>
         <v-row class="pt-0 mt-0 pb-1"
           ><v-col class="gray--text py-1" style="font-size: 12px"
-            >{{ $t("price") }} (USD)</v-col
+            >{{ $t("price") }} ({{trade_currency}})</v-col
           ><v-col class="gray--text py-1" style="font-size: 12px"
             >{{ $t("quantity_title") }} ({{ currency }})</v-col
           ><v-col class="gray--text py-1" style="font-size: 12px"
-            >{{ $t("total") }} (USD)</v-col
+            >{{ $t("total") }} ({{trade_currency}})</v-col
           ></v-row
         >
         <div v-if="mode != 2" class="my-2">
@@ -73,7 +73,7 @@
               change_val
             }}</span
             ><span style="font-weight: 400; font-size: 12px">
-              ≈ {{ change }} USD</span
+              ≈ {{ change }} {{trade_currency}}</span
             >
           </v-col>
         </v-row>
@@ -108,7 +108,7 @@
               change_val
             }}</span
             ><span style="font-weight: 400; font-size: 12px">
-              ≈ {{ change }} USD</span
+              ≈ {{ change }} {{trade_currency}}</span
             >
           </v-col>
         </v-row>
@@ -135,6 +135,10 @@ export default {
       type: Number,
       default: 10000,
     },
+    trade_currency: {
+      type: String,
+      default: "USD",
+    }
   },
   components: {},
   data() {

@@ -45,6 +45,13 @@ export const state = () => ({
             currency: "USD",
             list: [],
         },
+        {
+            name: "MICEX Moscow Russia",
+            key: "MCX",
+            tv: "CAPITALCOM",
+            currency: "RUB",
+            list: [],
+        },
     ]
 })
 

@@ -61,7 +61,7 @@
         <v-col :cols="6" class="pb-0 text-right">
           <span class="small_text"
             >{{
-              av_bal ? new Intl.NumberFormat().format(av_bal.toFixed(4)) : ""
+              av_bal ? new Intl.NumberFormat().format(av_bal) : 0
             }}
             {{ curr }}</span
           >
@@ -90,7 +90,7 @@
             dense
             hide-details
             class="mt-2 border-rad"
-            suffix="USD"
+            :suffix="trade_currency"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -135,7 +135,7 @@
               outlined
               dense
               hide-details
-              suffix="USD"
+              :suffix="trade_currency"
               type="number"
               class="mt-2"
             ></v-text-field>
@@ -184,7 +184,7 @@
       </v-row>
       <v-row class="to_small_text">
         <v-col :cols="6" class="pb-0">
-          <span class="gray--text">{{ "USD" }}</span>
+          <span class="gray--text">{{ trade_currency }}</span>
           <span class="ml-0 gray--text">{{ $t("Available") }}</span>
         </v-col>
         <v-col :cols="6" class="pb-0 text-right">
@@ -192,7 +192,7 @@
             >{{
               usd_bal ? new Intl.NumberFormat().format(usd_bal.toFixed(4)) : ""
             }}
-            <span class="gray--text ma-0 pa-0">{{ "USD" }}</span></span
+            <span class="gray--text ma-0 pa-0">{{ trade_currency }}</span></span
           >
         </v-col>
       </v-row>
@@ -233,6 +233,10 @@ export default {
       default: "BTC",
     },
     price: 0,
+    trade_currency: {
+      type: String,
+      default: "USD",
+    }
   },
   components: {
     Deposit,
@@ -276,7 +280,7 @@ export default {
       }
     },
     usd_bal() {
-      let bal = this.wallet.find((el) => el.currency.symbol == "USD");
+      let bal = this.wallet.find((el) => el.currency.symbol == this.trade_currency);
       if (bal) {
         return bal.balance;
       }
@@ -298,7 +302,7 @@ export default {
     },
     curr() {
       if (this.buy_sell) {
-        return "USD";
+        return this.trade_currency;
       } else {
         return this.currency;
       }
@@ -369,7 +373,11 @@ export default {
       this.loading = true;
       let trade_data = {};
       let curr = this.currencies.find((el) => el.symbol == this.currency);
+<<<<<<< HEAD
       let curr_usd = this.currencies.find((el) => el.symbol == "USD");
+=======
+      let curr_usd = this.currencies.find((el) => el.symbol == this.trade_currency);
+>>>>>>> 6e09e41fa0246e007404f631debc966fe6f406be
       if (curr) {
         if (!this.buy_sell) {
           trade_data.source_currency_id = curr.id;
