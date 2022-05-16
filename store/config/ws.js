@@ -39,7 +39,7 @@ export const actions = {
             if (state.socket.readyState !== state.socket.OPEN) {
                 dispatch('init_socket');
             }
-        }, 10000));
+        }, 1000));
     },
     init_socket({ commit, state }) {
         commit('set_socket');
