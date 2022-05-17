@@ -2,6 +2,7 @@
   <v-navigation-drawer
       v-model="drawerMenu"
       app
+      class="sidebarMobile"
      style="background: #1C1838!important;"
   >
     <v-row
@@ -156,6 +157,11 @@ html[theme="dark"] {
   height: 30px;
   margin-right: auto;
   margin-left: 20px;
+}
+@media(max-width: 1000px){
+  .sidebarMobile{
+    display: none!important;
+  }
 }
 
 </style>
