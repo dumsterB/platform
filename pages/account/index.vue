@@ -66,7 +66,7 @@ export default {
     TableTop,
   },
   data() {
-    let mi = parseInt(window.innerWidth/ 280);
+    let mi = parseInt(window.innerWidth/ 300);
     return {
       currs: [],
       companies: [],
