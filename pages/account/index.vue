@@ -57,12 +57,9 @@
             class="d-flex mr-6 mdc-form-field--space-between justify-content-beetween currencyNavbar"
           >
             <div>
-              <p class="text-h6 ml-10">{{ $t("markets") }}</p>
+              <p class="text-h6 mx-2 mb-0 pb-0">{{ $t("markets") }}</p>
             </div>
-            <div class="d-flex mb-4">
-              <p elevation="0" class="mr-4 mt-2">
-                <v-icon>mdi-filter</v-icon> {{ $t("filters") }}
-              </p>
+            <!-- <div class="d-flex mb-4"> -->
               <!-- <v-text-field
                   :label="$t('market_search_bar_placeholder')"
                   v-model="search"
@@ -72,10 +69,10 @@
                   dense
                   prepend-inner-icon="mdi-magnify"
                 ></v-text-field> -->
-            </div>
+            <!-- </div> -->
           </div>
-          <v-row class="ml-3 mr-3">
-            <v-col cols="12" v-for="(curr, i) in f_currs" :key="i">
+          <v-row>
+            <v-col cols="12" class="pt-0" v-for="(curr, i) in f_currs" :key="i">
               <Currency
                 :currency="curr"
                 style="width: 100%"

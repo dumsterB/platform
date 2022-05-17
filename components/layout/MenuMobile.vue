@@ -1,54 +1,56 @@
 <template>
   <v-navigation-drawer
-      v-model="drawerMenu"
-      app
-     style="background: #1C1838!important;"
+    v-model="drawerMenu"
+    app
+    class="menu-mobile"
+    style="background: #1c1838 !important"
   >
     <v-row
-        v-if="!style_panel_left_minimal"
-        class="align-center px-4"
-        style="height: 70px; margin: 0px"
+      class="align-center px-4"
+      style="height: 70px; margin: 0px"
     >
       <img class="logo-img" :src="config.logo" :alt="$t('logoPic')" />
       <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
         <v-btn
-            icon
-            :color="hover ? 'primary' : 'icon_color'"
-            class="ml-auto"
-            @click="drawerHandler"
+          icon
+          :color="hover ? 'primary' : 'icon_color'"
+          :v-ripple="{ center: false }"
+          class="ml-auto"
+          @click="drawerHandler"
         >
           <v-icon size="28">{{ "mdi-chevron-left" }}</v-icon>
         </v-btn>
       </v-hover>
     </v-row>
-    <v-list class="ma-0 pa-0 mt-5">
+
+    <v-list class="ma-0 pa-0 borderNone">
       <v-list-item-group v-model="menu_active">
         <div v-for="(item, i) in menu" :key="i">
           <v-list-item
-              :key="i"
-              nuxt
-              :to="item.to"
-              :style="customStyle"
-              class="menu-list-item primary--text"
-              active-class="active-list-item"
+            :key="i"
+            nuxt
+            :to="item.to"
+            :style="customStyle"
+            class="menu-list-item primary--text"
+            active-class="active-list-item"
           >
             <template v-slot:default="{}">
               <v-tooltip
-                  right
-                  nudge-right
-                  transition="slide-x-reverse-transition"
+                right
+                nudge-right
+                transition="slide-x-reverse-transition"
               >
                 <template v-slot:activator="{ on }">
                   <v-list-item-action v-on="on">
                     <v-hover
-                        v-slot="{ hover }"
-                        open-delay="223"
-                        close-delay="223"
+                      v-slot="{ hover }"
+                      open-delay="223"
+                      close-delay="223"
                     >
                       <v-icon
-                          :color="hover ? 'primary' : 'icon_color'"
-                          size="24"
-                      >{{ item.icon }}</v-icon
+                        :color="hover ? 'primary' : 'icon_color'"
+                        size="24"
+                        >{{ item.icon }}</v-icon
                       >
                     </v-hover>
                   </v-list-item-action>
@@ -56,18 +58,25 @@
                     <v-list-item-title v-text="$t(item.title)" />
                   </v-list-item-content>
                 </template>
-                <span>{{ $t(item.title) }} </span>
+                <span>{{ $t(item.title) }}</span>
               </v-tooltip>
             </template>
           </v-list-item>
         </div>
       </v-list-item-group>
     </v-list>
+    <div class="pl-9 pt-4">
+      <v-btn
+        class="primary white--text mainBorderRadius font-weight-bold text-none mr-8 goToAction"
+      >
+        {{ $t("go_to_website") }}
+      </v-btn>
+    </div>
   </v-navigation-drawer>
 </template>
 
 <script>
-import {mapGetters, mapActions, mapState, mapMutations} from "vuex";
+import { mapGetters, mapActions, mapState, mapMutations } from "vuex";
 import config from "~/config/config.json";
 export default {
   data: function () {
@@ -82,30 +91,34 @@ export default {
   },
   components: {},
   methods: {
-    ...mapMutations({setDrawer:'config/data/setDrawer'}),
-    drawerHandler(){
-      this.setDrawer(false)
-      console.log('works')
+    ...mapMutations({ setDrawer: "config/data/setDrawer" }),
+    drawerHandler() {
+      this.setDrawer(false);
+      console.log("works");
     },
   },
 
   computed: {
     ...mapGetters({
       menu: "config/menu/getAllMenu",
-      drawerMenu:"config/data/drawerMenu"
+      drawerMenu: "config/data/drawerMenu",
     }),
     customStyle() {
       return {
         "--primary": this.primary,
       };
     },
-
   },
   mounted() {},
   watch: {},
 };
 </script>
 <style lang="scss">
+@media (min-width: 1000px) {
+  .menu-mobile {
+    display: none;
+  }
+}
 .v-navigation-drawer__border {
   display: none;
 }
@@ -157,5 +170,4 @@ html[theme="dark"] {
   margin-right: auto;
   margin-left: 20px;
 }
-
 </style>
