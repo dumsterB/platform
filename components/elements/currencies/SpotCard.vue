@@ -287,7 +287,7 @@ export default {
       return 0;
     },
     curr_bal() {
-      let bal = this.wallet.find((el) => el.currency.symbol == this.currency);
+      let bal = this.wallet.find((el) => el.currency && el.currency.symbol == this.currency);
       if (bal) {
         return bal.balance;
       }

@@ -248,7 +248,7 @@ export default {
     },
     graph_key() {
       if (this.curr_crypto) {
-        return this.selected_platform + ":" + this.curr_code + "USD";
+        return this.curr_code + "USD";
       } else if (this.current && this.current.exchange_type) {
         let k = this.stocks.find(
           (el) => el.key == this.current.exchange_type.key

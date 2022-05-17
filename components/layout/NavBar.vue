@@ -3,7 +3,7 @@
     <div class="actions-mobile mt-2">
       <v-app-bar-nav-icon @click="drawerHandler"></v-app-bar-nav-icon>
     </div>
-    <div class="d-flex mt-8 mx-4" :dir="$dir()">
+    <div class="top-data mt-8 mx-4" :dir="$dir()">
       <v-autocomplete
         v-model="value"
         :items="filtered"
@@ -96,7 +96,16 @@
         <v-hover v-slot="{ hover }" open-delay="223" close-delay="223">
           <div
             flat
-            class="account-menu d-flex flex-columns align-center mt-2 py-2 pr-2 pl-4"
+            class="
+              account-menu
+              d-flex
+              flex-columns
+              align-center
+              mt-2
+              py-2
+              pr-2
+              pl-4
+            "
             v-on="on"
           >
             <div class="mr-2">
@@ -160,8 +169,71 @@
 
     <template v-slot:extension>
       <!-- <v-col class="ma-0 pa-0"> <Ticker /> </v-col> -->
+      <v-row class="actions-mobile pt-0 mt-0 px-2 pl-4"
+        ><v-col class="ma-0 pa-0"
+          ><v-autocomplete
+            v-model="value"
+            :items="filtered"
+            prepend-inner-icon="mdi-magnify"
+            :label="$t('market_search_bar_placeholder')"
+            :placeholder="$t('market_search_bar_placeholder')"
+            item-value="id"
+            item-text="name"
+            full-width
+            dense
+            outlined
+            solo
+            chips
+            clearable
+            hide-selected
+            hide-details
+            hide-no-data
+            append-icon="mdi-chevron-down"
+            class="ml-2 global-search"
+            ><template v-slot:selection="{ attr, on, item, selected }">
+              <v-chip
+                v-bind="attr"
+                :input-value="selected"
+                color="blue-grey"
+                class="white--text"
+                v-on="on"
+              >
+                <v-icon left
+                  >{{
+                    item.type == "currency"
+                      ? " mdi-bitcoin"
+                      : "mdi-shopping-outline"
+                  }}
+                </v-icon>
+                <span v-text="item.name"></span>
+              </v-chip>
+            </template>
+            <template v-slot:item="{ item }">
+              <v-list-item-avatar
+                color="primary"
+                class="text-h5 font-weight-light white--text"
+              >
+                <v-img :src="item.logo"></v-img>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.name"></v-list-item-title>
+                <v-list-item-subtitle
+                  v-text="item.symbol"
+                ></v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-icon>{{
+                  item.type == "currency"
+                    ? " mdi-bitcoin"
+                    : "mdi-shopping-outline"
+                }}</v-icon>
+              </v-list-item-action>
+            </template></v-autocomplete
+          ></v-col
+        ></v-row
+      >
       <v-row>
-        <v-col class="ma-0 pa-0"
+        <v-col class="ma-0 pa-0 mt-2"
           ><marquee id="marquee">
             {{ mar_str }}
           </marquee></v-col
@@ -340,7 +412,7 @@ export default {
               base: dt.base ? dt.base : dt.share,
             };
             let fnd = me.wallets.find(
-              (wl) => wl.currency.symbol == price_data.base
+              (wl) => wl.currency && wl.currency.symbol == price_data.base
             );
             if (fnd && price_data.price) {
               if (fnd.currency.currency_type.key == "FIAT") {
@@ -527,6 +599,13 @@ html[theme="light"] .global-search .v-input__slot {
   }
   .top-data {
     display: none;
+  }
+  .v-toolbar__extension {
+    height: 100px !important;
+    display: block !important;
+  }
+  #marquee {
+    margin-left: 20px;
   }
 }
 

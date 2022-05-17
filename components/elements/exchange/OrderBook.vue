@@ -64,7 +64,7 @@
             >
           </v-row>
         </div>
-        <v-row v-if="mode == 0" class="pb-1">
+        <v-row v-if="mode == 0" class="pb-1 pt-2">
           <v-col :class="`${diffColor(change)}--text pa-1`"
             ><v-icon class="pb-2" :color="diffColor(change)">{{
               change > 0 ? "mdi-chevron-up" : "mdi-chevron-down"
