@@ -1,3 +1,5 @@
+test.test@mail.com Password222
+
 # vue-platform
 
 ## Build Setup
