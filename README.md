@@ -1,3 +1,4 @@
+https://platform.prof-investment.com/account
 test.test@mail.com Password222
 
 # vue-platform
